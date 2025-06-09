@@ -1,5 +1,61 @@
 # Years of Lead - Changelog & Implementation Plan
 
+## Version 1.1.0 - Phase 1 Deep Feature Integration (2025-01-17)
+
+### 🎯 Phase 1: Character Relationship + Loyalty/Trauma Expansion (COMPLETED)
+
+#### New Systems Implemented
+
+##### 1. Comprehensive Relationship Tracking System
+- **Dynamic Relationship Metrics**: Tracks admiration, fear, trust, ideological proximity, loyalty, and betrayal potential
+- **Relationship Types**: Support for comrade, leader/subordinate, rival, friend, romantic, family, mentor/student, contact, and enemy relationships
+- **Relationship Events**: 15+ event types including mission outcomes, betrayals, shared trauma, and personal conflicts
+- **Time-Based Decay**: Relationships naturally drift toward neutral without reinforcement
+- **Betrayal Mechanics**: Complex betrayal calculations based on multiple factors including trauma, fear, and external pressure
+
+##### 2. Enhanced Trauma System
+- **Trauma Memories**: Persistent trauma memories with specific triggers
+- **Trigger System**: 10 trigger types including violence, betrayal, confinement, and authority figures
+- **Therapy Options**: 7 therapy types from basic rest to professional help, each with different effectiveness
+- **Trauma Processing**: Therapy progress tracking for individual trauma memories
+- **PTSD Mechanics**: Trauma triggers can reactivate past traumas with cascading emotional effects
+
+##### 3. Character Integration
+- **Stress Calculation**: Overall stress level based on emotions, trauma, and relationships
+- **Ideological Scoring**: Dynamic ideological commitment affected by traits and trauma
+- **Operational Readiness**: Characters can become non-operational due to psychological instability
+- **Therapy Needs Assessment**: Automatic detection of when characters need therapeutic intervention
+- **Relationship Summaries**: Visual relationship status in character profiles
+
+#### Technical Improvements
+- **Modular Architecture**: Clean separation between emotional, relationship, and character systems
+- **Serialization Support**: Full save/load capability for all new systems
+- **Comprehensive Testing**: 500+ lines of unit and integration tests
+- **Type Safety**: Proper type hints and enum usage throughout
+- **Performance**: Efficient relationship lookups and calculations
+
+#### Key Features
+- **Relationship Manager**: Central system for managing all character relationships
+- **Group Cohesion Analysis**: Analyze overall group dynamics and betrayal risks
+- **Cascading Consequences**: Betrayals affect entire cells, not just individuals
+- **Narrative Integration**: Relationships generate emergent story moments
+- **Edge Case Handling**: Robust handling of extreme emotional states
+
+### 📊 Implementation Statistics
+- **New Files**: 2 (relationship_system.py, test_relationship_system.py)
+- **Modified Files**: 3 (emotional_state.py, character_creation.py, CHANGELOG.md)
+- **Lines Added**: ~1,800 new lines of code
+- **Test Coverage**: Comprehensive test suite with 25+ test cases
+- **New Classes**: 10+ new classes and enums
+
+### 🧪 Testing Results
+- **All Tests Passing**: Full test suite validates core functionality
+- **Edge Cases Covered**: Extreme emotions, multiple traumas, betrayal cascades
+- **Integration Verified**: Proper integration with existing emotional and character systems
+- **Performance Validated**: Efficient even with large relationship networks
+
+---
+
 ## Version 1.0.0 - Phase 1 UI/UX Overhaul (2025-06-09)
 
 ### 🐛 Bug Fixes

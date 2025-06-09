@@ -8,10 +8,14 @@ insurgency simulator, including detailed backgrounds, skills, traits, and emotio
 import random
 import uuid
 import logging
+from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, TYPE_CHECKING
 from dataclasses import dataclass, field
-from .emotional_state import EmotionalState, create_random_emotional_state
+from .emotional_state import EmotionalState, create_random_emotional_state, TherapyType, TraumaTriggerType
+
+if TYPE_CHECKING:
+    from .relationship_system import RelationshipManager
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -697,6 +701,9 @@ class Character:
     motivation: CharacterMotivation
     emotional_state: EmotionalState
     
+    # Relationship tracking
+    relationships_manager: Optional['RelationshipManager'] = None
+    
     def get_character_summary(self) -> str:
         """Get a comprehensive character summary"""
         summary = f"""
@@ -752,6 +759,17 @@ EMOTIONAL STATE:
   Trauma Level: {self.emotional_state.trauma_level:.2f}
 """
         
+        # Add relationship summary if available
+        if self.relationships_manager:
+            all_relationships = self.relationships_manager.get_all_relationships(self.id)
+            if all_relationships:
+                summary += "\nRELATIONSHIPS:\n"
+                for target_id, relationship in all_relationships.items():
+                    strength = relationship.metrics.calculate_overall_relationship_strength()
+                    summary += f"  - {relationship.relationship_type.value}: Strength {strength:.2f}\n"
+                    if relationship.metrics.betrayal_potential > 0.5:
+                        summary += f"    ⚠️ High betrayal risk: {relationship.metrics.betrayal_potential:.2f}\n"
+        
         return summary
     
     def get_character_story(self) -> str:
@@ -766,6 +784,74 @@ EMOTIONAL STATE:
         story += f" Their background as a {self.background.name.lower()} has given them unique skills and perspectives that they bring to the struggle."
         
         return story
+    
+    def apply_therapy(self, therapy_type: TherapyType, effectiveness: float = 0.5) -> Dict[str, Any]:
+        """Apply therapy to the character"""
+        return self.emotional_state.apply_therapy(therapy_type, effectiveness)
+    
+    def check_trauma_triggers(self, current_triggers: List[TraumaTriggerType]) -> List[Any]:
+        """Check if current events trigger past traumas"""
+        return self.emotional_state.check_trauma_triggers(current_triggers)
+    
+    def needs_therapy(self) -> Tuple[bool, List[str]]:
+        """Check if the character needs therapy"""
+        return self.emotional_state.needs_therapy()
+    
+    def get_ideological_score(self) -> float:
+        """Get character's ideological commitment score"""
+        base_score = self.motivation.ideological_commitment
+        
+        # Traits affect ideological commitment
+        if PersonalityTrait.IDEALISTIC in self.traits.get_all_traits():
+            base_score *= 1.2
+        if PersonalityTrait.PRAGMATIC in self.traits.get_all_traits():
+            base_score *= 0.9
+        
+        # Trauma can strengthen or weaken ideology
+        if self.emotional_state.trauma_level > 0.5:
+            if self.emotional_state.anger > 0.5:
+                base_score *= 1.1  # Anger strengthens commitment
+            elif self.emotional_state.fear > 0.7:
+                base_score *= 0.8  # High fear weakens commitment
+        
+        return max(0.0, min(1.0, base_score))
+    
+    def get_stress_level(self) -> float:
+        """Calculate overall stress level"""
+        # Base stress from emotions
+        emotional_stress = (
+            self.emotional_state.fear * 0.3 +
+            self.emotional_state.anger * 0.2 +
+            self.emotional_state.sadness * 0.2 +
+            abs(self.emotional_state.surprise) * 0.1
+        )
+        
+        # Trauma adds to stress
+        trauma_stress = self.emotional_state.trauma_level * 0.5
+        
+        # Recent therapy reduces stress
+        if self.emotional_state.therapy_history:
+            last_therapy = self.emotional_state.therapy_history[-1]
+            days_since = (datetime.now() - last_therapy[0]).days
+            if days_since < 7:
+                stress_reduction = 0.2 * (1.0 - days_since / 7.0)
+                emotional_stress *= (1.0 - stress_reduction)
+        
+        return max(0.0, min(1.0, emotional_stress + trauma_stress))
+    
+    def can_operate_effectively(self) -> Tuple[bool, Optional[str]]:
+        """Check if character can operate effectively"""
+        if not self.emotional_state.is_psychologically_stable():
+            return False, "psychologically_unstable"
+        
+        if self.get_stress_level() > 0.8:
+            return False, "extreme_stress"
+        
+        needs_help, reasons = self.needs_therapy()
+        if needs_help and "extreme_negative_emotions" in reasons:
+            return False, "needs_immediate_therapy"
+        
+        return True, None
     
     def serialize(self) -> Dict[str, Any]:
         """Serialize character to dictionary"""

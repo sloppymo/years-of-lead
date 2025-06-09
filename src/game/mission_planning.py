@@ -7,12 +7,15 @@ and narrative consequences for the insurgency simulator.
 
 import random
 import uuid
+import logging
 from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from .character_creation import Character, SkillCategory
 from .emotional_state import EmotionalState
 
+# Set up logging
+logger = logging.getLogger(__name__)
 
 class MissionType(Enum):
     """Types of missions available"""
@@ -309,11 +312,14 @@ class MissionPlan:
 
 
 class MissionPlanner:
-    """Mission planning interface"""
+    """Mission planning system with comprehensive validation and error handling"""
     
     def __init__(self):
+        """Initialize mission planner with locations and objectives"""
         self.available_locations = self._create_default_locations()
         self.available_objectives = self._create_default_objectives()
+        logger.info("MissionPlanner initialized with %d locations and %d mission types", 
+                   len(self.available_locations), len(self.available_objectives))
     
     def _create_default_locations(self) -> Dict[str, MissionLocation]:
         """Create default mission locations"""
@@ -481,47 +487,198 @@ class MissionPlanner:
     
     def create_mission_plan(self, mission_type: MissionType, location_name: str, 
                           participants: List[Character]) -> MissionPlan:
-        """Create a new mission plan"""
-        location = self.available_locations[location_name]
-        objective = self.available_objectives[mission_type]
+        """
+        Create a mission plan with comprehensive validation
         
-        plan = MissionPlan(
-            id=str(uuid.uuid4()),
-            mission_type=mission_type,
-            objective=objective,
-            location=location,
-            participants=participants
-        )
+        Args:
+            mission_type: Type of mission to plan
+            location_name: Name of the location (must exist)
+            participants: List of characters participating (must be non-empty)
+            
+        Returns:
+            MissionPlan object
+            
+        Raises:
+            ValueError: If inputs are invalid
+            TypeError: If input types are incorrect
+        """
+        try:
+            # Validate inputs
+            self._validate_mission_inputs(mission_type, location_name, participants)
+            
+            logger.info("Creating mission plan: %s at %s with %d participants", 
+                       mission_type.value, location_name, len(participants))
+            
+            # Get location and objective
+            location = self.available_locations.get(location_name)
+            objective = self.available_objectives.get(mission_type)
+            
+            if not location:
+                raise ValueError(f"Location not found: {location_name}")
+            if not objective:
+                raise ValueError(f"Mission type not supported: {mission_type}")
+            
+            # Create mission plan
+            plan = MissionPlan(
+                id=str(uuid.uuid4()),
+                mission_type=mission_type,
+                objective=objective,
+                location=location,
+                participants=participants.copy()  # Copy to avoid external modification
+            )
+            
+            # Calculate success probability and risk
+            plan.success_probability = plan.calculate_success_probability()
+            risk_assessment = plan.get_risk_assessment()
+            plan.calculated_risk = risk_assessment["risk_level"]
+            
+            # Generate narrative elements
+            plan.mission_story = plan.generate_mission_story()
+            plan.potential_consequences = plan.get_potential_consequences()
+            
+            # Calculate resource requirements
+            self._calculate_resource_requirements(plan)
+            
+            logger.info("Mission plan created successfully: %s (ID: %s, Risk: %s, Success: %.1f%%)", 
+                       mission_type.value, plan.id, plan.calculated_risk.value, 
+                       plan.success_probability * 100)
+            
+            return plan
+            
+        except Exception as e:
+            logger.error("Failed to create mission plan: %s", str(e))
+            raise
+    
+    def _validate_mission_inputs(self, mission_type: MissionType, location_name: str, 
+                               participants: List[Character]) -> None:
+        """Validate all mission planning inputs"""
+        # Validate mission type
+        if not isinstance(mission_type, MissionType):
+            if isinstance(mission_type, str):
+                try:
+                    mission_type = MissionType(mission_type)
+                except ValueError:
+                    raise ValueError(f"Invalid mission type: {mission_type}")
+            else:
+                raise TypeError(f"Mission type must be MissionType enum, got {type(mission_type)}")
         
-        # Generate mission story and consequences
-        plan.mission_story = plan.generate_mission_story()
-        plan.potential_consequences = plan.get_potential_consequences()
+        # Validate location name
+        if not isinstance(location_name, str):
+            raise TypeError(f"Location name must be a string, got {type(location_name)}")
+        if not location_name or not location_name.strip():
+            raise ValueError("Location name cannot be empty")
+        if location_name not in self.available_locations:
+            raise ValueError(f"Location not available: {location_name}")
         
-        # Calculate initial risk assessment
-        risk_assessment = plan.get_risk_assessment()
-        plan.calculated_risk = risk_assessment["risk_level"]
-        plan.success_probability = risk_assessment["success_probability"]
+        # Validate participants
+        if not isinstance(participants, list):
+            raise TypeError(f"Participants must be a list, got {type(participants)}")
+        if not participants:
+            raise ValueError("Mission must have at least one participant")
         
-        return plan
+        for i, participant in enumerate(participants):
+            if not isinstance(participant, Character):
+                raise TypeError(f"Participant {i} must be a Character, got {type(participant)}")
+            if not participant.name:
+                raise ValueError(f"Participant {i} has no name")
+        
+        # Check for duplicate participants
+        participant_names = [p.name for p in participants]
+        if len(participant_names) != len(set(participant_names)):
+            raise ValueError("Duplicate participants not allowed")
+        
+        logger.debug("Mission input validation passed for: %s at %s", 
+                    mission_type.value, location_name)
+    
+    def _calculate_resource_requirements(self, plan: MissionPlan) -> None:
+        """Calculate resource requirements for the mission"""
+        try:
+            # Base equipment needs
+            base_equipment = {
+                MissionType.PROPAGANDA: ["printing supplies", "communication devices"],
+                MissionType.SABOTAGE: ["explosives", "tools", "technical equipment"],
+                MissionType.RECRUITMENT: ["communication devices", "propaganda materials"],
+                MissionType.INTELLIGENCE: ["surveillance equipment", "communication devices"],
+                MissionType.FINANCING: ["communication devices", "financial tools"],
+                MissionType.RESCUE: ["weapons", "medical supplies", "escape equipment"],
+                MissionType.ASSASSINATION: ["weapons", "stealth equipment"],
+                MissionType.INFILTRATION: ["stealth equipment", "communication devices"]
+            }
+            
+            plan.equipment_needed = base_equipment.get(plan.mission_type, ["basic equipment"])
+            
+            # Calculate budget based on mission type and team size
+            base_budget = {
+                MissionType.PROPAGANDA: 1000,
+                MissionType.SABOTAGE: 5000,
+                MissionType.RECRUITMENT: 2000,
+                MissionType.INTELLIGENCE: 3000,
+                MissionType.FINANCING: 1000,
+                MissionType.RESCUE: 8000,
+                MissionType.ASSASSINATION: 10000,
+                MissionType.INFILTRATION: 4000
+            }
+            
+            team_multiplier = len(plan.participants) * 0.5
+            risk_multiplier = 1.0 + (plan.location.security_level * 0.1)
+            
+            plan.budget_allocated = int(base_budget.get(plan.mission_type, 2000) * 
+                                      (1 + team_multiplier) * risk_multiplier)
+            
+            # Calculate time estimate
+            base_time = {
+                MissionType.PROPAGANDA: 4,
+                MissionType.SABOTAGE: 8,
+                MissionType.RECRUITMENT: 6,
+                MissionType.INTELLIGENCE: 12,
+                MissionType.FINANCING: 4,
+                MissionType.RESCUE: 16,
+                MissionType.ASSASSINATION: 12,
+                MissionType.INFILTRATION: 24
+            }
+            
+            plan.time_estimate = base_time.get(plan.mission_type, 8)
+            
+            logger.debug("Calculated resources for mission %s: Budget $%d, Time %d hours", 
+                        plan.mission_type.value, plan.budget_allocated, plan.time_estimate)
+            
+        except Exception as e:
+            logger.error("Failed to calculate resource requirements: %s", str(e))
+            # Set default values on error
+            plan.equipment_needed = ["basic equipment"]
+            plan.budget_allocated = 2000
+            plan.time_estimate = 8
     
     def get_location_details(self, location_name: str) -> Dict[str, Any]:
-        """Get detailed information about a location"""
-        location = self.available_locations[location_name]
-        risk_assessment = location.get_risk_assessment()
-        
-        return {
-            "name": location.name,
-            "description": location.description,
-            "security_level": location.security_level,
-            "heat_level": location.heat_level,
-            "population_density": location.population_density,
-            "escape_routes": location.escape_routes,
-            "cover_opportunities": location.cover_opportunities,
-            "surveillance_level": location.surveillance_level,
-            "local_support": location.local_support,
-            "risk_assessment": risk_assessment,
-            "flavor_text": self._generate_location_flavor_text(location)
-        }
+        """Get detailed information about a location with validation"""
+        try:
+            if not isinstance(location_name, str):
+                raise TypeError(f"Location name must be a string, got {type(location_name)}")
+            
+            location = self.available_locations.get(location_name)
+            if not location:
+                raise ValueError(f"Location not found: {location_name}")
+            
+            details = {
+                "name": location.name,
+                "description": location.description,
+                "security_level": location.security_level,
+                "heat_level": location.heat_level,
+                "population_density": location.population_density,
+                "escape_routes": location.escape_routes,
+                "cover_opportunities": location.cover_opportunities,
+                "surveillance_level": location.surveillance_level,
+                "local_support": location.local_support,
+                "flavor_text": self._generate_location_flavor_text(location),
+                "risk_assessment": location.get_risk_assessment()
+            }
+            
+            logger.debug("Retrieved details for location: %s", location_name)
+            return details
+            
+        except Exception as e:
+            logger.error("Failed to get location details for %s: %s", location_name, str(e))
+            raise
     
     def _generate_location_flavor_text(self, location: MissionLocation) -> str:
         """Generate procedural flavor text for a location"""

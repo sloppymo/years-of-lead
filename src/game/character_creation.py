@@ -7,11 +7,14 @@ insurgency simulator, including detailed backgrounds, skills, traits, and emotio
 
 import random
 import uuid
+import logging
 from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from .emotional_state import EmotionalState, create_random_emotional_state
 
+# Set up logging
+logger = logging.getLogger(__name__)
 
 class BackgroundType(Enum):
     """Character background types"""
@@ -216,13 +219,12 @@ class CharacterMotivation:
 
 
 class CharacterCreator:
-    """Main character creation system"""
+    """Character creation system with comprehensive validation and error handling"""
     
     def __init__(self):
+        """Initialize character creator with backgrounds and validation"""
         self.backgrounds = self._create_backgrounds()
-        self.personality_traits = list(PersonalityTrait)
-        self.trauma_types = list(TraumaType)
-        self.skill_categories = list(SkillCategory)
+        logger.info("CharacterCreator initialized with %d background types", len(self.backgrounds))
     
     def _create_backgrounds(self) -> Dict[BackgroundType, Background]:
         """Create all available backgrounds"""
@@ -353,57 +355,228 @@ class CharacterCreator:
     def create_character(self, name: str, background_type: BackgroundType, 
                         primary_trait: PersonalityTrait, secondary_trait: PersonalityTrait,
                         skill_points: int = 20, has_trauma: bool = True) -> 'Character':
-        """Create a new character with the specified parameters"""
+        """
+        Create a character with comprehensive validation and error handling
         
-        # Get background
-        background = self.backgrounds[background_type]
-        
-        # Create skills
-        skills = CharacterSkills()
-        skills.apply_background_bonuses(background)
-        
-        # Create traits
-        traits = CharacterTraits(
-            primary_trait=primary_trait,
-            secondary_trait=secondary_trait,
-            background_traits=background.trait_modifiers.copy()
-        )
-        
-        # Create trauma (if applicable)
-        trauma = None
-        if has_trauma and random.random() < 0.7:  # 70% chance of trauma
-            trauma_type = random.choice(background.trauma_risk)
-            trauma = CharacterTrauma(
-                type=trauma_type,
-                severity=random.uniform(0.3, 0.8),
-                description=trauma_type.value.replace('_', ' ').title(),
-                emotional_impact={
-                    'trust': random.uniform(-0.5, -0.1),
-                    'anticipation': random.uniform(-0.3, 0.1),
-                    'anger': random.uniform(0.1, 0.5)
-                },
-                triggers=[f"reminders of {trauma_type.value.replace('_', ' ')}"]
+        Args:
+            name: Character name (must be non-empty string)
+            background_type: Character background type
+            primary_trait: Primary personality trait
+            secondary_trait: Secondary personality trait
+            skill_points: Points to allocate to skills (0-50)
+            has_trauma: Whether character has trauma
+            
+        Returns:
+            Character object
+            
+        Raises:
+            ValueError: If any input is invalid
+            TypeError: If input types are incorrect
+        """
+        try:
+            # Validate inputs
+            self._validate_character_inputs(name, background_type, primary_trait, 
+                                          secondary_trait, skill_points)
+            
+            logger.info("Creating character: %s (%s background)", name, background_type.value)
+            
+            # Get background
+            background = self.backgrounds.get(background_type)
+            if not background:
+                raise ValueError(f"Invalid background type: {background_type}")
+            
+            # Create skills
+            skills = CharacterSkills()
+            skills.apply_background_bonuses(background)
+            
+            # Allocate skill points
+            if skill_points > 0:
+                self._allocate_skill_points(skills, skill_points)
+            
+            # Create traits
+            traits = CharacterTraits(
+                primary_trait=primary_trait,
+                secondary_trait=secondary_trait,
+                background_traits=background.trait_modifiers.copy()
             )
+            
+            # Generate trauma if requested
+            trauma = None
+            if has_trauma and random.random() < 0.7:  # 70% chance of trauma
+                trauma = self._generate_trauma(background)
+                logger.debug("Generated trauma for %s: %s", name, trauma.type.value if trauma else "None")
+            
+            # Create motivation
+            motivation = self._generate_motivation(background, traits)
+            
+            # Create emotional state
+            emotional_state = self._create_emotional_state(traits, trauma)
+            
+            # Create character
+            character = Character(
+                id=str(uuid.uuid4()),
+                name=name,
+                background=background,
+                skills=skills,
+                traits=traits,
+                trauma=trauma,
+                motivation=motivation,
+                emotional_state=emotional_state
+            )
+            
+            logger.info("Successfully created character: %s (ID: %s)", name, character.id)
+            return character
+            
+        except Exception as e:
+            logger.error("Failed to create character '%s': %s", name, str(e))
+            raise
+    
+    def _validate_character_inputs(self, name: str, background_type: BackgroundType,
+                                 primary_trait: PersonalityTrait, secondary_trait: PersonalityTrait,
+                                 skill_points: int) -> None:
+        """Validate all character creation inputs"""
+        # Validate name
+        if not isinstance(name, str):
+            raise TypeError(f"Name must be a string, got {type(name)}")
+        if not name or not name.strip():
+            raise ValueError("Name cannot be empty or whitespace")
+        if len(name) > 50:
+            raise ValueError("Name too long (max 50 characters)")
+        if any(char in name for char in ['<', '>', '&', '"', "'"]):
+            raise ValueError("Name contains invalid characters")
         
-        # Create motivation
-        motivation = self._generate_motivation(background, traits)
+        # Validate background type
+        if not isinstance(background_type, BackgroundType):
+            if isinstance(background_type, str):
+                try:
+                    background_type = BackgroundType(background_type)
+                except ValueError:
+                    raise ValueError(f"Invalid background type: {background_type}")
+            else:
+                raise TypeError(f"Background type must be BackgroundType enum, got {type(background_type)}")
         
-        # Create emotional state
-        emotional_state = self._create_emotional_state(traits, trauma)
+        # Validate personality traits
+        if not isinstance(primary_trait, PersonalityTrait):
+            if isinstance(primary_trait, str):
+                try:
+                    primary_trait = PersonalityTrait(primary_trait)
+                except ValueError:
+                    raise ValueError(f"Invalid primary trait: {primary_trait}")
+            else:
+                raise TypeError(f"Primary trait must be PersonalityTrait enum, got {type(primary_trait)}")
         
-        # Create character
-        character = Character(
-            id=str(uuid.uuid4()),
-            name=name,
-            background=background,
-            skills=skills,
-            traits=traits,
-            trauma=trauma,
-            motivation=motivation,
-            emotional_state=emotional_state
-        )
+        if not isinstance(secondary_trait, PersonalityTrait):
+            if isinstance(secondary_trait, str):
+                try:
+                    secondary_trait = PersonalityTrait(secondary_trait)
+                except ValueError:
+                    raise ValueError(f"Invalid secondary trait: {secondary_trait}")
+            else:
+                raise TypeError(f"Secondary trait must be PersonalityTrait enum, got {type(secondary_trait)}")
         
-        return character
+        # Validate skill points
+        if not isinstance(skill_points, int):
+            raise TypeError(f"Skill points must be an integer, got {type(skill_points)}")
+        if skill_points < 0:
+            raise ValueError(f"Skill points cannot be negative: {skill_points}")
+        if skill_points > 50:
+            raise ValueError(f"Skill points too high (max 50): {skill_points}")
+        
+        # Validate trait combination
+        if primary_trait == secondary_trait:
+            raise ValueError("Primary and secondary traits cannot be the same")
+        
+        logger.debug("Character input validation passed for: %s", name)
+    
+    def _allocate_skill_points(self, skills: CharacterSkills, skill_points: int) -> None:
+        """Allocate skill points with validation"""
+        try:
+            available_points = skill_points
+            skill_categories = list(SkillCategory)
+            
+            # Randomly allocate points
+            while available_points > 0 and skill_categories:
+                category = random.choice(skill_categories)
+                current_skill = getattr(skills, category.value)
+                
+                if current_skill < 10:  # Max skill level
+                    points_to_add = min(available_points, random.randint(1, 3))
+                    setattr(skills, category.value, current_skill + points_to_add)
+                    available_points -= points_to_add
+                else:
+                    skill_categories.remove(category)
+            
+            logger.debug("Allocated %d skill points", skill_points - available_points)
+            
+        except Exception as e:
+            logger.error("Failed to allocate skill points: %s", str(e))
+            raise
+    
+    def _generate_trauma(self, background: Background) -> Optional[CharacterTrauma]:
+        """Generate trauma based on background with error handling"""
+        try:
+            if not background.trauma_risk:
+                return None
+            
+            # Select trauma type based on background risk
+            trauma_type = random.choice(background.trauma_risk)
+            severity = random.uniform(0.3, 0.8)
+            
+            # Generate trauma description
+            descriptions = {
+                TraumaType.COMBAT_TRAUMA: "Witnessed or participated in violent combat",
+                TraumaType.BETRAYAL: "Experienced betrayal by trusted individuals",
+                TraumaType.LOSS_OF_LOVED_ONE: "Lost someone close to them",
+                TraumaType.IMPRISONMENT: "Spent time in confinement",
+                TraumaType.TORTURE: "Endured physical or psychological torture",
+                TraumaType.WITNESSING_VIOLENCE: "Witnessed extreme violence",
+                TraumaType.ECONOMIC_HARDSHIP: "Suffered severe economic deprivation",
+                TraumaType.DISCRIMINATION: "Faced systematic discrimination",
+                TraumaType.FAMILY_SEPARATION: "Was separated from family",
+                TraumaType.NATURAL_DISASTER: "Survived a natural disaster"
+            }
+            
+            description = descriptions.get(trauma_type, "Experienced traumatic events")
+            
+            # Generate emotional impact
+            emotional_impact = {
+                'fear': random.uniform(0.2, 0.6),
+                'sadness': random.uniform(0.1, 0.5),
+                'anger': random.uniform(0.1, 0.4),
+                'trust': -random.uniform(0.2, 0.5)
+            }
+            
+            # Generate triggers
+            triggers = self._generate_trauma_triggers(trauma_type)
+            
+            return CharacterTrauma(
+                type=trauma_type,
+                severity=severity,
+                description=description,
+                emotional_impact=emotional_impact,
+                triggers=triggers
+            )
+            
+        except Exception as e:
+            logger.error("Failed to generate trauma: %s", str(e))
+            return None
+    
+    def _generate_trauma_triggers(self, trauma_type: TraumaType) -> List[str]:
+        """Generate trauma triggers based on trauma type"""
+        triggers_map = {
+            TraumaType.COMBAT_TRAUMA: ["loud noises", "crowded spaces", "military uniforms"],
+            TraumaType.BETRAYAL: ["trust exercises", "close relationships", "authority figures"],
+            TraumaType.LOSS_OF_LOVED_ONE: ["anniversaries", "similar situations", "memories"],
+            TraumaType.IMPRISONMENT: ["confined spaces", "authority figures", "surveillance"],
+            TraumaType.TORTURE: ["pain", "interrogation", "isolation"],
+            TraumaType.WITNESSING_VIOLENCE: ["violent scenes", "similar locations", "victims"],
+            TraumaType.ECONOMIC_HARDSHIP: ["financial stress", "poverty", "uncertainty"],
+            TraumaType.DISCRIMINATION: ["prejudice", "authority figures", "social situations"],
+            TraumaType.FAMILY_SEPARATION: ["family events", "children", "home"],
+            TraumaType.NATURAL_DISASTER: ["similar weather", "destruction", "chaos"]
+        }
+        
+        return triggers_map.get(trauma_type, ["stressful situations"])
     
     def _generate_motivation(self, background: Background, traits: CharacterTraits) -> CharacterMotivation:
         """Generate character motivation based on background and traits"""

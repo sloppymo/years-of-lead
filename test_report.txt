@@ -1,0 +1,105 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0
+rootdir: /home/sloppymo/Documents/Windsurf/years-of-lead
+plugins: asyncio-0.21.1, anyio-3.7.1, cov-4.1.0, mock-3.12.0, metadata-3.1.1, hypothesis-6.85.0, xdist-3.3.1, env-1.1.3, html-4.1.1, Faker-20.1.0
+asyncio: mode=Mode.STRICT
+collected 39 items
+
+test_character_creation.py .....                                         [ 12%]
+test_improvements.py ....                                                [ 23%]
+tests/maintenance/test_maintenance_basic.py ...FFF..........F..          [ 71%]
+tests/maintenance/test_scenarios.py F
+
+=================================== FAILURES ===================================
+__________ TestMaintenanceMode.test_identify_improvement_performance ___________
+tests/maintenance/test_maintenance_basic.py:78: in test_identify_improvement_performance
+    assert improvement.type == ImprovementType.PERFORMANCE
+E   AssertionError: assert <ImprovementType.MAJOR_BUG: 2> == <ImprovementType.PERFORMANCE: 3>
+E    +  where <ImprovementType.MAJOR_BUG: 2> = Improvement(type=<ImprovementType.MAJOR_BUG: 2>, description='Fix agent interaction system', complexity_cost=2, file_t...ent.py', test_to_verify='tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_multi_agent_interactions').type
+E    +  and   <ImprovementType.PERFORMANCE: 3> = ImprovementType.PERFORMANCE
+___________ TestMaintenanceMode.test_identify_improvement_narrative ____________
+tests/maintenance/test_maintenance_basic.py:93: in test_identify_improvement_narrative
+    assert improvement.type == ImprovementType.NARRATIVE
+E   AssertionError: assert <ImprovementType.MAJOR_BUG: 2> == <ImprovementType.NARRATIVE: 4>
+E    +  where <ImprovementType.MAJOR_BUG: 2> = Improvement(type=<ImprovementType.MAJOR_BUG: 2>, description='Fix agent interaction system', complexity_cost=2, file_t...ent.py', test_to_verify='tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_multi_agent_interactions').type
+E    +  and   <ImprovementType.NARRATIVE: 4> = ImprovementType.NARRATIVE
+____________ TestMaintenanceMode.test_improvement_priority_ordering ____________
+tests/maintenance/test_maintenance_basic.py:112: in test_improvement_priority_ordering
+    assert improvement.type == ImprovementType.PERFORMANCE
+E   AssertionError: assert <ImprovementType.MAJOR_BUG: 2> == <ImprovementType.PERFORMANCE: 3>
+E    +  where <ImprovementType.MAJOR_BUG: 2> = Improvement(type=<ImprovementType.MAJOR_BUG: 2>, description='Fix agent interaction system', complexity_cost=2, file_t...ent.py', test_to_verify='tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_multi_agent_interactions').type
+E    +  and   <ImprovementType.PERFORMANCE: 3> = ImprovementType.PERFORMANCE
+__________________ TestGameHealthMetrics.test_metrics_export ___________________
+tests/maintenance/test_maintenance_basic.py:276: in test_metrics_export
+    metrics.export_metrics(export_path)
+src/maintenance/metrics.py:289: in export_metrics
+    "health_summary": self.get_health_summary(),
+src/maintenance/metrics.py:250: in get_health_summary
+    narrative_scores = [m["narrative_coherence"] for m in recent_metrics]
+E   KeyError: 'narrative_coherence'
+____________ MaintenanceTestScenarios.test_agent_state_persistence _____________
+tests/maintenance/test_scenarios.py:391: in test_agent_state_persistence
+    agent.emotional_state.fear = 0.6
+E   AttributeError: 'Agent' object has no attribute 'emotional_state'
+
+---------- coverage: platform linux, python 3.12.3-final-0 -----------
+Name                                     Stmts   Miss  Cover
+------------------------------------------------------------
+src/__init__.py                              0      0   100%
+src/game/__init__.py                         2      0   100%
+src/game/character_creation.py             258     20    92%
+src/game/character_creation_ui.py          382    326    15%
+src/game/core.py                           144     49    66%
+src/game/emotional_state.py                123     71    42%
+src/game/engine.py                         102    102     0%
+src/game/events.py                         115     69    40%
+src/game/factions.py                        82     82     0%
+src/game/intelligence_system.py            333    167    50%
+src/game/legal_system.py                   296    296     0%
+src/game/mission_events.py                  55     55     0%
+src/game/mission_executor.py                 0      0   100%
+src/game/mission_planning.py               197     18    91%
+src/game/mission_system.py                 182    182     0%
+src/game/random_events.py                  185    185     0%
+src/game/setup.py                           37     37     0%
+src/game/state.py                           70     70     0%
+src/main.py                                531    531     0%
+src/maintenance/__init__.py                  1      0   100%
+src/maintenance/maintenance_mode.py        266    177    33%
+src/maintenance/metrics.py                 146     69    53%
+src/models/__init__.py                       2      2     0%
+src/models/nosql_models.py                 129    129     0%
+src/models/schema_validation.py             66     66     0%
+src/models/schemas.py                      201    201     0%
+src/models/sql_models.py                   188    188     0%
+src/repositories/__init__.py                 0      0   100%
+src/repositories/base.py                    61     61     0%
+src/repositories/districts.py               75     75     0%
+src/repositories/factions.py                78     78     0%
+src/repositories/games.py                   51     51     0%
+src/repositories/nosql_repositories.py     138    138     0%
+src/repositories/operations.py             113    113     0%
+src/repositories/users.py                   25     25     0%
+src/services/__init__.py                     0      0   100%
+src/services/auth.py                        60     60     0%
+src/services/district_service.py            95     95     0%
+src/services/faction_service.py            120    120     0%
+src/services/game_service.py               113    113     0%
+src/years_of_lead/__init__.py                0      0   100%
+src/years_of_lead/core.py                  673    673     0%
+src/years_of_lead/engine.py                102    102     0%
+src/years_of_lead/events.py                 81     81     0%
+src/years_of_lead/factions.py               82     82     0%
+src/years_of_lead/main.py                    0      0   100%
+src/years_of_lead/state.py                  70     70     0%
+------------------------------------------------------------
+TOTAL                                     6030   5029    17%
+
+=========================== short test summary info ============================
+FAILED tests/maintenance/test_maintenance_basic.py::TestMaintenanceMode::test_identify_improvement_performance
+FAILED tests/maintenance/test_maintenance_basic.py::TestMaintenanceMode::test_identify_improvement_narrative
+FAILED tests/maintenance/test_maintenance_basic.py::TestMaintenanceMode::test_improvement_priority_ordering
+FAILED tests/maintenance/test_maintenance_basic.py::TestGameHealthMetrics::test_metrics_export
+FAILED tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_agent_state_persistence
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+=================== 5 failed, 24 passed, 5 warnings in 1.58s ===================

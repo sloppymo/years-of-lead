@@ -3,7 +3,7 @@ Event management system for Years of Lead
 Handles event dispatching, listeners, and event processing
 """
 
-from typing import Dict, List, Any, Callable
+from typing import Dict, List, Any, Callable, Optional
 import time
 from loguru import logger
 
@@ -191,3 +191,192 @@ class EventTypes:
     EMOTIONAL_STATE_CHANGED = "emotional.state.changed"
     NARRATIVE_BRANCH_CREATED = "narrative.branch.created"
     SYMBOLIC_PATTERN_DETECTED = "symbolic.pattern.detected"
+
+
+class EventSystem:
+    """
+    Narrative event generation system for Years of Lead.
+    
+    Generates contextual events with descriptions and emotional impacts
+    for the game world and agent interactions.
+    """
+    
+    def __init__(self, game_state=None):
+        """Initialize the event system"""
+        self.game_state = game_state
+        self.event_templates = self._initialize_event_templates()
+        self.recent_events = []
+    
+    def _initialize_event_templates(self) -> Dict[str, List[Dict[str, Any]]]:
+        """Initialize event templates for different contexts"""
+        return {
+            'daily_life': [
+                {
+                    'description': "You wake up to the sound of helicopters circling overhead",
+                    'emotional_impact': {'fear': 0.2, 'anticipation': 0.1},
+                    'consequences': {'time_of_day': 'morning', 'location': 'bedroom'}
+                },
+                {
+                    'description': "The morning news reports another crackdown in the university district",
+                    'emotional_impact': {'anger': 0.3, 'sadness': 0.2},
+                    'consequences': {'unrest_level': 6}
+                },
+                {
+                    'description': "You prepare a simple breakfast while checking for surveillance",
+                    'emotional_impact': {'anticipation': 0.1},
+                    'consequences': {'location': 'kitchen', 'time_of_day': 'morning'}
+                },
+                {
+                    'description': "Neighbors whisper anxiously about the increased patrols",
+                    'emotional_impact': {'fear': 0.2, 'trust': -0.1},
+                    'consequences': {'social_tension': 'high'}
+                },
+                {
+                    'description': "You receive a coded message from a fellow resistance member",
+                    'emotional_impact': {'anticipation': 0.3, 'trust': 0.2},
+                    'consequences': {'has_message': True}
+                },
+                {
+                    'description': "The local market buzzes with rumors of government infiltrators",
+                    'emotional_impact': {'fear': 0.3, 'anger': 0.1},
+                    'consequences': {'location': 'market', 'paranoia_level': 'high'}
+                },
+                {
+                    'description': "You notice unfamiliar faces watching from across the street",
+                    'emotional_impact': {'fear': 0.4, 'surprise': 0.2},
+                    'consequences': {'surveillance_risk': 'high'}
+                },
+                {
+                    'description': "A childhood friend mentions seeing you in an old photograph",
+                    'emotional_impact': {'joy': 0.3, 'sadness': 0.1},
+                    'consequences': {'nostalgia_triggered': True}
+                },
+                {
+                    'description': "The power cuts out suddenly, leaving the block in darkness",
+                    'emotional_impact': {'surprise': 0.3, 'fear': 0.2},
+                    'consequences': {'power_status': 'off', 'vulnerability': 'high'}
+                },
+                {
+                    'description': "You discover a hidden cache of supplies in an abandoned building",
+                    'emotional_impact': {'joy': 0.4, 'anticipation': 0.2},
+                    'consequences': {'supplies_found': True, 'hope_level': 'increased'}
+                }
+            ],
+            'resistance_operations': [
+                {
+                    'description': "Your cell successfully distributes propaganda leaflets across the district",
+                    'emotional_impact': {'joy': 0.4, 'anticipation': 0.3},
+                    'consequences': {'operation_success': True, 'influence': 5}
+                },
+                {
+                    'description': "Government forces raid a safe house, but find it already evacuated",
+                    'emotional_impact': {'relief': 0.3, 'fear': 0.2},
+                    'consequences': {'safe_house_status': 'compromised'}
+                },
+                {
+                    'description': "A new recruit shows promising skills in stealth operations",
+                    'emotional_impact': {'hope': 0.3, 'trust': 0.2},
+                    'consequences': {'recruitment_success': True}
+                },
+                {
+                    'description': "Intelligence suggests government forces are planning a major sweep",
+                    'emotional_impact': {'fear': 0.4, 'anticipation': 0.3},
+                    'consequences': {'threat_level': 'high', 'planning_required': True}
+                }
+            ],
+            'trauma_events': [
+                {
+                    'description': "You witness government forces brutally dispersing peaceful protesters",
+                    'emotional_impact': {'fear': 0.7, 'anger': 0.6, 'sadness': 0.5},
+                    'type': 'violence_witnessed',
+                    'severity': 0.8,
+                    'consequences': {'trauma_witnessed': True, 'trust_in_system': -0.8}
+                },
+                {
+                    'description': "A trusted comrade is arrested and doesn't return from interrogation",
+                    'emotional_impact': {'sadness': 0.8, 'fear': 0.6, 'anger': 0.7},
+                    'type': 'loss_of_comrade',
+                    'severity': 0.9,
+                    'consequences': {'comrade_lost': True, 'operation_compromised': True}
+                },
+                {
+                    'description': "You discover that someone you trusted has been informing the authorities",
+                    'emotional_impact': {'anger': 0.8, 'trust': -0.9, 'sadness': 0.4},
+                    'type': 'betrayal',
+                    'severity': 0.8,
+                    'consequences': {'trust_betrayed': True, 'network_compromised': True}
+                }
+            ]
+        }
+    
+    def generate_event(self, event_category: str, context: Dict[str, Any] = None) -> Optional[Dict[str, Any]]:
+        """
+        Generate a contextual event based on category and current context.
+        
+        Args:
+            event_category: Category of event to generate ('daily_life', 'resistance_operations', etc.)
+            context: Current game context to influence event selection
+            
+        Returns:
+            Generated event with description, emotional impact, and consequences
+        """
+        if event_category not in self.event_templates:
+            return None
+        
+        context = context or {}
+        templates = self.event_templates[event_category]
+        
+        # Simple template selection - in a full implementation, this would be much more sophisticated
+        import random
+        template = random.choice(templates)
+        
+        # Create event from template
+        event = {
+            'category': event_category,
+            'description': template['description'],
+            'emotional_impact': template.get('emotional_impact', {}),
+            'consequences': template.get('consequences', {}),
+            'type': template.get('type', 'general'),
+            'severity': template.get('severity', 0.3),
+            'context': context
+        }
+        
+        # Apply context-based modifications
+        event = self._apply_context_modifications(event, context)
+        
+        # Store in recent events
+        self.recent_events.append(event)
+        if len(self.recent_events) > 50:  # Keep only recent events
+            self.recent_events = self.recent_events[-50:]
+        
+        return event
+    
+    def _apply_context_modifications(self, event: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Apply context-based modifications to generated events.
+        This allows events to be influenced by current game state.
+        """
+        # Modify emotional impact based on context
+        if context.get('time_of_day') == 'night':
+            # Night events are more fearful
+            if 'fear' in event['emotional_impact']:
+                event['emotional_impact']['fear'] *= 1.2
+        
+        if context.get('location') == 'government_quarter':
+            # Events in government quarter are more tense
+            event['emotional_impact']['fear'] = event['emotional_impact'].get('fear', 0) + 0.1
+            event['emotional_impact']['anticipation'] = event['emotional_impact'].get('anticipation', 0) + 0.1
+        
+        # Modify consequences based on context
+        if context.get('recent_events'):
+            # If recent events included violence, increase fear in current event
+            recent_violence = any('violence' in str(recent_event).lower() 
+                                for recent_event in context['recent_events'])
+            if recent_violence:
+                event['emotional_impact']['fear'] = event['emotional_impact'].get('fear', 0) + 0.2
+        
+        return event
+    
+    def get_recent_events(self, count: int = 10) -> List[Dict[str, Any]]:
+        """Get recent events for context"""
+        return self.recent_events[-count:] if self.recent_events else []

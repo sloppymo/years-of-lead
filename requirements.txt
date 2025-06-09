@@ -1,30 +1,19 @@
-# Core dependencies
-fastapi==0.103.1
-uvicorn==0.23.2
-pydantic==2.3.0
-sqlalchemy==2.0.20
-alembic==1.12.0
-psycopg2-binary==2.9.7
-pymongo==4.5.0
-python-dotenv==1.0.0
+# Years of Lead - Game Dependencies
 
-# Testing
-pytest==7.4.0
-pytest-cov==4.1.0
-httpx==0.24.1
+# Core Python packages
+dataclasses-json>=0.5.0
+typing-extensions>=4.5.0
+pydantic>=2.0.0
 
-# Utilities
-python-multipart==0.0.6
-pyjwt==2.8.0
-bcrypt==4.0.1
-loguru==0.7.0
+# Terminal interface
+colorama>=0.4.6
+termcolor>=2.0.0
 
-# AI Integration
-openai==0.27.8
-tiktoken==0.4.0
-numpy==1.25.2
-pandas==2.1.0
+# Testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-asyncio>=0.21.0
 
-# Game Engine
-pygame==2.5.1
-networkx==3.1
+# Game utilities
+enum34>=1.1.10
+pathlib2>=2.3.7

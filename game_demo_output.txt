@@ -1,0 +1,257 @@
+================================================================================
+
+ ██╗   ██╗███████╗ █████╗ ██████╗ ███████╗     ██████╗ ███████╗    ██╗     ███████╗ █████╗ ██████╗ 
+ ╚██╗ ██╔╝██╔════╝██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝    ██║     ██╔════╝██╔══██╗██╔══██╗
+  ╚████╔╝ █████╗  ███████║██████╔╝███████╗    ██║   ██║█████╗      ██║     █████╗  ███████║██║  ██║
+   ╚██╔╝  ██╔══╝  ██╔══██║██╔══██╗╚════██║    ██║   ██║██╔══╝      ██║     ██╔══╝  ██╔══██║██║  ██║
+    ██║   ███████╗██║  ██║██║  ██║███████║    ╚██████╔╝██║         ███████╗███████╗██║  ██║██████╔╝
+    ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝         ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ 
+                                                                                                        
+                           Turn-Based Insurgency Simulator
+
+================================================================================
+Turn 1 - MORNING PHASE
+================================================================================
+
+┌─ SITUATION REPORT ─────────────────────────────────────────────────────────┐
+│ Active Operatives: 15/20  │  Phase: MORNING  │  Turn:   1 │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ COMMAND CENTER ────────────────────────────────────────────────────────────┐
+│                                                                              │
+│    A)   ADVANCE TIME      - Progress to next phase                          │
+│    S)   SITUATION REPORT  - Review faction status and agent locations       │
+│    O) ► OPERATIONS        - Manage missions and agent assignments           │
+│    I)   INTELLIGENCE      - View recent events and enemy activity           │
+│    L)   LOCATIONS         - Survey areas under faction control              │
+│    R)   RESOURCES         - Review faction finances and assets              │
+│    C)   CHARACTERS        - Create and manage player characters             │
+│    X)   EXIT              - Abandon the struggle                            │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Use ↑↓ arrows, letter keys, or ENTER to select]
+
+================================================================================
+[Player selects 'C' for Characters]
+================================================================================
+
+┌─ CHARACTER MANAGEMENT ──────────────────────────────────────────────────────┐
+│                                                                              │
+│   1)   CREATE CHARACTER   - Build a new resistance member                   │
+│   2)   VIEW ROSTER        - See all player-created characters               │
+│   3) ► SELECT ACTIVE      - Choose your primary character                   │
+│   4)   CHARACTER DETAILS  - Deep dive into character psychology             │
+│   B)   BACK              - Return to command center                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Use ↑↓ arrows, numbers 1-4, or ENTER to select]
+
+================================================================================
+[Player selects '1' to Create Character]
+================================================================================
+
+┌─ CHARACTER CREATION ────────────────────────────────────────────────────────┐
+│                                                                              │
+│  Welcome to the Resistance Character Creator                                 │
+│                                                                              │
+│  You will create a unique character with:                                    │
+│  • Personal background and motivations                                       │
+│  • Skills and expertise                                                      │
+│  • Personality traits                                                        │
+│  • Emotional profile and potential trauma                                   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Enter character name: Sarah Chen
+
+┌─ SELECT BACKGROUND ─────────────────────────────────────────────────────────┐
+│                                                                              │
+│   1) ► ACADEMIC          - Former researcher or professor                   │
+│   2)   MILITARY          - Former military personnel                        │
+│   3)   CRIMINAL          - Former street criminal or gang member            │
+│   4)   CORPORATE         - Former corporate executive or employee           │
+│   5)   MEDICAL           - Former doctor, nurse, or medical professional    │
+│   6)   TECHNICAL         - Former IT professional or engineer               │
+│   7)   JOURNALIST        - Former reporter or media professional            │
+│   8)   RELIGIOUS         - Former religious leader or devout follower       │
+│   9)   ACTIVIST          - Former political activist or organizer           │
+│  10)   LABORER           - Former factory worker or manual laborer          │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Background selected: JOURNALIST]
+
+================================================================================
+[After character creation completes]
+================================================================================
+
+CHARACTER PROFILE: SARAH CHEN
+==================================================
+
+BACKGROUND: Journalist
+Sarah Chen sought the truth as a journalist, but the stories they uncovered 
+and the threats they faced showed them the need for direct action.
+
+PERSONALITY: driven by strong moral convictions and relies on gut feelings and instincts
+Primary Trait: Idealistic
+Secondary Trait: Intuitive
+
+MOTIVATION: Driven by exposing the truth and bringing justice. Their personal 
+goal is to reveal government corruption.
+Ideological Commitment: 85.0%
+Willingness to Sacrifice: 72.0%
+
+SKILLS:
+  Combat: 3/10
+  Stealth: 4/10
+  Hacking: 5/10
+  Social: 8/10
+  Technical: 4/10
+  Medical: 2/10
+  Survival: 3/10
+  Intelligence: 7/10
+
+STARTING RESOURCES:
+  Money: $15000
+  Influence: 25 points
+  Equipment: 50 points
+
+CONNECTIONS: media contacts, sources, fellow journalists
+
+EMOTIONAL STATE:
+  Trust: 0.15
+  Anticipation: 0.23
+  Joy: -0.12
+  Anger: 0.34
+  Fear: 0.28
+  Sadness: 0.19
+  Surprise: 0.05
+  Disgust: 0.42
+  Trauma Level: 0.35
+
+RELATIONSHIPS:
+  - comrade: Strength 0.42
+  - leader: Strength 0.31
+    ⚠️ High betrayal risk: 0.52
+
+TRAUMA: Sarah Chen witnessed horrific violence that changed them forever.
+Severity: 65.0%
+Triggers: violence, loud noises
+
+Character created successfully!
+
+================================================================================
+[Back at main menu, player selects 'S' for Situation Report]
+================================================================================
+
+┌─ SITUATION REPORT ─────────────────────────────────────────────────────────┐
+│                                                                              │
+│  FACTION STATUS:                                                             │
+│                                                                              │
+│  • The People's Liberation Front     Current Focus: Recruitment             │
+│    Funds: $45000  Influence: 120  Personnel: 8                              │
+│                                                                              │
+│  • Digital Resistance Network        Current Focus: Information Warfare      │
+│    Funds: $30000  Influence: 180  Personnel: 6                              │
+│                                                                              │
+│  • Workers' United Coalition         Current Focus: Labor Organization       │
+│    Funds: $20000  Influence: 150  Personnel: 10                             │
+│                                                                              │
+│  OPERATIVE DEPLOYMENT:                                                       │
+│                                                                              │
+│  • Downtown District             (Security: 7/10, Unrest: 3/10)             │
+│    - Marcus Rodriguez [ACTIVE] - Surveillance at Government Plaza            │
+│    - Elena Volkov [ACTIVE] - Recruiting at University                       │
+│    - Sarah Chen [ACTIVE] - Gathering intelligence                           │
+│                                                                              │
+│  • Industrial Zone               (Security: 5/10, Unrest: 6/10)             │
+│    - Chen Wei [ACTIVE] - Organizing workers at Factory Complex              │
+│    - James Mitchell [INJURED] - Recovering from police beating              │
+│                                                                              │
+│  • Suburban Sprawl               (Security: 3/10, Unrest: 2/10)             │
+│    - Maria Santos [ACTIVE] - Safe house management                          │
+│    - David Kim [CAPTURED] - Detained during protest                         │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Press any key to continue...]
+
+================================================================================
+[Player advances time with 'A']
+================================================================================
+
+┌─ TIME ADVANCE ──────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  Advancing from MORNING phase...                                             │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+🕐 Time advances...
+📋 Issuing new orders to operatives...
+🎭 Analyzing government response...
+📊 Updating intelligence reports...
+
+[NARRATIVE] Elena Volkov successfully recruited 2 new sympathizers at the University
+[NARRATIVE] Marcus Rodriguez observed increased police patrols near Government Plaza
+[NARRATIVE] Sarah Chen uncovered evidence of corruption in city contracts
+[NARRATIVE] Chen Wei's organizing efforts sparked a wildcat strike at the factory
+[NARRATIVE] James Mitchell's injuries prevent him from taking action this phase
+[RANDOM EVENT] Government announces new "Anti-Sedition" legislation
+
+✓ Now in AFTERNOON phase of Turn 1
+
+[Press any key to continue...]
+
+================================================================================
+[Player checks Intelligence with 'I']
+================================================================================
+
+┌─ INTELLIGENCE REPORT ───────────────────────────────────────────────────────┐
+│                                                                              │
+│  RECENT ACTIVITY:                                                            │
+│   1) • Elena Volkov successfully recruited 2 new sympathizers               │
+│   2) • Marcus Rodriguez observed increased police patrols                    │
+│   3) • Sarah Chen uncovered evidence of corruption in city contracts         │
+│   4) • Chen Wei's organizing efforts sparked a wildcat strike               │
+│   5) • Government announces new "Anti-Sedition" legislation                 │
+│   6) • Underground radio broadcast reaches 500+ citizens                    │
+│   7) • Police raid on suspected safe house (false alarm)                    │
+│   8) • Anonymous donor contributes $5000 to resistance fund                 │
+│                                                                              │
+│  ONGOING EVENTS:                                                             │
+│  • Factory strike continues - increasing pressure on authorities             │
+│  • Government surveillance expanding in Downtown District                    │
+│  • Student protests planned for next week                                    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Press any key to continue...]
+
+================================================================================
+
+This is Years of Lead - a turn-based political simulation game where you:
+
+🎯 KEY FEATURES:
+• Manage resistance operatives with deep psychological profiles
+• Navigate complex relationship dynamics (with the new betrayal system!)
+• Deal with trauma, therapy, and emotional states
+• Plan operations across multiple city districts
+• React to dynamic events and government crackdowns
+• Build your resistance movement through multiple factions
+
+🧠 NEW PHASE 1 FEATURES (Just Added):
+• Dynamic relationships that evolve based on shared experiences
+• Betrayal mechanics influenced by fear, trauma, and ideology
+• Therapy system to help agents recover from trauma
+• Group cohesion analysis for your cells
+• Detailed emotional state tracking with PTSD mechanics
+
+The game uses a Liberal Crime Squad-inspired text interface with arrow key navigation, combining strategic planning with emergent narrative moments. Each character has their own story, trauma, relationships, and potential for both heroism and betrayal.
+
+Would you like me to:
+1. Show more gameplay scenarios?
+2. Explain specific game mechanics?
+3. Create a save file with an interesting game state?
+4. Continue with Phase 2 development?

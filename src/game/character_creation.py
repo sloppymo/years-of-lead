@@ -235,7 +235,7 @@ class CharacterCreator:
             description="Former researcher or professor",
             skill_bonuses={SkillCategory.INTELLIGENCE: 2, SkillCategory.SOCIAL: 1},
             trait_modifiers=[PersonalityTrait.ANALYTICAL, PersonalityTrait.IDEALISTIC],
-            starting_resources={"money": 200, "influence": 15, "equipment": 50},
+            starting_resources={"money": 20000, "influence": 15, "equipment": 50},
             connections=["former colleagues", "research contacts", "university staff"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
@@ -247,7 +247,7 @@ class CharacterCreator:
             description="Former military personnel",
             skill_bonuses={SkillCategory.COMBAT: 2, SkillCategory.SURVIVAL: 1},
             trait_modifiers=[PersonalityTrait.METHODICAL, PersonalityTrait.LOYAL],
-            starting_resources={"money": 150, "influence": 10, "equipment": 100},
+            starting_resources={"money": 15000, "influence": 10, "equipment": 100},
             connections=["former comrades", "military contacts", "veterans"],
             trauma_risk=[TraumaType.COMBAT_TRAUMA, TraumaType.BETRAYAL]
         )
@@ -259,7 +259,7 @@ class CharacterCreator:
             description="Former street criminal or gang member",
             skill_bonuses={SkillCategory.STEALTH: 2, SkillCategory.SURVIVAL: 1},
             trait_modifiers=[PersonalityTrait.RECKLESS, PersonalityTrait.OPPORTUNISTIC],
-            starting_resources={"money": 100, "influence": 5, "equipment": 75},
+            starting_resources={"money": 10000, "influence": 5, "equipment": 75},
             connections=["street contacts", "criminal network", "former gang members"],
             trauma_risk=[TraumaType.IMPRISONMENT, TraumaType.WITNESSING_VIOLENCE]
         )
@@ -271,7 +271,7 @@ class CharacterCreator:
             description="Former corporate executive or employee",
             skill_bonuses={SkillCategory.SOCIAL: 2, SkillCategory.INTELLIGENCE: 1},
             trait_modifiers=[PersonalityTrait.PRAGMATIC, PersonalityTrait.ANALYTICAL],
-            starting_resources={"money": 300, "influence": 20, "equipment": 25},
+            starting_resources={"money": 30000, "influence": 20, "equipment": 25},
             connections=["corporate contacts", "business associates", "former colleagues"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
@@ -283,7 +283,7 @@ class CharacterCreator:
             description="Former doctor, nurse, or medical professional",
             skill_bonuses={SkillCategory.MEDICAL: 2, SkillCategory.TECHNICAL: 1},
             trait_modifiers=[PersonalityTrait.COMPASSIONATE, PersonalityTrait.METHODICAL],
-            starting_resources={"money": 250, "influence": 15, "equipment": 100},
+            starting_resources={"money": 25000, "influence": 15, "equipment": 100},
             connections=["medical contacts", "hospital staff", "pharmaceutical contacts"],
             trauma_risk=[TraumaType.WITNESSING_VIOLENCE, TraumaType.BETRAYAL]
         )
@@ -295,7 +295,7 @@ class CharacterCreator:
             description="Former IT professional or engineer",
             skill_bonuses={SkillCategory.HACKING: 2, SkillCategory.TECHNICAL: 1},
             trait_modifiers=[PersonalityTrait.ANALYTICAL, PersonalityTrait.CREATIVE],
-            starting_resources={"money": 200, "influence": 10, "equipment": 150},
+            starting_resources={"money": 20000, "influence": 10, "equipment": 150},
             connections=["tech contacts", "hacker community", "former colleagues"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
@@ -307,7 +307,7 @@ class CharacterCreator:
             description="Former reporter or media professional",
             skill_bonuses={SkillCategory.SOCIAL: 2, SkillCategory.INTELLIGENCE: 1},
             trait_modifiers=[PersonalityTrait.IDEALISTIC, PersonalityTrait.INTUITIVE],
-            starting_resources={"money": 150, "influence": 25, "equipment": 50},
+            starting_resources={"money": 15000, "influence": 25, "equipment": 50},
             connections=["media contacts", "sources", "fellow journalists"],
             trauma_risk=[TraumaType.WITNESSING_VIOLENCE, TraumaType.IMPRISONMENT]
         )
@@ -319,7 +319,7 @@ class CharacterCreator:
             description="Former religious leader or devout follower",
             skill_bonuses={SkillCategory.SOCIAL: 2, SkillCategory.INTELLIGENCE: 1},
             trait_modifiers=[PersonalityTrait.IDEALISTIC, PersonalityTrait.COMPASSIONATE],
-            starting_resources={"money": 100, "influence": 20, "equipment": 25},
+            starting_resources={"money": 10000, "influence": 20, "equipment": 25},
             connections=["religious community", "faith leaders", "charitable organizations"],
             trauma_risk=[TraumaType.DISCRIMINATION, TraumaType.BETRAYAL]
         )
@@ -331,7 +331,7 @@ class CharacterCreator:
             description="Former political activist or organizer",
             skill_bonuses={SkillCategory.SOCIAL: 2, SkillCategory.INTELLIGENCE: 1},
             trait_modifiers=[PersonalityTrait.IDEALISTIC, PersonalityTrait.LEADER],
-            starting_resources={"money": 75, "influence": 30, "equipment": 25},
+            starting_resources={"money": 7500, "influence": 30, "equipment": 25},
             connections=["activist network", "community organizers", "political contacts"],
             trauma_risk=[TraumaType.IMPRISONMENT, TraumaType.DISCRIMINATION]
         )
@@ -343,7 +343,7 @@ class CharacterCreator:
             description="Former factory worker or manual laborer",
             skill_bonuses={SkillCategory.SURVIVAL: 2, SkillCategory.TECHNICAL: 1},
             trait_modifiers=[PersonalityTrait.PRAGMATIC, PersonalityTrait.LOYAL],
-            starting_resources={"money": 50, "influence": 5, "equipment": 25},
+            starting_resources={"money": 5000, "influence": 5, "equipment": 25},
             connections=["union contacts", "fellow workers", "community members"],
             trauma_risk=[TraumaType.ECONOMIC_HARDSHIP, TraumaType.FAMILY_SEPARATION]
         )

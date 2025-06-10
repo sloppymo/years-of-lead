@@ -49,6 +49,16 @@ class JointActivityType(Enum):
     SHARED_RECRUITMENT = "shared_recruitment"      # Cooperative recruitment drive
     ALLIANCE_SUMMIT = "alliance_summit"           # Strategic planning meeting
     RESOURCE_SHARING = "resource_sharing"         # Sharing funds, safe houses, intel
+    
+    # Covert activities - ITERATION 025
+    COVERT_SUPPORT = "covert_support"             # Secret aid without public alliance
+
+
+class AllianceType(Enum):
+    """Types of alliances between factions - ITERATION 025"""
+    PUBLIC = "public"                             # Open, acknowledged alliance
+    SECRET = "secret"                            # Hidden from public view
+    COERCED = "coerced"                         # Forced through pressure/blackmail
 
 
 class FactionConflictType(Enum):
@@ -247,6 +257,10 @@ class FactionAlliance:
     formation_date: datetime = field(default_factory=datetime.now)
     trust_level: float = 50.0               # 0-100, overall alliance cohesion
     cooperation_momentum: float = 0.0       # -50 to +50, recent cooperation success
+    
+    # Alliance classification - ITERATION 025
+    alliance_type: AllianceType = AllianceType.PUBLIC
+    leak_probability: float = 0.0           # 0-1, chance of secret alliance exposure
     
     # Joint activities
     joint_operations: List[str] = field(default_factory=list)
@@ -978,6 +992,86 @@ class UprisingClock:
         self.major_events.append(event)
         self.national_uprising_momentum = min(100.0, max(0.0, 
             self.national_uprising_momentum + momentum_impact))
+
+
+@dataclass
+class SecretDiplomaticChannel:
+    """Covert diplomatic channel between factions - ITERATION 025"""
+    faction_a: str
+    faction_b: str
+    trust_rating: float = 50.0                    # 0-100, trust in the channel
+    encryption_level: float = 0.7                # 0-1, security of communications
+    leak_risk: float = 0.2                       # 0-1, chance of exposure per turn
+    status: str = "active"                       # "active", "compromised", "terminated"
+    message_log: List[str] = field(default_factory=list)
+    creation_date: datetime = field(default_factory=datetime.now)
+    
+    def attempt_leak(self, ecosystem: 'RevolutionaryEcosystem') -> bool:
+        """Check if diplomatic channel leaks this turn"""
+        if self.status != "active":
+            return False
+        
+        # Calculate leak probability based on various factors
+        base_leak_chance = self.leak_risk
+        
+        # Poor encryption increases leak risk
+        encryption_penalty = (1.0 - self.encryption_level) * 0.3
+        
+        # Low trust increases instability
+        trust_penalty = max(0, (50.0 - self.trust_rating) / 100.0) * 0.2
+        
+        # High government heat for either faction increases surveillance
+        faction_a = next((f for f in ecosystem.active_factions if f.name == self.faction_a), None)
+        faction_b = next((f for f in ecosystem.active_factions if f.name == self.faction_b), None)
+        
+        heat_penalty = 0.0
+        if faction_a and faction_b:
+            avg_heat = (faction_a.government_heat + faction_b.government_heat) / 2
+            heat_penalty = min(0.3, avg_heat / 10.0 * 0.15)
+        
+        total_leak_chance = min(0.8, base_leak_chance + encryption_penalty + trust_penalty + heat_penalty)
+        
+        if random.random() < total_leak_chance:
+            self.status = "compromised"
+            self.message_log.append(f"LEAKED: Channel compromised on {datetime.now().strftime('%Y-%m-%d')}")
+            return True
+        
+        return False
+    
+    def adjust_trust(self, change: float, reason: str) -> None:
+        """Adjust trust in the diplomatic channel"""
+        old_trust = self.trust_rating
+        self.trust_rating = max(0.0, min(100.0, self.trust_rating + change))
+        self.message_log.append(f"{reason}: Trust {old_trust:.1f} → {self.trust_rating:.1f}")
+        
+        # Low trust increases leak risk
+        if self.trust_rating < 25.0:
+            self.leak_risk = min(0.6, self.leak_risk + 0.1)
+    
+    def resolve_betrayal(self, betrayer: str, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, Any]:
+        """Handle betrayal through diplomatic channel"""
+        self.status = "terminated"
+        self.trust_rating = 0.0
+        
+        results = {
+            'type': 'diplomatic_betrayal',
+            'betrayer': betrayer,
+            'victims': [self.faction_a, self.faction_b],
+            'channel_compromised': True,
+            'intelligence_leaked': []
+        }
+        
+        # Leak strategic information
+        betrayer_faction = next((f for f in ecosystem.active_factions if f.name == betrayer), None)
+        if betrayer_faction:
+            # Expose other secret alliances
+            for alliance in ecosystem.active_alliances.values():
+                if (alliance.alliance_type == AllianceType.SECRET and 
+                    betrayer in alliance.member_factions):
+                    results['intelligence_leaked'].append(f"Secret alliance: {alliance.alliance_name}")
+        
+        self.message_log.append(f"BETRAYAL: {betrayer} terminates channel and leaks intelligence")
+        return results
 
 
 @dataclass

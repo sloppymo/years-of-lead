@@ -29,6 +29,104 @@ class TraumaTriggerType(Enum):
     ANNIVERSARY_DATE = "anniversary_date"
 
 
+# Therapy System Expansion - ITERATION 016
+class SpecificTraumaType(Enum):
+    """Specific types of trauma requiring targeted therapy approaches"""
+    GUILT = "guilt"                    # Survivor's guilt, moral injury
+    GRIEF = "grief"                    # Loss of comrades, family
+    ANXIETY = "anxiety"                # Performance anxiety, hypervigilance
+    PTSD = "ptsd"                      # Post-traumatic stress disorder
+    DEPRESSION = "depression"          # Persistent sadness, hopelessness
+    DISSOCIATION = "dissociation"      # Emotional detachment, numbness
+    PARANOIA = "paranoia"              # Mistrust, persecution fears
+    RAGE = "rage"                      # Uncontrolled anger, revenge obsession
+
+class TherapyStage(Enum):
+    """Stages of therapy recovery"""
+    INITIAL = "initial"                # First acknowledgment of trauma
+    PROCESSING = "processing"          # Working through trauma memories
+    INTEGRATION = "integration"        # Incorporating healing into identity
+    MAINTENANCE = "maintenance"        # Ongoing support and relapse prevention
+    RELAPSE = "relapse"               # Temporary setback in recovery
+
+@dataclass
+class TherapySession:
+    """Individual therapy session with progress tracking"""
+    session_date: datetime
+    therapy_type: TherapyType
+    duration_hours: float
+    therapist_id: Optional[str] = None    # Agent providing peer support
+    focus_trauma: Optional[str] = None    # Specific trauma being addressed
+    effectiveness: float = 0.0            # Session effectiveness (0-1)
+    breakthrough: bool = False            # Major breakthrough achieved
+    setback: bool = False                # Setback or resistance encountered
+    
+@dataclass
+class RecoveryArc:
+    """Multi-session recovery tracking for specific trauma"""
+    trauma_id: str
+    trauma_type: SpecificTraumaType
+    current_stage: TherapyStage = TherapyStage.INITIAL
+    sessions_completed: int = 0
+    total_progress: float = 0.0           # Overall recovery progress (0-1)
+    relapse_risk: float = 0.3             # Risk of setback (0-1)
+    last_session: Optional[datetime] = None
+    therapy_sessions: List[TherapySession] = field(default_factory=list)
+    
+    # Relationship support tracking
+    supported_by: List[str] = field(default_factory=list)  # Agent IDs providing support
+    mentor_id: Optional[str] = None       # Primary mentor if any
+    support_strength: float = 0.0         # Quality of support network (0-1)
+    
+    def calculate_stage_advancement(self) -> bool:
+        """Check if ready to advance to next therapy stage"""
+        required_sessions = {
+            TherapyStage.INITIAL: 2,
+            TherapyStage.PROCESSING: 5,
+            TherapyStage.INTEGRATION: 3,
+            TherapyStage.MAINTENANCE: 0  # Ongoing
+        }
+        
+        if self.current_stage == TherapyStage.RELAPSE:
+            # Need to rebuild progress after relapse
+            if self.sessions_completed >= 3 and self.total_progress > 0.4:
+                return True
+        else:
+            required = required_sessions.get(self.current_stage, 0)
+            return self.sessions_completed >= required and self.total_progress > 0.6
+    
+    def calculate_relapse_risk(self) -> float:
+        """Calculate current risk of psychological relapse"""
+        base_risk = 0.3
+        
+        # Progress reduces risk
+        progress_reduction = self.total_progress * 0.4
+        
+        # Support network reduces risk
+        support_reduction = self.support_strength * 0.3
+        
+        # Time since last session increases risk
+        if self.last_session:
+            days_since = (datetime.now() - self.last_session).days
+            time_penalty = min(0.2, days_since * 0.01)
+        else:
+            time_penalty = 0.2
+        
+        # Stage affects risk
+        stage_modifiers = {
+            TherapyStage.INITIAL: 0.1,
+            TherapyStage.PROCESSING: 0.0,  # Most vulnerable stage
+            TherapyStage.INTEGRATION: -0.1,
+            TherapyStage.MAINTENANCE: -0.2,
+            TherapyStage.RELAPSE: 0.3
+        }
+        
+        stage_modifier = stage_modifiers.get(self.current_stage, 0.0)
+        
+        risk = base_risk - progress_reduction - support_reduction + time_penalty + stage_modifier
+        return max(0.0, min(1.0, risk))
+
+
 class TherapyType(Enum):
     """Types of therapy or rest available to agents"""
     REST = "rest"                          # Basic rest and recovery
@@ -38,6 +136,12 @@ class TherapyType(Enum):
     PHYSICAL_ACTIVITY = "physical_activity" # Exercise and physical outlets
     CREATIVE_EXPRESSION = "creative_expression" # Art, writing, music
     SUBSTANCE_USE = "substance_use"        # Self-medication (risky)
+    
+    # New relationship-based therapy types - ITERATION 016
+    MENTOR_GUIDANCE = "mentor_guidance"    # One-on-one mentoring from experienced agent
+    GROUP_THERAPY = "group_therapy"        # Group sessions with other trauma survivors
+    CONFESSIONAL = "confessional"          # Admitting guilt/mistakes to trusted friend
+    SOLIDARITY_RITUAL = "solidarity_ritual" # Shared ceremonies strengthening bonds
 
 
 @dataclass
@@ -105,6 +209,13 @@ class EmotionalState:
     therapy_history: List[Tuple[datetime, TherapyType, float]] = field(default_factory=list)
     rest_days: int = 0  # Days of rest taken
     last_rest_date: Optional[datetime] = None
+    
+    # Enhanced therapy system - ITERATION 016
+    recovery_arcs: Dict[str, RecoveryArc] = field(default_factory=dict)  # trauma_id -> RecoveryArc
+    therapy_sessions: List[TherapySession] = field(default_factory=list)
+    mentor_relationships: List[str] = field(default_factory=list)  # Agent IDs who can mentor
+    therapy_resistance: float = 0.0      # How resistant to therapy (0-1)
+    last_relapse: Optional[datetime] = None
     
     def __post_init__(self):
         """Ensure all emotional values are within bounds after initialization"""
@@ -275,93 +386,290 @@ class EmotionalState:
         
         return triggered_traumas
     
-    def apply_therapy(self, therapy_type: TherapyType, effectiveness: float = 0.5) -> Dict[str, Any]:
-        """Apply therapy or rest to reduce trauma and improve emotional state"""
+    def apply_enhanced_therapy(self, therapy_type: TherapyType, duration_hours: float = 1.0,
+                             therapist_id: Optional[str] = None, 
+                             focus_trauma_id: Optional[str] = None,
+                             relationship_strength: float = 0.0) -> Dict[str, Any]:
+        """Enhanced therapy system with relationship bonuses and recovery arcs - ITERATION 016"""
         results = {
             'therapy_type': therapy_type.value,
-            'effectiveness': effectiveness,
+            'duration_hours': duration_hours,
+            'therapist_id': therapist_id,
+            'effectiveness': 0.0,
             'trauma_reduced': 0.0,
             'emotions_improved': {},
-            'side_effects': []
+            'side_effects': [],
+            'breakthrough': False,
+            'setback': False,
+            'stage_advancement': False
         }
         
-        # Base effectiveness modified by therapy type
-        if therapy_type == TherapyType.REST:
-            # Basic rest helps but is limited
-            trauma_reduction = effectiveness * 0.1
-            emotional_improvement = 0.05
-            self.rest_days += 1
-            self.last_rest_date = datetime.now()
-            
-        elif therapy_type == TherapyType.PEER_SUPPORT:
-            # Peer support is moderately effective
-            trauma_reduction = effectiveness * 0.15
-            emotional_improvement = 0.1
-            results['emotions_improved']['trust'] = 0.1
-            
-        elif therapy_type == TherapyType.PROFESSIONAL:
-            # Professional therapy is most effective
-            trauma_reduction = effectiveness * 0.25
-            emotional_improvement = 0.15
-            # Process trauma memories
-            for memory in self.trauma_memories:
-                memory.apply_therapy(effectiveness * 0.2)
-                
-        elif therapy_type == TherapyType.MEDITATION:
-            # Meditation helps with emotional regulation
-            trauma_reduction = effectiveness * 0.12
-            emotional_improvement = 0.08
-            results['emotions_improved']['anticipation'] = 0.05
-            
-        elif therapy_type == TherapyType.PHYSICAL_ACTIVITY:
-            # Exercise helps with anger and stress
-            trauma_reduction = effectiveness * 0.1
-            emotional_improvement = 0.07
-            results['emotions_improved']['anger'] = -0.15
-            
-        elif therapy_type == TherapyType.CREATIVE_EXPRESSION:
-            # Creative outlets help process emotions
-            trauma_reduction = effectiveness * 0.13
-            emotional_improvement = 0.09
-            results['emotions_improved']['sadness'] = -0.1
-            
-        elif therapy_type == TherapyType.SUBSTANCE_USE:
-            # Substance use provides temporary relief but has risks
-            trauma_reduction = effectiveness * 0.05  # Very limited real help
-            emotional_improvement = 0.15  # Temporary mood boost
-            # Side effects
-            if random.random() < 0.3:
-                results['side_effects'].append("dependency_risk")
-                self.trauma_level += 0.05  # Can worsen trauma long-term
-            results['emotions_improved']['fear'] = -0.2  # Temporary fear reduction
-            results['emotions_improved']['trust'] = -0.05  # Impairs judgment
+        # Calculate base effectiveness
+        base_effectiveness = self._calculate_therapy_effectiveness(therapy_type, duration_hours)
         
-        # Apply trauma reduction
+        # Apply relationship bonuses
+        relationship_bonus = self._calculate_relationship_therapy_bonus(
+            therapy_type, therapist_id, relationship_strength
+        )
+        
+        # Apply therapy resistance
+        resistance_penalty = self.therapy_resistance * 0.3
+        
+        # Final effectiveness
+        effectiveness = max(0.1, min(1.0, base_effectiveness + relationship_bonus - resistance_penalty))
+        results['effectiveness'] = effectiveness
+        
+        # Create therapy session record
+        session = TherapySession(
+            session_date=datetime.now(),
+            therapy_type=therapy_type,
+            duration_hours=duration_hours,
+            therapist_id=therapist_id,
+            focus_trauma=focus_trauma_id,
+            effectiveness=effectiveness
+        )
+        
+        # Check for breakthrough or setback
+        if effectiveness > 0.8 and random.random() < 0.2:
+            session.breakthrough = True
+            results['breakthrough'] = True
+            effectiveness *= 1.5  # Breakthrough amplifies benefits
+            
+        elif effectiveness < 0.3 and random.random() < 0.3:
+            session.setback = True
+            results['setback'] = True
+            self.therapy_resistance = min(1.0, self.therapy_resistance + 0.1)
+            results['side_effects'].append('increased_therapy_resistance')
+        
+        # Apply therapy to specific trauma if specified
+        if focus_trauma_id and focus_trauma_id in self.recovery_arcs:
+            arc = self.recovery_arcs[focus_trauma_id]
+            self._process_recovery_arc_session(arc, session, effectiveness, results)
+        else:
+            # General trauma reduction
+            old_trauma = self.trauma_level
+            trauma_reduction = effectiveness * 0.15
+            self.trauma_level = max(0.0, self.trauma_level - trauma_reduction)
+            results['trauma_reduced'] = old_trauma - self.trauma_level
+        
+        # Apply therapy-specific effects
+        self._apply_therapy_specific_effects(therapy_type, effectiveness, results)
+        
+        # Record session
+        self.therapy_sessions.append(session)
+        self.therapy_history.append((datetime.now(), therapy_type, effectiveness))
+        
+        # Check for relapse risk in all recovery arcs
+        self._check_relapse_risks()
+        
+        self._clamp_values()
+        return results
+    
+    def _calculate_therapy_effectiveness(self, therapy_type: TherapyType, duration: float) -> float:
+        """Calculate base therapy effectiveness"""
+        base_values = {
+            TherapyType.REST: 0.2,
+            TherapyType.PEER_SUPPORT: 0.4,
+            TherapyType.PROFESSIONAL: 0.7,
+            TherapyType.MEDITATION: 0.3,
+            TherapyType.PHYSICAL_ACTIVITY: 0.35,
+            TherapyType.CREATIVE_EXPRESSION: 0.4,
+            TherapyType.SUBSTANCE_USE: 0.5,  # High short-term, low long-term
+            TherapyType.MENTOR_GUIDANCE: 0.6,
+            TherapyType.GROUP_THERAPY: 0.5,
+            TherapyType.CONFESSIONAL: 0.45,
+            TherapyType.SOLIDARITY_RITUAL: 0.4
+        }
+        
+        base = base_values.get(therapy_type, 0.3)
+        
+        # Duration affects effectiveness
+        duration_modifier = min(1.2, 1.0 + (duration - 1.0) * 0.1)
+        
+        return base * duration_modifier
+    
+    def _calculate_relationship_therapy_bonus(self, therapy_type: TherapyType, 
+                                            therapist_id: Optional[str],
+                                            relationship_strength: float) -> float:
+        """Calculate bonus from relationships in therapy"""
+        if not therapist_id:
+            return 0.0
+        
+        # Base relationship bonus
+        base_bonus = relationship_strength * 0.3
+        
+        # Therapy type specific bonuses
+        if therapy_type == TherapyType.PEER_SUPPORT:
+            # Peer support gets major relationship bonus
+            return base_bonus * 1.5
+        elif therapy_type == TherapyType.MENTOR_GUIDANCE:
+            # Mentoring requires strong relationship
+            if therapist_id in self.mentor_relationships:
+                return base_bonus * 2.0
+            else:
+                return base_bonus * 0.5  # Weak mentoring without established relationship
+        elif therapy_type == TherapyType.CONFESSIONAL:
+            # Confessional requires high trust
+            if relationship_strength > 0.7:
+                return base_bonus * 1.8
+            else:
+                return -0.1  # Backfires without trust
+        elif therapy_type == TherapyType.GROUP_THERAPY:
+            # Group therapy benefits from multiple relationships
+            group_size = len(self.mentor_relationships) + 1
+            return base_bonus * min(1.5, 1.0 + group_size * 0.1)
+        elif therapy_type == TherapyType.SOLIDARITY_RITUAL:
+            # Ritual bonding
+            return base_bonus * 1.3
+        
+        return base_bonus
+    
+    def _process_recovery_arc_session(self, arc: RecoveryArc, session: TherapySession,
+                                    effectiveness: float, results: Dict[str, Any]) -> None:
+        """Process therapy session for specific recovery arc"""
+        arc.sessions_completed += 1
+        arc.last_session = session.session_date
+        
+        # Progress based on effectiveness and stage
+        stage_multipliers = {
+            TherapyStage.INITIAL: 0.8,
+            TherapyStage.PROCESSING: 1.0,
+            TherapyStage.INTEGRATION: 1.2,
+            TherapyStage.MAINTENANCE: 0.5,
+            TherapyStage.RELAPSE: 0.6
+        }
+        
+        stage_mult = stage_multipliers.get(arc.current_stage, 1.0)
+        progress_gain = effectiveness * 0.2 * stage_mult
+        arc.total_progress = min(1.0, arc.total_progress + progress_gain)
+        
+        # Check for stage advancement
+        if arc.calculate_stage_advancement():
+            old_stage = arc.current_stage
+            if arc.current_stage == TherapyStage.INITIAL:
+                arc.current_stage = TherapyStage.PROCESSING
+            elif arc.current_stage == TherapyStage.PROCESSING:
+                arc.current_stage = TherapyStage.INTEGRATION
+            elif arc.current_stage == TherapyStage.INTEGRATION:
+                arc.current_stage = TherapyStage.MAINTENANCE
+            elif arc.current_stage == TherapyStage.RELAPSE:
+                arc.current_stage = TherapyStage.PROCESSING
+            
+            results['stage_advancement'] = True
+            results['old_stage'] = old_stage.value
+            results['new_stage'] = arc.current_stage.value
+        
+        # Update relapse risk
+        arc.relapse_risk = arc.calculate_relapse_risk()
+        
+        # Reduce trauma level based on progress
+        trauma_reduction = progress_gain * 0.5
         old_trauma = self.trauma_level
         self.trauma_level = max(0.0, self.trauma_level - trauma_reduction)
         results['trauma_reduced'] = old_trauma - self.trauma_level
+    
+    def _apply_therapy_specific_effects(self, therapy_type: TherapyType, 
+                                      effectiveness: float, results: Dict[str, Any]) -> None:
+        """Apply specific effects based on therapy type"""
+        if therapy_type == TherapyType.MENTOR_GUIDANCE:
+            # Mentoring builds trust and reduces anxiety
+            results['emotions_improved']['trust'] = effectiveness * 0.2
+            results['emotions_improved']['fear'] = -effectiveness * 0.15
+            
+        elif therapy_type == TherapyType.GROUP_THERAPY:
+            # Group therapy reduces isolation
+            results['emotions_improved']['sadness'] = -effectiveness * 0.2
+            results['emotions_improved']['trust'] = effectiveness * 0.15
+            
+        elif therapy_type == TherapyType.CONFESSIONAL:
+            # Confession can provide relief but may increase vulnerability
+            if effectiveness > 0.6:
+                results['emotions_improved']['guilt_relief'] = effectiveness * 0.3
+                results['emotions_improved']['trust'] = effectiveness * 0.1
+            else:
+                results['side_effects'].append('increased_vulnerability')
+                results['emotions_improved']['fear'] = effectiveness * 0.1
+                
+        elif therapy_type == TherapyType.SOLIDARITY_RITUAL:
+            # Rituals strengthen group bonds and purpose
+            results['emotions_improved']['trust'] = effectiveness * 0.25
+            results['emotions_improved']['anticipation'] = effectiveness * 0.15
+            
+        elif therapy_type == TherapyType.SUBSTANCE_USE:
+            # Substance use - immediate relief but long-term problems
+            results['emotions_improved']['fear'] = -effectiveness * 0.3
+            results['emotions_improved']['sadness'] = -effectiveness * 0.2
+            if random.random() < 0.4:
+                results['side_effects'].append('addiction_risk')
+                self.therapy_resistance += 0.05
         
-        # Apply general emotional improvements
-        if emotional_improvement > 0:
-            positive_impact = {
-                'joy': emotional_improvement,
-                'trust': emotional_improvement * 0.5,
-                'fear': -emotional_improvement * 0.7,
-                'sadness': -emotional_improvement * 0.6
-            }
-            self.apply_emotional_impact(positive_impact)
-        
-        # Apply specific emotional improvements
+        # Apply emotional improvements
         for emotion, change in results['emotions_improved'].items():
             if hasattr(self, emotion):
                 current = getattr(self, emotion)
                 setattr(self, emotion, max(-1.0, min(1.0, current + change)))
+    
+    def _check_relapse_risks(self) -> None:
+        """Check for psychological relapses in recovery arcs"""
+        for arc in self.recovery_arcs.values():
+            current_risk = arc.calculate_relapse_risk()
+            if random.random() < current_risk:
+                self._trigger_relapse(arc)
+    
+    def _trigger_relapse(self, arc: RecoveryArc) -> None:
+        """Trigger a psychological relapse for a recovery arc"""
+        arc.current_stage = TherapyStage.RELAPSE
+        arc.total_progress *= 0.7  # Lose some progress
+        arc.relapse_risk = 0.6  # High risk period
+        self.last_relapse = datetime.now()
         
-        # Record therapy history
-        self.therapy_history.append((datetime.now(), therapy_type, effectiveness))
+        # Emotional impact of relapse
+        relapse_impact = {
+            'fear': 0.3,
+            'sadness': 0.4,
+            'anger': 0.2,
+            'trust': -0.3
+        }
+        self.apply_emotional_impact(relapse_impact)
         
-        self._clamp_values()
-        return results
+        # Increase trauma level
+        self.trauma_level = min(1.0, self.trauma_level + 0.15)
+    
+    def create_recovery_arc(self, trauma_memory: TraumaMemory, 
+                          trauma_type: SpecificTraumaType) -> str:
+        """Create new recovery arc for trauma memory"""
+        arc_id = f"{trauma_type.value}_{len(self.recovery_arcs)}"
+        
+        arc = RecoveryArc(
+            trauma_id=arc_id,
+            trauma_type=trauma_type
+        )
+        
+        self.recovery_arcs[arc_id] = arc
+        return arc_id
+    
+    def add_mentor_relationship(self, mentor_agent_id: str) -> None:
+        """Add a mentor relationship for therapy bonuses"""
+        if mentor_agent_id not in self.mentor_relationships:
+            self.mentor_relationships.append(mentor_agent_id)
+    
+    def update_support_network(self, arc_id: str, supporter_ids: List[str], 
+                             support_quality: float) -> None:
+        """Update support network for recovery arc"""
+        if arc_id in self.recovery_arcs:
+            arc = self.recovery_arcs[arc_id]
+            arc.supported_by = supporter_ids
+            arc.support_strength = max(0.0, min(1.0, support_quality))
+    
+    def apply_therapy(self, therapy_type: TherapyType, effectiveness: float = 0.5) -> Dict[str, Any]:
+        """Backward-compatible therapy method - delegates to enhanced system"""
+        return self.apply_enhanced_therapy(
+            therapy_type=therapy_type,
+            duration_hours=1.0,
+            therapist_id=None,
+            focus_trauma_id=None,
+            relationship_strength=effectiveness
+        )
     
     def needs_therapy(self) -> Tuple[bool, List[str]]:
         """Check if the agent needs therapy and why"""
@@ -541,7 +849,51 @@ class EmotionalState:
                 (dt.isoformat(), tt.value, eff) for dt, tt, eff in self.therapy_history
             ],
             'rest_days': self.rest_days,
-            'last_rest_date': self.last_rest_date.isoformat() if self.last_rest_date else None
+            'last_rest_date': self.last_rest_date.isoformat() if self.last_rest_date else None,
+            'recovery_arcs': {
+                k: {
+                    'trauma_id': arc.trauma_id,
+                    'trauma_type': arc.trauma_type.value,
+                    'current_stage': arc.current_stage.value,
+                    'sessions_completed': arc.sessions_completed,
+                    'total_progress': arc.total_progress,
+                    'relapse_risk': arc.relapse_risk,
+                    'last_session': arc.last_session.isoformat() if arc.last_session else None,
+                    'therapy_sessions': [
+                        {
+                            'session_date': session.session_date.isoformat(),
+                            'therapy_type': session.therapy_type.value,
+                            'duration_hours': session.duration_hours,
+                            'therapist_id': session.therapist_id,
+                            'focus_trauma': session.focus_trauma,
+                            'effectiveness': session.effectiveness,
+                            'breakthrough': session.breakthrough,
+                            'setback': session.setback
+                        }
+                        for session in arc.therapy_sessions
+                    ],
+                    'supported_by': arc.supported_by,
+                    'mentor_id': arc.mentor_id,
+                    'support_strength': arc.support_strength
+                }
+                for k, arc in self.recovery_arcs.items()
+            },
+            'therapy_sessions': [
+                {
+                    'session_date': session.session_date.isoformat(),
+                    'therapy_type': session.therapy_type.value,
+                    'duration_hours': session.duration_hours,
+                    'therapist_id': session.therapist_id,
+                    'focus_trauma': session.focus_trauma,
+                    'effectiveness': session.effectiveness,
+                    'breakthrough': session.breakthrough,
+                    'setback': session.setback
+                }
+                for session in self.therapy_sessions
+            ],
+            'mentor_relationships': self.mentor_relationships,
+            'therapy_resistance': self.therapy_resistance,
+            'last_relapse': self.last_relapse.isoformat() if self.last_relapse else None
         }
     
     @classmethod
@@ -589,6 +941,69 @@ class EmotionalState:
         state.rest_days = data.get('rest_days', 0)
         if data.get('last_rest_date'):
             state.last_rest_date = datetime.fromisoformat(data['last_rest_date'])
+        
+        # Deserialize recovery arcs
+        if 'recovery_arcs' in data:
+            for arc_id, arc_data in data['recovery_arcs'].items():
+                arc = RecoveryArc(
+                    trauma_id=arc_data['trauma_id'],
+                    trauma_type=SpecificTraumaType(arc_data['trauma_type']),
+                    current_stage=TherapyStage(arc_data['current_stage']),
+                    sessions_completed=arc_data['sessions_completed'],
+                    total_progress=arc_data['total_progress'],
+                    relapse_risk=arc_data['relapse_risk'],
+                    last_session=datetime.fromisoformat(arc_data['last_session']) if arc_data['last_session'] else None
+                )
+                state.recovery_arcs[arc_id] = arc
+                
+                # Deserialize therapy sessions
+                for session_data in arc_data['therapy_sessions']:
+                    session = TherapySession(
+                        session_date=datetime.fromisoformat(session_data['session_date']),
+                        therapy_type=TherapyType(session_data['therapy_type']),
+                        duration_hours=session_data['duration_hours'],
+                        therapist_id=session_data['therapist_id'],
+                        focus_trauma=session_data['focus_trauma'],
+                        effectiveness=session_data['effectiveness'],
+                        breakthrough=session_data['breakthrough'],
+                        setback=session_data['setback']
+                    )
+                    arc.therapy_sessions.append(session)
+                
+                # Deserialize supported_by
+                arc.supported_by = arc_data['supported_by']
+                
+                # Deserialize mentor_id
+                arc.mentor_id = arc_data['mentor_id']
+                
+                # Deserialize support_strength
+                arc.support_strength = arc_data['support_strength']
+        
+        # Deserialize therapy sessions
+        if 'therapy_sessions' in data:
+            for session_data in data['therapy_sessions']:
+                session = TherapySession(
+                    session_date=datetime.fromisoformat(session_data['session_date']),
+                    therapy_type=TherapyType(session_data['therapy_type']),
+                    duration_hours=session_data['duration_hours'],
+                    therapist_id=session_data['therapist_id'],
+                    focus_trauma=session_data['focus_trauma'],
+                    effectiveness=session_data['effectiveness'],
+                    breakthrough=session_data['breakthrough'],
+                    setback=session_data['setback']
+                )
+                state.therapy_sessions.append(session)
+        
+        # Deserialize mentor relationships
+        if 'mentor_relationships' in data:
+            state.mentor_relationships = data['mentor_relationships']
+        
+        # Deserialize therapy resistance
+        state.therapy_resistance = data['therapy_resistance']
+        
+        # Deserialize last relapse
+        if data.get('last_relapse'):
+            state.last_relapse = datetime.fromisoformat(data['last_relapse'])
         
         return state
     

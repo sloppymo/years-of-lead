@@ -50,6 +50,28 @@ class IntelligenceSource(Enum):
     DOCUMENT_THEFT = "document_theft"
 
 
+# Intelligence System Reactivity - ITERATION 017
+class IntelligenceQuality(Enum):
+    """Quality levels of intelligence"""
+    PRISTINE = "pristine"        # Perfect information, completely reliable
+    HIGH = "high"               # Very reliable, minor gaps
+    GOOD = "good"               # Generally reliable, some uncertainties
+    AVERAGE = "average"         # Standard quality, moderate reliability
+    POOR = "poor"               # Unreliable, significant gaps
+    COMPROMISED = "compromised" # Partially false information
+    FABRICATED = "fabricated"   # Deliberately false intelligence
+
+class IntelligenceTrait(Enum):
+    """Special traits affecting intelligence interpretation"""
+    UNRELIABLE = "unreliable"   # Source has history of poor information
+    COMPROMISED = "compromised" # Source may be feeding false info
+    DECEPTIVE = "deceptive"     # Information designed to mislead
+    URGENT = "urgent"           # Time-sensitive intelligence
+    INCOMPLETE = "incomplete"   # Missing critical details
+    OUTDATED = "outdated"       # Information may be stale
+    VERIFIED = "verified"       # Cross-confirmed by multiple sources
+    TRAP = "trap"              # Government honeypot operation
+
 @dataclass
 class IntelligenceEvent:
     """Individual intelligence event"""
@@ -76,6 +98,84 @@ class IntelligenceEvent:
     
     # Action opportunities
     action_opportunities: List[str] = field(default_factory=list)
+    
+    # Enhanced intelligence tracking - ITERATION 017
+    quality: IntelligenceQuality = IntelligenceQuality.AVERAGE
+    traits: List[IntelligenceTrait] = field(default_factory=list)
+    source_id: Optional[str] = None  # Specific source identifier
+    verification_status: str = "unverified"  # unverified, cross-checked, confirmed, false
+    trap_indicators: List[str] = field(default_factory=list)  # Signs this might be a trap
+    
+    def is_trap(self) -> bool:
+        """Check if this intelligence appears to be a government trap"""
+        return IntelligenceTrait.TRAP in self.traits
+    
+    def get_reliability_modifier(self) -> float:
+        """Get reliability modifier based on quality and traits"""
+        base_modifier = 1.0
+        
+        # Quality affects reliability
+        quality_modifiers = {
+            IntelligenceQuality.PRISTINE: 1.0,
+            IntelligenceQuality.HIGH: 0.95,
+            IntelligenceQuality.GOOD: 0.85,
+            IntelligenceQuality.AVERAGE: 0.7,
+            IntelligenceQuality.POOR: 0.5,
+            IntelligenceQuality.COMPROMISED: 0.3,
+            IntelligenceQuality.FABRICATED: 0.1
+        }
+        
+        base_modifier = quality_modifiers.get(self.quality, 0.7)
+        
+        # Traits modify reliability
+        for trait in self.traits:
+            if trait == IntelligenceTrait.VERIFIED:
+                base_modifier += 0.15
+            elif trait == IntelligenceTrait.UNRELIABLE:
+                base_modifier -= 0.2
+            elif trait == IntelligenceTrait.COMPROMISED:
+                base_modifier -= 0.3
+            elif trait == IntelligenceTrait.DECEPTIVE:
+                base_modifier -= 0.4
+            elif trait == IntelligenceTrait.INCOMPLETE:
+                base_modifier -= 0.1
+            elif trait == IntelligenceTrait.OUTDATED:
+                base_modifier -= 0.15
+        
+        return max(0.1, min(1.0, base_modifier))
+    
+    def get_enhanced_report(self) -> str:
+        """Get intelligence report with quality and trait warnings"""
+        report = self.get_full_report()
+        
+        # Add quality assessment
+        report += f"\n\nINTELLIGENCE ASSESSMENT:\n"
+        report += f"Quality: {self.quality.value.upper()}\n"
+        report += f"Reliability: {self.get_reliability_modifier():.1%}\n"
+        
+        if self.traits:
+            report += f"Special Traits: {', '.join(t.value.replace('_', ' ').title() for t in self.traits)}\n"
+        
+        # Add warnings
+        warnings = []
+        if IntelligenceTrait.TRAP in self.traits:
+            warnings.append("⚠️ WARNING: POTENTIAL GOVERNMENT TRAP")
+        if IntelligenceTrait.COMPROMISED in self.traits:
+            warnings.append("⚠️ WARNING: SOURCE MAY BE COMPROMISED")
+        if IntelligenceTrait.DECEPTIVE in self.traits:
+            warnings.append("⚠️ WARNING: INFORMATION MAY BE DELIBERATELY FALSE")
+        if IntelligenceTrait.URGENT in self.traits:
+            warnings.append("🚨 URGENT: TIME-SENSITIVE INFORMATION")
+        
+        if warnings:
+            report += f"\n{chr(10).join(warnings)}\n"
+        
+        if self.trap_indicators:
+            report += f"\nTRAP INDICATORS:\n"
+            for indicator in self.trap_indicators:
+                report += f"  • {indicator}\n"
+        
+        return report
     
     def get_full_report(self) -> str:
         """Get comprehensive intelligence report"""
@@ -140,7 +240,13 @@ class IntelligenceDatabase:
         self.analysis_reports: Dict[str, str] = {}
         self.patterns: List[Dict[str, Any]] = []
         self.threat_assessments: Dict[str, Dict[str, Any]] = {}
-        logger.info("IntelligenceDatabase initialized")
+        
+        # Enhanced intelligence reactivity - ITERATION 017
+        self.reactivity = IntelligenceReactivity()
+        self.active_traps: List[str] = []  # Event IDs that are known traps
+        self.verified_events: List[str] = []  # Cross-verified intelligence
+        
+        logger.info("IntelligenceDatabase initialized with reactivity tracking")
     
     def add_event(self, event: IntelligenceEvent):
         """Add new intelligence event with validation"""
@@ -432,6 +538,170 @@ RECOMMENDATIONS:
 """
         
         return report
+
+    def update_from_mission_outcome(self, outcome: str, heat_level: float,
+                                  faction_morale: float, faction_loyalty: float) -> None:
+        """Update intelligence quality based on mission performance"""
+        self.reactivity.update_from_mission(outcome, heat_level, faction_morale, faction_loyalty)
+        
+        # Log quality changes
+        current_quality = self.reactivity.calculate_current_quality()
+        logger.info(f"Intelligence quality updated: {current_quality:.2f} after {outcome} mission")
+    
+    def generate_reactive_intelligence(self, event_type: IntelligenceType, 
+                                     location: str, force_trap: bool = False) -> IntelligenceEvent:
+        """Generate intelligence with reactive quality and traits"""
+        generator = IntelligenceGenerator()
+        
+        # Determine quality and traits
+        quality = self.reactivity.get_quality_enum()
+        
+        # Force trap for testing or story purposes
+        if force_trap:
+            traits = [IntelligenceTrait.TRAP]
+        else:
+            traits = self.reactivity.determine_intel_traits(IntelligenceSource.OBSERVATION)
+        
+        # Generate base event
+        event = generator.generate_event(event_type, location)
+        
+        # Apply reactive modifications
+        event.quality = quality
+        event.traits = traits
+        event.reliability = event.get_reliability_modifier()
+        
+        # If it's a trap, modify the content
+        if IntelligenceTrait.TRAP in traits:
+            event = self._modify_trap_intelligence(event)
+            self.active_traps.append(event.id)
+        
+        # If quality is poor, degrade information
+        if quality in [IntelligenceQuality.POOR, IntelligenceQuality.COMPROMISED]:
+            event = self._degrade_intelligence_quality(event)
+        
+        return event
+    
+    def _modify_trap_intelligence(self, event: IntelligenceEvent) -> IntelligenceEvent:
+        """Modify intelligence to be a government trap"""
+        # Make it look attractive but add subtle warning signs
+        trap_modifiers = [
+            "Security appears unusually light for this type of facility",
+            "Multiple escape routes clearly marked and unguarded", 
+            "Target seems to follow predictable routine without security variation",
+            "Source insists this must be done immediately without reconnaissance",
+            "Information came from a new contact with limited background verification"
+        ]
+        
+        # Add trap indicators
+        event.trap_indicators = random.sample(trap_modifiers, random.randint(1, 3))
+        
+        # Modify the action opportunities to be more tempting
+        enhanced_opportunities = []
+        for opportunity in event.action_opportunities:
+            enhanced_opportunities.append(f"{opportunity} (EASY TARGET)")
+        event.action_opportunities = enhanced_opportunities
+        
+        # Modify mechanical effects to look beneficial
+        if 'security_presence' in event.mechanical_effects:
+            event.mechanical_effects['security_presence'] = max(1, 
+                event.mechanical_effects['security_presence'] - 2)
+        
+        return event
+    
+    def _degrade_intelligence_quality(self, event: IntelligenceEvent) -> IntelligenceEvent:
+        """Degrade intelligence quality by removing details or adding uncertainty"""
+        
+        # Make description more vague
+        if event.quality == IntelligenceQuality.POOR:
+            event.description = f"Unclear reports suggest {event.description.lower()}"
+            event.detailed_report = f"Information is fragmentary and unconfirmed. {event.detailed_report}"
+            
+            # Remove some action opportunities
+            if len(event.action_opportunities) > 1:
+                event.action_opportunities = event.action_opportunities[:len(event.action_opportunities)//2]
+        
+        elif event.quality == IntelligenceQuality.COMPROMISED:
+            # Add false information
+            false_effects = {
+                'false_security_estimate': -1,
+                'misleading_timing': 'inaccurate',
+                'compromised_intel_warning': True
+            }
+            event.mechanical_effects.update(false_effects)
+            
+            # Add warning to narrative consequences
+            event.narrative_consequences.append("Intelligence may contain deliberate misinformation")
+        
+        return event
+    
+    def cross_verify_intelligence(self, event_id1: str, event_id2: str) -> Dict[str, Any]:
+        """Cross-verify two intelligence events for accuracy"""
+        if event_id1 not in self.events or event_id2 not in self.events:
+            return {'verified': False, 'reason': 'Events not found'}
+        
+        event1 = self.events[event_id1]
+        event2 = self.events[event_id2]
+        
+        # Check if they're about similar topics/locations
+        similarity_score = 0.0
+        if event1.location == event2.location:
+            similarity_score += 0.3
+        if event1.type == event2.type:
+            similarity_score += 0.2
+        
+        # Check for contradictions
+        contradictions = []
+        for effect1, value1 in event1.mechanical_effects.items():
+            if effect1 in event2.mechanical_effects:
+                value2 = event2.mechanical_effects[effect1]
+                if isinstance(value1, (int, float)) and isinstance(value2, (int, float)):
+                    if abs(value1 - value2) > 2:
+                        contradictions.append(f"Conflicting {effect1}: {value1} vs {value2}")
+        
+        # Determine verification result
+        verified = False
+        if similarity_score > 0.3 and len(contradictions) == 0:
+            verified = True
+            # Improve reliability of both events
+            for event in [event1, event2]:
+                if IntelligenceTrait.VERIFIED not in event.traits:
+                    event.traits.append(IntelligenceTrait.VERIFIED)
+                event.verification_status = "cross-confirmed"
+                
+            self.verified_events.extend([event_id1, event_id2])
+        
+        return {
+            'verified': verified,
+            'similarity_score': similarity_score,
+            'contradictions': contradictions,
+            'reliability_boost': 0.15 if verified else 0.0
+        }
+    
+    def detect_trap_patterns(self) -> List[str]:
+        """Analyze intelligence patterns to detect potential traps"""
+        trap_warnings = []
+        
+        # Look for suspiciously good opportunities
+        recent_events = [e for e in self.events.values() 
+                        if (datetime.now() - e.timestamp).days < 7]
+        
+        easy_targets = 0
+        for event in recent_events:
+            if any('EASY TARGET' in opp for opp in event.action_opportunities):
+                easy_targets += 1
+        
+        if easy_targets >= 2:
+            trap_warnings.append("Multiple 'easy targets' reported recently - exercise caution")
+        
+        # Check for new sources providing critical intelligence
+        new_source_critical = sum(1 for e in recent_events 
+                                if e.priority == IntelligencePriority.CRITICAL and
+                                e.source_id and e.source_id not in self.reactivity.source_reliability)
+        
+        if new_source_critical >= 1:
+            trap_warnings.append("Critical intelligence from unestablished sources - verify carefully")
+        
+        return trap_warnings
 
 
 class IntelligenceGenerator:
@@ -931,7 +1201,7 @@ class IntelligenceUI:
                     break
                 elif 1 <= choice_num <= len(recent_events):
                     event = recent_events[choice_num - 1]
-                    print(event.get_full_report())
+                    print(event.get_enhanced_report())
                     input("\nPress Enter to continue...")
                 else:
                     print("Invalid event number.")
@@ -963,7 +1233,7 @@ class IntelligenceUI:
                     break
                 elif 1 <= choice_num <= len(critical_events):
                     event = critical_events[choice_num - 1]
-                    print(event.get_full_report())
+                    print(event.get_enhanced_report())
                     input("\nPress Enter to continue...")
                 else:
                     print("Invalid event number.")
@@ -1003,7 +1273,7 @@ class IntelligenceUI:
                             break
                         elif 1 <= detail_num <= len(events):
                             event = events[detail_num - 1]
-                            print(event.get_full_report())
+                            print(event.get_enhanced_report())
                             input("\nPress Enter to continue...")
                         else:
                             print("Invalid event number.")
@@ -1088,7 +1358,7 @@ class IntelligenceUI:
             # Show full report
             show_report = input("\nView full report? (y/n): ").strip().lower()
             if show_report in ['y', 'yes']:
-                print(event.get_full_report())
+                print(event.get_enhanced_report())
             
             input("\nPress Enter to continue...")
             
@@ -1474,4 +1744,135 @@ class SurveillanceAI:
             'counter_ops_active': location_surv.counter_ops_active,
             'crackdown_timer': location_surv.crackdown_timer,
             'last_activity': location_surv.last_activity.isoformat() if location_surv.last_activity else None
-        } 
+        }
+
+@dataclass
+class IntelligenceReactivity:
+    """Tracks how intelligence quality responds to faction/mission state"""
+    base_quality: float = 0.7           # Base intelligence quality (0-1)
+    faction_stability_modifier: float = 0.0  # ±0.3 based on faction health
+    recent_performance_modifier: float = 0.0  # ±0.2 based on mission success
+    heat_penalty: float = 0.0           # -0.5 max penalty for high heat
+    source_reliability: Dict[str, float] = field(default_factory=dict)  # source_id -> reliability
+    trap_probability: float = 0.1       # Chance of trap missions
+    
+    # Dynamic factors
+    last_mission_outcomes: List[str] = field(default_factory=list)  # Last 5 mission results
+    compromised_sources: Set[str] = field(default_factory=set)
+    burned_sources: Set[str] = field(default_factory=set)
+    
+    def calculate_current_quality(self) -> float:
+        """Calculate current intelligence quality based on all factors"""
+        quality = self.base_quality
+        quality += self.faction_stability_modifier
+        quality += self.recent_performance_modifier
+        quality -= self.heat_penalty
+        
+        # Recent failures further degrade quality
+        recent_failures = self.last_mission_outcomes.count('failure') + \
+                         self.last_mission_outcomes.count('disaster')
+        quality -= recent_failures * 0.05
+        
+        return max(0.1, min(1.0, quality))
+    
+    def update_from_mission(self, outcome: str, heat_level: float, 
+                          faction_morale: float, faction_loyalty: float) -> None:
+        """Update intelligence reactivity based on mission outcome"""
+        # Update mission history
+        self.last_mission_outcomes.append(outcome)
+        if len(self.last_mission_outcomes) > 5:
+            self.last_mission_outcomes.pop(0)
+        
+        # Calculate performance modifier
+        success_count = self.last_mission_outcomes.count('success') + \
+                       self.last_mission_outcomes.count('critical_success')
+        self.recent_performance_modifier = (success_count / len(self.last_mission_outcomes) - 0.5) * 0.2
+        
+        # Update faction stability modifier
+        avg_faction_health = (faction_morale + faction_loyalty) / 200.0  # 0-1 scale
+        self.faction_stability_modifier = (avg_faction_health - 0.5) * 0.3
+        
+        # Update heat penalty
+        self.heat_penalty = min(0.5, heat_level / 10.0 * 0.5)
+        
+        # Update trap probability based on heat
+        self.trap_probability = min(0.6, 0.1 + heat_level / 10.0 * 0.5)
+        
+        # Source compromise risk
+        if outcome in ['failure', 'disaster'] and random.random() < 0.3:
+            # Random source may be compromised
+            active_sources = [s for s in self.source_reliability.keys() 
+                            if s not in self.burned_sources]
+            if active_sources:
+                compromised_source = random.choice(active_sources)
+                self.compromised_sources.add(compromised_source)
+    
+    def get_quality_enum(self) -> IntelligenceQuality:
+        """Convert quality score to enum"""
+        quality = self.calculate_current_quality()
+        
+        if quality >= 0.9:
+            return IntelligenceQuality.PRISTINE
+        elif quality >= 0.8:
+            return IntelligenceQuality.HIGH
+        elif quality >= 0.6:
+            return IntelligenceQuality.GOOD
+        elif quality >= 0.4:
+            return IntelligenceQuality.AVERAGE
+        elif quality >= 0.2:
+            return IntelligenceQuality.POOR
+        else:
+            # Very low quality might be compromised or fabricated
+            if random.random() < 0.4:
+                return IntelligenceQuality.COMPROMISED
+            else:
+                return IntelligenceQuality.POOR
+    
+    def determine_intel_traits(self, source: IntelligenceSource, 
+                             source_id: str = None) -> List[IntelligenceTrait]:
+        """Determine special traits for this intelligence"""
+        traits = []
+        
+        current_quality = self.calculate_current_quality()
+        
+        # Check for trap missions
+        if random.random() < self.trap_probability:
+            traits.append(IntelligenceTrait.TRAP)
+            return traits  # Trap intelligence might look clean otherwise
+        
+        # Source-specific traits
+        if source_id:
+            if source_id in self.compromised_sources:
+                traits.append(IntelligenceTrait.COMPROMISED)
+                if random.random() < 0.5:
+                    traits.append(IntelligenceTrait.DECEPTIVE)
+            
+            if source_id in self.burned_sources:
+                traits.append(IntelligenceTrait.OUTDATED)
+            
+            source_reliability = self.source_reliability.get(source_id, 0.5)
+            if source_reliability < 0.3:
+                traits.append(IntelligenceTrait.UNRELIABLE)
+        
+        # Quality-based traits
+        if current_quality < 0.3:
+            if random.random() < 0.4:
+                traits.append(IntelligenceTrait.INCOMPLETE)
+            if random.random() < 0.3:
+                traits.append(IntelligenceTrait.UNRELIABLE)
+        
+        # Heat-based traits
+        if self.heat_penalty > 0.3:
+            if random.random() < 0.2:
+                traits.append(IntelligenceTrait.DECEPTIVE)
+        
+        # Positive traits
+        if current_quality > 0.8 and len(traits) == 0:
+            if random.random() < 0.3:
+                traits.append(IntelligenceTrait.VERIFIED)
+        
+        # Urgency (independent of quality)
+        if random.random() < 0.15:
+            traits.append(IntelligenceTrait.URGENT)
+        
+        return traits 

@@ -92,6 +92,13 @@ class PropagandaTone(Enum):
     TRAITOR_EXPOSURE = "traitor_exposure"                   # Denouncing former allies
 
 
+class SleeperActionType(Enum):
+    GATHER_INTEL = "gather_intel"
+    SABOTAGE = "sabotage"
+    FALSE_FLAG = "false_flag"
+    LIE_LOW = "lie_low"
+
+
 @dataclass
 class FactionRelationship:
     """Bi-directional relationship between two factions"""
@@ -1300,6 +1307,7 @@ class RevolutionaryEcosystem:
     
     # Sleeper cell system
     sleeper_cells: List['SleeperCell'] = field(default_factory=list)  # ITERATION_026
+    counterintel_history: List['CounterIntelSweep'] = field(default_factory=list)  # ITERATION_027
     
     def trigger_propaganda_event(self, event_type: str, initiator: str, 
                                 targets: List[str] = None, tone: PropagandaTone = None) -> AlliancePropagandaEvent:
@@ -1552,6 +1560,11 @@ class RevolutionaryEcosystem:
         sleeper_events = self.process_sleeper_cells()
         if sleeper_events:
             turn_results.setdefault('sleeper_actions', []).extend(sleeper_events)
+        
+        # Periodic counter-intelligence sweeps
+        ci_events = self._process_counterintel_sweeps()
+        if ci_events:
+            turn_results.setdefault('counterintel_sweeps', []).extend(ci_events)
         
         return turn_results
     
@@ -2226,3 +2239,152 @@ class RevolutionaryEcosystem:
         # Clean up inactive cells
         self.sleeper_cells = [c for c in self.sleeper_cells if c.active]
         return events
+
+    def _process_counterintel_sweeps(self) -> List[Dict[str, any]]:
+        """Run automatic sweeps based on government_heat and paranoia"""
+        events = []
+        for faction in self.active_factions:
+            # 20% base chance plus bonus for high heat
+            sweep_probability = 0.2 + (faction.government_heat / 10.0) * 0.3
+            if random.random() > sweep_probability:
+                continue
+
+            sweep = CounterIntelSweep(
+                conducting_faction=faction.name,
+                target_faction=faction.name,
+                sweep_effectiveness=min(0.8, 0.3 + faction.government_heat / 20.0)
+            )
+            sweep.execute(self)
+            if sweep.findings:
+                # Apply narrative & mechanical consequences
+                for finding in sweep.findings:
+                    if finding['type'] == CounterIntelOutcome.SLEEPER_EXPOSED.value:
+                        # Heat reduction for finding mole
+                        faction.government_heat = max(0.0, faction.government_heat - 1.0)
+                        # Public support small bump for vigilance
+                        faction.public_support += 1.0
+                    elif finding['type'] == CounterIntelOutcome.CHANNEL_COMPROMISED.value:
+                        # Heat bump because scandal leaks out
+                        faction.government_heat += 1.0
+
+                        # Trigger propaganda
+                        self.trigger_propaganda_event(
+                            "counterintel_scandal",
+                            faction.name,
+                            finding['parties'],
+                            PropagandaTone.TRAITOR_EXPOSURE
+                        )
+                events.append({
+                    'faction': faction.name,
+                    'findings': sweep.findings
+                })
+            self.counterintel_history.append(sweep)
+        return events
+
+
+@dataclass
+class SleeperCell:
+    """Undercover operative embedded in a target faction"""
+    handler_faction: str
+    target_faction: str
+    infiltration_level: float = 0.3
+    loyalty: float = 1.0
+    exposure_risk: float = 0.05
+    last_action: Optional[SleeperActionType] = None
+    active: bool = True
+
+    def execute_turn(self, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, any]:
+        if not self.active:
+            return {}
+
+        self.loyalty = max(0.0, self.loyalty - random.uniform(0.01, 0.03))
+
+        if self.infiltration_level > 0.7 and random.random() < 0.3:
+            action = SleeperActionType.SABOTAGE
+        elif self.infiltration_level > 0.5 and random.random() < 0.4:
+            action = SleeperActionType.GATHER_INTEL
+        else:
+            action = SleeperActionType.LIE_LOW
+
+        if self.loyalty < 0.3 and random.random() < 0.2:
+            action = SleeperActionType.FALSE_FLAG
+
+        self.last_action = action
+
+        results = {
+            'type': 'sleeper_action',
+            'handler': self.handler_faction,
+            'target': self.target_faction,
+            'action': action.value,
+            'success': False,
+            'impact': 0.0
+        }
+
+        handler_obj = next((f for f in ecosystem.active_factions if f.name == self.handler_faction), None)
+        target_obj = next((f for f in ecosystem.active_factions if f.name == self.target_faction), None)
+        if not handler_obj or not target_obj:
+            return results
+
+        if action == SleeperActionType.GATHER_INTEL:
+            intel_value = self.infiltration_level * random.uniform(1.0, 3.0)
+            handler_obj.intel_cache.append({'source': self.target_faction, 'value': intel_value, 'turn': ecosystem.uprising_clock.current_date})
+            results.update(success=True, impact=intel_value)
+
+        elif action == SleeperActionType.SABOTAGE:
+            if random.random() < self.infiltration_level * self.loyalty:
+                damage = random.uniform(0.1, 0.3)
+                target_obj.operational_capacity = max(0.3, target_obj.operational_capacity - damage)
+                target_obj.government_heat += 0.5
+                results.update(success=True, impact=damage)
+
+        elif action == SleeperActionType.FALSE_FLAG:
+            third = random.choice([f for f in ecosystem.active_factions if f.name not in (self.handler_faction, self.target_faction)])
+            rel = ecosystem._get_faction_relationship(self.target_faction, third.name)
+            if rel:
+                rel.adjust_trust(-15.0, "false_flag_attack")
+                rel.escalate_rivalry(10.0, "false_flag")
+            results.update(success=True, impact=-15.0)
+
+        # Exposure roll
+        if random.random() < self.exposure_risk + (0.1 if action == SleeperActionType.SABOTAGE else 0.0):
+            self.active = False
+            target_obj.government_heat += 1.0
+            handler_obj.factional_trust = max(0.0, handler_obj.factional_trust - 5.0)
+            results['exposed'] = True
+
+        return results
+
+
+# ITERATION_027 re-add ===============================================
+class CounterIntelOutcome(Enum):
+    NO_FINDINGS = "no_findings"
+    SLEEPER_EXPOSED = "sleeper_exposed"
+    CHANNEL_COMPROMISED = "channel_compromised"
+
+
+@dataclass
+class CounterIntelSweep:
+    conducting_faction: str
+    target_faction: str
+    sweep_effectiveness: float
+    findings: List[Dict[str, any]] = field(default_factory=list)
+
+    def execute(self, ecosystem: 'RevolutionaryEcosystem') -> None:
+        # Detect sleeper cells
+        for cell in list(ecosystem.sleeper_cells):
+            if cell.target_faction != self.target_faction or not cell.active:
+                continue
+            if random.random() < self.sweep_effectiveness * (1.0 - cell.infiltration_level):
+                cell.active = False
+                self.findings.append({'type': CounterIntelOutcome.SLEEPER_EXPOSED.value, 'handler': cell.handler_faction})
+
+        # Detect secret channels
+        for channel in ecosystem.diplomatic_channels.values():
+            if channel.status != "active":
+                continue
+            if self.target_faction not in (channel.faction_a, channel.faction_b):
+                continue
+            if random.random() < self.sweep_effectiveness * (1.0 - channel.encryption_level) * 0.5:
+                channel.status = "compromised"
+                self.findings.append({'type': CounterIntelOutcome.CHANNEL_COMPROMISED.value, 'parties': [channel.faction_a, channel.faction_b]})
+# ITERATION_027 re-add ===============================================

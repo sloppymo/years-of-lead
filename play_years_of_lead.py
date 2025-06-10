@@ -9,6 +9,7 @@ import sys
 import os
 import termios
 import tty
+import atexit
 from pathlib import Path
 from typing import Optional, List, Tuple
 
@@ -26,13 +27,24 @@ class MenuSystem:
     def __init__(self):
         self.old_settings = None
         self.use_fallback = False
-        # Test if termios works
+        # Store original terminal settings
         try:
-            termios.tcgetattr(sys.stdin)
-            tty.setcbreak(sys.stdin.fileno())
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, termios.tcgetattr(sys.stdin))
+            self.original_settings = termios.tcgetattr(sys.stdin)
+            # Register cleanup on exit
+            atexit.register(self.cleanup_terminal)
         except (AttributeError, OSError):
             self.use_fallback = True
+            self.original_settings = None
+    
+    def cleanup_terminal(self):
+        """Restore terminal settings on exit"""
+        if hasattr(self, 'original_settings') and self.original_settings:
+            try:
+                termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.original_settings)
+                # Make cursor visible again
+                print('\033[?25h', end='', flush=True)
+            except:
+                pass
     
     def getch(self):
         """Get a single character from stdin without pressing Enter"""
@@ -781,27 +793,3 @@ def main():
 
 if __name__ == "__main__":
     exit(main()) 
-
-    import atexit  # Add this import at the top
-
-# In your MenuSystem.__init__ method, add:
-def __init__(self):
-    self.old_settings = None
-    self.use_fallback = False
-    # Add these lines:
-    try:
-        self.original_settings = termios.tcgetattr(sys.stdin)
-        atexit.register(self.cleanup_terminal)  # This is the key fix!
-    except (AttributeError, OSError):
-        self.use_fallback = True
-        self.original_settings = None
-
-# Add this new method to MenuSystem:
-def cleanup_terminal(self):
-    """Restore terminal settings on exit"""
-    if hasattr(self, 'original_settings') and self.original_settings:
-        try:
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, self.original_settings)
-            print('\033[?25h', end='', flush=True)  # Make cursor visible
-        except:
-            pass

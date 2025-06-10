@@ -519,6 +519,20 @@ def test_covert_operations_and_leaks():
     
     return ecosystem
 
+def test_sleeper_cell_mechanics():
+    """Basic test for sleeper cell deployment and operation - # ITERATION_026"""
+    eco = RevolutionaryEcosystem()
+    eco.initialize_default_factions()
+    handler = eco.active_factions[0].name
+    target = eco.active_factions[1].name
+    cell = eco.deploy_sleeper_cell(handler, target)
+    assert cell is not None, "Sleeper cell should deploy"
+    for _ in range(3):
+        eco.uprising_clock.advance_day()
+        events = eco.process_sleeper_cells()
+        # Ensure events list is collected without error
+        assert isinstance(events, list)
+
 def main():
     """Main test function"""
     print("🚀 REVOLUTIONARY ECOSYSTEM TESTING - ITERATIONS 022, 023, 024 & 025")

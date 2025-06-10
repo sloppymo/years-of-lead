@@ -489,6 +489,8 @@ class RevolutionaryFaction:
     martyrs_created: List[str] = field(default_factory=list)
     territories_gained: List[str] = field(default_factory=list)
     territories_lost: List[str] = field(default_factory=list)
+    # ITERATION_026 Sleeper intel storage
+    intel_cache: List[Dict[str, any]] = field(default_factory=list)
     
     # Resources and capabilities
     operational_capacity: float = 1.0     # 0-2, ability to execute complex operations
@@ -1296,6 +1298,9 @@ class RevolutionaryEcosystem:
     diplomatic_channels: Dict[str, SecretDiplomaticChannel] = field(default_factory=dict)
     intelligence_leaks: List[Dict[str, Any]] = field(default_factory=list)
     
+    # Sleeper cell system
+    sleeper_cells: List['SleeperCell'] = field(default_factory=list)  # ITERATION_026
+    
     def trigger_propaganda_event(self, event_type: str, initiator: str, 
                                 targets: List[str] = None, tone: PropagandaTone = None) -> AlliancePropagandaEvent:
         """Trigger a propaganda event around alliance activities - ITERATION 024"""
@@ -1542,6 +1547,11 @@ class RevolutionaryEcosystem:
         # Check for ecosystem-wide events
         ecosystem_events = self._check_ecosystem_events()
         turn_results['major_events'].extend(ecosystem_events)
+        
+        # ITERATION_026: Process sleeper cells after rivalries
+        sleeper_events = self.process_sleeper_cells()
+        if sleeper_events:
+            turn_results.setdefault('sleeper_actions', []).extend(sleeper_events)
         
         return turn_results
     
@@ -2194,3 +2204,25 @@ class RevolutionaryEcosystem:
                 print(f"🚨 SCANDAL: Secret alliance '{alliance_name}' EXPOSED!")
         
         return leak_events
+
+    def deploy_sleeper_cell(self, handler_faction: str, target_faction: str) -> Optional['SleeperCell']:
+        """Create and embed a sleeper cell - # ITERATION_026"""
+        if handler_faction == target_faction:
+            return None
+        # Ensure no duplicate cell
+        if any(sc.handler_faction == handler_faction and sc.target_faction == target_faction and sc.active for sc in self.sleeper_cells):
+            return None
+        new_cell = SleeperCell(handler_faction, target_faction)
+        self.sleeper_cells.append(new_cell)
+        return new_cell
+
+    def process_sleeper_cells(self) -> List[Dict[str, any]]:
+        """Execute sleeper cell actions each turn - # ITERATION_026"""
+        events = []
+        for cell in self.sleeper_cells:
+            result = cell.execute_turn(self)
+            if result:
+                events.append(result)
+        # Clean up inactive cells
+        self.sleeper_cells = [c for c in self.sleeper_cells if c.active]
+        return events

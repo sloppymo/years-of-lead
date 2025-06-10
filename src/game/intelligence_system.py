@@ -9,7 +9,7 @@ import random
 import uuid
 import logging
 from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, Set
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
@@ -1093,4 +1093,385 @@ class IntelligenceUI:
             input("\nPress Enter to continue...")
             
         except ValueError:
-            print("Please enter valid numbers.") 
+            print("Please enter valid numbers.")
+
+
+# State Surveillance & Heat Scaling System - ITERATION 015
+from enum import Enum
+from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Set
+
+class SurveillanceLevel(Enum):
+    """Government surveillance intensity levels"""
+    MINIMAL = 1       # Basic patrols
+    LOW = 2          # Increased patrols
+    MODERATE = 3     # Regular checkpoints
+    HIGH = 4         # Active monitoring
+    ELEVATED = 5     # Targeted surveillance
+    INTENSE = 6      # Heavy surveillance net
+    MAXIMUM = 7      # Martial law zones
+    LOCKDOWN = 8     # Area lockdown
+    MANHUNT = 9      # Active manhunt
+    SIEGE = 10       # Military siege
+
+@dataclass
+class LocationSurveillance:
+    """Surveillance tracking for specific locations"""
+    location_id: str
+    base_heat: float = 0.0                    # Permanent heat from past operations
+    current_heat: float = 0.0                 # Current mission heat
+    pattern_recognition: float = 0.0          # AI recognition of patterns (0-1)
+    surveillance_level: SurveillanceLevel = SurveillanceLevel.MINIMAL
+    
+    # Pattern tracking
+    mission_history: List[Dict[str, Any]] = field(default_factory=list)
+    agent_signatures: Dict[str, int] = field(default_factory=dict)  # agent_id: frequency
+    mission_type_patterns: Dict[str, int] = field(default_factory=dict)
+    last_activity: Optional[datetime] = None
+    
+    # Government response
+    crackdown_timer: int = 0                  # Turns until crackdown action
+    counter_ops_active: bool = False          # Counter-intelligence operations
+    
+    def get_total_heat(self) -> float:
+        """Calculate total heat including all modifiers"""
+        return min(10.0, self.base_heat + self.current_heat + (self.pattern_recognition * 2.0))
+    
+    def decay_current_heat(self, decay_rate: float = 0.1) -> None:
+        """Decay current heat over time"""
+        self.current_heat = max(0.0, self.current_heat - decay_rate)
+        if self.pattern_recognition > 0.1:
+            self.pattern_recognition = max(0.1, self.pattern_recognition - 0.05)
+
+@dataclass 
+class AgentSurveillance:
+    """Surveillance tracking for individual agents"""
+    agent_id: str
+    recognition_level: float = 0.0            # How well government knows this agent (0-1)
+    signature_strength: float = 0.0           # How recognizable their pattern is (0-1)
+    locations_visited: Set[str] = field(default_factory=set)
+    preferred_mission_types: Dict[str, int] = field(default_factory=dict)
+    last_spotted: Optional[datetime] = None
+    wanted_level: int = 0                     # 0-5 government priority
+
+class SurveillanceAI:
+    """Dynamic government surveillance system that learns and adapts"""
+    
+    def __init__(self):
+        """Initialize surveillance AI with learning capabilities"""
+        self.location_surveillance: Dict[str, LocationSurveillance] = {}
+        self.agent_surveillance: Dict[str, AgentSurveillance] = {}
+        
+        # Government response escalation
+        self.escalation_triggers = {
+            SurveillanceLevel.MINIMAL: 1.0,     # No special response
+            SurveillanceLevel.LOW: 2.0,         # Increased patrols
+            SurveillanceLevel.MODERATE: 3.5,    # Checkpoints
+            SurveillanceLevel.HIGH: 5.0,        # Active monitoring
+            SurveillanceLevel.ELEVATED: 6.5,    # Targeted ops
+            SurveillanceLevel.INTENSE: 8.0,     # Heavy surveillance
+            SurveillanceLevel.MAXIMUM: 9.0,     # Martial law
+            SurveillanceLevel.LOCKDOWN: 9.5,    # Area lockdown
+            SurveillanceLevel.MANHUNT: 10.0,    # Active manhunt
+            SurveillanceLevel.SIEGE: 10.0       # Military siege
+        }
+        
+        logger.info("SurveillanceAI initialized")
+    
+    def record_mission_activity(self, location_id: str, agent_ids: List[str], 
+                              mission_type: str, outcome: str, 
+                              symbolic_tags: List[str] = None,
+                              casualties: int = 0, publicity: float = 0.0) -> float:
+        """Record mission activity and calculate heat generated"""
+        
+        # Get or create location surveillance
+        if location_id not in self.location_surveillance:
+            self.location_surveillance[location_id] = LocationSurveillance(location_id=location_id)
+        
+        location_surv = self.location_surveillance[location_id]
+        
+        # Calculate base heat for this mission
+        base_heat = self._calculate_mission_heat(mission_type, outcome, casualties, publicity)
+        
+        # Apply symbolic location modifiers
+        symbolic_modifier = self._get_symbolic_heat_modifier(symbolic_tags or [])
+        
+        # Calculate pattern bonuses
+        pattern_bonus = self._calculate_pattern_heat_bonus(location_surv, mission_type, agent_ids)
+        
+        # Total heat generated
+        total_heat = base_heat * symbolic_modifier + pattern_bonus
+        
+        # Record mission in location history
+        location_surv.mission_history.append({
+            'timestamp': datetime.now(),
+            'mission_type': mission_type,
+            'agent_ids': agent_ids,
+            'outcome': outcome,
+            'heat_generated': total_heat
+        })
+        
+        # Keep only last 10 missions for pattern analysis
+        if len(location_surv.mission_history) > 10:
+            location_surv.mission_history.pop(0)
+        
+        # Update location heat and patterns
+        location_surv.current_heat += total_heat
+        location_surv.last_activity = datetime.now()
+        self._update_location_patterns(location_surv, mission_type, agent_ids)
+        
+        # Update agent surveillance
+        for agent_id in agent_ids:
+            self._update_agent_surveillance(agent_id, location_id, mission_type)
+        
+        # Update surveillance level
+        self._update_surveillance_level(location_surv)
+        
+        logger.info(f"Mission heat recorded: {total_heat:.2f} at {location_id} (Total: {location_surv.get_total_heat():.2f})")
+        
+        return total_heat
+    
+    def _calculate_mission_heat(self, mission_type: str, outcome: str, 
+                              casualties: int, publicity: float) -> float:
+        """Calculate base heat generated by mission type and outcome"""
+        
+        # Base heat by mission type
+        base_heat_values = {
+            'propaganda': 1.0,
+            'sabotage': 3.0,
+            'recruitment': 1.5,
+            'intelligence': 2.0,
+            'financing': 2.5,
+            'rescue': 4.0,
+            'assassination': 5.0,
+            'infiltration': 1.5
+        }
+        
+        base_heat = base_heat_values.get(mission_type, 2.0)
+        
+        # Outcome modifiers
+        if outcome in ['success', 'critical_success']:
+            base_heat *= 1.2  # Success draws more attention
+        elif outcome in ['failure', 'disaster']:
+            base_heat *= 0.8  # Failures generate less heat
+        
+        # Casualties dramatically increase heat
+        base_heat += casualties * 1.5
+        
+        # Publicity increases heat
+        base_heat += publicity * 2.0
+        
+        return base_heat
+    
+    def _get_symbolic_heat_modifier(self, symbolic_tags: List[str]) -> float:
+        """Get heat multiplier based on symbolic location tags"""
+        modifier = 1.0
+        
+        for tag in symbolic_tags:
+            if tag == 'media_hub':
+                modifier *= 2.0    # Media hubs draw massive attention
+            elif tag == 'power_nexus':
+                modifier *= 1.8    # Government centers are heavily monitored
+            elif tag == 'martyr_site':
+                modifier *= 1.6    # Martyrs sites are watched for symbolic actions
+            elif tag == 'surveillance_net':
+                modifier *= 1.4    # Heavy surveillance areas
+            elif tag == 'conflict_zone':
+                modifier *= 1.3    # Active conflict areas
+            elif tag == 'community_heart':
+                modifier *= 0.8    # Community protection reduces visibility
+            elif tag == 'liberation_ground':
+                modifier *= 1.2    # Historic sites draw government attention
+                
+        return modifier
+    
+    def _calculate_pattern_heat_bonus(self, location_surv: LocationSurveillance, 
+                                    mission_type: str, agent_ids: List[str]) -> float:
+        """Calculate additional heat from pattern recognition"""
+        pattern_bonus = 0.0
+        
+        # Repeated location usage
+        recent_missions = len([m for m in location_surv.mission_history 
+                             if (datetime.now() - m['timestamp']).days <= 7])
+        if recent_missions >= 3:
+            pattern_bonus += 1.0 * (recent_missions - 2)  # Escalating penalty
+        
+        # Mission type repetition
+        same_type_count = location_surv.mission_type_patterns.get(mission_type, 0)
+        if same_type_count >= 2:
+            pattern_bonus += 0.5 * same_type_count
+        
+        # Agent signature recognition
+        for agent_id in agent_ids:
+            agent_count = location_surv.agent_signatures.get(agent_id, 0)
+            if agent_count >= 2:
+                pattern_bonus += 0.3 * agent_count  # Repeated agent usage
+        
+        return pattern_bonus
+    
+    def _update_location_patterns(self, location_surv: LocationSurveillance, 
+                                mission_type: str, agent_ids: List[str]) -> None:
+        """Update pattern recognition for location"""
+        
+        # Update mission type patterns
+        location_surv.mission_type_patterns[mission_type] = \
+            location_surv.mission_type_patterns.get(mission_type, 0) + 1
+        
+        # Update agent signatures
+        for agent_id in agent_ids:
+            location_surv.agent_signatures[agent_id] = \
+                location_surv.agent_signatures.get(agent_id, 0) + 1
+        
+        # Calculate pattern recognition strength
+        total_missions = len(location_surv.mission_history)
+        if total_missions >= 3:
+            # Strong patterns = high repetition
+            max_agent_count = max(location_surv.agent_signatures.values()) if location_surv.agent_signatures else 0
+            max_type_count = max(location_surv.mission_type_patterns.values()) if location_surv.mission_type_patterns else 0
+            
+            pattern_strength = min(1.0, (max_agent_count + max_type_count) / (total_missions * 2))
+            location_surv.pattern_recognition = max(location_surv.pattern_recognition, pattern_strength)
+    
+    def _update_agent_surveillance(self, agent_id: str, location_id: str, mission_type: str) -> None:
+        """Update surveillance tracking for individual agent"""
+        
+        if agent_id not in self.agent_surveillance:
+            self.agent_surveillance[agent_id] = AgentSurveillance(agent_id=agent_id)
+        
+        agent_surv = self.agent_surveillance[agent_id]
+        
+        # Update locations visited
+        agent_surv.locations_visited.add(location_id)
+        
+        # Update mission type preferences
+        agent_surv.preferred_mission_types[mission_type] = \
+            agent_surv.preferred_mission_types.get(mission_type, 0) + 1
+        
+        # Calculate signature strength
+        total_missions = sum(agent_surv.preferred_mission_types.values())
+        location_count = len(agent_surv.locations_visited)
+        
+        if total_missions >= 3:
+            # High signature = predictable patterns
+            max_type_missions = max(agent_surv.preferred_mission_types.values())
+            type_concentration = max_type_missions / total_missions
+            location_concentration = total_missions / max(location_count, 1)
+            
+            agent_surv.signature_strength = min(1.0, (type_concentration + location_concentration) / 2)
+        
+        agent_surv.last_spotted = datetime.now()
+    
+    def _update_surveillance_level(self, location_surv: LocationSurveillance) -> None:
+        """Update surveillance level based on total heat"""
+        total_heat = location_surv.get_total_heat()
+        
+        # Determine new surveillance level
+        new_level = SurveillanceLevel.MINIMAL
+        for level, threshold in self.escalation_triggers.items():
+            if total_heat >= threshold:
+                new_level = level
+        
+        old_level = location_surv.surveillance_level
+        location_surv.surveillance_level = new_level
+        
+        if new_level.value > old_level.value:
+            logger.warning(f"Surveillance escalated to {new_level.name} at {location_surv.location_id}")
+            
+            # Trigger government response
+            if new_level.value >= SurveillanceLevel.HIGH.value:
+                location_surv.crackdown_timer = 3  # Government action in 3 turns
+            if new_level.value >= SurveillanceLevel.INTENSE.value:
+                location_surv.counter_ops_active = True
+    
+    def process_turn_decay(self) -> None:
+        """Process heat decay and surveillance changes over time"""
+        
+        for location_surv in self.location_surveillance.values():
+            # Decay current heat
+            location_surv.decay_current_heat()
+            
+            # Process crackdown timers
+            if location_surv.crackdown_timer > 0:
+                location_surv.crackdown_timer -= 1
+                if location_surv.crackdown_timer == 0:
+                    self._execute_government_crackdown(location_surv)
+            
+            # Update surveillance level after decay
+            self._update_surveillance_level(location_surv)
+    
+    def _execute_government_crackdown(self, location_surv: LocationSurveillance) -> Dict[str, Any]:
+        """Execute government crackdown based on surveillance level"""
+        
+        crackdown_effects = {
+            'location_id': location_surv.location_id,
+            'surveillance_level': location_surv.surveillance_level.name,
+            'effects': []
+        }
+        
+        if location_surv.surveillance_level.value >= SurveillanceLevel.HIGH.value:
+            # Increase base heat (permanent attention)
+            location_surv.base_heat = min(5.0, location_surv.base_heat + 1.0)
+            crackdown_effects['effects'].append('Permanent security increase')
+        
+        if location_surv.surveillance_level.value >= SurveillanceLevel.INTENSE.value:
+            # Counter-intelligence operations
+            location_surv.counter_ops_active = True
+            crackdown_effects['effects'].append('Counter-intelligence operations active')
+        
+        if location_surv.surveillance_level.value >= SurveillanceLevel.LOCKDOWN.value:
+            # Area restrictions
+            crackdown_effects['effects'].append('Area access restrictions imposed')
+        
+        logger.info(f"Government crackdown executed at {location_surv.location_id}: {crackdown_effects}")
+        
+        return crackdown_effects
+    
+    def get_pattern_disruption_bonus(self, agent_ids: List[str], location_id: str) -> float:
+        """Calculate heat reduction for breaking patterns"""
+        
+        if location_id not in self.location_surveillance:
+            return 0.25  # New location bonus
+        
+        location_surv = self.location_surveillance[location_id]
+        disruption_bonus = 0.0
+        
+        # Check for new agents
+        new_agents = [aid for aid in agent_ids if aid not in location_surv.agent_signatures]
+        if new_agents:
+            disruption_bonus += 0.15 * len(new_agents) / len(agent_ids)
+        
+        # Check for location pattern breaking (new location for agents)
+        for agent_id in agent_ids:
+            if agent_id in self.agent_surveillance:
+                agent_surv = self.agent_surveillance[agent_id]
+                if location_id not in agent_surv.locations_visited:
+                    disruption_bonus += 0.1  # New location for this agent
+        
+        return min(0.25, disruption_bonus)  # Cap at 25% reduction
+    
+    def get_surveillance_report(self, location_id: str) -> Dict[str, Any]:
+        """Get comprehensive surveillance report for location"""
+        
+        if location_id not in self.location_surveillance:
+            return {
+                'location_id': location_id,
+                'surveillance_level': 'MINIMAL',
+                'total_heat': 0.0,
+                'status': 'No significant activity recorded'
+            }
+        
+        location_surv = self.location_surveillance[location_id]
+        
+        return {
+            'location_id': location_id,
+            'surveillance_level': location_surv.surveillance_level.name,
+            'total_heat': location_surv.get_total_heat(),
+            'base_heat': location_surv.base_heat,
+            'current_heat': location_surv.current_heat,
+            'pattern_recognition': location_surv.pattern_recognition,
+            'mission_count': len(location_surv.mission_history),
+            'known_agents': len(location_surv.agent_signatures),
+            'counter_ops_active': location_surv.counter_ops_active,
+            'crackdown_timer': location_surv.crackdown_timer,
+            'last_activity': location_surv.last_activity.isoformat() if location_surv.last_activity else None
+        } 

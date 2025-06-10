@@ -316,6 +316,32 @@ ITERATION 014 - 2025-06-10T15:05:00
 **Test Status**: Ready for validation
 **Health Impact**: Should improve overall health from 0.97 → 0.98+ (strategic depth boost)
 
+ITERATION 015 - 2025-06-10T15:20:00
+------------------------------------
+**Priority**: State Surveillance & Heat Scaling - Dynamic Government Response
+**Issue**: Static surveillance system doesn't react to agent activities, location symbolism, or escalating resistance operations, making government response feel disconnected from player actions
+**Solution**: Implemented comprehensive surveillance AI with dynamic heat scaling, pattern recognition, and location-based crackdown intensity that adapts to resistance behavior and symbolic significance
+**File**: src/game/intelligence_system.py
+**Lines Changed**: 165 (SurveillanceLevel enum + LocationSurveillance + AgentSurveillance + SurveillanceAI class)
+**New Features**:
+- Dynamic heat accumulation system: base heat + location modifiers + pattern bonuses + symbolic amplifiers
+- Surveillance AI pattern recognition: identifies repeated locations, mission types, and agent signatures
+- Location-based crackdown intensity: Martyr Sites and Media Hubs trigger 2x government response
+- Escalation triggers: surveillance levels 1-10 with distinct government responses per tier
+- Pattern disruption bonuses: changing tactics reduces heat accumulation by 15-25%
+- Symbolic location memory: government "learns" resistance hotspots and increases permanent surveillance
+- Agent signature tracking: repeated use of same agents creates recognizable patterns (+20% heat)
+**Expected Impact**:
+- Creates reactive surveillance state that adapts to resistance strategy and escalates appropriately
+- Incentivizes tactical diversity and strategic location rotation to avoid pattern recognition  
+- Makes symbolic geography consequential - operations at Media Hubs draw intense government attention
+- Enables emergent cat-and-mouse gameplay where surveillance AI learns and responds to player behavior
+- Provides foundation for counter-intelligence operations and surveillance evasion mechanics
+- Forces strategic planning around heat management and government escalation cycles
+
+**Test Status**: Ready for validation - needs integration testing with mission execution system
+**Health Impact**: Should improve overall health from 0.98 → 0.985+ (reactive AI systems boost)
+
 ========================================
 ITERATION BLOCK 1 COMPLETE (6-10)
 ========================================

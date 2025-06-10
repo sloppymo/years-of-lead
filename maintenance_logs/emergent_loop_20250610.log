@@ -537,3 +537,33 @@ Focus: Autonomous AI factions, political complexity, ecosystem simulation
 ========================================
 TOTAL ITERATIONS COMPLETED: 021
 ========================================
+
+ITERATION 022 - 2025-06-10T17:15:00
+------------------------------------
+**Priority**: Factional Rivalry & Splinter Systems - Inter-Faction Dynamics & Political Fragmentation
+**Issue**: Revolutionary factions lack deep inter-faction relationships, ideological splits, and realistic political escalation patterns
+**Solution**: Implemented comprehensive rivalry system with bi-directional relationships, faction splinter mechanics, and dynamic conflict resolution
+**File**: src/game/revolutionary_ecosystem.py
+**Lines Changed**: 210 (FactionRelationship + FactionConflictEvent + splinter mechanics + relationship management)
+**New Features**:
+- Inter-Faction Relationship System: bi-directional trust ratings (-100 to +100), rivalry intensity tracking, cooperation cooldowns, sabotage penalties
+- Faction Splinter Framework: internal divergence tracking (0-1), threshold-based splits (0.7 trigger), faction inheritance (agents, support, territory)
+- 9 conflict event types: #fracture_revolution, #martyr_split, #covert_rivalry, #doctrinal_domination, #territorial_dispute, #propaganda_war, #defection_campaign, #resource_competition, #betrayal_exposure
+- Dynamic conflict resolution: propaganda wars based on media power, territorial disputes with casualty/martyr mechanics, defection campaigns with support transfer
+- Ecosystem relationship tracking: initial trust calculation based on ideology compatibility, aggression differences, territory overlap
+- Splinter faction creation: 20-40% support inheritance, territory division, automatic rivalry establishment, reduced operational capacity
+- Internal divergence system: influenced by failed operations, high heat, multiple rivalries, low unity, high aggression
+- Faction split triggers: martyrdom disagreements, ideological fractures, doctrinal domination with narrative generation
+**Expected Impact**:
+- Creates realistic political fragmentation where revolutionary movements naturally splinter under pressure
+- Enables emergent rivalry narratives through territorial disputes, propaganda wars, and defection campaigns
+- Provides foundation for complex alliance formation, betrayal storylines, and ideological conflict resolution
+- Establishes authentic political ecosystem where faction relationships evolve dynamically based on actions and outcomes
+- Creates strategic depth through relationship management and internal unity maintenance requirements
+
+**Test Status**: Successfully validated - faction split executed (Black Flag Collective → Black Liberation Front), rivalry established (-60 trust, 40 rivalry intensity)
+**Health Impact**: Should improve overall health from 1.0+ → 1.01+ (political dynamism and narrative volatility boost)
+
+========================================
+TOTAL ITERATIONS COMPLETED: 022
+========================================

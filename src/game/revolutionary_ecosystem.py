@@ -7,7 +7,7 @@ alongside the player, creating a dynamic ecosystem of competing resistance movem
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Any
 from enum import Enum
 import random
 
@@ -33,6 +33,184 @@ class FactionActivityType(Enum):
     UNDERGROUND_ORGANIZING = "underground_organizing" # Cell network building
     RIVAL_CONFRONTATION = "rival_confrontation"     # Fighting other factions
     COOPERATION_MISSION = "cooperation_mission"     # Joint operations
+    
+    # Rivalry & Splinter Activities - ITERATION 022
+    PROPAGANDA_WAR = "propaganda_war"              # Media campaign against rival faction
+    INFILTRATION_OPERATION = "infiltration_operation" # Infiltrating rival faction
+    DEFECTION_CAMPAIGN = "defection_campaign"      # Encouraging rival defections
+    IDEOLOGICAL_PURGE = "ideological_purge"       # Internal faction purification
+
+
+class FactionConflictType(Enum):
+    """Types of inter-faction conflicts"""
+    FRACTURE_REVOLUTION = "fracture_revolution"    # Major ideological split
+    MARTYR_SPLIT = "martyr_split"                 # Split over martyrdom interpretation
+    COVERT_RIVALRY = "covert_rivalry"             # Hidden competition
+    DOCTRINAL_DOMINATION = "doctrinal_domination" # One faction claiming ideological supremacy
+    TERRITORIAL_DISPUTE = "territorial_dispute"    # Fighting over territory
+    RESOURCE_COMPETITION = "resource_competition"  # Competing for funding/recruits
+    BETRAYAL_EXPOSURE = "betrayal_exposure"       # Revealing faction betrayals
+    
+    # Additional conflict types for rivalry resolution - ITERATION 022
+    PROPAGANDA_WAR = "propaganda_war"             # Media campaign between factions
+    DEFECTION_CAMPAIGN = "defection_campaign"     # Encouraging rival defections
+
+
+@dataclass
+class FactionRelationship:
+    """Bi-directional relationship between two factions"""
+    faction_a: str  # Faction name
+    faction_b: str  # Faction name
+    trust_rating: float = 0.0           # -100 to +100, trust/hostility level
+    rivalry_intensity: float = 0.0      # 0-100, how intense their rivalry is
+    cooperation_cooldown: int = 0       # Days until they can cooperate again
+    sabotage_penalties: float = 0.0     # Accumulated sabotage damage
+    
+    # Historical tracking
+    major_conflicts: List[str] = field(default_factory=list)
+    cooperation_history: List[str] = field(default_factory=list)
+    last_interaction_date: Optional[datetime] = None
+    
+    def adjust_trust(self, change: float, reason: str) -> None:
+        """Adjust trust rating with bounds checking"""
+        old_trust = self.trust_rating
+        self.trust_rating = max(-100.0, min(100.0, self.trust_rating + change))
+        
+        # Log significant changes
+        if abs(change) > 10.0:
+            interaction_record = f"{reason}: {old_trust:.1f} → {self.trust_rating:.1f}"
+            if change > 0:
+                self.cooperation_history.append(interaction_record)
+            else:
+                self.major_conflicts.append(interaction_record)
+        
+        self.last_interaction_date = datetime.now()
+    
+    def escalate_rivalry(self, intensity_increase: float, conflict_type: str) -> None:
+        """Escalate rivalry between factions"""
+        self.rivalry_intensity = min(100.0, self.rivalry_intensity + intensity_increase)
+        self.major_conflicts.append(f"{conflict_type}_{datetime.now().strftime('%Y%m%d')}")
+        
+        # Rivalry reduces trust
+        trust_damage = intensity_increase * 0.5
+        self.adjust_trust(-trust_damage, f"Rivalry escalation: {conflict_type}")
+
+
+@dataclass
+class FactionConflictEvent:
+    """Dynamic faction conflict event with narrative consequences"""
+    conflict_type: FactionConflictType
+    primary_faction: str
+    target_faction: str
+    trigger_date: datetime
+    description: str
+    intensity: float = 1.0              # 0-3, how severe the conflict is
+    
+    # Outcome tracking
+    winner: Optional[str] = None
+    consequences: Dict[str, Any] = field(default_factory=dict)
+    momentum_impact: float = 0.0
+    public_attention: float = 0.0       # How much public notice this gets
+    
+    def resolve_conflict(self, primary_faction_obj: 'RevolutionaryFaction',
+                        target_faction_obj: 'RevolutionaryFaction',
+                        ecosystem: 'RevolutionaryEcosystem') -> Dict[str, Any]:
+        """Resolve the faction conflict and apply consequences"""
+        resolution_results = {
+            'conflict_type': self.conflict_type.value,
+            'primary_faction': self.primary_faction,
+            'target_faction': self.target_faction,
+            'winner': None,
+            'consequences': [],
+            'momentum_impact': 0.0
+        }
+        
+        if self.conflict_type == FactionConflictType.PROPAGANDA_WAR:
+            # Media war between factions
+            primary_media_power = primary_faction_obj.media_reach * primary_faction_obj.public_support
+            target_media_power = target_faction_obj.media_reach * target_faction_obj.public_support
+            
+            if primary_media_power > target_media_power * 1.3:
+                # Primary faction wins decisively
+                self.winner = self.primary_faction
+                primary_faction_obj.public_support += 5.0
+                target_faction_obj.public_support -= 8.0
+                primary_faction_obj.media_reach = min(1.0, primary_faction_obj.media_reach + 0.1)
+                resolution_results['consequences'].append(f"{self.primary_faction} dominates media narrative")
+                self.momentum_impact = 2.0
+            elif primary_media_power > target_media_power:
+                # Narrow victory
+                self.winner = self.primary_faction
+                primary_faction_obj.public_support += 2.0
+                target_faction_obj.public_support -= 3.0
+                resolution_results['consequences'].append(f"{self.primary_faction} wins media battle")
+                self.momentum_impact = 1.0
+            else:
+                # Target faction resists or wins
+                target_faction_obj.public_support += 3.0
+                primary_faction_obj.public_support -= 2.0
+                resolution_results['consequences'].append(f"{self.target_faction} successfully defends against propaganda")
+                self.momentum_impact = -1.0
+        
+        elif self.conflict_type == FactionConflictType.TERRITORIAL_DISPUTE:
+            # Fighting over territory control
+            primary_strength = primary_faction_obj.operational_capacity * primary_faction_obj.aggression
+            target_strength = target_faction_obj.operational_capacity * target_faction_obj.aggression
+            
+            if primary_strength > target_strength * 1.5:
+                # Primary faction takes territory
+                self.winner = self.primary_faction
+                if target_faction_obj.territory_zones:
+                    seized_territory = random.choice(target_faction_obj.territory_zones)
+                    target_faction_obj.territory_zones.remove(seized_territory)
+                    primary_faction_obj.territory_zones.append(seized_territory)
+                    primary_faction_obj.territories_gained.append(seized_territory)
+                    target_faction_obj.territories_lost.append(seized_territory)
+                    resolution_results['consequences'].append(f"{self.primary_faction} seizes {seized_territory}")
+                    self.momentum_impact = 3.0
+            elif random.random() < 0.3:  # 30% chance of casualties in territorial disputes
+                # Bloody stalemate with martyrs
+                primary_casualties = random.randint(1, 2)
+                target_casualties = random.randint(1, 2)
+                
+                for _ in range(primary_casualties):
+                    primary_faction_obj.martyrs_created.append(f"territorial_martyr_{datetime.now().strftime('%Y%m%d')}")
+                for _ in range(target_casualties):
+                    target_faction_obj.martyrs_created.append(f"territorial_martyr_{datetime.now().strftime('%Y%m%d')}")
+                
+                # Martyrs boost support but reduce operational capacity
+                primary_faction_obj.public_support += primary_casualties * 4.0
+                target_faction_obj.public_support += target_casualties * 4.0
+                primary_faction_obj.operational_capacity = max(0.3, primary_faction_obj.operational_capacity - 0.1)
+                target_faction_obj.operational_capacity = max(0.3, target_faction_obj.operational_capacity - 0.1)
+                
+                resolution_results['consequences'].append(f"Bloody territorial clash: {primary_casualties + target_casualties} martyrs created")
+                self.momentum_impact = 2.5  # Martyrs create momentum
+        
+        elif self.conflict_type == FactionConflictType.DEFECTION_CAMPAIGN:
+            # Attempting to encourage defections
+            defection_appeal = primary_faction_obj.cooperation * (100 - target_faction_obj.public_support) / 100
+            
+            if defection_appeal > 0.6 and random.random() < 0.4:
+                # Successful defection campaign
+                self.winner = self.primary_faction
+                support_transfer = random.uniform(3.0, 8.0)
+                primary_faction_obj.public_support += support_transfer
+                target_faction_obj.public_support -= support_transfer * 1.2  # Defections hurt more than they help
+                resolution_results['consequences'].append(f"Defection campaign draws {support_transfer:.1f}% support away from {self.target_faction}")
+                self.momentum_impact = 1.5
+            else:
+                # Failed defection campaign backfires
+                primary_faction_obj.public_support -= 2.0
+                target_faction_obj.public_support += 1.0  # Unity against external pressure
+                resolution_results['consequences'].append(f"Failed defection campaign strengthens {self.target_faction} unity")
+                self.momentum_impact = -0.5
+        
+        # Apply momentum impact
+        resolution_results['momentum_impact'] = self.momentum_impact
+        self.consequences = resolution_results['consequences']
+        
+        return resolution_results
 
 
 @dataclass
@@ -72,6 +250,18 @@ class RevolutionaryFaction:
     funding_level: float = 0.5           # 0-1, financial resources
     government_heat: float = 5.0         # 0-10, government attention/pressure
     
+    # Faction Rivalry & Splinter System - ITERATION 022
+    internal_divergence: float = 0.0      # 0-1, internal ideological disagreement
+    faction_unity: float = 1.0           # 0-1, how cohesive the faction is
+    split_threshold: float = 0.7         # When internal_divergence exceeds this, faction may split
+    rivalry_targets: Set[str] = field(default_factory=set)  # Faction names we actively rival
+    
+    # Splinter tracking
+    is_splinter_faction: bool = False
+    parent_faction: Optional[str] = None
+    splinter_date: Optional[datetime] = None
+    inherited_support: float = 0.0       # Support inherited from parent faction
+    
     def execute_turn_activity(self, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, any]:
         """Execute this faction's activity for the current turn"""
         activity_results = {
@@ -81,6 +271,12 @@ class RevolutionaryFaction:
             'city_effects': {},
             'narrative_events': []
         }
+        
+        # Check for faction split before other activities
+        split_result = self.check_faction_split(ecosystem)
+        if split_result:
+            activity_results['faction_split'] = split_result
+            return activity_results  # Faction split interrupts normal activity
         
         # Check if current activity is complete
         if (datetime.now() - self.activity_start_date).days >= self.activity_duration_days:
@@ -96,7 +292,200 @@ class RevolutionaryFaction:
         ongoing_effects = self._apply_ongoing_activity_effects(ecosystem)
         activity_results['ongoing_effects'] = ongoing_effects
         
+        # Update internal divergence based on activities and outcomes
+        self._update_internal_divergence(ecosystem)
+        
         return activity_results
+    
+    def check_faction_split(self, ecosystem: 'RevolutionaryEcosystem') -> Optional[Dict[str, Any]]:
+        """Check if faction should split due to internal divergence - ITERATION 022"""
+        if self.internal_divergence < self.split_threshold:
+            return None
+        
+        # Additional split conditions
+        split_probability = (self.internal_divergence - self.split_threshold) * 2.0
+        
+        # Factors that increase split probability
+        if self.faction_unity < 0.4:
+            split_probability += 0.3
+        
+        if len(self.martyrs_created) >= 3:  # Many martyrs can cause ideological splits
+            split_probability += 0.2
+        
+        if self.public_support < 20.0:  # Low support increases internal stress
+            split_probability += 0.2
+        
+        # Random chance of split
+        if random.random() < split_probability:
+            return self._execute_faction_split(ecosystem)
+        
+        return None
+    
+    def _execute_faction_split(self, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, Any]:
+        """Execute a faction split - ITERATION 022"""
+        split_results = {
+            'event_type': 'faction_split',
+            'parent_faction': self.name,
+            'split_reason': '',
+            'new_faction_name': '',
+            'support_division': {},
+            'territory_division': {}
+        }
+        
+        # Determine split type and reason
+        if len(self.martyrs_created) >= 2:
+            split_type = FactionConflictType.MARTYR_SPLIT
+            split_results['split_reason'] = "Disagreement over martyrdom tactics and commemoration"
+            splinter_suffix = "Memorial Brigade"
+        elif self.ideology == FactionIdeology.SOCIALIST and random.random() < 0.6:
+            split_type = FactionConflictType.FRACTURE_REVOLUTION  
+            split_results['split_reason'] = "Ideological fracture over revolutionary methods"
+            splinter_suffix = "Revolutionary Guard"
+        else:
+            split_type = FactionConflictType.DOCTRINAL_DOMINATION
+            split_results['split_reason'] = "Doctrinal disagreement leading to faction purge"
+            splinter_suffix = "Liberation Front"
+        
+        # Create splinter faction
+        splinter_name = f"{self.name.split()[0]} {splinter_suffix}"
+        split_results['new_faction_name'] = splinter_name
+        
+        # Determine support and territory division
+        splinter_support_ratio = random.uniform(0.2, 0.4)  # Splinter gets 20-40% of original support
+        original_support = self.public_support
+        
+        splinter_support = original_support * splinter_support_ratio
+        remaining_support = original_support * (1 - splinter_support_ratio) * 0.8  # Some support lost in split
+        
+        # Create splinter faction
+        splinter_faction = RevolutionaryFaction(
+            name=splinter_name,
+            ideology=self.ideology,  # Same ideology but different interpretation
+            aggression=min(1.0, self.aggression + random.uniform(-0.2, 0.3)),  # Slightly different aggression
+            cooperation=max(0.0, self.cooperation - 0.2),  # Less cooperative after split
+            public_support=splinter_support,
+            media_reach=self.media_reach * 0.6,  # Reduced media reach
+            is_splinter_faction=True,
+            parent_faction=self.name,
+            splinter_date=datetime.now(),
+            inherited_support=splinter_support
+        )
+        
+        # Divide territories
+        if len(self.territory_zones) > 1:
+            territories_to_split = random.sample(self.territory_zones, 
+                                               len(self.territory_zones) // 2)
+            for territory in territories_to_split:
+                self.territory_zones.remove(territory)
+                splinter_faction.territory_zones.append(territory)
+            
+            split_results['territory_division'] = {
+                'original_keeps': self.territory_zones,
+                'splinter_gets': splinter_faction.territory_zones
+            }
+        
+        # Update original faction
+        self.public_support = remaining_support
+        self.faction_unity = 0.3  # Low unity after split
+        self.internal_divergence = 0.1  # Reset divergence
+        self.operational_capacity = max(0.4, self.operational_capacity - 0.3)  # Reduced capacity
+        
+        # Add rivalry between original and splinter
+        self.rivalry_targets.add(splinter_name)
+        splinter_faction.rivalry_targets.add(self.name)
+        
+        # Add splinter faction to ecosystem
+        ecosystem.active_factions.append(splinter_faction)
+        
+        # Create faction relationship with immediate hostility
+        relationship_key = f"{self.name}_{splinter_name}"
+        ecosystem.faction_relationships[relationship_key] = FactionRelationship(
+            faction_a=self.name,
+            faction_b=splinter_name,
+            trust_rating=-60.0,  # Immediate hostility after split
+            rivalry_intensity=40.0
+        )
+        
+        split_results['support_division'] = {
+            'original_faction': remaining_support,
+            'splinter_faction': splinter_support,
+            'support_lost': original_support - remaining_support - splinter_support
+        }
+        
+        return split_results
+    
+    def _update_internal_divergence(self, ecosystem: 'RevolutionaryEcosystem') -> None:
+        """Update internal ideological divergence based on faction activities and outcomes"""
+        # Base divergence change
+        divergence_change = 0.0
+        
+        # Failed operations increase divergence
+        recent_failures = len([op for op in self.major_operations[-3:] if 'failed' in op.lower()])
+        divergence_change += recent_failures * 0.05
+        
+        # High government heat increases internal stress
+        if self.government_heat > 7.0:
+            divergence_change += 0.02
+        
+        # Rivalry with other factions can cause internal disagreement
+        if len(self.rivalry_targets) > 1:
+            divergence_change += 0.03
+        
+        # Low unity accelerates divergence
+        if self.faction_unity < 0.5:
+            divergence_change += 0.04
+        
+        # High aggression factions are more prone to splits
+        if self.aggression > 0.7:
+            divergence_change += 0.02
+        
+        # Success and good leadership reduce divergence
+        if self.public_support > 40.0:
+            divergence_change -= 0.02
+        
+        if self.operational_capacity > 1.5:
+            divergence_change -= 0.03
+        
+        # Apply change with bounds
+        self.internal_divergence = max(0.0, min(1.0, self.internal_divergence + divergence_change))
+        
+        # Unity tends to correlate inversely with divergence
+        self.faction_unity = max(0.1, min(1.0, 1.0 - self.internal_divergence * 0.8))
+    
+    def initiate_rivalry_action(self, target_faction: 'RevolutionaryFaction',
+                              ecosystem: 'RevolutionaryEcosystem') -> Optional[FactionConflictEvent]:
+        """Initiate a rivalry action against another faction - ITERATION 022"""
+        if target_faction.name not in self.rivalry_targets:
+            return None
+        
+        # Determine conflict type based on faction characteristics
+        possible_conflicts = []
+        
+        if self.media_reach > 0.4:
+            possible_conflicts.append(FactionConflictType.PROPAGANDA_WAR)
+        
+        if any(city in target_faction.territory_zones for city in self.territory_zones):
+            possible_conflicts.append(FactionConflictType.TERRITORIAL_DISPUTE)
+        
+        if self.cooperation > 0.3:  # Paradoxically, cooperative factions can run defection campaigns
+            possible_conflicts.append(FactionConflictType.DEFECTION_CAMPAIGN)
+        
+        if not possible_conflicts:
+            possible_conflicts.append(FactionConflictType.COVERT_RIVALRY)
+        
+        conflict_type = random.choice(possible_conflicts)
+        
+        # Create conflict event
+        conflict_event = FactionConflictEvent(
+            conflict_type=conflict_type,
+            primary_faction=self.name,
+            target_faction=target_faction.name,
+            trigger_date=datetime.now(),
+            description=f"{self.name} initiates {conflict_type.value} against {target_faction.name}",
+            intensity=random.uniform(1.0, 2.5)
+        )
+        
+        return conflict_event
     
     def _complete_current_activity(self, ecosystem: 'RevolutionaryEcosystem') -> List[str]:
         """Complete current activity and apply its effects"""
@@ -349,6 +738,11 @@ class RevolutionaryEcosystem:
     uprising_clock: UprisingClock = field(default_factory=UprisingClock)
     city_reputations: Dict[str, any] = field(default_factory=dict)  # Reference to campaign city data
     
+    # Inter-faction relationship system - ITERATION 022
+    faction_relationships: Dict[str, FactionRelationship] = field(default_factory=dict)
+    active_conflicts: List[FactionConflictEvent] = field(default_factory=list)
+    conflict_history: List[FactionConflictEvent] = field(default_factory=list)
+    
     def initialize_default_factions(self) -> None:
         """Initialize 2-3 default AI factions for testing"""
         # Socialist Workers' Movement
@@ -392,6 +786,58 @@ class RevolutionaryEcosystem:
         )
         
         self.active_factions = [socialist_faction, anarchist_faction, nationalist_faction]
+        
+        # Initialize inter-faction relationships - ITERATION 022
+        self._initialize_faction_relationships()
+    
+    def _initialize_faction_relationships(self) -> None:
+        """Initialize relationships between all factions"""
+        for i, faction_a in enumerate(self.active_factions):
+            for j, faction_b in enumerate(self.active_factions):
+                if i < j:  # Avoid duplicate relationships
+                    relationship_key = f"{faction_a.name}_{faction_b.name}"
+                    
+                    # Calculate initial trust based on ideological compatibility
+                    initial_trust = self._calculate_initial_trust(faction_a, faction_b)
+                    
+                    relationship = FactionRelationship(
+                        faction_a=faction_a.name,
+                        faction_b=faction_b.name,
+                        trust_rating=initial_trust
+                    )
+                    
+                    self.faction_relationships[relationship_key] = relationship
+                    
+                    # Set up initial rivalries for opposing ideologies
+                    if initial_trust < -20.0:
+                        faction_a.rivalry_targets.add(faction_b.name)
+                        faction_b.rivalry_targets.add(faction_a.name)
+                        relationship.rivalry_intensity = 20.0
+    
+    def _calculate_initial_trust(self, faction_a: RevolutionaryFaction, 
+                               faction_b: RevolutionaryFaction) -> float:
+        """Calculate initial trust between two factions based on ideology"""
+        # Base compatibility
+        if faction_a.ideology == faction_b.ideology:
+            base_trust = 30.0  # Same ideology = positive start
+        elif faction_a._are_ideologically_opposed(faction_b):
+            base_trust = -40.0  # Opposing ideologies = hostility
+        else:
+            base_trust = 0.0  # Neutral ideologies
+        
+        # Cooperation levels affect trust
+        cooperation_factor = (faction_a.cooperation + faction_b.cooperation) * 15.0
+        
+        # Aggression differences create tension
+        aggression_difference = abs(faction_a.aggression - faction_b.aggression)
+        aggression_penalty = aggression_difference * -20.0
+        
+        # Territory overlap creates tension
+        territory_overlap = len(set(faction_a.territory_zones) & set(faction_b.territory_zones))
+        territory_penalty = territory_overlap * -15.0
+        
+        final_trust = base_trust + cooperation_factor + aggression_penalty + territory_penalty
+        return max(-100.0, min(100.0, final_trust))
     
     def simulate_ecosystem_turn(self) -> Dict[str, any]:
         """Simulate one turn of the revolutionary ecosystem"""
@@ -399,6 +845,8 @@ class RevolutionaryEcosystem:
             'date': self.uprising_clock.current_date,
             'faction_activities': [],
             'major_events': [],
+            'faction_conflicts': [],
+            'faction_splits': [],
             'ecosystem_changes': {}
         }
         
@@ -406,9 +854,19 @@ class RevolutionaryEcosystem:
         self.uprising_clock.advance_day()
         
         # Each faction executes their turn
-        for faction in self.active_factions:
+        for faction in self.active_factions[:]:  # Use slice to allow list modification
             faction_results = faction.execute_turn_activity(self)
             turn_results['faction_activities'].append(faction_results)
+            
+            # Handle faction splits
+            if 'faction_split' in faction_results:
+                turn_results['faction_splits'].append(faction_results['faction_split'])
+                self.uprising_clock.record_faction_event(
+                    faction.name,
+                    "faction_split",
+                    f"Faction split: {faction_results['faction_split']['split_reason']}",
+                    -5.0  # Splits generally hurt momentum
+                )
             
             # Record significant events
             if faction_results['outcomes']:
@@ -421,11 +879,132 @@ class RevolutionaryEcosystem:
                         momentum_impact
                     )
         
+        # Process inter-faction rivalries and conflicts
+        rivalry_conflicts = self._process_faction_rivalries()
+        turn_results['faction_conflicts'] = rivalry_conflicts
+        
+        # Resolve active conflicts
+        resolved_conflicts = self._resolve_active_conflicts()
+        if resolved_conflicts:
+            turn_results['major_events'].extend(resolved_conflicts)
+        
         # Check for ecosystem-wide events
         ecosystem_events = self._check_ecosystem_events()
-        turn_results['major_events'] = ecosystem_events
+        turn_results['major_events'].extend(ecosystem_events)
         
         return turn_results
+    
+    def _process_faction_rivalries(self) -> List[Dict[str, Any]]:
+        """Process rivalry actions between factions - ITERATION 022"""
+        rivalry_events = []
+        
+        for faction in self.active_factions:
+            if faction.rivalry_targets and random.random() < 0.3:  # 30% chance of rivalry action
+                # Select a random rival
+                target_name = random.choice(list(faction.rivalry_targets))
+                target_faction = next((f for f in self.active_factions if f.name == target_name), None)
+                
+                if target_faction:
+                    conflict_event = faction.initiate_rivalry_action(target_faction, self)
+                    if conflict_event:
+                        self.active_conflicts.append(conflict_event)
+                        rivalry_events.append({
+                            'initiator': faction.name,
+                            'target': target_faction.name,
+                            'conflict_type': conflict_event.conflict_type.value,
+                            'description': conflict_event.description
+                        })
+        
+        return rivalry_events
+    
+    def _resolve_active_conflicts(self) -> List[str]:
+        """Resolve active faction conflicts and return narrative results"""
+        resolved_events = []
+        
+        for conflict in self.active_conflicts[:]:  # Use slice to allow list modification
+            # Find the faction objects
+            primary_faction = next((f for f in self.active_factions if f.name == conflict.primary_faction), None)
+            target_faction = next((f for f in self.active_factions if f.name == conflict.target_faction), None)
+            
+            if primary_faction and target_faction:
+                resolution = conflict.resolve_conflict(primary_faction, target_faction, self)
+                
+                # Update faction relationship
+                relationship = self._get_faction_relationship(conflict.primary_faction, conflict.target_faction)
+                if relationship:
+                    if conflict.winner == conflict.primary_faction:
+                        relationship.adjust_trust(-10.0, f"Lost {conflict.conflict_type.value}")
+                        relationship.escalate_rivalry(5.0, conflict.conflict_type.value)
+                    elif conflict.winner == conflict.target_faction:
+                        relationship.adjust_trust(-5.0, f"Failed {conflict.conflict_type.value}")
+                        relationship.escalate_rivalry(3.0, conflict.conflict_type.value)
+                    else:
+                        relationship.escalate_rivalry(2.0, conflict.conflict_type.value)
+                
+                # Create narrative event
+                consequence_text = "; ".join(resolution['consequences'])
+                event_description = f"{conflict.conflict_type.value.replace('_', ' ').title()}: {consequence_text}"
+                resolved_events.append(event_description)
+                
+                # Record in uprising clock
+                self.uprising_clock.record_faction_event(
+                    conflict.primary_faction,
+                    conflict.conflict_type.value,
+                    event_description,
+                    conflict.momentum_impact
+                )
+                
+                # Move to history
+                self.conflict_history.append(conflict)
+            
+            # Remove from active conflicts
+            self.active_conflicts.remove(conflict)
+        
+        return resolved_events
+    
+    def _get_faction_relationship(self, faction_a_name: str, faction_b_name: str) -> Optional[FactionRelationship]:
+        """Get relationship between two factions (order independent)"""
+        key1 = f"{faction_a_name}_{faction_b_name}"
+        key2 = f"{faction_b_name}_{faction_a_name}"
+        
+        return self.faction_relationships.get(key1) or self.faction_relationships.get(key2)
+    
+    def get_faction_relationship_summary(self) -> Dict[str, Any]:
+        """Get summary of all faction relationships"""
+        summary = {
+            'total_relationships': len(self.faction_relationships),
+            'hostile_relationships': 0,
+            'neutral_relationships': 0,
+            'friendly_relationships': 0,
+            'active_rivalries': 0,
+            'relationship_details': []
+        }
+        
+        for relationship in self.faction_relationships.values():
+            trust = relationship.trust_rating
+            
+            if trust < -20.0:
+                summary['hostile_relationships'] += 1
+                status = "HOSTILE"
+            elif trust > 20.0:
+                summary['friendly_relationships'] += 1
+                status = "FRIENDLY"
+            else:
+                summary['neutral_relationships'] += 1
+                status = "NEUTRAL"
+            
+            if relationship.rivalry_intensity > 30.0:
+                summary['active_rivalries'] += 1
+            
+            summary['relationship_details'].append({
+                'factions': f"{relationship.faction_a} ↔ {relationship.faction_b}",
+                'trust': trust,
+                'status': status,
+                'rivalry_intensity': relationship.rivalry_intensity,
+                'major_conflicts': len(relationship.major_conflicts)
+            })
+        
+        return summary
     
     def _calculate_momentum_impact(self, faction: RevolutionaryFaction, outcome: str) -> float:
         """Calculate how faction activity affects national uprising momentum"""

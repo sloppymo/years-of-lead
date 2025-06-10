@@ -10,7 +10,7 @@ Macro-arc scaffolding for Years of Lead campaign progression including:
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Any
 from enum import Enum
 import random
 

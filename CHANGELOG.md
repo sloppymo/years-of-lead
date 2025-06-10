@@ -1,5 +1,82 @@
 # Years of Lead - Changelog & Implementation Plan
 
+## Version 1.2.0 - Phase 2 Mission Execution System (2025-01-17)
+
+### 🎯 Phase 2: Mission Execution System Integration (COMPLETED)
+
+#### New Systems Implemented
+
+##### 1. Turn-Based Tactical Resolution Engine
+- **Phase-Based Mission Execution**: 5-phase structure (Planning → Infiltration → Execution → Extraction → Aftermath)
+- **Modular Phase Resolution**: Each phase independently resolved with unique mechanics and outcomes
+- **Dynamic Success Calculation**: Multi-factor success determination based on skills, psychology, and environment
+- **Cascading Failure Detection**: Missions can spiral into disasters through panic, betrayal, or complications
+- **Equipment Integration**: Equipment affects mission outcomes and capabilities
+
+##### 2. Psychological Integration During Missions
+- **Trauma Triggers in Action**: Agents can experience flashbacks during critical moments
+- **Stress-Based Performance**: High stress reduces effectiveness and increases error probability
+- **Panic Episodes**: Agents can break down under pressure, affecting team cohesion
+- **Trait-Based Behavior**: Personality traits directly influence decision-making (e.g., reckless agents take risks)
+- **Betrayal Mechanics**: Real-time betrayal calculations based on fear, relationships, and ideology
+
+##### 3. Emergent Narrative Events
+- **Dramatic Event Generation**: Random narrative moments that create memorable stories
+- **Complication System**: 4 severity levels (Minor → Moderate → Major → Catastrophic)
+- **Heroic Moments**: Agents can rise to the occasion, creating propaganda victories
+- **Betrayal Drama**: Shocking betrayals create lasting narrative impact
+- **Media Reactions**: Mission outcomes generate public opinion shifts
+
+##### 4. Mission Outcome System
+- **6 Outcome Types**: Critical Success, Success, Partial Success, Failure, Disaster, Aborted
+- **Comprehensive Reporting**: Detailed mission reports with narrative summaries
+- **Performance Tracking**: Individual agent performance scores with modifiers
+- **Propaganda Value**: Missions generate symbolic impact for the resistance
+- **Resource Management**: Missions affect resources, equipment, and personnel
+
+##### 5. Legal & Intelligence Integration
+- **Crime Recording**: Captured agents face specific charges based on actions
+- **Heat Generation**: Failed operations increase government attention
+- **Intelligence Events**: Missions generate intelligence for future operations
+- **Government Response**: High-profile operations trigger crackdowns
+
+#### Technical Improvements
+- **Observable Architecture**: All mission phases generate detailed logs
+- **Composable Design**: Mission executor integrates cleanly with existing systems
+- **Narrative Generation**: Dedicated narrative generator creates compelling summaries
+- **Performance Metrics**: Detailed tracking of all mission aspects
+- **Error Resilience**: Robust handling of edge cases and system failures
+
+#### Key Features
+- **MissionExecutor Class**: Central orchestrator for all mission operations
+- **AgentPerformance Tracking**: Detailed metrics for each agent's contribution
+- **MissionReport Generation**: Comprehensive narrative and statistical reports
+- **NarrativeGenerator**: Creates dynamic, context-aware mission summaries
+- **Failure Recovery Hooks**: Failed missions create rescue opportunities
+
+### 📊 Implementation Statistics
+- **New Files**: 3 (mission_execution.py, test_mission_outcomes.py, test_phase2_implementation.py)
+- **Lines Added**: ~2,200 new lines of code
+- **New Classes**: 8 major classes (MissionExecutor, MissionReport, AgentPerformance, etc.)
+- **Test Coverage**: 60+ comprehensive test cases
+- **Integration Points**: 5 systems (emotional, relationships, legal, intelligence, character)
+
+### 🧪 Testing Results
+- **Unit Tests**: All mission phases tested independently
+- **Integration Tests**: Full mission flow validated with all systems
+- **Edge Cases**: Betrayal cascades, total team failure, trauma episodes tested
+- **Narrative Quality**: Generated narratives are coherent and dramatic
+- **Performance**: Efficient execution even with complex team dynamics
+
+### 🎮 Gameplay Impact
+- **Tactical Depth**: Players must consider agent psychology when planning missions
+- **Emergent Stories**: Each mission creates unique narrative moments
+- **Long-term Consequences**: Mission outcomes affect future operations
+- **Risk/Reward**: High-stakes missions can lead to heroism or disaster
+- **Team Management**: Relationship dynamics directly impact mission success
+
+---
+
 ## Version 1.1.0 - Phase 1 Deep Feature Integration (2025-01-17)
 
 ### 🎯 Phase 1: Character Relationship + Loyalty/Trauma Expansion (COMPLETED)

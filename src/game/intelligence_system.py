@@ -1,8 +1,8 @@
 """
 Years of Lead - Intelligence System
 
-Comprehensive intelligence gathering and analysis system with detailed
-event information, narrative consequences, and mechanical effects.
+This module manages intelligence gathering, information flow, and strategic awareness
+for both the resistance and government forces.
 """
 
 import random

@@ -237,7 +237,7 @@ class MissionExecutor:
         self.legal_system = legal_system
         self.intelligence_system = intelligence_system
         self.relationship_manager = relationship_manager
-        self.narrative_generator = NarrativeGenerator()
+        self.narrative_generator = NarrativeGenerator()  # Initialize enhanced generator
         logger.info("MissionExecutor initialized")
     
     def execute_mission(self,
@@ -657,7 +657,7 @@ class MissionExecutor:
                 
             if agent.emotional_state.is_psychologically_stable():
                 # Agent can act effectively
-                skill_check = self._perform_skill_check(agent, mission.required_skills)
+                skill_check = self._perform_skill_check(agent, mission.required_skills, mission)
                 
                 if skill_check["success"]:
                     success_count += 1
@@ -979,10 +979,155 @@ class MissionExecutor:
         
         return betrayal_result
     
+    def _calculate_faction_performance_modifier(self,
+                                              agent: Character,
+                                              mission: Any) -> float:
+        """Calculate progressive difficulty modifier based on faction performance history"""
+        modifier = 0.0
+        
+        # Default modifier for when no mission data is available
+        if not mission or not hasattr(mission, 'faction_id'):
+            return 0.0
+        
+        # Simulate faction performance tracking
+        # In a full implementation, this would check actual mission history
+        faction_id = mission.faction_id
+        
+        # Simulate recent failure streak (would be actual data from game state)
+        recent_failures = getattr(mission, 'recent_failures', 0)
+        
+        # Failure streak compensation - help struggling factions
+        if recent_failures >= 3:
+            modifier += 0.15  # Desperation breeds competence and luck
+        elif recent_failures >= 2:
+            modifier += 0.08  # Minor assistance for repeated failures
+        
+        # Success streak challenge - prevent snowballing
+        recent_successes = getattr(mission, 'recent_successes', 0)
+        if recent_successes >= 3:
+            modifier -= 0.05  # Increased surveillance and countermeasures
+        
+        # Agent experience modifier
+        # Agents who have survived multiple missions gain experience
+        agent_experience = getattr(agent, 'missions_survived', 0)
+        if agent_experience >= 5:
+            modifier += 0.05  # Veteran bonus
+        elif agent_experience >= 10:
+            modifier += 0.1   # Elite veteran bonus
+        
+        # Faction morale effect (based on agent emotional state as proxy)
+        if agent.emotional_state.trust > 0.6 and agent.emotional_state.fear < 0.3:
+            modifier += 0.03  # High morale faction
+        elif agent.emotional_state.trust < 0.2 or agent.emotional_state.fear > 0.7:
+            modifier -= 0.03  # Demoralized faction
+        
+        # Equipment quality simulation (would be actual equipment stats)
+        equipment_quality = getattr(mission, 'equipment_quality', 0.5)  # 0.0 to 1.0
+        modifier += (equipment_quality - 0.5) * 0.1  # ±0.05 based on equipment
+        
+        # Intelligence quality modifier
+        intel_quality = getattr(mission, 'intelligence_quality', 0.5)  # 0.0 to 1.0
+        modifier += (intel_quality - 0.5) * 0.08  # ±0.04 based on intelligence
+        
+        # Cap the total modifier to prevent extreme swings
+        return max(-0.2, min(0.2, modifier))
+
+    def _calculate_heroic_moment_chance(self,
+                                      agent: Character,
+                                      mission: Any,
+                                      success_chance: float) -> float:
+        """Calculate the chance for a heroic moment based on context"""
+        base_heroic_chance = 0.1  # 10% baseline
+        
+        # Trait modifiers
+        if agent.traits.primary_trait == PersonalityTrait.LOYAL:
+            base_heroic_chance += 0.05  # Loyal agents more likely to go above and beyond
+        elif agent.traits.primary_trait == PersonalityTrait.RECKLESS:
+            base_heroic_chance += 0.08  # Reckless agents take more heroic risks
+        elif agent.traits.primary_trait == PersonalityTrait.CAUTIOUS:
+            base_heroic_chance -= 0.03  # Cautious agents less likely to take heroic risks
+        
+        # Emotional state modifiers
+        if agent.emotional_state.anger > 0.6:
+            base_heroic_chance += 0.04  # Righteous anger drives heroism
+        if agent.emotional_state.trust > 0.7:
+            base_heroic_chance += 0.03  # Strong trust in the cause
+        if agent.emotional_state.fear > 0.8:
+            base_heroic_chance -= 0.05  # High fear inhibits heroism
+        
+        # Mission context modifiers
+        if hasattr(mission, 'casualties') and len(mission.casualties) > 0:
+            base_heroic_chance += 0.06  # Tragedy inspires heroism
+        
+        # Near-failure situations breed heroism
+        if success_chance < 0.3:
+            base_heroic_chance += 0.05  # Desperation breeds extraordinary effort
+        
+        # Relationship-driven heroism (protecting teammates)
+        team_relationship_avg = getattr(agent, 'team_relationship_avg', 0.5)
+        if team_relationship_avg > 0.7:
+            base_heroic_chance += 0.04  # Strong bonds inspire heroic protection
+        
+        return max(0.0, min(0.25, base_heroic_chance))  # Cap at 25%
+
+    def _generate_action_narrative(self,
+                                 agent: Character,
+                                 action_type: ActionType,
+                                 success: bool,
+                                 heroic: bool) -> str:
+        """Generate contextual narrative for agent actions"""
+        if success:
+            if heroic:
+                # Varied heroic narratives based on action type
+                heroic_narratives = {
+                    ActionType.COMBAT: [
+                        f"{agent.name} charges through enemy fire with impossible courage",
+                        f"{agent.name} single-handedly holds off multiple attackers",
+                        f"{agent.name} turns certain defeat into glorious victory"
+                    ],
+                    ActionType.STEALTH: [
+                        f"{agent.name} moves like a ghost, avoiding impossible detection",
+                        f"{agent.name} infiltrates the most secure areas with supernatural skill",
+                        f"{agent.name} slips past guards who later swear no one could have passed"
+                    ],
+                    ActionType.HACKING: [
+                        f"{agent.name} breaks through cyber-defenses that should have been impenetrable",
+                        f"{agent.name} turns the enemy's own systems against them",
+                        f"{agent.name} pulls off a digital miracle under impossible pressure"
+                    ],
+                    ActionType.SOCIAL: [
+                        f"{agent.name} convinces the enemy through sheer force of conviction",
+                        f"{agent.name} turns potential enemies into unexpected allies",
+                        f"{agent.name} inspires others with their passionate dedication"
+                    ],
+                    ActionType.SABOTAGE: [
+                        f"{agent.name} destroys the target with surgical precision",
+                        f"{agent.name} turns destruction into an art form",
+                        f"{agent.name} creates chaos that cripples the enemy for months"
+                    ]
+                }
+                
+                narratives = heroic_narratives.get(action_type, [f"{agent.name} performs an incredible feat of {action_type.value}"])
+                return random.choice(narratives)
+            else:
+                # Standard success narratives
+                return f"{agent.name} successfully completes their {action_type.value} objective"
+        else:
+            # Failure narratives with emotional context
+            if agent.emotional_state.fear > 0.7:
+                return f"{agent.name} freezes as traumatic memories flood back"
+            elif agent.emotional_state.anger > 0.8:
+                return f"{agent.name} acts recklessly in rage, compromising the objective"
+            elif agent.emotional_state.sadness > 0.6:
+                return f"{agent.name} struggles with overwhelming despair"
+            else:
+                return f"{agent.name} fails despite their best efforts"
+
     def _perform_skill_check(self,
                            agent: Character,
-                           required_skills: List[str]) -> Dict[str, Any]:
-        """Perform a skill check for mission actions"""
+                           required_skills: List[str],
+                           mission: Any = None) -> Dict[str, Any]:
+        """Perform a skill check for mission actions with progressive difficulty scaling"""
         # Determine best applicable skill
         best_skill = "combat"  # default
         best_level = 0
@@ -1007,6 +1152,10 @@ class MissionExecutor:
         effectiveness_modifier = agent.emotional_state.get_combat_effectiveness()
         final_chance = base_chance * 0.6 + effectiveness_modifier * 0.3 + 0.1  # Added +0.1 base bonus
         
+        # NEW: Progressive difficulty scaling based on faction performance
+        faction_modifier = self._calculate_faction_performance_modifier(agent, mission)
+        final_chance += faction_modifier
+        
         # Trait modifiers
         if agent.traits.primary_trait == PersonalityTrait.METHODICAL:
             final_chance += 0.1
@@ -1014,21 +1163,14 @@ class MissionExecutor:
             final_chance -= 0.1
         
         success = random.random() < final_chance
-        heroic = success and random.random() < 0.1  # 10% chance of heroic success
         
-        # Generate narrative
+        # NEW: Enhanced heroic moment calculation
+        heroic_chance = self._calculate_heroic_moment_chance(agent, mission, final_chance)
+        heroic = success and random.random() < heroic_chance
+        
+        # Generate contextual narrative
         action_type = skill_mapping.get(best_skill, ActionType.SUPPORT)
-        
-        if success:
-            if heroic:
-                narrative = f"{agent.name} performs brilliantly, exceeding all expectations"
-            else:
-                narrative = f"{agent.name} successfully completes their objective"
-        else:
-            if agent.emotional_state.fear > 0.7:
-                narrative = f"{agent.name} hesitates at the crucial moment, paralyzed by fear"
-            else:
-                narrative = f"{agent.name} fails to achieve their objective despite best efforts"
+        narrative = self._generate_action_narrative(agent, action_type, success, heroic)
         
         return {
             "success": success,
@@ -1248,43 +1390,194 @@ class MissionExecutor:
                                          agent: Character,
                                          team: List[Character],
                                          report: MissionReport):
-        """Update relationships based on mission events"""
+        """Enhanced relationship update system with nuanced consequence hooks"""
         performance = report.agent_performance[agent.id]
         
         for other_agent in team:
             if other_agent.id != agent.id and other_agent.id not in report.casualties:
-                # Shared success strengthens bonds
-                if report.outcome in [MissionOutcome.SUCCESS, MissionOutcome.CRITICAL_SUCCESS]:
-                    self.relationship_manager.apply_group_event(
-                        [agent.id, other_agent.id],
-                        RelationshipEvent.MISSION_SUCCESS,
-                        intensity=0.7
-                    )
-                
-                # Shared failure can strain or strengthen
-                elif report.outcome in [MissionOutcome.FAILURE, MissionOutcome.DISASTER]:
-                    if agent.traits.primary_trait == PersonalityTrait.LOYAL:
-                        # Loyal agents bond through adversity
-                        self.relationship_manager.apply_group_event(
-                            [agent.id, other_agent.id],
-                            RelationshipEvent.SHARED_TRAUMA,
-                            intensity=0.5
-                        )
-                    else:
-                        # Others may blame each other
-                        self.relationship_manager.apply_group_event(
-                            [agent.id, other_agent.id],
-                            RelationshipEvent.MISSION_FAILURE,
-                            intensity=0.6,
-                            details={"blame_assigned": True}
-                        )
-                
-                # Heroic actions inspire admiration
                 other_performance = report.agent_performance.get(other_agent.id)
-                if other_performance and other_performance.heroic_moment:
+                
+                # Base relationship changes from shared experience
+                self._apply_shared_experience_effects(agent, other_agent, report)
+                
+                # Performance-based relationship changes
+                self._apply_performance_relationship_effects(agent, other_agent, performance, other_performance, report)
+                
+                # Emotional state cascading effects
+                self._apply_emotional_cascading_effects(agent, other_agent, report)
+                
+                # Trait-based relationship dynamics
+                self._apply_trait_relationship_dynamics(agent, other_agent, report)
+    
+    def _apply_shared_experience_effects(self, 
+                                       agent: Character, 
+                                       other_agent: Character, 
+                                       report: MissionReport):
+        """Apply relationship changes from shared mission experience"""
+        # Shared success creates bonds
+        if report.outcome in [MissionOutcome.SUCCESS, MissionOutcome.CRITICAL_SUCCESS]:
+            self.relationship_manager.apply_group_event(
+                [agent.id, other_agent.id],
+                RelationshipEvent.MISSION_SUCCESS,
+                intensity=0.7
+            )
+        
+        # Shared trauma can strengthen or strain relationships
+        elif report.outcome in [MissionOutcome.FAILURE, MissionOutcome.DISASTER]:
+            # Loyalty trait affects how agents handle shared failure
+            if agent.traits.primary_trait == PersonalityTrait.LOYAL:
+                # Loyal agents bond through adversity
+                self.relationship_manager.apply_group_event(
+                    [agent.id, other_agent.id],
+                    RelationshipEvent.SHARED_TRAUMA,
+                    intensity=0.5
+                )
+            else:
+                # Others may assign blame
+                self.relationship_manager.apply_group_event(
+                    [agent.id, other_agent.id],
+                    RelationshipEvent.MISSION_FAILURE,
+                    intensity=0.6,
+                    details={"blame_assigned": True}
+                )
+        
+        # High casualties create survivor guilt bonds
+        if len(report.casualties) >= 2:
+            self.relationship_manager.apply_group_event(
+                [agent.id, other_agent.id],
+                RelationshipEvent.SURVIVOR_GUILT,
+                intensity=0.4
+            )
+    
+    def _apply_performance_relationship_effects(self,
+                                              agent: Character,
+                                              other_agent: Character,
+                                              agent_performance: AgentPerformance,
+                                              other_performance: Optional[AgentPerformance],
+                                              report: MissionReport):
+        """Apply relationship changes based on individual performance"""
+        if not other_performance:
+            return
+            
+        # Heroic actions inspire admiration
+        if other_performance.heroic_moment:
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel:
+                rel.apply_event(RelationshipEvent.SAVED_LIFE, intensity=0.8)
+                # Add specific heroic admiration effect
+                rel.apply_event(RelationshipEvent.INSPIRED_BY_COURAGE, intensity=0.6)
+        
+        # Betrayal destroys relationships
+        if other_performance.betrayal_attempted:
+            self.relationship_manager.apply_group_event(
+                [agent.id, other_agent.id],
+                RelationshipEvent.BETRAYAL,
+                intensity=1.0,
+                details={"betrayer": other_agent.id}
+            )
+        
+        # Performance disparity can create tension or respect
+        agent_score = agent_performance.calculate_performance_score()
+        other_score = other_performance.calculate_performance_score()
+        performance_gap = abs(agent_score - other_score)
+        
+        if performance_gap > 0.4:  # Significant performance difference
+            if other_score > agent_score:
+                # Other agent performed much better - respect or jealousy
+                if agent.traits.primary_trait == PersonalityTrait.LOYAL:
+                    # Loyal agents feel respect
                     rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
                     if rel:
-                        rel.apply_event(RelationshipEvent.SAVED_LIFE, intensity=0.8)
+                        rel.apply_event(RelationshipEvent.PROFESSIONAL_RESPECT, intensity=0.3)
+                else:
+                    # Others might feel jealousy or inadequacy  
+                    rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+                    if rel:
+                        rel.apply_event(RelationshipEvent.PROFESSIONAL_JEALOUSY, intensity=0.2)
+        
+        # Panic episodes can strain relationships
+        if other_performance.panic_episodes > 1:
+            # Some agents lose respect for panicking teammates
+            if agent.traits.primary_trait in [PersonalityTrait.METHODICAL, PersonalityTrait.LEADER]:
+                rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+                if rel:
+                    rel.apply_event(RelationshipEvent.LOST_CONFIDENCE, intensity=0.3)
+            elif agent.traits.primary_trait == PersonalityTrait.COMPASSIONATE:
+                # Compassionate agents offer support instead
+                rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+                if rel:
+                    rel.apply_event(RelationshipEvent.EMOTIONAL_SUPPORT, intensity=0.4)
+    
+    def _apply_emotional_cascading_effects(self,
+                                         agent: Character,
+                                         other_agent: Character,
+                                         report: MissionReport):
+        """Apply emotional state cascading between agents"""
+        # Fear is contagious in high-stress situations
+        if agent.emotional_state.fear > 0.8 and other_agent.emotional_state.fear > 0.8:
+            # Mutual fear can create dependency or distance
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel and rel.metrics.calculate_overall_relationship_strength() > 0.3:
+                # Close agents support each other through fear
+                rel.apply_event(RelationshipEvent.MUTUAL_SUPPORT, intensity=0.5)
+            else:
+                # Distant agents blame each other for fear
+                rel.apply_event(RelationshipEvent.FEAR_SPIRAL, intensity=0.3)
+        
+        # Anger alignment can create bonds or conflicts
+        if agent.emotional_state.anger > 0.6 and other_agent.emotional_state.anger > 0.6:
+            # Both angry - depends on whether anger is aligned
+            if agent.traits.primary_trait == other_agent.traits.primary_trait:
+                # Similar personalities channel anger together
+                rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+                if rel:
+                    rel.apply_event(RelationshipEvent.SHARED_RIGHTEOUS_ANGER, intensity=0.4)
+            else:
+                # Different personalities clash when angry
+                rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+                if rel:
+                    rel.apply_event(RelationshipEvent.PERSONALITY_CLASH, intensity=0.3)
+        
+        # Trust and hope are strengthening
+        if agent.emotional_state.trust > 0.7 and other_agent.emotional_state.trust > 0.7:
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel:
+                rel.apply_event(RelationshipEvent.SHARED_CONVICTION, intensity=0.3)
+    
+    def _apply_trait_relationship_dynamics(self,
+                                         agent: Character,
+                                         other_agent: Character,
+                                         report: MissionReport):
+        """Apply trait-based relationship dynamics"""
+        # Leadership and follower dynamics
+        if (agent.traits.primary_trait == PersonalityTrait.LEADER and 
+            other_agent.traits.primary_trait == PersonalityTrait.FOLLOWER):
+            # Natural hierarchy can strengthen bonds
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel and report.outcome in [MissionOutcome.SUCCESS, MissionOutcome.CRITICAL_SUCCESS]:
+                rel.apply_event(RelationshipEvent.EFFECTIVE_LEADERSHIP, intensity=0.4)
+        
+        # Cautious vs Reckless tension
+        if (agent.traits.primary_trait == PersonalityTrait.CAUTIOUS and 
+            other_agent.traits.primary_trait == PersonalityTrait.RECKLESS):
+            # Opposing approaches create friction
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel:
+                rel.apply_event(RelationshipEvent.TACTICAL_DISAGREEMENT, intensity=0.2)
+        
+        # Compassionate agents build stronger bonds
+        if agent.traits.primary_trait == PersonalityTrait.COMPASSIONATE:
+            # Compassionate agents naturally improve relationships
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel:
+                rel.apply_event(RelationshipEvent.EMOTIONAL_SUPPORT, intensity=0.2)
+        
+        # Opportunistic agents can damage trust
+        if other_agent.traits.primary_trait == PersonalityTrait.OPPORTUNISTIC:
+            # Others gradually lose trust in opportunistic agents
+            rel = self.relationship_manager.get_relationship(agent.id, other_agent.id)
+            if rel:
+                rel.apply_event(RelationshipEvent.TRUST_EROSION, intensity=0.1)
     
     def _apply_mission_consequences(self,
                                   mission: Any,
@@ -1382,59 +1675,224 @@ class MissionExecutor:
 
 
 class NarrativeGenerator:
-    """Generates narrative text for mission events"""
+    """Enhanced narrative text generator for mission events with emotional awareness"""
+    
+    def __init__(self):
+        """Initialize with tone-specific narrative templates"""
+        self.tone_openings = {
+            EmotionalTone.TRIUMPHANT_VICTORY: [
+                "In a breathtaking display of tactical brilliance and raw courage",
+                "Against impossible odds, the team delivered a crushing blow to the regime",
+                "What began as a dangerous mission became a legendary triumph"
+            ],
+            EmotionalTone.HEROIC_SACRIFICE: [
+                "In their darkest hour, heroes emerged from among the resistance",
+                "Though victory came at a terrible price, the sacrifice was not in vain",
+                "The team faced an impossible choice and chose the path of honor"
+            ],
+            EmotionalTone.TACTICAL_WITHDRAWAL: [
+                "When the situation deteriorated beyond salvage, discipline saved lives",
+                "Strategic wisdom prevailed over reckless heroism",
+                "The team executed a masterful withdrawal under fire"
+            ],
+            EmotionalTone.FEARFUL_RETREAT: [
+                "Terror gripped the team as the mission collapsed around them",
+                "Panic spread through the ranks as everything went wrong",
+                "What should have been routine became a nightmare of confusion"
+            ],
+            EmotionalTone.BETRAYAL_TRAGEDY: [
+                "Trust shattered in the worst possible moment",
+                "The team's greatest enemy turned out to be one of their own",
+                "A shocking betrayal left the resistance reeling"
+            ],
+            EmotionalTone.REDEMPTIVE_MOMENT: [
+                "From the ashes of failure, redemption rose like a phoenix",
+                "A moment of grace transformed defeat into inspiration",
+                "When all seemed lost, one person's courage changed everything"
+            ]
+        }
     
     def generate_mission_summary(self, report: MissionReport) -> str:
-        """Generate a narrative summary of the entire mission"""
-        # Opening based on outcome
-        if report.outcome == MissionOutcome.CRITICAL_SUCCESS:
-            opening = "In a stunning display of coordination and courage, the operation achieved all objectives with minimal losses."
-        elif report.outcome == MissionOutcome.SUCCESS:
-            opening = "Despite challenges, the team successfully completed their mission."
-        elif report.outcome == MissionOutcome.PARTIAL_SUCCESS:
-            opening = "The mission achieved mixed results, with some objectives met amid significant complications."
-        elif report.outcome == MissionOutcome.DISASTER:
-            opening = "What began as a carefully planned operation descended into chaos and tragedy."
+        """Generate an emotionally aware narrative summary of the entire mission"""
+        # Get opening based on emotional tone
+        if report.emotional_tone and report.emotional_tone in self.tone_openings:
+            opening = random.choice(self.tone_openings[report.emotional_tone])
         else:
-            opening = "The mission failed to achieve its primary objectives."
+            # Fallback to outcome-based opening
+            opening = self._get_outcome_opening(report.outcome)
         
-        # Key events
-        key_events = []
+        # Build narrative sections
+        narrative_parts = [opening]
+        
+        # Add character focus if there are standout performers
+        character_section = self._generate_character_highlights(report)
+        if character_section:
+            narrative_parts.append(character_section)
+        
+        # Add tactical analysis
+        tactical_section = self._generate_tactical_analysis(report)
+        if tactical_section:
+            narrative_parts.append(tactical_section)
+        
+        # Add emotional consequences
+        emotional_section = self._generate_emotional_consequences(report)
+        if emotional_section:
+            narrative_parts.append(emotional_section)
+        
+        # Add closing based on propaganda value and symbolic impact
+        closing = self._generate_symbolic_closing(report)
+        narrative_parts.append(closing)
+        
+        # Combine with appropriate transitions
+        return self._combine_narrative_parts(narrative_parts)
+    
+    def _get_outcome_opening(self, outcome: MissionOutcome) -> str:
+        """Fallback opening generator based on mission outcome"""
+        openings = {
+            MissionOutcome.CRITICAL_SUCCESS: "In a stunning display of coordination and courage",
+            MissionOutcome.SUCCESS: "Despite mounting challenges, the team persevered",
+            MissionOutcome.PARTIAL_SUCCESS: "The mission achieved mixed but meaningful results",
+            MissionOutcome.FAILURE: "What began as a calculated risk ended in disappointment",
+            MissionOutcome.DISASTER: "The operation descended into chaos and tragedy",
+            MissionOutcome.ABORTED: "Discretion proved the better part of valor"
+        }
+        return openings.get(outcome, "The mission unfolded in unexpected ways")
+    
+    def _generate_character_highlights(self, report: MissionReport) -> str:
+        """Generate character-focused narrative highlights"""
+        highlights = []
+        
+        # Heroic moments
+        heroes = [(agent_id, perf) for agent_id, perf in report.agent_performance.items() if perf.heroic_moment]
+        if heroes:
+            if len(heroes) == 1:
+                agent_id, perf = heroes[0]
+                heroic_actions = [action for action in perf.actions_taken if action.success]
+                if heroic_actions:
+                    highlights.append(f"The mission's turning point came when {agent_id} rose to extraordinary heights")
+            else:
+                highlights.append(f"Multiple acts of heroism inspired the entire team to push beyond their limits")
         
         # Betrayals
-        betrayals = [p for p in report.agent_performance.values() if p.betrayal_attempted]
-        if betrayals:
-            key_events.append("The shocking betrayal shattered team cohesion at the worst possible moment.")
+        betrayers = [agent_id for agent_id, perf in report.agent_performance.items() if perf.betrayal_attempted]
+        if betrayers:
+            if len(betrayers) == 1:
+                highlights.append(f"The shocking betrayal by {betrayers[0]} sent shockwaves through the resistance")
+            else:
+                highlights.append("Multiple betrayals shattered team cohesion at the worst possible moment")
         
-        # Heroics
-        heroes = [p for p in report.agent_performance.values() if p.heroic_moment]
-        if heroes:
-            key_events.append("Acts of exceptional courage inspired the team to push forward despite the odds.")
+        # Psychological breaks
+        broken_agents = [agent_id for agent_id, perf in report.agent_performance.items() if perf.panic_episodes > 2]
+        if broken_agents and not betrayers:  # Don't overshadow betrayal
+            highlights.append(f"The psychological toll became evident as several operatives struggled with the pressure")
         
-        # Casualties
-        if report.casualties:
-            key_events.append(f"{len(report.casualties)} brave souls made the ultimate sacrifice for the cause.")
+        return " ".join(highlights) if highlights else ""
+    
+    def _generate_tactical_analysis(self, report: MissionReport) -> str:
+        """Generate tactical situation analysis"""
+        analysis_parts = []
         
-        # Captures
-        if report.captured_agents:
-            key_events.append(f"{len(report.captured_agents)} operatives were captured by enemy forces.")
+        # Objective analysis
+        total_objectives = len(report.objectives_completed) + len(report.objectives_failed)
+        if total_objectives > 0:
+            success_rate = len(report.objectives_completed) / total_objectives
+            if success_rate >= 0.8:
+                analysis_parts.append("The team executed their objectives with clinical precision")
+            elif success_rate >= 0.5:
+                analysis_parts.append("Key objectives were secured despite mounting complications")
+            elif success_rate > 0:
+                analysis_parts.append("Partial objectives were achieved through determined effort")
+            else:
+                analysis_parts.append("Objectives remained frustratingly out of reach")
         
-        # Complications
+        # Complication handling
         major_complications = [c for c in report.complications if c.severity in [ComplicationSeverity.MAJOR, ComplicationSeverity.CATASTROPHIC]]
         if major_complications:
-            key_events.append("Unexpected complications forced the team to adapt on the fly.")
+            if len(major_complications) == 1:
+                analysis_parts.append("A major complication forced rapid adaptation")
+            else:
+                analysis_parts.append("Cascading complications tested every aspect of the team's training")
         
-        # Combine into summary
-        summary = opening
-        if key_events:
-            summary += " " + " ".join(key_events)
+        # Heat management
+        if report.heat_generated > 25:
+            analysis_parts.append("The operation's visibility generated dangerous attention from authorities")
+        elif report.heat_generated < 5:
+            analysis_parts.append("The team maintained operational security throughout")
         
-        # Closing based on propaganda value
+        return " ".join(analysis_parts) if analysis_parts else ""
+    
+    def _generate_emotional_consequences(self, report: MissionReport) -> str:
+        """Generate emotional and psychological consequence narrative"""
+        consequences = []
+        
+        # Loss impact
+        total_losses = len(report.casualties) + len(report.captured_agents)
+        if total_losses > 0:
+            if report.casualties and report.captured_agents:
+                consequences.append(f"The loss of {len(report.casualties)} lives and capture of {len(report.captured_agents)} comrades left deep scars")
+            elif report.casualties:
+                if len(report.casualties) == 1:
+                    consequences.append("A life lost in service to the cause weighs heavily on survivors")
+                else:
+                    consequences.append(f"The sacrifice of {len(report.casualties)} brave souls will not be forgotten")
+            elif report.captured_agents:
+                if len(report.captured_agents) == 1:
+                    consequences.append("A comrade's capture adds urgency to the struggle")
+                else:
+                    consequences.append(f"With {len(report.captured_agents)} operatives in enemy hands, rescue becomes a priority")
+        
+        # Team bonding through adversity
+        if not report.casualties and not report.captured_agents and len(report.complications) > 1:
+            consequences.append("Shared adversity forged stronger bonds between team members")
+        
+        return " ".join(consequences) if consequences else ""
+    
+    def _generate_symbolic_closing(self, report: MissionReport) -> str:
+        """Generate symbolic closing based on propaganda value and impact"""
         if report.propaganda_value > 0.7:
-            summary += " This operation will be remembered as a turning point in the struggle."
+            closings = [
+                "This operation will echo through history as a turning point in the struggle",
+                "The resistance grows stronger with each bold action against tyranny",
+                "Today's victory proves that even the mightiest oppressor can be challenged"
+            ]
         elif report.propaganda_value > 0.3:
-            summary += " The resistance grows stronger with each action."
+            closings = [
+                "Another step forward on the long road to liberation",
+                "The flame of resistance burns brighter with each passing day",
+                "Small victories accumulate into unstoppable momentum"
+            ]
         elif report.propaganda_value < 0.1:
-            summary += " The movement must learn from this setback and adapt."
+            closings = [
+                "From setbacks, the movement learns and grows stronger",
+                "Even in defeat, the cause endures and adapts",
+                "Temporary failures cannot extinguish the desire for freedom"
+            ]
+        else:
+            closings = [
+                "The struggle continues with renewed determination",
+                "Each mission teaches valuable lessons for the future",
+                "Progress comes in many forms, not all immediately visible"
+            ]
         
-        return summary
+        return random.choice(closings)
+    
+    def _combine_narrative_parts(self, parts: List[str]) -> str:
+        """Combine narrative parts with appropriate transitions"""
+        if not parts:
+            return "The mission unfolded quietly, leaving little mark on history."
+        
+        if len(parts) == 1:
+            return parts[0] + "."
+        
+        # Add transitions between parts
+        transitions = [", ", ". ", ". Meanwhile, ", ". As events unfolded, ", ". In the aftermath, "]
+        result = parts[0]
+        
+        for i, part in enumerate(parts[1:], 1):
+            if i == len(parts) - 1:  # Last part
+                result += ". " + part
+            else:
+                transition = transitions[min(i - 1, len(transitions) - 1)]
+                result += transition + part
+        
+        return result + "."

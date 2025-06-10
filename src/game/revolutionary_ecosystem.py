@@ -384,6 +384,55 @@ class FactionAlliance:
                 results['momentum_impact'] = -1.0
                 self.cooperation_failures += 1
         
+        elif activity_type == JointActivityType.COVERT_SUPPORT:
+            # Secret aid without public alliance - ITERATION 025
+            if self.alliance_type == AllianceType.SECRET:
+                # Choose beneficiary faction
+                beneficiary = random.choice(participating_factions)
+                
+                # Calculate covert aid effectiveness
+                aid_effectiveness = min(0.9, (sum(f.operational_capacity for f in participating_factions) / len(participating_factions)))
+                
+                if random.random() < aid_effectiveness:
+                    results['success'] = True
+                    
+                    # Boost operational capacity quietly
+                    capacity_boost = random.uniform(0.1, 0.3)
+                    beneficiary.operational_capacity = min(2.0, beneficiary.operational_capacity + capacity_boost)
+                    
+                    # Provide covert resources
+                    funding_boost = random.uniform(0.1, 0.25)
+                    beneficiary.funding_level = min(1.0, beneficiary.funding_level + funding_boost)
+                    
+                    results['outcomes'].append(f"Covert support boosts {beneficiary.name} capabilities")
+                    results['trust_change'] = 3.0
+                    results['momentum_impact'] = 1.0
+                    self.shared_victories += 1
+                    
+                    # Generate counterintelligence flag
+                    beneficiary.government_heat += random.uniform(0.5, 1.5)
+                    results['counterintelligence_flag'] = True
+                    
+                    # Increase leak probability for future operations
+                    self.leak_probability = min(0.6, self.leak_probability + 0.1)
+                else:
+                    results['outcomes'].append("Covert support operation fails, security compromised")
+                    results['trust_change'] = -3.0
+                    results['momentum_impact'] = -0.5
+                    self.cooperation_failures += 1
+                    
+                    # Failed covert ops dramatically increase exposure risk
+                    self.leak_probability = min(0.8, self.leak_probability + 0.25)
+                    
+                    # All participants get heat increase
+                    for faction in participating_factions:
+                        faction.government_heat += random.uniform(1.0, 2.5)
+            else:
+                # Public alliances can't do truly covert operations
+                results['outcomes'].append("Cannot conduct covert support in public alliance")
+                results['trust_change'] = -1.0
+                self.cooperation_failures += 1
+        
         # Update alliance metrics
         self.trust_level = max(0.0, min(100.0, self.trust_level + results['trust_change']))
         self.cooperation_momentum += results['momentum_impact']
@@ -392,6 +441,19 @@ class FactionAlliance:
         
         # Update betrayal risk
         self.betrayal_risk = self.calculate_betrayal_risk(faction_relationships)
+        
+        # Update leak probability for secret alliances - ITERATION 025
+        if self.alliance_type == AllianceType.SECRET:
+            # Betrayal history increases leak risk
+            betrayal_penalty = self.cooperation_failures * 0.05
+            
+            # High government heat increases surveillance
+            avg_heat = 0.0
+            if participating_factions:
+                avg_heat = sum(f.government_heat for f in participating_factions) / len(participating_factions)
+            heat_penalty = min(0.2, avg_heat / 10.0 * 0.1)
+            
+            self.leak_probability = min(0.7, self.leak_probability + betrayal_penalty + heat_penalty)
         
         return results
 
@@ -1014,22 +1076,28 @@ class SecretDiplomaticChannel:
         # Calculate leak probability based on various factors
         base_leak_chance = self.leak_risk
         
-        # Poor encryption increases leak risk
-        encryption_penalty = (1.0 - self.encryption_level) * 0.3
+        # Poor encryption increases leak risk (reduced penalty)
+        encryption_penalty = (1.0 - self.encryption_level) * 0.1  # Reduced from 0.3
         
-        # Low trust increases instability
-        trust_penalty = max(0, (50.0 - self.trust_rating) / 100.0) * 0.2
+        # Low trust increases instability (reduced penalty)
+        trust_penalty = max(0, (50.0 - self.trust_rating) / 100.0) * 0.1  # Reduced from 0.2
         
-        # High government heat for either faction increases surveillance
+        # High government heat for either faction increases surveillance (reduced)
         faction_a = next((f for f in ecosystem.active_factions if f.name == self.faction_a), None)
         faction_b = next((f for f in ecosystem.active_factions if f.name == self.faction_b), None)
         
         heat_penalty = 0.0
         if faction_a and faction_b:
             avg_heat = (faction_a.government_heat + faction_b.government_heat) / 2
-            heat_penalty = min(0.3, avg_heat / 10.0 * 0.15)
+            heat_penalty = min(0.15, avg_heat / 10.0 * 0.05)  # Reduced from 0.3 max and 0.15 multiplier
         
-        total_leak_chance = min(0.8, base_leak_chance + encryption_penalty + trust_penalty + heat_penalty)
+        # ITERATION 025: Only leak after multiple turns for secret alliances
+        if hasattr(ecosystem, 'diplomatic_channels'):
+            # Give channels at least 2-3 turns before major leak risk
+            turn_survival_bonus = min(0.15, len(self.message_log) * 0.02)
+            base_leak_chance = max(0.02, base_leak_chance - turn_survival_bonus)
+        
+        total_leak_chance = min(0.3, base_leak_chance + encryption_penalty + trust_penalty + heat_penalty)  # Reduced max from 0.8
         
         if random.random() < total_leak_chance:
             self.status = "compromised"
@@ -1223,6 +1291,10 @@ class RevolutionaryEcosystem:
     # Propaganda narrative system - ITERATION 024
     propaganda_events: List[AlliancePropagandaEvent] = field(default_factory=list)
     media_saturation_level: float = 0.3  # 0-1, current media attention on alliances
+    
+    # Secret diplomacy system - ITERATION 025
+    diplomatic_channels: Dict[str, SecretDiplomaticChannel] = field(default_factory=dict)
+    intelligence_leaks: List[Dict[str, Any]] = field(default_factory=list)
     
     def trigger_propaganda_event(self, event_type: str, initiator: str, 
                                 targets: List[str] = None, tone: PropagandaTone = None) -> AlliancePropagandaEvent:
@@ -1802,14 +1874,18 @@ class RevolutionaryEcosystem:
             # Choose operation type based on alliance characteristics
             member_factions = [next(f for f in self.active_factions if f.name == name) for name in alliance.member_factions]
             
+            # Secret alliances favor covert operations - ITERATION 025
+            if alliance.alliance_type == AllianceType.SECRET and random.random() < 0.6:
+                activity_type = JointActivityType.COVERT_SUPPORT
             # High operational capacity favors combined operations
-            avg_capacity = sum(f.operational_capacity for f in member_factions) / len(member_factions)
-            if avg_capacity > 1.2 and random.random() < 0.4:
-                activity_type = JointActivityType.COMBINED_OPERATION
-            elif sum(f.public_support for f in member_factions) > 100.0:
-                activity_type = JointActivityType.JOINT_DEMONSTRATION
             else:
-                activity_type = JointActivityType.COOP_PROPAGANDA
+                avg_capacity = sum(f.operational_capacity for f in member_factions) / len(member_factions)
+                if avg_capacity > 1.2 and random.random() < 0.4:
+                    activity_type = JointActivityType.COMBINED_OPERATION
+                elif sum(f.public_support for f in member_factions) > 100.0:
+                    activity_type = JointActivityType.JOINT_DEMONSTRATION
+                else:
+                    activity_type = JointActivityType.COOP_PROPAGANDA
             
             # Execute the joint activity
             results = alliance.execute_joint_activity(activity_type, member_factions, self.faction_relationships)
@@ -1866,11 +1942,17 @@ class RevolutionaryEcosystem:
         alliance_results = {
             'alliance_opportunities': [],
             'new_alliances': [],
+            'secret_alliances': [],  # ITERATION 025: Track secret alliances
             'joint_operations': [],
             'betrayals': [],
             'propaganda_wars': [],  # ITERATION 024: Add propaganda tracking
+            'intelligence_leaks': [],  # ITERATION 025: Track leaks and exposures
             'alliance_summary': {}
         }
+        
+        # Process intelligence leaks first - ITERATION 025
+        leak_events = self.process_intelligence_leaks()
+        alliance_results['intelligence_leaks'] = leak_events
         
         # Check for new alliance formation opportunities
         opportunities = self.evaluate_alliance_opportunities()
@@ -1884,8 +1966,34 @@ class RevolutionaryEcosystem:
                 alliance_results['new_alliances'].append({
                     'alliance_name': new_alliance.alliance_name,
                     'members': new_alliance.member_factions,
-                    'formation_value': value
+                    'formation_value': value,
+                    'alliance_type': new_alliance.alliance_type.value
                 })
+        
+        # Check for secret alliance formation (15% chance) - ITERATION 025
+        if random.random() < 0.15 and len(opportunities) > 0:
+            # Secret alliances form between factions with moderate trust but high pressure
+            secret_candidates = []
+            for faction_a_name, faction_b_name, value in opportunities:
+                faction_a = next(f for f in self.active_factions if f.name == faction_a_name)
+                faction_b = next(f for f in self.active_factions if f.name == faction_b_name)
+                
+                # Conditions for secret alliance: moderate trust, high heat, or ideological opposition
+                if ((faction_a.government_heat > 6.0 or faction_b.government_heat > 6.0) and
+                    value > 45.0 and not any(faction_a_name in alliance.member_factions for alliance in self.active_alliances.values())):
+                    secret_candidates.append((faction_a_name, faction_b_name, value))
+            
+            if secret_candidates:
+                faction_a, faction_b, value = random.choice(secret_candidates)
+                secret_alliance = self.form_secret_alliance([faction_a, faction_b])
+                if secret_alliance:
+                    alliance_results['secret_alliances'].append({
+                        'alliance_name': secret_alliance.alliance_name,
+                        'members': secret_alliance.member_factions,
+                        'formation_value': value,
+                        'leak_probability': secret_alliance.leak_probability,
+                        'classification': 'SECRET'
+                    })
         
         # Execute joint operations for existing alliances
         joint_ops = self.execute_joint_operations()
@@ -1901,6 +2009,8 @@ class RevolutionaryEcosystem:
             'total_alliance_events': len(self.alliance_events),
             'propaganda_events': len(self.propaganda_events),  # ITERATION 024
             'media_saturation': self.media_saturation_level,    # ITERATION 024
+            'diplomatic_channels': len(self.diplomatic_channels),  # ITERATION 025
+            'intelligence_leaks': len(self.intelligence_leaks),  # ITERATION 025
             'alliance_details': []
         }
         
@@ -1912,7 +2022,175 @@ class RevolutionaryEcosystem:
                 'cooperation_momentum': alliance.cooperation_momentum,
                 'shared_victories': alliance.shared_victories,
                 'cooperation_failures': alliance.cooperation_failures,
-                'betrayal_risk': alliance.betrayal_risk
+                'betrayal_risk': alliance.betrayal_risk,
+                'alliance_type': alliance.alliance_type.value,  # ITERATION 025
+                'leak_probability': alliance.leak_probability  # ITERATION 025
             })
         
         return alliance_results
+    
+    def establish_diplomatic_channel(self, faction_a: str, faction_b: str, 
+                                   encryption_level: float = 0.7) -> SecretDiplomaticChannel:
+        """Establish secret diplomatic channel between factions - ITERATION 025"""
+        channel_key = f"{min(faction_a, faction_b)}_{max(faction_a, faction_b)}_channel"
+        
+        if channel_key in self.diplomatic_channels:
+            return self.diplomatic_channels[channel_key]
+        
+        channel = SecretDiplomaticChannel(
+            faction_a=faction_a,
+            faction_b=faction_b,
+            encryption_level=encryption_level,
+            leak_risk=random.uniform(0.05, 0.12)  # Reduced from 0.15-0.25
+        )
+        
+        self.diplomatic_channels[channel_key] = channel
+        
+        print(f"🕵️ SECRET CHANNEL: {faction_a} ↔ {faction_b} (Security: {encryption_level:.2f})")
+        return channel
+    
+    def form_secret_alliance(self, faction_names: List[str], alliance_name: str = None) -> Optional[FactionAlliance]:
+        """Form a secret alliance between factions - ITERATION 025"""
+        if len(faction_names) < 2:
+            return None
+        
+        # Generate alliance name if not provided
+        if not alliance_name:
+            alliance_name = f"secret_{'_'.join(sorted(faction_names))}_pact"
+        
+        # Check if factions can form secret alliance
+        participating_factions = []
+        for name in faction_names:
+            faction = next((f for f in self.active_factions if f.name == name), None)
+            if not faction:
+                return None
+            participating_factions.append(faction)
+        
+        # Create secret alliance
+        alliance = FactionAlliance(
+            alliance_name=alliance_name,
+            member_factions=faction_names.copy(),
+            trust_level=random.uniform(40.0, 60.0),  # Secret alliances start with lower trust
+            cooperation_momentum=5.0,
+            alliance_type=AllianceType.SECRET,
+            leak_probability=random.uniform(0.05, 0.15)  # Reduced base leak risk from 0.2-0.35
+        )
+        
+        # Add factions to alliance
+        for faction in participating_factions:
+            faction.alliance_memberships.append(alliance_name)
+        
+        self.active_alliances[alliance_name] = alliance
+        
+        # Establish diplomatic channel
+        if len(faction_names) == 2:
+            self.establish_diplomatic_channel(faction_names[0], faction_names[1])
+        
+        # Log secret alliance formation (internal only)
+        alliance_event = {
+            'type': 'secret_alliance_formation',
+            'alliance_name': alliance_name,
+            'members': faction_names,
+            'timestamp': datetime.now(),
+            'classification': 'SECRET'
+        }
+        self.alliance_events.append(alliance_event)
+        
+        print(f"🤫 SECRET ALLIANCE FORMED: {alliance_name}")
+        
+        return alliance
+    
+    def process_intelligence_leaks(self) -> List[Dict[str, Any]]:
+        """Check for and process intelligence leaks and exposures - ITERATION 025"""
+        leak_events = []
+        
+        # Check diplomatic channel leaks
+        for channel_key, channel in list(self.diplomatic_channels.items()):
+            if channel.attempt_leak(self):
+                leak_event = {
+                    'type': 'diplomatic_leak',
+                    'channel': f"{channel.faction_a} ↔ {channel.faction_b}",
+                    'exposed_intelligence': channel.message_log[-3:],  # Recent messages
+                    'impact': 'moderate',
+                    'timestamp': datetime.now()
+                }
+                
+                # Apply leak consequences
+                faction_a = next((f for f in self.active_factions if f.name == channel.faction_a), None)
+                faction_b = next((f for f in self.active_factions if f.name == channel.faction_b), None)
+                
+                if faction_a and faction_b:
+                    # Increase government heat
+                    heat_increase = random.uniform(1.0, 2.5)
+                    faction_a.government_heat += heat_increase
+                    faction_b.government_heat += heat_increase
+                    
+                    # Damage factional trust
+                    faction_a.factional_trust = max(0.0, faction_a.factional_trust - 15.0)
+                    faction_b.factional_trust = max(0.0, faction_b.factional_trust - 15.0)
+                
+                leak_events.append(leak_event)
+                self.intelligence_leaks.append(leak_event)
+                
+                # Trigger propaganda scandal
+                self.trigger_propaganda_event(
+                    "diplomatic_scandal", 
+                    random.choice([channel.faction_a, channel.faction_b]),
+                    [channel.faction_a, channel.faction_b],
+                    PropagandaTone.TRAITOR_EXPOSURE
+                )
+                
+                print(f"💥 LEAK: Diplomatic channel {channel.faction_a} ↔ {channel.faction_b} compromised!")
+        
+        # Check secret alliance exposures
+        for alliance_name, alliance in list(self.active_alliances.items()):
+            if alliance.alliance_type == AllianceType.SECRET and random.random() < alliance.leak_probability * 0.3:  # Reduced by 70%
+                leak_event = {
+                    'type': 'secret_alliance_exposed',
+                    'alliance_name': alliance_name,
+                    'members': alliance.member_factions,
+                    'impact': 'severe',
+                    'timestamp': datetime.now()
+                }
+                
+                # Severe consequences for exposed secret alliances
+                for member_name in alliance.member_factions:
+                    member_faction = next((f for f in self.active_factions if f.name == member_name), None)
+                    if member_faction:
+                        # Major heat and trust damage
+                        member_faction.government_heat += random.uniform(2.0, 4.0)
+                        member_faction.public_support = max(0.0, member_faction.public_support - random.uniform(8.0, 15.0))
+                        member_faction.factional_trust = max(0.0, member_faction.factional_trust - 25.0)
+                
+                # Break trust with ideologically opposed factions
+                for member_name in alliance.member_factions:
+                    member_faction = next((f for f in self.active_factions if f.name == member_name), None)
+                    if member_faction:
+                        for other_faction in self.active_factions:
+                            if (other_faction.name not in alliance.member_factions and 
+                                member_faction._are_ideologically_opposed(other_faction)):
+                                # Severe relationship damage
+                                relationship = self._get_faction_relationship(member_name, other_faction.name)
+                                if relationship:
+                                    relationship.adjust_trust(-30.0, "Secret alliance exposed")
+                                    relationship.escalate_rivalry(20.0, "secret_betrayal")
+                
+                # Convert to public alliance with damaged trust
+                alliance.alliance_type = AllianceType.PUBLIC
+                alliance.trust_level = max(10.0, alliance.trust_level - 40.0)
+                alliance.leak_probability = 0.0
+                
+                leak_events.append(leak_event)
+                self.intelligence_leaks.append(leak_event)
+                
+                # Major propaganda scandal
+                self.trigger_propaganda_event(
+                    "secret_pact_exposed",
+                    random.choice(alliance.member_factions),
+                    [name for name in alliance.member_factions if name != random.choice(alliance.member_factions)],
+                    PropagandaTone.BETRAYAL_OF_CAUSE
+                )
+                
+                print(f"🚨 SCANDAL: Secret alliance '{alliance_name}' EXPOSED!")
+        
+        return leak_events

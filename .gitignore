@@ -1,0 +1,20 @@
+
+# --- cleanup: exclude artefacts ---
+*.py[cod]
+__pycache__/
+*.pyd
+*.so
+*.egg-info/
+
+# virtual-envs
+venv/
+.env/
+.venv/
+
+# unfinished logs (keep only iteration_00-99)
+maintenance_logs/iteration_0*.json
+!maintenance_logs/iteration_0??.json
+
+# editor cruft
+.DS_Store
+*.swp

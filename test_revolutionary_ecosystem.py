@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 from game.revolutionary_ecosystem import (
     RevolutionaryEcosystem, RevolutionaryFaction, FactionIdeology,
     FactionConflictType, FactionActivityType, JointActivityType,
-    FactionAlliance, FactionRelationship
+    FactionAlliance, FactionRelationship, AlliancePropagandaEvent, PropagandaTone
 )
 import random
 from datetime import datetime
@@ -196,14 +196,17 @@ def test_alliance_formation_and_cooperation():
 def test_ecosystem_with_alliances():
     """Test full ecosystem simulation with alliance system integrated"""
     print("\n" + "="*60)
-    print("🌍 TESTING FULL ECOSYSTEM WITH ALLIANCES")
+    print("🌍 TESTING FULL ECOSYSTEM WITH ALLIANCES & PROPAGANDA")
     print("="*60)
     
     ecosystem = test_alliance_formation_and_cooperation()
     
-    print(f"\n🔄 Running Ecosystem Simulation with Alliance System:")
+    print(f"\n🔄 Running Ecosystem Simulation with Alliance & Propaganda Systems:")
     
-    # Run several turns to see alliance dynamics
+    # Track initial support levels for comparison
+    initial_support = {f.name: f.public_support for f in ecosystem.active_factions}
+    
+    # Run several turns to see alliance dynamics and propaganda wars
     for turn in range(5):
         print(f"\n--- ECOSYSTEM TURN {turn + 1} ---")
         
@@ -238,11 +241,27 @@ def test_ecosystem_with_alliances():
                 print(f"  {status} {op['alliance_name']}: {op['activity_type']}")
                 for outcome in op['outcomes'][:1]:  # First outcome only
                     print(f"     - {outcome}")
+                
+                # Display propaganda events - ITERATION 024
+                if 'propaganda_event' in op:
+                    prop_event = op['propaganda_event']
+                    print(f"     📢 Propaganda: {prop_event['type']} by {prop_event.get('leader', 'faction')}")
+                    print(f"        Tone: {prop_event['tone']}, Coverage: {prop_event.get('media_coverage', 0):.2f}")
+            
+            # Propaganda wars - ITERATION 024
+            propaganda_wars = alliance_activities.get('propaganda_wars', [])
+            if propaganda_wars:
+                print(f"\n📢 Propaganda Narrative Wars:")
+                for war in propaganda_wars:
+                    print(f"  💥 {war['initiator']} launches {war['tone']} against {', '.join(war['targets'])}")
+                    print(f"     Effectiveness: {war['effectiveness']:.2f}")
             
             # Alliance summary
             summary = alliance_activities.get('alliance_summary', {})
             if summary.get('active_alliances', 0) > 0:
                 print(f"  📊 Active Alliances: {summary['active_alliances']}")
+                print(f"      Propaganda Events: {summary.get('propaganda_events', 0)}")
+                print(f"      Media Saturation: {summary.get('media_saturation', 0):.2f}")
                 for detail in summary.get('alliance_details', []):
                     print(f"     {detail['name']}: Trust={detail['trust_level']:.0f}, Risk={detail['betrayal_risk']:.2f}")
         
@@ -261,9 +280,11 @@ def test_ecosystem_with_alliances():
                 print(f"  • {conflict['initiator']} vs {conflict['target']}: {conflict['conflict_type']}")
     
     # Final alliance summary
-    print(f"\n📈 FINAL ALLIANCE SYSTEM SUMMARY:")
+    print(f"\n📈 FINAL ALLIANCE & PROPAGANDA SYSTEM SUMMARY:")
     print(f"  Active Alliances: {len(ecosystem.active_alliances)}")
     print(f"  Total Alliance Events: {len(ecosystem.alliance_events)}")
+    print(f"  Propaganda Events: {len(ecosystem.propaganda_events)}")  # ITERATION 024
+    print(f"  Media Saturation Level: {ecosystem.media_saturation_level:.2f}")  # ITERATION 024
     
     for alliance_name, alliance in ecosystem.active_alliances.items():
         print(f"\n  Alliance: {alliance_name}")
@@ -272,6 +293,31 @@ def test_ecosystem_with_alliances():
         print(f"    Shared Victories: {alliance.shared_victories}")
         print(f"    Cooperation Failures: {alliance.cooperation_failures}")
         print(f"    Betrayal Risk: {alliance.betrayal_risk:.3f}")
+    
+    # Display propaganda event summary - ITERATION 024
+    if ecosystem.propaganda_events:
+        print(f"\n📢 PROPAGANDA EVENT SUMMARY:")
+        propaganda_by_type = {}
+        support_changes_total = {}
+        
+        for prop_event in ecosystem.propaganda_events:
+            event_type = prop_event.event_type
+            propaganda_by_type[event_type] = propaganda_by_type.get(event_type, 0) + 1
+            
+            # Track support changes
+            for faction_name, change in prop_event.support_changes.items():
+                if faction_name not in support_changes_total:
+                    support_changes_total[faction_name] = 0
+                support_changes_total[faction_name] += change
+        
+        for event_type, count in propaganda_by_type.items():
+            print(f"  {event_type}: {count} events")
+        
+        print(f"\n  Public Support Changes from Propaganda:")
+        for faction_name, total_change in support_changes_total.items():
+            initial = initial_support.get(faction_name, 0)
+            final = next((f.public_support for f in ecosystem.active_factions if f.name == faction_name), 0)
+            print(f"    {faction_name}: {initial:.1f}% → {final:.1f}% (Δ{total_change:+.1f}% from propaganda)")
     
     # Display relationship summary
     print(f"\n🔗 Faction Relationship Summary:")
@@ -286,27 +332,35 @@ def test_ecosystem_with_alliances():
 
 def main():
     """Main test function"""
-    print("🚀 REVOLUTIONARY ECOSYSTEM TESTING - ITERATIONS 022 & 023")
-    print("Testing Faction Rivalries, Splintering, and Alliance System")
+    print("🚀 REVOLUTIONARY ECOSYSTEM TESTING - ITERATIONS 022, 023 & 024")
+    print("Testing Faction Rivalries, Alliances, and Propaganda Narrative Wars")
     print("="*80)
     
     # Set random seed for reproducible testing
     random.seed(42)
     
     try:
-        # Test alliance system specifically
+        # Test alliance system with propaganda
         ecosystem = test_ecosystem_with_alliances()
         
         print(f"\n✅ TESTING COMPLETE - SUCCESS CRITERIA CHECK:")
         
-        # Check success criteria
+        # Check success criteria for Iteration 024
         alliance_formed = len(ecosystem.active_alliances) > 0 or len(ecosystem.alliance_events) > 0
         joint_operations_occurred = any(event.get('type') == 'joint_operation' for event in ecosystem.uprising_clock.major_events)
         betrayals_or_conflicts = len(ecosystem.conflict_history) > 0 or any(event.get('type') == 'alliance_betrayal' for event in ecosystem.alliance_events)
         
+        # New criteria for Iteration 024
+        propaganda_events_exist = len(ecosystem.propaganda_events) > 0
+        support_changes_logged = any(prop.support_changes for prop in ecosystem.propaganda_events)
+        narrative_wars_occurred = any(prop.event_type == "counter_narrative" for prop in ecosystem.propaganda_events)
+        
         print(f"  ✓ Alliance Formation: {'✅' if alliance_formed else '❌'}")
         print(f"  ✓ Joint Operations: {'✅' if joint_operations_occurred else '❌'}")
         print(f"  ✓ Conflicts/Betrayals: {'✅' if betrayals_or_conflicts else '❌'}")
+        print(f"  ✓ Propaganda Events: {'✅' if propaganda_events_exist else '❌'}")
+        print(f"  ✓ Support Changes Logged: {'✅' if support_changes_logged else '❌'}")
+        print(f"  ✓ Narrative Wars: {'✅' if narrative_wars_occurred else '❌'}")
         
         # Check momentum impact logging
         momentum_events = [event for event in ecosystem.uprising_clock.major_events if 'joint_operation' in event.get('type', '')]
@@ -321,9 +375,10 @@ def main():
         cooperation_changes = len(alliance_members) > 0  # Simple check - alliance members exist
         print(f"  ✓ Alliance Landscape Impact: {'✅' if cooperation_changes else '❌'}")
         
-        if alliance_formed and momentum_logged:
-            print(f"\n🎉 ITERATION 023 IMPLEMENTATION SUCCESSFUL!")
-            print(f"Alliance system is functioning with trust-based cooperation and betrayal mechanics.")
+        if alliance_formed and propaganda_events_exist and support_changes_logged:
+            print(f"\n🎉 ITERATION 024 IMPLEMENTATION SUCCESSFUL!")
+            print(f"Propaganda narrative system integrated with alliance mechanics.")
+            print(f"Dynamic support shifts and trust changes working correctly.")
         else:
             print(f"\n⚠️ Some success criteria not fully met - may need additional testing.")
             

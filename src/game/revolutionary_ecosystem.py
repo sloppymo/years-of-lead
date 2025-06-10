@@ -68,6 +68,18 @@ class FactionConflictType(Enum):
     # Alliance conflict types - ITERATION 023
     ALLIANCE_BETRAYAL = "alliance_betrayal"       # Breaking alliance for personal gain
     COOPERATION_FAILURE = "cooperation_failure"   # Joint operation failure causing tension
+    
+    # Propaganda narrative conflicts - ITERATION 024
+    NARRATIVE_WAR = "narrative_war"               # Public propaganda battle over alliance/betrayal
+
+
+class PropagandaTone(Enum):
+    """Propaganda narrative tones for alliance events - ITERATION 024"""
+    UNITY_AGAINST_OPPRESSION = "unity_against_oppression"    # Positive alliance spin
+    BETRAYAL_OF_CAUSE = "betrayal_of_cause"                 # Anti-betrayer narrative
+    HEROIC_COOPERATION = "heroic_cooperation"               # Joint success celebration
+    ALLIANCE_NECESSITY = "alliance_necessity"               # Strategic alliance justification
+    TRAITOR_EXPOSURE = "traitor_exposure"                   # Denouncing former allies
 
 
 @dataclass
@@ -969,6 +981,135 @@ class UprisingClock:
 
 
 @dataclass
+class AlliancePropagandaEvent:
+    """Propaganda event around alliance formation, cooperation, or betrayal - ITERATION 024"""
+    event_type: str                                         # "alliance_formation", "joint_success", "betrayal"
+    propaganda_tone: PropagandaTone
+    initiating_faction: str
+    target_factions: List[str] = field(default_factory=list)
+    timestamp: datetime = field(default_factory=datetime.now)
+    
+    # Media characteristics
+    media_saturation: float = 0.5                          # 0-1, how much media coverage
+    public_reaction: float = 0.0                           # -1 to +1, public reception
+    narrative_strength: float = 1.0                       # 0-2, effectiveness of message
+    
+    # Outcome tracking
+    support_changes: Dict[str, float] = field(default_factory=dict)  # Faction -> support delta
+    trust_impacts: Dict[str, float] = field(default_factory=dict)   # Alliance -> trust delta
+    counter_narratives: List[str] = field(default_factory=list)     # Competing propaganda
+    
+    def execute_propaganda_campaign(self, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, Any]:
+        """Execute the propaganda campaign and calculate impacts"""
+        results = {
+            'propaganda_type': self.propaganda_tone.value,
+            'initiator': self.initiating_faction,
+            'media_coverage': self.media_saturation,
+            'public_response': self.public_reaction,
+            'support_changes': {},
+            'trust_changes': {},
+            'narrative_success': False
+        }
+        
+        initiator = next((f for f in ecosystem.active_factions if f.name == self.initiating_faction), None)
+        if not initiator:
+            return results
+        
+        # Calculate propaganda effectiveness
+        base_effectiveness = initiator.media_reach * self.narrative_strength
+        saturation_bonus = self.media_saturation * 0.5
+        total_effectiveness = min(1.0, base_effectiveness + saturation_bonus)
+        
+        # Apply tone-specific effects
+        if self.propaganda_tone == PropagandaTone.UNITY_AGAINST_OPPRESSION:
+            # Boost support for alliance members
+            for faction_name in [self.initiating_faction] + self.target_factions:
+                faction = next((f for f in ecosystem.active_factions if f.name == faction_name), None)
+                if faction:
+                    support_boost = total_effectiveness * random.uniform(2.0, 6.0)
+                    faction.public_support += support_boost
+                    self.support_changes[faction_name] = support_boost
+                    results['support_changes'][faction_name] = support_boost
+            
+            # Boost trust in alliances involving these factions
+            for alliance in ecosystem.active_alliances.values():
+                if self.initiating_faction in alliance.member_factions:
+                    trust_boost = total_effectiveness * random.uniform(3.0, 8.0)
+                    alliance.trust_level = min(100.0, alliance.trust_level + trust_boost)
+                    self.trust_impacts[alliance.alliance_name] = trust_boost
+                    results['trust_changes'][alliance.alliance_name] = trust_boost
+            
+            results['narrative_success'] = total_effectiveness > 0.6
+        
+        elif self.propaganda_tone == PropagandaTone.BETRAYAL_OF_CAUSE:
+            # Damage betrayer's support and credibility
+            for target_name in self.target_factions:
+                target_faction = next((f for f in ecosystem.active_factions if f.name == target_name), None)
+                if target_faction:
+                    support_damage = total_effectiveness * random.uniform(3.0, 10.0)
+                    target_faction.public_support = max(0.0, target_faction.public_support - support_damage)
+                    target_faction.factional_trust = max(0.0, target_faction.factional_trust - support_damage * 0.5)
+                    self.support_changes[target_name] = -support_damage
+                    results['support_changes'][target_name] = -support_damage
+            
+            # Boost initiator's credibility slightly
+            support_boost = total_effectiveness * random.uniform(1.0, 4.0)
+            initiator.public_support += support_boost
+            self.support_changes[self.initiating_faction] = support_boost
+            results['support_changes'][self.initiating_faction] = support_boost
+            
+            results['narrative_success'] = total_effectiveness > 0.5
+        
+        elif self.propaganda_tone == PropagandaTone.HEROIC_COOPERATION:
+            # Celebrate joint successes
+            involved_factions = [self.initiating_faction] + self.target_factions
+            for faction_name in involved_factions:
+                faction = next((f for f in ecosystem.active_factions if f.name == faction_name), None)
+                if faction:
+                    support_boost = total_effectiveness * random.uniform(1.5, 5.0)
+                    faction.public_support += support_boost
+                    faction.media_reach = min(1.0, faction.media_reach + 0.02)
+                    self.support_changes[faction_name] = support_boost
+                    results['support_changes'][faction_name] = support_boost
+            
+            results['narrative_success'] = total_effectiveness > 0.4
+        
+        elif self.propaganda_tone == PropagandaTone.ALLIANCE_NECESSITY:
+            # Justify alliance decisions
+            faction = next((f for f in ecosystem.active_factions if f.name == self.initiating_faction), None)
+            if faction:
+                support_boost = total_effectiveness * random.uniform(0.5, 3.0)
+                faction.public_support += support_boost
+                self.support_changes[self.initiating_faction] = support_boost
+                results['support_changes'][self.initiating_faction] = support_boost
+            
+            results['narrative_success'] = total_effectiveness > 0.3
+        
+        elif self.propaganda_tone == PropagandaTone.TRAITOR_EXPOSURE:
+            # Expose supposed traitors
+            for target_name in self.target_factions:
+                target_faction = next((f for f in ecosystem.active_factions if f.name == target_name), None)
+                if target_faction:
+                    support_damage = total_effectiveness * random.uniform(2.0, 7.0)
+                    target_faction.public_support = max(0.0, target_faction.public_support - support_damage)
+                    self.support_changes[target_name] = -support_damage
+                    results['support_changes'][target_name] = -support_damage
+            
+            # Small boost for exposer
+            support_boost = total_effectiveness * random.uniform(0.5, 2.0)
+            initiator.public_support += support_boost
+            self.support_changes[self.initiating_faction] = support_boost
+            results['support_changes'][self.initiating_faction] = support_boost
+            
+            results['narrative_success'] = total_effectiveness > 0.4
+        
+        # Media saturation affects future propaganda effectiveness
+        self.media_saturation = max(0.1, self.media_saturation - 0.1)  # Saturation decay
+        
+        return results
+
+
+@dataclass
 class RevolutionaryEcosystem:
     """Manages multiple revolutionary factions and their interactions"""
     active_factions: List[RevolutionaryFaction] = field(default_factory=list)
@@ -984,6 +1125,92 @@ class RevolutionaryEcosystem:
     active_alliances: Dict[str, FactionAlliance] = field(default_factory=dict)
     alliance_events: List[Dict[str, Any]] = field(default_factory=list)
     alliance_formation_threshold: float = 60.0  # Combined cooperation + trust needed
+    
+    # Propaganda narrative system - ITERATION 024
+    propaganda_events: List[AlliancePropagandaEvent] = field(default_factory=list)
+    media_saturation_level: float = 0.3  # 0-1, current media attention on alliances
+    
+    def trigger_propaganda_event(self, event_type: str, initiator: str, 
+                                targets: List[str] = None, tone: PropagandaTone = None) -> AlliancePropagandaEvent:
+        """Trigger a propaganda event around alliance activities - ITERATION 024"""
+        if targets is None:
+            targets = []
+        
+        # Auto-select propaganda tone based on event type if not specified
+        if tone is None:
+            if event_type == "alliance_formation":
+                tone = PropagandaTone.UNITY_AGAINST_OPPRESSION
+            elif event_type == "joint_success":
+                tone = PropagandaTone.HEROIC_COOPERATION
+            elif event_type == "betrayal":
+                tone = PropagandaTone.BETRAYAL_OF_CAUSE
+            else:
+                tone = PropagandaTone.ALLIANCE_NECESSITY
+        
+        # Create propaganda event
+        propaganda_event = AlliancePropagandaEvent(
+            event_type=event_type,
+            propaganda_tone=tone,
+            initiating_faction=initiator,
+            target_factions=targets,
+            media_saturation=min(1.0, self.media_saturation_level + 0.2),
+            narrative_strength=random.uniform(0.8, 1.5)
+        )
+        
+        # Execute the propaganda campaign
+        results = propaganda_event.execute_propaganda_campaign(self)
+        
+        # Store event and results
+        self.propaganda_events.append(propaganda_event)
+        
+        # Update global media saturation
+        self.media_saturation_level = min(1.0, self.media_saturation_level + 0.1)
+        
+        return propaganda_event
+    
+    def execute_narrative_wars(self) -> List[Dict[str, Any]]:
+        """Execute propaganda narrative wars between factions - ITERATION 024"""
+        narrative_results = []
+        
+        # Check for counter-propaganda opportunities
+        for faction in self.active_factions:
+            if faction.media_reach > 0.4 and random.random() < 0.3:  # 30% chance if high media reach
+                
+                # Look for recent propaganda to counter
+                recent_propaganda = [p for p in self.propaganda_events[-3:] 
+                                   if faction.name not in [p.initiating_faction] + p.target_factions]
+                
+                if recent_propaganda:
+                    target_propaganda = recent_propaganda[-1]  # Counter most recent
+                    
+                    # Determine counter-narrative tone
+                    if target_propaganda.propaganda_tone == PropagandaTone.UNITY_AGAINST_OPPRESSION:
+                        counter_tone = PropagandaTone.BETRAYAL_OF_CAUSE
+                        targets = [target_propaganda.initiating_faction]
+                    elif target_propaganda.propaganda_tone == PropagandaTone.BETRAYAL_OF_CAUSE:
+                        counter_tone = PropagandaTone.UNITY_AGAINST_OPPRESSION
+                        targets = target_propaganda.target_factions
+                    else:
+                        counter_tone = PropagandaTone.TRAITOR_EXPOSURE
+                        targets = [target_propaganda.initiating_faction]
+                    
+                    # Launch counter-propaganda
+                    counter_event = self.trigger_propaganda_event(
+                        "counter_narrative", faction.name, targets, counter_tone
+                    )
+                    
+                    narrative_results.append({
+                        'type': 'counter_propaganda',
+                        'initiator': faction.name,
+                        'targets': targets,
+                        'tone': counter_tone.value,
+                        'effectiveness': counter_event.narrative_strength
+                    })
+        
+        # Media saturation decay
+        self.media_saturation_level = max(0.1, self.media_saturation_level - 0.05)
+        
+        return narrative_results
 
     def initialize_default_factions(self) -> None:
         """Initialize 2-3 default AI factions for testing"""
@@ -1384,6 +1611,11 @@ class RevolutionaryEcosystem:
         }
         self.alliance_events.append(alliance_event)
         
+        # Trigger propaganda event for alliance formation - ITERATION 024
+        propaganda_initiator = random.choice(faction_names)  # Random faction leads propaganda
+        other_members = [name for name in faction_names if name != propaganda_initiator]
+        self.trigger_propaganda_event("alliance_formation", propaganda_initiator, other_members)
+        
         print(f"🤝 ALLIANCE FORMED: {alliance_name} between {', '.join(faction_names)}")
         
         return alliance
@@ -1416,6 +1648,18 @@ class RevolutionaryEcosystem:
             if relationship:
                 relationship.trust_rating = max(-50.0, relationship.trust_rating - 30.0)
                 relationship.rivalry_intensity = min(100.0, relationship.rivalry_intensity + 25.0)
+        
+        # Trigger propaganda campaigns around betrayal - ITERATION 024
+        # Betrayed factions launch "betrayal of cause" propaganda
+        if remaining_members:
+            victim_spokesman = random.choice(remaining_members)
+            self.trigger_propaganda_event("betrayal", victim_spokesman, [betraying_faction], 
+                                         PropagandaTone.BETRAYAL_OF_CAUSE)
+        
+        # Betrayer may launch defensive propaganda
+        if random.random() < 0.6:  # 60% chance of defensive response
+            self.trigger_propaganda_event("betrayal_defense", betraying_faction, remaining_members,
+                                         PropagandaTone.ALLIANCE_NECESSITY)
         
         # Log betrayal event
         betrayal_event = {
@@ -1481,6 +1725,37 @@ class RevolutionaryEcosystem:
             for faction in member_factions:
                 faction.joint_operation_experience += 1
             
+            # Trigger propaganda events based on operation results - ITERATION 024
+            if results['success']:
+                # Successful joint operations trigger celebratory propaganda
+                propaganda_leader = random.choice(alliance.member_factions)
+                other_members = [name for name in alliance.member_factions if name != propaganda_leader]
+                propaganda_event = self.trigger_propaganda_event(
+                    "joint_success", propaganda_leader, other_members, PropagandaTone.HEROIC_COOPERATION
+                )
+                results['propaganda_event'] = {
+                    'type': 'success_celebration',
+                    'leader': propaganda_leader,
+                    'tone': propaganda_event.propaganda_tone.value,
+                    'media_coverage': propaganda_event.media_saturation
+                }
+            elif alliance.cooperation_failures > alliance.shared_victories:
+                # Multiple failures may trigger blame propaganda
+                if random.random() < 0.4:  # 40% chance of internal blame
+                    scapegoat = random.choice(alliance.member_factions)
+                    accusers = [name for name in alliance.member_factions if name != scapegoat]
+                    if accusers:
+                        accuser = random.choice(accusers)
+                        propaganda_event = self.trigger_propaganda_event(
+                            "operation_failure", accuser, [scapegoat], PropagandaTone.TRAITOR_EXPOSURE
+                        )
+                        results['propaganda_event'] = {
+                            'type': 'failure_blame',
+                            'accuser': accuser,
+                            'scapegoat': scapegoat,
+                            'tone': propaganda_event.propaganda_tone.value
+                        }
+            
             joint_operation_results.append(results)
             
             # Check for betrayal after joint operations
@@ -1499,6 +1774,7 @@ class RevolutionaryEcosystem:
             'new_alliances': [],
             'joint_operations': [],
             'betrayals': [],
+            'propaganda_wars': [],  # ITERATION 024: Add propaganda tracking
             'alliance_summary': {}
         }
         
@@ -1521,10 +1797,16 @@ class RevolutionaryEcosystem:
         joint_ops = self.execute_joint_operations()
         alliance_results['joint_operations'] = joint_ops
         
+        # Execute propaganda narrative wars - ITERATION 024
+        narrative_wars = self.execute_narrative_wars()
+        alliance_results['propaganda_wars'] = narrative_wars
+        
         # Create alliance summary
         alliance_results['alliance_summary'] = {
             'active_alliances': len(self.active_alliances),
             'total_alliance_events': len(self.alliance_events),
+            'propaganda_events': len(self.propaganda_events),  # ITERATION 024
+            'media_saturation': self.media_saturation_level,    # ITERATION 024
             'alliance_details': []
         }
         

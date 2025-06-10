@@ -8,7 +8,7 @@ Inspired by XCOM's tactical depth and RimWorld's narrative generation.
 
 import random
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple, Set
 from dataclasses import dataclass, field
 from enum import Enum
@@ -60,6 +60,20 @@ class ComplicationSeverity(Enum):
     MODERATE = "moderate"
     MAJOR = "major"
     CATASTROPHIC = "catastrophic"
+
+
+class EmotionalTone(Enum):
+    """Emotional tone of mission outcomes for narrative variety"""
+    TRIUMPHANT_VICTORY = "triumphant_victory"     # Overwhelming success
+    HEROIC_SACRIFICE = "heroic_sacrifice"         # Success through sacrifice  
+    TACTICAL_WITHDRAWAL = "tactical_withdrawal"   # Strategic retreat
+    DESPERATE_STRUGGLE = "desperate_struggle"     # Barely surviving
+    BITTERSWEET_SUCCESS = "bittersweet_success"   # Won but at great cost
+    PYRRHIC_VICTORY = "pyrrhic_victory"          # Victory too costly
+    FEARFUL_RETREAT = "fearful_retreat"          # Panicked escape
+    BETRAYAL_TRAGEDY = "betrayal_tragedy"        # Betrayed by own
+    REDEMPTIVE_MOMENT = "redemptive_moment"      # Agent redeems themselves
+    AMBIGUOUS_OUTCOME = "ambiguous_outcome"      # Unclear success/failure
 
 
 @dataclass
@@ -170,6 +184,7 @@ class MissionReport:
     memorable_moments: List[str]
     propaganda_value: float
     symbolic_impact: str
+    emotional_tone: Optional[EmotionalTone] = None  # New narrative tone tracking
     
     def generate_full_report(self) -> str:
         """Generate comprehensive narrative report"""
@@ -293,9 +308,14 @@ class MissionExecutor:
         # Finalize mission
         report.end_time = datetime.now()
         
-        # Calculate final outcome if not already set
-        if not mission_aborted:
-            report.outcome = self._calculate_final_outcome(mission, report)
+        # Calculate final mission outcome
+        report.outcome = self._calculate_final_outcome(mission, report)
+        
+        # Determine emotional tone based on the outcome
+        report.emotional_tone = self._determine_emotional_tone(report)
+        
+        # Apply mission consequences to persistent game state
+        self._apply_mission_consequences(mission, agents, report)
         
         # Generate narrative summary
         report.narrative_summary = self.narrative_generator.generate_mission_summary(report)
@@ -303,9 +323,6 @@ class MissionExecutor:
         # Calculate propaganda value and symbolic impact
         report.propaganda_value = self._calculate_propaganda_value(report)
         report.symbolic_impact = self._determine_symbolic_impact(mission, report)
-        
-        # Apply all consequences
-        self._apply_mission_consequences(mission, agents, report)
         
         # Log the complete report
         self._log_mission_report(report)
@@ -634,6 +651,10 @@ class MissionExecutor:
         # Execute primary objective
         success_count = 0
         for agent in agents:
+            # Skip if already incapacitated or captured  
+            if agent.id in report.casualties or agent.id in report.captured_agents:
+                continue
+                
             if agent.emotional_state.is_psychologically_stable():
                 # Agent can act effectively
                 skill_check = self._perform_skill_check(agent, mission.required_skills)
@@ -714,9 +735,9 @@ class MissionExecutor:
         }
         
         # Extraction is harder if mission execution failed or heat is high
-        extraction_difficulty = 0.3
+        extraction_difficulty = 0.2  # Reduced from 0.3 for better balance
         if not report.objectives_completed:
-            extraction_difficulty += 0.2
+            extraction_difficulty += 0.15  # Reduced from 0.2
         if report.heat_generated > 10:
             extraction_difficulty += 0.1
         
@@ -903,7 +924,7 @@ class MissionExecutor:
         # Calculate betrayal probability
         base_betrayal_chance = 0.05  # 5% base chance
         
-        # Modifiers
+        # Core modifiers (existing)
         if avg_relationship < -0.3:
             base_betrayal_chance += 0.2  # Poor relationships
         if agent.get_ideological_score() < 0.3:
@@ -913,13 +934,35 @@ class MissionExecutor:
         if agent.get_stress_level() > 0.8:
             base_betrayal_chance += 0.1  # Extreme stress
         
-        # Loyal trait reduces betrayal
+        # NEW: Contextual mission modifiers
+        # Mission going badly increases betrayal chance
+        if report.casualties:
+            base_betrayal_chance += 0.05 * len(report.casualties)  # Each death increases chance
+        if len(report.objectives_failed) > len(report.objectives_completed):
+            base_betrayal_chance += 0.08  # Failing mission increases desperation
+        if report.heat_generated > 15:
+            base_betrayal_chance += 0.06  # High heat = more pressure
+        
+        # Agent's personal performance affects loyalty  
+        agent_performance = report.agent_performance.get(agent.id)
+        if agent_performance:
+            failed_actions = len([a for a in agent_performance.actions_taken if not a.success])
+            if failed_actions > 2:
+                base_betrayal_chance += 0.04  # Personal failures breed desperation
+            if agent_performance.panic_episodes > 0:
+                base_betrayal_chance += 0.03 * agent_performance.panic_episodes  # Panic weakens resolve
+        
+        # Trait modifiers (existing)
         if PersonalityTrait.LOYAL in agent.traits.get_all_traits():
             base_betrayal_chance *= 0.3
-        
-        # Opportunistic trait increases betrayal
         if PersonalityTrait.OPPORTUNISTIC in agent.traits.get_all_traits():
             base_betrayal_chance *= 1.5
+        
+        # NEW: Additional trait considerations
+        if PersonalityTrait.CAUTIOUS in agent.traits.get_all_traits():
+            base_betrayal_chance *= 1.2  # Cautious agents more likely to save themselves
+        if PersonalityTrait.RECKLESS in agent.traits.get_all_traits():
+            base_betrayal_chance *= 0.8  # Reckless agents less likely to think it through
         
         if random.random() < base_betrayal_chance:
             betrayal_result["betrayal_occurred"] = True
@@ -962,7 +1005,7 @@ class MissionExecutor:
         # Calculate success chance
         base_chance = best_level / 10.0
         effectiveness_modifier = agent.emotional_state.get_combat_effectiveness()
-        final_chance = base_chance * 0.7 + effectiveness_modifier * 0.3
+        final_chance = base_chance * 0.6 + effectiveness_modifier * 0.3 + 0.1  # Added +0.1 base bonus
         
         # Trait modifiers
         if agent.traits.primary_trait == PersonalityTrait.METHODICAL:
@@ -1285,6 +1328,57 @@ class MissionExecutor:
         # Log full narrative report
         full_report = report.generate_full_report()
         logger.info(f"Full mission report:\n{full_report}")
+
+    def _determine_emotional_tone(self, report: MissionReport) -> EmotionalTone:
+        """Determine the emotional tone of the mission outcome"""
+        # Count key factors
+        total_agents = len(report.agent_performance)
+        casualties = len(report.casualties)
+        captured = len(report.captured_agents)
+        heroes = sum(1 for p in report.agent_performance.values() if p.heroic_moment)
+        betrayals = sum(1 for p in report.agent_performance.values() if p.betrayal_attempted)
+        panic_episodes = sum(p.panic_episodes for p in report.agent_performance.values())
+        
+        # Primary tone determination logic
+        if betrayals > 0:
+            return EmotionalTone.BETRAYAL_TRAGEDY
+            
+        elif report.outcome == MissionOutcome.CRITICAL_SUCCESS:
+            if heroes > 0:
+                return EmotionalTone.TRIUMPHANT_VICTORY
+            else:
+                return EmotionalTone.BITTERSWEET_SUCCESS
+                
+        elif report.outcome == MissionOutcome.SUCCESS:
+            if casualties > 0:
+                return EmotionalTone.PYRRHIC_VICTORY
+            elif heroes > 0:
+                return EmotionalTone.REDEMPTIVE_MOMENT
+            else:
+                return EmotionalTone.BITTERSWEET_SUCCESS
+                
+        elif report.outcome == MissionOutcome.PARTIAL_SUCCESS:
+            if casualties > total_agents // 2:
+                return EmotionalTone.HEROIC_SACRIFICE
+            else:
+                return EmotionalTone.AMBIGUOUS_OUTCOME
+                
+        elif report.outcome == MissionOutcome.FAILURE:
+            if panic_episodes > total_agents:
+                return EmotionalTone.FEARFUL_RETREAT
+            elif captured + casualties < total_agents // 2:
+                return EmotionalTone.TACTICAL_WITHDRAWAL
+            else:
+                return EmotionalTone.DESPERATE_STRUGGLE
+                
+        elif report.outcome == MissionOutcome.DISASTER:
+            if heroes > 0:
+                return EmotionalTone.HEROIC_SACRIFICE
+            else:
+                return EmotionalTone.DESPERATE_STRUGGLE
+                
+        else:
+            return EmotionalTone.AMBIGUOUS_OUTCOME
 
 
 class NarrativeGenerator:

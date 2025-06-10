@@ -446,7 +446,9 @@ class EmotionalState:
         if self.fear > 0.7:
             base_effectiveness *= (1.0 - self.fear * 0.3)
         
-        if self.stress > 0.8:
+        # High trauma or extreme negative emotions reduce effectiveness  
+        stress_level = max(self.fear, self.sadness, self.anger, self.trauma_level)
+        if stress_level > 0.8:
             base_effectiveness *= 0.7
             
         # Anger can increase effectiveness slightly

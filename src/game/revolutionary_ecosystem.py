@@ -41,6 +41,16 @@ class FactionActivityType(Enum):
     IDEOLOGICAL_PURGE = "ideological_purge"       # Internal faction purification
 
 
+class JointActivityType(Enum):
+    """Types of joint activities between allied factions - ITERATION 023"""
+    COOP_PROPAGANDA = "coop_propaganda"            # Joint propaganda campaign
+    JOINT_DEMONSTRATION = "joint_demonstration"    # Coordinated public demonstration
+    COMBINED_OPERATION = "combined_operation"      # Joint military/sabotage operation
+    SHARED_RECRUITMENT = "shared_recruitment"      # Cooperative recruitment drive
+    ALLIANCE_SUMMIT = "alliance_summit"           # Strategic planning meeting
+    RESOURCE_SHARING = "resource_sharing"         # Sharing funds, safe houses, intel
+
+
 class FactionConflictType(Enum):
     """Types of inter-faction conflicts"""
     FRACTURE_REVOLUTION = "fracture_revolution"    # Major ideological split
@@ -54,6 +64,10 @@ class FactionConflictType(Enum):
     # Additional conflict types for rivalry resolution - ITERATION 022
     PROPAGANDA_WAR = "propaganda_war"             # Media campaign between factions
     DEFECTION_CAMPAIGN = "defection_campaign"     # Encouraging rival defections
+    
+    # Alliance conflict types - ITERATION 023
+    ALLIANCE_BETRAYAL = "alliance_betrayal"       # Breaking alliance for personal gain
+    COOPERATION_FAILURE = "cooperation_failure"   # Joint operation failure causing tension
 
 
 @dataclass
@@ -214,6 +228,149 @@ class FactionConflictEvent:
 
 
 @dataclass
+class FactionAlliance:
+    """Formal alliance between revolutionary factions - ITERATION 023"""
+    alliance_name: str
+    member_factions: List[str] = field(default_factory=list)
+    formation_date: datetime = field(default_factory=datetime.now)
+    trust_level: float = 50.0               # 0-100, overall alliance cohesion
+    cooperation_momentum: float = 0.0       # -50 to +50, recent cooperation success
+    
+    # Joint activities
+    joint_operations: List[str] = field(default_factory=list)
+    shared_victories: int = 0
+    cooperation_failures: int = 0
+    
+    # Stability tracking
+    betrayal_risk: float = 0.1             # 0-1, chance of betrayal per turn
+    alliance_strength: float = 1.0         # 0-2, effectiveness multiplier for joint ops
+    last_joint_activity: Optional[datetime] = None
+    
+    def calculate_betrayal_risk(self, faction_relationships: Dict[str, 'FactionRelationship']) -> float:
+        """Calculate current risk of alliance betrayal"""
+        base_risk = 0.1
+        
+        # Low trust increases betrayal risk
+        if self.trust_level < 30.0:
+            base_risk += 0.3
+        
+        # Cooperation failures increase risk
+        if self.cooperation_failures > self.shared_victories:
+            base_risk += 0.2
+        
+        # Check individual faction relationships within alliance
+        worst_relationship_trust = 100.0
+        for i, faction_a in enumerate(self.member_factions):
+            for j, faction_b in enumerate(self.member_factions):
+                if i < j:
+                    relationship_key = f"{faction_a}_{faction_b}"
+                    alt_key = f"{faction_b}_{faction_a}"
+                    relationship = faction_relationships.get(relationship_key) or faction_relationships.get(alt_key)
+                    if relationship:
+                        worst_relationship_trust = min(worst_relationship_trust, relationship.trust_rating)
+        
+        if worst_relationship_trust < 0:
+            base_risk += 0.4  # Hostile members make alliance unstable
+        
+        # Positive momentum reduces risk
+        if self.cooperation_momentum > 20.0:
+            base_risk -= 0.2
+        
+        return max(0.0, min(1.0, base_risk))
+    
+    def execute_joint_activity(self, activity_type: JointActivityType, 
+                             participating_factions: List['RevolutionaryFaction'],
+                             faction_relationships: Dict[str, 'FactionRelationship']) -> Dict[str, Any]:
+        """Execute a joint activity between alliance members"""
+        results = {
+            'activity_type': activity_type.value,
+            'participants': [f.name for f in participating_factions],
+            'success': False,
+            'outcomes': [],
+            'trust_change': 0.0,
+            'momentum_impact': 0.0
+        }
+        
+        # Calculate joint effectiveness
+        combined_capacity = sum(f.operational_capacity for f in participating_factions)
+        combined_support = sum(f.public_support for f in participating_factions) / len(participating_factions)
+        
+        # Activity-specific execution
+        if activity_type == JointActivityType.COOP_PROPAGANDA:
+            combined_media = sum(f.media_reach for f in participating_factions)
+            success_chance = min(0.9, (combined_media + combined_support / 100) / 2)
+            
+            if random.random() < success_chance:
+                results['success'] = True
+                support_boost = random.uniform(3.0, 8.0) * len(participating_factions) * 0.5
+                for faction in participating_factions:
+                    faction.public_support += support_boost
+                    faction.media_reach = min(1.0, faction.media_reach + 0.05)
+                
+                results['outcomes'].append(f"Joint propaganda campaign boosts support by {support_boost:.1f}% each")
+                results['trust_change'] = 5.0
+                results['momentum_impact'] = 2.0
+                self.shared_victories += 1
+            else:
+                results['outcomes'].append("Joint propaganda campaign fails to resonate")
+                results['trust_change'] = -2.0
+                self.cooperation_failures += 1
+        
+        elif activity_type == JointActivityType.COMBINED_OPERATION:
+            success_chance = min(0.8, combined_capacity / len(participating_factions))
+            
+            if random.random() < success_chance:
+                results['success'] = True
+                for faction in participating_factions:
+                    faction.major_operations.append(f"joint_op_{datetime.now().strftime('%Y%m%d')}")
+                    faction.government_heat += 1.5
+                
+                results['outcomes'].append(f"Combined operation successful with {len(participating_factions)} factions")
+                results['trust_change'] = 8.0
+                results['momentum_impact'] = 4.0 * len(participating_factions)
+                self.shared_victories += 1
+            else:
+                results['outcomes'].append("Combined operation fails, coordination problems")
+                results['trust_change'] = -5.0
+                results['momentum_impact'] = -1.0
+                
+                # Failed joint ops can cause casualties
+                if random.random() < 0.3:
+                    casualty_faction = random.choice(participating_factions)
+                    casualty_faction.martyrs_created.append(f"joint_op_martyr_{datetime.now().strftime('%Y%m%d')}")
+                    results['outcomes'].append(f"{casualty_faction.name} suffers casualties in failed operation")
+        
+        elif activity_type == JointActivityType.JOINT_DEMONSTRATION:
+            demo_power = combined_support * len(participating_factions) * 0.8
+            
+            if demo_power > 60.0:
+                results['success'] = True
+                for faction in participating_factions:
+                    faction.public_support += 2.0
+                
+                results['outcomes'].append(f"Massive joint demonstration with {demo_power:.0f} participation power")
+                results['trust_change'] = 4.0
+                results['momentum_impact'] = 3.0
+                self.shared_victories += 1
+            else:
+                results['outcomes'].append("Joint demonstration poorly attended")
+                results['trust_change'] = -1.0
+                results['momentum_impact'] = -1.0
+                self.cooperation_failures += 1
+        
+        # Update alliance metrics
+        self.trust_level = max(0.0, min(100.0, self.trust_level + results['trust_change']))
+        self.cooperation_momentum += results['momentum_impact']
+        self.cooperation_momentum = max(-50.0, min(50.0, self.cooperation_momentum))
+        self.last_joint_activity = datetime.now()
+        
+        # Update betrayal risk
+        self.betrayal_risk = self.calculate_betrayal_risk(faction_relationships)
+        
+        return results
+
+
+@dataclass
 class RevolutionaryFaction:
     """AI-controlled revolutionary faction operating independently"""
     name: str
@@ -256,12 +413,92 @@ class RevolutionaryFaction:
     split_threshold: float = 0.7         # When internal_divergence exceeds this, faction may split
     rivalry_targets: Set[str] = field(default_factory=set)  # Faction names we actively rival
     
+    # Alliance tracking - ITERATION 023
+    alliance_memberships: List[str] = field(default_factory=list)  # Names of alliances joined
+    alliance_cooldown: Dict[str, datetime] = field(default_factory=dict)  # Faction -> last betrayal time
+    preferred_alliance_partners: List[str] = field(default_factory=list)  # Faction names
+    joint_operation_experience: int = 0         # Number of joint ops participated in
+    factional_trust: float = 50.0               # 0-100, trust in other factions
+    
     # Splinter tracking
     is_splinter_faction: bool = False
     parent_faction: Optional[str] = None
     splinter_date: Optional[datetime] = None
     inherited_support: float = 0.0       # Support inherited from parent faction
-    
+
+    def can_form_alliance_with(self, other_faction: 'RevolutionaryFaction', 
+                              relationship: Optional['FactionRelationship'] = None) -> Tuple[bool, str]:
+        """Check if this faction can form an alliance with another - ITERATION 023"""
+        reasons = []
+        
+        # Cooldown check
+        if other_faction.name in self.alliance_cooldown:
+            cooldown_end = self.alliance_cooldown[other_faction.name] + timedelta(days=30)
+            if datetime.now() < cooldown_end:
+                return False, f"Alliance cooldown with {other_faction.name} still active"
+        
+        # Trust requirements
+        if relationship:
+            if relationship.trust_rating < 20.0:
+                return False, "Insufficient trust for alliance formation"
+            
+            if relationship.rivalry_intensity > 70.0:
+                return False, "Too much hostility for alliance"
+        
+        # Basic compatibility
+        if self.factional_trust < 30.0:
+            return False, "This faction has low general trust in alliances"
+        
+        if len(self.rivalry_targets) > 2:
+            return False, "This faction is too hostile for cooperation"
+        
+        # Strategic alignment
+        shared_enemies = False
+        if self.government_heat > 6.0 and other_faction.government_heat > 6.0:
+            shared_enemies = True
+            reasons.append("Both factions face high government pressure")
+        
+        if self.public_support + other_faction.public_support < 40.0:
+            reasons.append("Combined support creates strategic necessity")
+            shared_enemies = True
+        
+        if shared_enemies or self.cooperation > 0.6:
+            return True, f"Alliance viable: {', '.join(reasons)}"
+        
+        return False, "No compelling strategic reason for alliance"
+
+    def calculate_alliance_value(self, other_faction: 'RevolutionaryFaction') -> float:
+        """Calculate the strategic value of allying with another faction - ITERATION 023"""
+        value = 0.0
+        
+        # Complementary strengths
+        if other_faction.operational_capacity > self.operational_capacity:
+            value += 20.0  # They bring operational expertise
+        
+        if other_faction.media_reach > self.media_reach:
+            value += 15.0  # They bring media access
+        
+        if other_faction.public_support > self.public_support:
+            value += 10.0  # They bring popular support
+        
+        # Resource synergy
+        combined_resources = self.funding_level + other_faction.funding_level
+        if combined_resources > 1.5:
+            value += 15.0  # Strong resource base
+        
+        # Strategic necessity
+        if self.government_heat > 6.0:
+            value += 25.0  # Need allies when under pressure
+        
+        if self.public_support < 20.0:
+            value += 20.0  # Need allies when unpopular
+        
+        # Experience factor
+        if other_faction.joint_operation_experience > 2:
+            value += 10.0  # They're good alliance partners
+        
+        return min(100.0, value)
+
     def execute_turn_activity(self, ecosystem: 'RevolutionaryEcosystem') -> Dict[str, any]:
         """Execute this faction's activity for the current turn"""
         activity_results = {
@@ -743,6 +980,11 @@ class RevolutionaryEcosystem:
     active_conflicts: List[FactionConflictEvent] = field(default_factory=list)
     conflict_history: List[FactionConflictEvent] = field(default_factory=list)
     
+    # Alliance system - ITERATION 023
+    active_alliances: Dict[str, FactionAlliance] = field(default_factory=dict)
+    alliance_events: List[Dict[str, Any]] = field(default_factory=list)
+    alliance_formation_threshold: float = 60.0  # Combined cooperation + trust needed
+
     def initialize_default_factions(self) -> None:
         """Initialize 2-3 default AI factions for testing"""
         # Socialist Workers' Movement
@@ -847,6 +1089,7 @@ class RevolutionaryEcosystem:
             'major_events': [],
             'faction_conflicts': [],
             'faction_splits': [],
+            'alliance_activities': {},  # ITERATION 023: Alliance activities
             'ecosystem_changes': {}
         }
         
@@ -878,6 +1121,21 @@ class RevolutionaryEcosystem:
                         outcome,
                         momentum_impact
                     )
+        
+        # Process alliance activities - ITERATION 023
+        alliance_turn_results = self.simulate_alliance_turn()
+        turn_results['alliance_activities'] = alliance_turn_results
+        
+        # Record alliance events in uprising clock
+        for joint_op in alliance_turn_results.get('joint_operations', []):
+            if joint_op['success']:
+                momentum_impact = joint_op.get('momentum_impact', 0.0)
+                self.uprising_clock.record_faction_event(
+                    joint_op['alliance_name'],
+                    "joint_operation",
+                    f"Successful {joint_op['activity_type']}: {'; '.join(joint_op['outcomes'])}",
+                    momentum_impact
+                )
         
         # Process inter-faction rivalries and conflicts
         rivalry_conflicts = self._process_faction_rivalries()
@@ -1043,3 +1301,242 @@ class RevolutionaryEcosystem:
                     faction.operational_capacity = max(0.3, faction.operational_capacity - 0.1)
         
         return events
+
+    def evaluate_alliance_opportunities(self) -> List[Tuple[str, str, float]]:
+        """Find potential alliance opportunities between factions - ITERATION 023"""
+        opportunities = []
+        faction_names = [f.name for f in self.active_factions]
+        
+        for i, faction_a_name in enumerate(faction_names):
+            for j, faction_b_name in enumerate(faction_names):
+                if i < j:  # Avoid duplicate pairs
+                    faction_a = next(f for f in self.active_factions if f.name == faction_a_name)
+                    faction_b = next(f for f in self.active_factions if f.name == faction_b_name)
+                    
+                    # Skip if already in alliance together
+                    shared_alliances = set(faction_a.alliance_memberships) & set(faction_b.alliance_memberships)
+                    if shared_alliances:
+                        continue
+                    
+                    # Get relationship
+                    relationship_key = f"{faction_a_name}_{faction_b_name}"
+                    alt_key = f"{faction_b_name}_{faction_a_name}"
+                    relationship = self.faction_relationships.get(relationship_key) or self.faction_relationships.get(alt_key)
+                    
+                    # Check basic alliance possibility
+                    can_ally_a, reason_a = faction_a.can_form_alliance_with(faction_b, relationship)
+                    can_ally_b, reason_b = faction_b.can_form_alliance_with(faction_a, relationship)
+                    
+                    if can_ally_a and can_ally_b:
+                        # Calculate combined alliance motivation
+                        value_a = faction_a.calculate_alliance_value(faction_b)
+                        value_b = faction_b.calculate_alliance_value(faction_a)
+                        combined_value = (value_a + value_b) / 2
+                        
+                        if relationship:
+                            trust_bonus = max(0, relationship.trust_rating - 50) * 0.5
+                            cooperation_bonus = max(0, len(relationship.cooperation_history) - 2) * 5
+                            combined_value += trust_bonus + cooperation_bonus
+                        
+                        if combined_value > self.alliance_formation_threshold:
+                            opportunities.append((faction_a_name, faction_b_name, combined_value))
+        
+        return sorted(opportunities, key=lambda x: x[2], reverse=True)
+
+    def form_alliance(self, faction_names: List[str], alliance_name: str = None) -> Optional[FactionAlliance]:
+        """Form a new alliance between specified factions - ITERATION 023"""
+        if len(faction_names) < 2:
+            return None
+        
+        # Generate alliance name if not provided
+        if not alliance_name:
+            alliance_name = f"{'_'.join(sorted(faction_names))}_alliance"
+        
+        # Check if all factions can join
+        participating_factions = []
+        for name in faction_names:
+            faction = next((f for f in self.active_factions if f.name == name), None)
+            if not faction:
+                return None
+            participating_factions.append(faction)
+        
+        # Create alliance
+        alliance = FactionAlliance(
+            alliance_name=alliance_name,
+            member_factions=faction_names.copy(),
+            trust_level=50.0,
+            cooperation_momentum=10.0  # Initial optimism
+        )
+        
+        # Add factions to alliance
+        for faction in participating_factions:
+            faction.alliance_memberships.append(alliance_name)
+        
+        self.active_alliances[alliance_name] = alliance
+        
+        # Log alliance formation
+        alliance_event = {
+            'type': 'alliance_formation',
+            'alliance_name': alliance_name,
+            'members': faction_names,
+            'timestamp': datetime.now(),
+            'initial_trust': alliance.trust_level
+        }
+        self.alliance_events.append(alliance_event)
+        
+        print(f"🤝 ALLIANCE FORMED: {alliance_name} between {', '.join(faction_names)}")
+        
+        return alliance
+
+    def execute_alliance_betrayal(self, alliance_name: str, betraying_faction: str) -> bool:
+        """Execute betrayal of an alliance by one member - ITERATION 023"""
+        alliance = self.active_alliances.get(alliance_name)
+        if not alliance or betraying_faction not in alliance.member_factions:
+            return False
+        
+        betrayer = next((f for f in self.active_factions if f.name == betraying_faction), None)
+        if not betrayer:
+            return False
+            
+        remaining_members = [name for name in alliance.member_factions if name != betraying_faction]
+        
+        # Remove betrayer from alliance
+        alliance.member_factions.remove(betraying_faction)
+        betrayer.alliance_memberships.remove(alliance_name)
+        
+        # Set cooldowns and relationship damage
+        for member_name in remaining_members:
+            betrayer.alliance_cooldown[member_name] = datetime.now()
+            
+            # Damage relationships with betrayed factions
+            relationship_key = f"{betraying_faction}_{member_name}"
+            alt_key = f"{member_name}_{betraying_faction}"
+            relationship = self.faction_relationships.get(relationship_key) or self.faction_relationships.get(alt_key)
+            
+            if relationship:
+                relationship.trust_rating = max(-50.0, relationship.trust_rating - 30.0)
+                relationship.rivalry_intensity = min(100.0, relationship.rivalry_intensity + 25.0)
+        
+        # Log betrayal event
+        betrayal_event = {
+            'type': 'alliance_betrayal',
+            'alliance_name': alliance_name,
+            'betrayer': betraying_faction,
+            'victims': remaining_members,
+            'timestamp': datetime.now(),
+            'impact': 'severe_trust_damage'
+        }
+        self.alliance_events.append(betrayal_event)
+        
+        # Create conflict event
+        conflict = FactionConflictEvent(
+            conflict_type=FactionConflictType.ALLIANCE_BETRAYAL,
+            primary_faction=betraying_faction,
+            target_faction=remaining_members[0] if remaining_members else "",
+            trigger_date=datetime.now(),
+            description=f"{betraying_faction} betrays {alliance_name}, breaking alliance",
+            intensity=0.8,
+            momentum_impact=-15.0
+        )
+        self.active_conflicts.append(conflict)
+        
+        # Disband alliance if too few members remain
+        if len(alliance.member_factions) < 2:
+            del self.active_alliances[alliance_name]
+            for member_name in alliance.member_factions:
+                member = next((f for f in self.active_factions if f.name == member_name), None)
+                if member and alliance_name in member.alliance_memberships:
+                    member.alliance_memberships.remove(alliance_name)
+        
+        print(f"💀 BETRAYAL: {betraying_faction} betrays {alliance_name}!")
+        
+        return True
+
+    def execute_joint_operations(self) -> List[Dict[str, Any]]:
+        """Execute joint operations for all active alliances - ITERATION 023"""
+        joint_operation_results = []
+        
+        for alliance_name, alliance in list(self.active_alliances.items()):  # Use list() to avoid iteration issues
+            # Skip if alliance too weak or recent failure
+            if alliance.trust_level < 25.0 or alliance.cooperation_momentum < -20.0:
+                continue
+            
+            # Choose operation type based on alliance characteristics
+            member_factions = [next(f for f in self.active_factions if f.name == name) for name in alliance.member_factions]
+            
+            # High operational capacity favors combined operations
+            avg_capacity = sum(f.operational_capacity for f in member_factions) / len(member_factions)
+            if avg_capacity > 1.2 and random.random() < 0.4:
+                activity_type = JointActivityType.COMBINED_OPERATION
+            elif sum(f.public_support for f in member_factions) > 100.0:
+                activity_type = JointActivityType.JOINT_DEMONSTRATION
+            else:
+                activity_type = JointActivityType.COOP_PROPAGANDA
+            
+            # Execute the joint activity
+            results = alliance.execute_joint_activity(activity_type, member_factions, self.faction_relationships)
+            results['alliance_name'] = alliance_name
+            
+            # Update faction experience
+            for faction in member_factions:
+                faction.joint_operation_experience += 1
+            
+            joint_operation_results.append(results)
+            
+            # Check for betrayal after joint operations
+            alliance.betrayal_risk = alliance.calculate_betrayal_risk(self.faction_relationships)
+            if random.random() < alliance.betrayal_risk:
+                # Random faction betrays
+                betrayer_name = random.choice(alliance.member_factions)
+                self.execute_alliance_betrayal(alliance_name, betrayer_name)
+        
+        return joint_operation_results
+
+    def simulate_alliance_turn(self) -> Dict[str, Any]:
+        """Simulate alliance activities for one turn - ITERATION 023"""
+        alliance_results = {
+            'alliance_opportunities': [],
+            'new_alliances': [],
+            'joint_operations': [],
+            'betrayals': [],
+            'alliance_summary': {}
+        }
+        
+        # Check for new alliance formation opportunities
+        opportunities = self.evaluate_alliance_opportunities()
+        alliance_results['alliance_opportunities'] = opportunities
+        
+        # Attempt to form new alliances (30% chance for top opportunity)
+        if opportunities and random.random() < 0.3:
+            faction_a, faction_b, value = opportunities[0]
+            new_alliance = self.form_alliance([faction_a, faction_b])
+            if new_alliance:
+                alliance_results['new_alliances'].append({
+                    'alliance_name': new_alliance.alliance_name,
+                    'members': new_alliance.member_factions,
+                    'formation_value': value
+                })
+        
+        # Execute joint operations for existing alliances
+        joint_ops = self.execute_joint_operations()
+        alliance_results['joint_operations'] = joint_ops
+        
+        # Create alliance summary
+        alliance_results['alliance_summary'] = {
+            'active_alliances': len(self.active_alliances),
+            'total_alliance_events': len(self.alliance_events),
+            'alliance_details': []
+        }
+        
+        for alliance_name, alliance in self.active_alliances.items():
+            alliance_results['alliance_summary']['alliance_details'].append({
+                'name': alliance_name,
+                'members': alliance.member_factions,
+                'trust_level': alliance.trust_level,
+                'cooperation_momentum': alliance.cooperation_momentum,
+                'shared_victories': alliance.shared_victories,
+                'cooperation_failures': alliance.cooperation_failures,
+                'betrayal_risk': alliance.betrayal_risk
+            })
+        
+        return alliance_results

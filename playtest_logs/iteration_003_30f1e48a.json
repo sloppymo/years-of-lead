@@ -1,0 +1,118 @@
+{
+  "iteration_id": "003_30f1e48a",
+  "timestamp": "2025-06-10T01:09:30.427357",
+  "mission": {
+    "id": "OPERATION_SABOTAGE_003",
+    "type": "sabotage",
+    "objective": "Destroy government surveillance hub",
+    "location": "Secret Police Headquarters",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "d15c79c6-821d-4975-b7f8-35de210011db",
+      "name": "Aisha Okafor",
+      "background": "Journalist",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.30007991517988336,
+      "ideology": 0.9906198918127668,
+      "trauma": "witnessing_violence"
+    },
+    {
+      "id": "86edb2b3-6568-4e70-a3a6-21b4efccc043",
+      "name": "Lucia Silva",
+      "background": "Criminal",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.2289553522660266,
+      "ideology": 0.9257708382252219,
+      "trauma": null
+    },
+    {
+      "id": "08f50649-933a-4c7a-b720-2dad764655c0",
+      "name": "Pavel Chen",
+      "background": "Medical",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.10685938807811908,
+      "ideology": 0.8945840632924605,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Pavel Chen",
+      "agent2": "Aisha Okafor",
+      "type": "rival",
+      "trust": -0.16278367210353184,
+      "loyalty": 0.2520572728733664
+    },
+    {
+      "agent1": "Pavel Chen",
+      "agent2": "Lucia Silva",
+      "type": "romantic",
+      "trust": 0.731580897003886,
+      "loyalty": 0.8078106295596673
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "d15c79c6-821d-4975-b7f8-35de210011db": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "86edb2b3-6568-4e70-a3a6-21b4efccc043": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "08f50649-933a-4c7a-b720-2dad764655c0": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "Lucia Silva's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "The long road to freedom",
+  "emotional_tone": "tactical_withdrawal",
+  "bugs": []
+}

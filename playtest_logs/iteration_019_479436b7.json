@@ -1,0 +1,154 @@
+{
+  "iteration_id": "019_479436b7",
+  "timestamp": "2025-06-10T01:09:30.437295",
+  "mission": {
+    "id": "OPERATION_SABOTAGE_019",
+    "type": "sabotage",
+    "objective": "Disable power grid infrastructure",
+    "location": "Central Government Complex",
+    "security_level": 9
+  },
+  "team": [
+    {
+      "id": "246d7d3f-2abd-47cd-9a31-166782f53771",
+      "name": "Sarah Nguyen",
+      "background": "Journalist",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.009719995282034911,
+      "ideology": 1.0,
+      "trauma": null
+    },
+    {
+      "id": "bde34173-7ac1-4825-a442-b0cd74b64fe2",
+      "name": "Pavel Volkov",
+      "background": "Military",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.038113473116604506,
+      "ideology": 0.7697650281492456,
+      "trauma": null
+    },
+    {
+      "id": "75eb4cf6-d821-471f-86af-dbe92bab50e4",
+      "name": "Elena Delacroix",
+      "background": "Medical",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.5504818156144833,
+      "ideology": 0.9119558372118295,
+      "trauma": null
+    },
+    {
+      "id": "16d8b70c-6bda-4b91-bf74-e86f74123c00",
+      "name": "Maya Delacroix",
+      "background": "Activist",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.09508080248774708,
+      "ideology": 0.9581344888381234,
+      "trauma": "imprisonment"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Elena Delacroix",
+      "agent2": "Pavel Volkov",
+      "type": "subordinate",
+      "trust": -0.19183150119775078,
+      "loyalty": 0.2268180990110017
+    },
+    {
+      "agent1": "Pavel Volkov",
+      "agent2": "Sarah Nguyen",
+      "type": "romantic",
+      "trust": 0.8556117969102506,
+      "loyalty": 0.6843503760420808
+    },
+    {
+      "agent1": "Pavel Volkov",
+      "agent2": "Maya Delacroix",
+      "type": "comrade",
+      "trust": 0.765198684272284,
+      "loyalty": 0.6997813952980724
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "75eb4cf6-d821-471f-86af-dbe92bab50e4",
+      "narrative": "Elena Delacroix freezes as traumatic memories of Traumatic loss_of_comrade event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "246d7d3f-2abd-47cd-9a31-166782f53771": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "bde34173-7ac1-4825-a442-b0cd74b64fe2": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "75eb4cf6-d821-471f-86af-dbe92bab50e4": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "16d8b70c-6bda-4b91-bf74-e86f74123c00": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Elena Delacroix's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Elena Delacroix's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A reminder that the struggle continues",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

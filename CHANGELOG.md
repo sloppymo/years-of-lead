@@ -320,3 +320,46 @@
 *Last Updated: 2025-06-09*
 *Version: 1.0.0*
 *Status: Phase 1 Complete - Ready for Phase 2* 
+
+## Automated Playtest Session - 2025-06-10
+
+### Test Parameters
+- Total iterations: 20
+- Focus: Character Psychology (Phase 1) + Mission Execution (Phase 2)
+- Team sizes: 2-4 agents
+- Mission types: sabotage, assassination, propaganda, theft, rescue
+
+### Key Findings
+
+#### Emotional Tone Distribution
+- Unique tones discovered: 3
+- Most common: fearful_retreat, ambiguous_outcome, tactical_withdrawal
+
+#### Outcome Statistics  
+- Success rate: 15/20 (75%)
+- Critical failures: 5
+
+#### Bugs and Issues
+- Mission execution error: 'datetime.timedelta' object has no attribute 'hours' (occurred 2x)
+- Captured agent def53bdb-f8a1-43cb-9ede-8fa3c141a10e performed action after capture (occurred 2x)
+- Captured agent 8f71bb0d-4f74-449e-9545-056775896634 performed action after capture (occurred 2x)
+- Captured agent bc308c3d-7c2c-409a-be19-a17c1dc74fc9 performed action after capture (occurred 1x)
+- Captured agent cbf723cc-8fa6-486a-8f51-61d0bbbb57af performed action after capture (occurred 1x)
+- Captured agent 57ae9dae-b7d9-4503-9d96-44e693e3197a performed action after capture (occurred 1x)
+- Captured agent 98c48bc5-3253-4951-8eb9-5430b29d426b performed action after capture (occurred 1x)
+- Mission execution error: IntelligenceEvent.__init__() got an unexpected keyword argument 'event_type' (occurred 1x)
+- Captured agent 75d4433c-1701-4023-b55d-7bde881518f0 performed action after capture (occurred 1x)
+- Captured agent 89a9b648-5bc1-4b4b-a9d3-3e532e62823b performed action after capture (occurred 1x)
+
+
+#### Design Observations
+- Betrayal mechanics create compelling narrative tension
+- Trauma episodes effectively disrupt mission flow
+- Propaganda values scale appropriately with dramatic events
+- Relationship dynamics significantly impact mission outcomes
+
+#### Recommendations
+1. Consider reducing betrayal frequency for 4-person teams
+2. Add more variety to extraction phase complications
+3. Increase propaganda bonus for ideologically-motivated missions
+4. Balance panic cascade effects in high-stress scenarios

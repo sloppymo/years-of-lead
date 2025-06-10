@@ -1,0 +1,96 @@
+{
+  "iteration_id": "010_a13e1a14",
+  "timestamp": "2025-06-10T01:09:30.431289",
+  "mission": {
+    "id": "OPERATION_THEFT_010",
+    "type": "theft",
+    "objective": "Acquire regime financial records",
+    "location": "Political Detention Center",
+    "security_level": 9
+  },
+  "team": [
+    {
+      "id": "f2751c22-02b9-48ad-8201-b84dbdf614c3",
+      "name": "Carlos Silva",
+      "background": "Laborer",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.43614927429626626,
+      "ideology": 0.8481321505775884,
+      "trauma": "family_separation"
+    },
+    {
+      "id": "def53bdb-f8a1-43cb-9ede-8fa3c141a10e",
+      "name": "Fatima Volkov",
+      "background": "Journalist",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.3729847091010038,
+      "ideology": 0.8577861070179801,
+      "trauma": "imprisonment"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Fatima Volkov",
+      "agent2": "Carlos Silva",
+      "type": "rival",
+      "trust": -0.2527372984954108,
+      "loyalty": 0.3948194418881944
+    }
+  ],
+  "outcome": {
+    "result": "partial_success",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction",
+      "aftermath"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [
+      "def53bdb-f8a1-43cb-9ede-8fa3c141a10e"
+    ],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.2
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "f2751c22-02b9-48ad-8201-b84dbdf614c3": {
+      "score": 0.6666666666666666,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "def53bdb-f8a1-43cb-9ede-8fa3c141a10e": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 1,
+      "captured": true,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts"
+  ],
+  "narrative_summary": "The mission achieved mixed results, with some objectives met amid significant complications. 1 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A reminder that the struggle continues",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent def53bdb-f8a1-43cb-9ede-8fa3c141a10e performed action after capture",
+    "Captured agent def53bdb-f8a1-43cb-9ede-8fa3c141a10e performed action after capture"
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "iteration_id": "009_4f703e64",
+  "timestamp": "2025-06-10T01:09:30.430701",
+  "mission": {
+    "id": "OPERATION_THEFT_009",
+    "type": "theft",
+    "objective": "Steal military intelligence",
+    "location": "Northern Military Installation",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "9bfc83bf-92b6-424f-be19-8363a226d563",
+      "name": "Jorge Silva",
+      "background": "Technical",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.21128585306359426,
+      "ideology": 0.5982797800154599,
+      "trauma": null
+    },
+    {
+      "id": "e7199c22-55a2-427b-9ace-6d1b7fb28df1",
+      "name": "Ahmed Delacroix",
+      "background": "Religious",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.3344069615330336,
+      "ideology": 1.0,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "83f10825-7a3d-4fda-9b38-c55fb241a5bb",
+      "name": "Dmitri Okafor",
+      "background": "Criminal",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.4154673007510352,
+      "ideology": 0.8237715075952075,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Jorge Silva",
+      "agent2": "Ahmed Delacroix",
+      "type": "subordinate",
+      "trust": -0.32493606745430725,
+      "loyalty": 0.3149596118340259
+    },
+    {
+      "agent1": "Dmitri Okafor",
+      "agent2": "Jorge Silva",
+      "type": "mentor",
+      "trust": 0.8135541086959275,
+      "loyalty": 0.8089925347704947
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 5,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "e7199c22-55a2-427b-9ace-6d1b7fb28df1",
+      "narrative": "Ahmed Delacroix freezes as traumatic memories of Traumatic witnessed_violence event flood back",
+      "success": false
+    },
+    {
+      "phase": "infiltration",
+      "agent": "83f10825-7a3d-4fda-9b38-c55fb241a5bb",
+      "narrative": "Dmitri Okafor freezes as traumatic memories of Traumatic witnessed_violence event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "9bfc83bf-92b6-424f-be19-8363a226d563": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "e7199c22-55a2-427b-9ace-6d1b7fb28df1": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "83f10825-7a3d-4fda-9b38-c55fb241a5bb": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Ahmed Delacroix's haunting flashback during infiltration",
+    "Dmitri Okafor's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Jorge Silva's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

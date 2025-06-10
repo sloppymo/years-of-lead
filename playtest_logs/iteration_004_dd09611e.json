@@ -1,0 +1,118 @@
+{
+  "iteration_id": "004_dd09611e",
+  "timestamp": "2025-06-10T01:09:30.427923",
+  "mission": {
+    "id": "OPERATION_PROPAGANDA_004",
+    "type": "propaganda",
+    "objective": "Hijack broadcast system (time sensitive)",
+    "location": "Harbor Supply Depot",
+    "security_level": 5
+  },
+  "team": [
+    {
+      "id": "861cd51f-e483-47a4-8cda-4daef5494ad6",
+      "name": "Dmitri Okafor",
+      "background": "Religious",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.4094715687867997,
+      "ideology": 1.0,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "f6b173cb-5ef3-4611-9b05-c5413cd583a2",
+      "name": "Carlos Delacroix",
+      "background": "Medical",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.6629878363238619,
+      "ideology": 1.0,
+      "trauma": "witnessing_violence"
+    },
+    {
+      "id": "f8d784ef-7027-4081-9ec1-dffc092a084e",
+      "name": "Sarah Nguyen",
+      "background": "Laborer",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.7612116405730166,
+      "ideology": 0.7625535860596453,
+      "trauma": "family_separation"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Dmitri Okafor",
+      "agent2": "Carlos Delacroix",
+      "type": "subordinate",
+      "trust": -0.12833018059067686,
+      "loyalty": 0.35700047018704073
+    },
+    {
+      "agent1": "Sarah Nguyen",
+      "agent2": "Carlos Delacroix",
+      "type": "romantic",
+      "trust": 0.8409961895109334,
+      "loyalty": 0.6415971353162646
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "861cd51f-e483-47a4-8cda-4daef5494ad6": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "f6b173cb-5ef3-4611-9b05-c5413cd583a2": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "f8d784ef-7027-4081-9ec1-dffc092a084e": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "Dmitri Okafor's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "The long road to freedom",
+  "emotional_tone": "tactical_withdrawal",
+  "bugs": []
+}

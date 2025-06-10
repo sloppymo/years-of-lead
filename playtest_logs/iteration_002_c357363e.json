@@ -1,0 +1,132 @@
+{
+  "iteration_id": "002_c357363e",
+  "timestamp": "2025-06-10T01:09:30.426762",
+  "mission": {
+    "id": "OPERATION_RESCUE_002",
+    "type": "rescue",
+    "objective": "Extract compromised operative (time sensitive)",
+    "location": "Northern Military Installation",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "bc308c3d-7c2c-409a-be19-a17c1dc74fc9",
+      "name": "Marcus Volkov",
+      "background": "Laborer",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.5403382808570717,
+      "ideology": 0.600348439635948,
+      "trauma": "family_separation"
+    },
+    {
+      "id": "1ce085bb-1e25-4035-b461-1931bed4d33f",
+      "name": "Viktor Hassan",
+      "background": "Journalist",
+      "traits": {
+        "primary": "leader",
+        "secondary": "methodical"
+      },
+      "stress": 0.16748584018509644,
+      "ideology": 1.0,
+      "trauma": "imprisonment"
+    },
+    {
+      "id": "14a8c78c-a666-4713-bec4-621196fae4ad",
+      "name": "Aisha Silva",
+      "background": "Military",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.28536213027426993,
+      "ideology": 0.83724911713521,
+      "trauma": "combat_trauma"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Aisha Silva",
+      "agent2": "Viktor Hassan",
+      "type": "rival",
+      "trust": 0.10070994907362729,
+      "loyalty": 0.20714139686684935
+    },
+    {
+      "agent1": "Viktor Hassan",
+      "agent2": "Marcus Volkov",
+      "type": "mentor",
+      "trust": 0.67667344629547,
+      "loyalty": 0.7265473440063867
+    }
+  ],
+  "outcome": {
+    "result": "partial_success",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction",
+      "aftermath"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [
+      "bc308c3d-7c2c-409a-be19-a17c1dc74fc9"
+    ],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.2
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "bc308c3d-7c2c-409a-be19-a17c1dc74fc9",
+      "narrative": "Marcus Volkov freezes as traumatic memories of Traumatic betrayal event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "bc308c3d-7c2c-409a-be19-a17c1dc74fc9": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 2,
+      "captured": true,
+      "killed": false
+    },
+    "1ce085bb-1e25-4035-b461-1931bed4d33f": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "14a8c78c-a666-4713-bec4-621196fae4ad": {
+      "score": 0.3333333333333333,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Marcus Volkov's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Old intelligence proves dangerously outdated"
+  ],
+  "narrative_summary": "The mission achieved mixed results, with some objectives met amid significant complications. 1 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "Neither victory nor defeat, but persistence",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent bc308c3d-7c2c-409a-be19-a17c1dc74fc9 performed action after capture"
+  ]
+}

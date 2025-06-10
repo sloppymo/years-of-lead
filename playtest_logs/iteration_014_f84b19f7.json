@@ -1,0 +1,155 @@
+{
+  "iteration_id": "014_f84b19f7",
+  "timestamp": "2025-06-10T01:09:30.433919",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_014",
+    "type": "assassination",
+    "objective": "Target military general",
+    "location": "Northern Military Installation",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "ec483733-fe33-49e7-9da8-308018afcd94",
+      "name": "Fatima Hassan",
+      "background": "Corporate",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.2363561461605465,
+      "ideology": 0.7019385762601562,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "e89eed36-3760-40cf-8797-720f9120cda1",
+      "name": "Nina Petrov",
+      "background": "Military",
+      "traits": {
+        "primary": "leader",
+        "secondary": "methodical"
+      },
+      "stress": 0.18241753747283906,
+      "ideology": 0.6592620959606805,
+      "trauma": null
+    },
+    {
+      "id": "75d4433c-1701-4023-b55d-7bde881518f0",
+      "name": "Elena Chen",
+      "background": "Medical",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.4829770715806372,
+      "ideology": 1.0,
+      "trauma": "witnessing_violence"
+    },
+    {
+      "id": "89a9b648-5bc1-4b4b-a9d3-3e532e62823b",
+      "name": "Marcus Anderson",
+      "background": "Journalist",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.24857066750859055,
+      "ideology": 0.9193523595023878,
+      "trauma": "witnessing_violence"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Elena Chen",
+      "agent2": "Nina Petrov",
+      "type": "rival",
+      "trust": -0.0516307847836448,
+      "loyalty": 0.18687980631294743
+    },
+    {
+      "agent1": "Fatima Hassan",
+      "agent2": "Nina Petrov",
+      "type": "romantic",
+      "trust": 0.7585038448778514,
+      "loyalty": 0.651258562783487
+    },
+    {
+      "agent1": "Nina Petrov",
+      "agent2": "Fatima Hassan",
+      "type": "mentor",
+      "trust": 0.7487511117393776,
+      "loyalty": 0.7721186638370529
+    }
+  ],
+  "outcome": {
+    "result": "partial_success",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction",
+      "aftermath"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [
+      "75d4433c-1701-4023-b55d-7bde881518f0",
+      "89a9b648-5bc1-4b4b-a9d3-3e532e62823b"
+    ],
+    "heat_generated": 20,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.30000000000000004
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "ec483733-fe33-49e7-9da8-308018afcd94": {
+      "score": 0.6666666666666666,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "e89eed36-3760-40cf-8797-720f9120cda1": {
+      "score": 0.7,
+      "heroic": true,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "75d4433c-1701-4023-b55d-7bde881518f0": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": true,
+      "killed": false
+    },
+    "89a9b648-5bc1-4b4b-a9d3-3e532e62823b": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 1,
+      "captured": true,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "Nina Petrov's heroic combat",
+    "A security guard shows unexpected sympathy for the cause"
+  ],
+  "narrative_summary": "The mission achieved mixed results, with some objectives met amid significant complications. Acts of exceptional courage inspired the team to push forward despite the odds. 2 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent 75d4433c-1701-4023-b55d-7bde881518f0 performed action after capture",
+    "Captured agent 89a9b648-5bc1-4b4b-a9d3-3e532e62823b performed action after capture"
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "iteration_id": "020_85148277",
+  "timestamp": "2025-06-10T01:09:30.438022",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_020",
+    "type": "assassination",
+    "objective": "Target military general (time sensitive)",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "a994adbf-df00-4c0d-8a25-6deda98d1cfd",
+      "name": "Dmitri Volkov",
+      "background": "Medical",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.27950772599496077,
+      "ideology": 0.7259422357000447,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "314ae23a-a91b-4ff9-a166-9fcf2ce00e09",
+      "name": "Nina Anderson",
+      "background": "Journalist",
+      "traits": {
+        "primary": "creative",
+        "secondary": "intuitive"
+      },
+      "stress": 0.3574690884077161,
+      "ideology": 0.8835146820474384,
+      "trauma": "witnessing_violence"
+    },
+    {
+      "id": "fcbd769e-9af2-4c57-bb7a-a133489d10d9",
+      "name": "Dmitri Kowalski",
+      "background": "Military",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.6947233615585617,
+      "ideology": 0.8715890914393942,
+      "trauma": "betrayal"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Dmitri Volkov",
+      "agent2": "Nina Anderson",
+      "type": "rival",
+      "trust": -0.12225692810880495,
+      "loyalty": 0.22231538389230804
+    },
+    {
+      "agent1": "Nina Anderson",
+      "agent2": "Dmitri Kowalski",
+      "type": "romantic",
+      "trust": 0.5801352257492938,
+      "loyalty": 0.6174797641305253
+    }
+  ],
+  "outcome": {
+    "result": "disaster",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [
+      "fcbd769e-9af2-4c57-bb7a-a133489d10d9"
+    ],
+    "captured": [
+      "a994adbf-df00-4c0d-8a25-6deda98d1cfd",
+      "314ae23a-a91b-4ff9-a166-9fcf2ce00e09"
+    ],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.15
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "a994adbf-df00-4c0d-8a25-6deda98d1cfd": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 1,
+      "captured": true,
+      "killed": false
+    },
+    "314ae23a-a91b-4ff9-a166-9fcf2ce00e09": {
+      "score": 0.3333333333333333,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": true,
+      "killed": false
+    },
+    "fcbd769e-9af2-4c57-bb7a-a133489d10d9": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": true
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "The tragic death of Dmitri Kowalski"
+  ],
+  "narrative_summary": "What began as a carefully planned operation descended into chaos and tragedy. 1 brave souls made the ultimate sacrifice for the cause. 2 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "The price of fighting tyranny",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Dead agent fcbd769e-9af2-4c57-bb7a-a133489d10d9 performed action after death",
+    "Captured agent a994adbf-df00-4c0d-8a25-6deda98d1cfd performed action after capture",
+    "Captured agent 314ae23a-a91b-4ff9-a166-9fcf2ce00e09 performed action after capture"
+  ]
+}

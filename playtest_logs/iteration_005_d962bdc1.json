@@ -1,0 +1,103 @@
+{
+  "iteration_id": "005_d962bdc1",
+  "timestamp": "2025-06-10T01:09:30.428407",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_005",
+    "type": "assassination",
+    "objective": "Eliminate regime official (time sensitive)",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "cbf723cc-8fa6-486a-8f51-61d0bbbb57af",
+      "name": "Lucia Petrov",
+      "background": "Medical",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.10961169841535684,
+      "ideology": 0.8939288453499592,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "57ae9dae-b7d9-4503-9d96-44e693e3197a",
+      "name": "Nina Okafor",
+      "background": "Journalist",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.5569857467779552,
+      "ideology": 0.9418308633930101,
+      "trauma": "imprisonment"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Lucia Petrov",
+      "agent2": "Nina Okafor",
+      "type": "subordinate",
+      "trust": -0.34256464227087896,
+      "loyalty": 0.30456128509927943
+    },
+    {
+      "agent1": "Nina Okafor",
+      "agent2": "Lucia Petrov",
+      "type": "mentor",
+      "trust": 0.796016087760488,
+      "loyalty": 0.6029507606904554
+    }
+  ],
+  "outcome": {
+    "result": "disaster",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 1,
+    "casualties": [],
+    "captured": [
+      "cbf723cc-8fa6-486a-8f51-61d0bbbb57af",
+      "57ae9dae-b7d9-4503-9d96-44e693e3197a"
+    ],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "cbf723cc-8fa6-486a-8f51-61d0bbbb57af": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": true,
+      "killed": false
+    },
+    "57ae9dae-b7d9-4503-9d96-44e693e3197a": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 1,
+      "captured": true,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts"
+  ],
+  "narrative_summary": "What began as a carefully planned operation descended into chaos and tragedy. 2 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A tragic reminder of the cost of resistance",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent cbf723cc-8fa6-486a-8f51-61d0bbbb57af performed action after capture",
+    "Captured agent 57ae9dae-b7d9-4503-9d96-44e693e3197a performed action after capture"
+  ]
+}

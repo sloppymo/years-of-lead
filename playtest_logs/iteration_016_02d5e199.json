@@ -1,0 +1,134 @@
+{
+  "iteration_id": "016_02d5e199",
+  "timestamp": "2025-06-10T01:09:30.435143",
+  "mission": {
+    "id": "OPERATION_SABOTAGE_016",
+    "type": "sabotage",
+    "objective": "Destroy propaganda broadcast tower",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "fe0fc22e-f1b1-4dd8-853d-76bee58aec4a",
+      "name": "Marcus Okafor",
+      "background": "Medical",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.5239364997180713,
+      "ideology": 0.6410417840858128,
+      "trauma": null
+    },
+    {
+      "id": "e1649e11-7a4f-43d0-8f94-f491f4bb0661",
+      "name": "Fatima Kowalski",
+      "background": "Journalist",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.010062809525718766,
+      "ideology": 1.0,
+      "trauma": null
+    },
+    {
+      "id": "8f71bb0d-4f74-449e-9545-056775896634",
+      "name": "Pavel Kowalski",
+      "background": "Technical",
+      "traits": {
+        "primary": "leader",
+        "secondary": "methodical"
+      },
+      "stress": 0.3521582517336138,
+      "ideology": 0.9451002841902101,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Marcus Okafor",
+      "agent2": "Fatima Kowalski",
+      "type": "rival",
+      "trust": -0.4976078034397343,
+      "loyalty": 0.375446803908165
+    },
+    {
+      "agent1": "Fatima Kowalski",
+      "agent2": "Marcus Okafor",
+      "type": "mentor",
+      "trust": 0.852658435499493,
+      "loyalty": 0.9102626695080678
+    }
+  ],
+  "outcome": {
+    "result": "partial_success",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction",
+      "aftermath"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [
+      "fe0fc22e-f1b1-4dd8-853d-76bee58aec4a",
+      "8f71bb0d-4f74-449e-9545-056775896634"
+    ],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.2
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "fe0fc22e-f1b1-4dd8-853d-76bee58aec4a",
+      "narrative": "Marcus Okafor freezes as traumatic memories of Traumatic torture event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "fe0fc22e-f1b1-4dd8-853d-76bee58aec4a": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 2,
+      "captured": true,
+      "killed": false
+    },
+    "e1649e11-7a4f-43d0-8f94-f491f4bb0661": {
+      "score": 0.6666666666666666,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "8f71bb0d-4f74-449e-9545-056775896634": {
+      "score": 0.25,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": true,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Marcus Okafor's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts"
+  ],
+  "narrative_summary": "The mission achieved mixed results, with some objectives met amid significant complications. 2 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "Neither victory nor defeat, but persistence",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent 8f71bb0d-4f74-449e-9545-056775896634 performed action after capture",
+    "Captured agent fe0fc22e-f1b1-4dd8-853d-76bee58aec4a performed action after capture",
+    "Captured agent 8f71bb0d-4f74-449e-9545-056775896634 performed action after capture"
+  ]
+}

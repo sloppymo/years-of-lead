@@ -1,0 +1,102 @@
+{
+  "iteration_id": "007_6d6e611c",
+  "timestamp": "2025-06-10T01:09:30.429529",
+  "mission": {
+    "id": "OPERATION_THEFT_007",
+    "type": "theft",
+    "objective": "Obtain weapons cache",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "98c48bc5-3253-4951-8eb9-5430b29d426b",
+      "name": "Lucia Delacroix",
+      "background": "Academic",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.29195715160739233,
+      "ideology": 1.0,
+      "trauma": null
+    },
+    {
+      "id": "59df5635-6360-4890-8817-05aab08a8b4f",
+      "name": "Viktor Hassan",
+      "background": "Military",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.09725025125102024,
+      "ideology": 1.0,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Lucia Delacroix",
+      "agent2": "Viktor Hassan",
+      "type": "subordinate",
+      "trust": -0.009018118527527763,
+      "loyalty": 0.2813246617413086
+    },
+    {
+      "agent1": "Viktor Hassan",
+      "agent2": "Lucia Delacroix",
+      "type": "friend",
+      "trust": 0.5326749444893831,
+      "loyalty": 0.7168978701705183
+    }
+  ],
+  "outcome": {
+    "result": "partial_success",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution",
+      "extraction",
+      "aftermath"
+    ],
+    "objectives_completed": 1,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [
+      "98c48bc5-3253-4951-8eb9-5430b29d426b"
+    ],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.2
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "98c48bc5-3253-4951-8eb9-5430b29d426b": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": true,
+      "killed": false
+    },
+    "59df5635-6360-4890-8817-05aab08a8b4f": {
+      "score": 0.6666666666666666,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts"
+  ],
+  "narrative_summary": "The mission achieved mixed results, with some objectives met amid significant complications. 1 operatives were captured by enemy forces. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Captured agent 98c48bc5-3253-4951-8eb9-5430b29d426b performed action after capture"
+  ]
+}

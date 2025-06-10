@@ -1,0 +1,126 @@
+{
+  "iteration_id": "015_6b6df05d",
+  "timestamp": "2025-06-10T01:09:30.434524",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_015",
+    "type": "assassination",
+    "objective": "Remove corrupt judge",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "08f65956-5914-4724-9733-78088f419365",
+      "name": "Carlos Delacroix",
+      "background": "Corporate",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.34241293529549877,
+      "ideology": 0.5915937947920727,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "ff815b59-7045-427e-af8b-04b96c3f0dfb",
+      "name": "Aisha Chen",
+      "background": "Criminal",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.6435213972632249,
+      "ideology": 0.7299384335885347,
+      "trauma": "imprisonment"
+    },
+    {
+      "id": "70d1ee72-0113-4d4b-b32a-e08c1063c909",
+      "name": "Dmitri Silva",
+      "background": "Technical",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.44113971465223223,
+      "ideology": 0.6829165934968748,
+      "trauma": "betrayal"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Carlos Delacroix",
+      "agent2": "Aisha Chen",
+      "type": "rival",
+      "trust": -0.48016528206790826,
+      "loyalty": 0.19624395236476988
+    },
+    {
+      "agent1": "Dmitri Silva",
+      "agent2": "Carlos Delacroix",
+      "type": "friend",
+      "trust": 0.7230354397664955,
+      "loyalty": 0.8926484142255708
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "ff815b59-7045-427e-af8b-04b96c3f0dfb",
+      "narrative": "Aisha Chen freezes as traumatic memories of Traumatic betrayal event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "08f65956-5914-4724-9733-78088f419365": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "ff815b59-7045-427e-af8b-04b96c3f0dfb": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "70d1ee72-0113-4d4b-b32a-e08c1063c909": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Aisha Chen's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Carlos Delacroix's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

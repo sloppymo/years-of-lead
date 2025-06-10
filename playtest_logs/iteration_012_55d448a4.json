@@ -1,0 +1,113 @@
+{
+  "iteration_id": "012_55d448a4",
+  "timestamp": "2025-06-10T01:09:30.432461",
+  "mission": {
+    "id": "OPERATION_RESCUE_012",
+    "type": "rescue",
+    "objective": "Extract compromised operative",
+    "location": "Central Government Complex",
+    "security_level": 9
+  },
+  "team": [
+    {
+      "id": "13f3ab21-3b68-424a-b584-fe7e05e6856e",
+      "name": "Lucia Hassan",
+      "background": "Laborer",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.04729523539619371,
+      "ideology": 0.6135297502530771,
+      "trauma": null
+    },
+    {
+      "id": "a35ea71c-23b3-49ff-b83b-1f56d6cda02c",
+      "name": "Maya Kowalski",
+      "background": "Religious",
+      "traits": {
+        "primary": "creative",
+        "secondary": "intuitive"
+      },
+      "stress": 0.39346274632816036,
+      "ideology": 1.0,
+      "trauma": null
+    },
+    {
+      "id": "bda5012a-2cf7-4fd4-a59c-db1e3dd79cfe",
+      "name": "Dmitri Silva",
+      "background": "Corporate",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.3278203607375172,
+      "ideology": 0.8021633982207547,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Dmitri Silva",
+      "agent2": "Lucia Hassan",
+      "type": "rival",
+      "trust": -0.10887318926380041,
+      "loyalty": 0.1125027263771603
+    },
+    {
+      "agent1": "Lucia Hassan",
+      "agent2": "Maya Kowalski",
+      "type": "comrade",
+      "trust": 0.5761750286790954,
+      "loyalty": 0.940478853444499
+    }
+  ],
+  "outcome": {
+    "result": "disaster",
+    "phases_completed": [],
+    "objectives_completed": 0,
+    "objectives_failed": 1,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 0,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "13f3ab21-3b68-424a-b584-fe7e05e6856e": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "a35ea71c-23b3-49ff-b83b-1f56d6cda02c": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "bda5012a-2cf7-4fd4-a59c-db1e3dd79cfe": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [],
+  "narrative_summary": "Mission failed due to system error: 'datetime.timedelta' object has no attribute 'hours'",
+  "symbolic_impact": "Technical failure",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Mission execution error: 'datetime.timedelta' object has no attribute 'hours'"
+  ]
+}

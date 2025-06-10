@@ -1,0 +1,146 @@
+{
+  "iteration_id": "013_5faeb39f",
+  "timestamp": "2025-06-10T01:09:30.433102",
+  "mission": {
+    "id": "OPERATION_SABOTAGE_013",
+    "type": "sabotage",
+    "objective": "Destroy propaganda broadcast tower",
+    "location": "Political Detention Center",
+    "security_level": 9
+  },
+  "team": [
+    {
+      "id": "e9e9213f-795e-4fb0-afcb-b50feb52152c",
+      "name": "Marcus Delacroix",
+      "background": "Academic",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.16195889622445847,
+      "ideology": 0.9906478515611077,
+      "trauma": null
+    },
+    {
+      "id": "d7332d75-218c-4ce6-941e-36fe6ca23eaa",
+      "name": "Ahmed Chen",
+      "background": "Military",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.21364550744431626,
+      "ideology": 0.7082082491456336,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "49edc63f-5804-49e4-ac56-bc419f322821",
+      "name": "Viktor Anderson",
+      "background": "Corporate",
+      "traits": {
+        "primary": "leader",
+        "secondary": "methodical"
+      },
+      "stress": 0.46280475353187345,
+      "ideology": 0.7299691574741571,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "7a1136df-400e-4b84-8ff6-63298e3c1b94",
+      "name": "Carlos Anderson",
+      "background": "Activist",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "methodical"
+      },
+      "stress": 0.10852784357283683,
+      "ideology": 1.0,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Viktor Anderson",
+      "agent2": "Ahmed Chen",
+      "type": "subordinate",
+      "trust": -0.012437722385983174,
+      "loyalty": 0.363806543191481
+    },
+    {
+      "agent1": "Ahmed Chen",
+      "agent2": "Viktor Anderson",
+      "type": "mentor",
+      "trust": 0.7777935142076775,
+      "loyalty": 0.7003063085943865
+    },
+    {
+      "agent1": "Carlos Anderson",
+      "agent2": "Marcus Delacroix",
+      "type": "comrade",
+      "trust": 0.7604193321892114,
+      "loyalty": 0.8105385390063538
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 20,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "e9e9213f-795e-4fb0-afcb-b50feb52152c": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "d7332d75-218c-4ce6-941e-36fe6ca23eaa": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "49edc63f-5804-49e4-ac56-bc419f322821": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "7a1136df-400e-4b84-8ff6-63298e3c1b94": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "Viktor Anderson's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "Neither victory nor defeat, but persistence",
+  "emotional_tone": "tactical_withdrawal",
+  "bugs": []
+}

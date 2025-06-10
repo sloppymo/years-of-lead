@@ -439,26 +439,35 @@ class EmotionalState:
         return stability
     
     def get_combat_effectiveness(self) -> float:
-        """
-        Calculate how emotions affect combat effectiveness.
-        Some emotions help, others hinder.
-        """
-        # Helpful emotions for combat
-        helpful = self.anger * 0.3 + self.anticipation * 0.2
+        """Calculate combat effectiveness based on emotional state"""
+        base_effectiveness = 1.0
         
-        # Hindering emotions
-        hindering = self.fear * 0.4 + self.sadness * 0.3 + abs(self.surprise) * 0.2
+        # Negative emotions reduce effectiveness
+        if self.fear > 0.7:
+            base_effectiveness *= (1.0 - self.fear * 0.3)
         
-        # Trauma reduces effectiveness
-        trauma_penalty = self.trauma_level * 0.3
+        if self.stress > 0.8:
+            base_effectiveness *= 0.7
+            
+        # Anger can increase effectiveness slightly
+        if self.anger > 0.5:
+            base_effectiveness *= 1.1
+            
+        # Trauma reduces effectiveness significantly
+        if self.trauma_level > 0:
+            base_effectiveness *= (1.0 - self.trauma_level * 0.4)
+            
+            # Recent trauma triggers have stronger effect
+            recent_triggers = sum(1 for m in self.trauma_memories 
+                                if m.last_triggered and (datetime.now() - m.last_triggered).total_seconds() / 3600 < 24)
+            if recent_triggers > 0:
+                base_effectiveness *= (0.8 ** recent_triggers)
         
-        # Recent trauma triggers severely impact effectiveness
-        recent_triggers = sum(1 for m in self.trauma_memories 
-                            if m.last_triggered and (datetime.now() - m.last_triggered).hours < 24)
-        trigger_penalty = recent_triggers * 0.15
-        
-        effectiveness = max(0.0, min(1.0, 0.5 + helpful - hindering - trauma_penalty - trigger_penalty))
-        return effectiveness
+        # Trust increases team effectiveness
+        if self.trust > 0.5:
+            base_effectiveness *= (1.0 + self.trust * 0.1)
+            
+        return max(0.1, min(1.5, base_effectiveness))
     
     def get_social_effectiveness(self) -> float:
         """

@@ -1,0 +1,111 @@
+{
+  "iteration_id": "008_fdd5b271",
+  "timestamp": "2025-06-10T01:09:30.430042",
+  "mission": {
+    "id": "OPERATION_SABOTAGE_008",
+    "type": "sabotage",
+    "objective": "Sabotage military supply depot",
+    "location": "Secret Police Headquarters",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "856e03ac-2f3e-4de7-9609-2137a823c4b7",
+      "name": "Sarah Nguyen",
+      "background": "Criminal",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.23020350365408337,
+      "ideology": 0.6210474921213923,
+      "trauma": "imprisonment"
+    },
+    {
+      "id": "cff3068f-8db0-4fdb-8c37-08d929951ed9",
+      "name": "Pavel Okafor",
+      "background": "Journalist",
+      "traits": {
+        "primary": "creative",
+        "secondary": "intuitive"
+      },
+      "stress": 0.23900845267560283,
+      "ideology": 1.0,
+      "trauma": null
+    },
+    {
+      "id": "5f21d879-9179-49bf-a506-e5a5a14f23bd",
+      "name": "Maya Silva",
+      "background": "Corporate",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.3334209932408784,
+      "ideology": 0.650749068141838,
+      "trauma": "betrayal"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Pavel Okafor",
+      "agent2": "Maya Silva",
+      "type": "rival",
+      "trust": -0.4857556714466703,
+      "loyalty": 0.16590751779092222
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "856e03ac-2f3e-4de7-9609-2137a823c4b7": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "cff3068f-8db0-4fdb-8c37-08d929951ed9": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "5f21d879-9179-49bf-a506-e5a5a14f23bd": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "The team's cover blown in a cascade of security alerts",
+    "Maya Silva's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "Neither victory nor defeat, but persistence",
+  "emotional_tone": "tactical_withdrawal",
+  "bugs": []
+}

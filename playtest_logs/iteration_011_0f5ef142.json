@@ -1,0 +1,92 @@
+{
+  "iteration_id": "011_0f5ef142",
+  "timestamp": "2025-06-10T01:09:30.431885",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_011",
+    "type": "assassination",
+    "objective": "Eliminate regime official (time sensitive)",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "b9d1ade5-cbc6-4672-8e4d-abbb1a45d80b",
+      "name": "Nina Hassan",
+      "background": "Medical",
+      "traits": {
+        "primary": "creative",
+        "secondary": "intuitive"
+      },
+      "stress": 0.17415796020343846,
+      "ideology": 0.7081111596478628,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "9d7e6984-d094-4c74-aed7-73c3fe067d19",
+      "name": "Viktor Silva",
+      "background": "Laborer",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.28418766343204876,
+      "ideology": 0.6197714034814923,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Viktor Silva",
+      "agent2": "Nina Hassan",
+      "type": "subordinate",
+      "trust": -0.39491956748520896,
+      "loyalty": 0.17954393863514123
+    },
+    {
+      "agent1": "Nina Hassan",
+      "agent2": "Viktor Silva",
+      "type": "mentor",
+      "trust": 0.8542905132690138,
+      "loyalty": 0.6610053174787777
+    }
+  ],
+  "outcome": {
+    "result": "disaster",
+    "phases_completed": [],
+    "objectives_completed": 0,
+    "objectives_failed": 1,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 0,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "b9d1ade5-cbc6-4672-8e4d-abbb1a45d80b": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "9d7e6984-d094-4c74-aed7-73c3fe067d19": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [],
+  "narrative_summary": "Mission failed due to system error: IntelligenceEvent.__init__() got an unexpected keyword argument 'event_type'",
+  "symbolic_impact": "Technical failure",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Mission execution error: IntelligenceEvent.__init__() got an unexpected keyword argument 'event_type'"
+  ]
+}

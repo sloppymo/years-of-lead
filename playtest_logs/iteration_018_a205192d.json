@@ -1,0 +1,154 @@
+{
+  "iteration_id": "018_a205192d",
+  "timestamp": "2025-06-10T01:09:30.436640",
+  "mission": {
+    "id": "OPERATION_PROPAGANDA_018",
+    "type": "propaganda",
+    "objective": "Distribute underground newspapers",
+    "location": "State Media Building",
+    "security_level": 7
+  },
+  "team": [
+    {
+      "id": "ccd01d1f-767f-4018-bf13-bf56019dd57e",
+      "name": "Carlos Rodriguez",
+      "background": "Journalist",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.34229319270155323,
+      "ideology": 0.85084625983121,
+      "trauma": null
+    },
+    {
+      "id": "252a6f88-7064-4944-a1ab-2280b72987f0",
+      "name": "Fatima Okafor",
+      "background": "Corporate",
+      "traits": {
+        "primary": "ruthless",
+        "secondary": "pragmatic"
+      },
+      "stress": 0.19902213028008542,
+      "ideology": 0.6468665262885468,
+      "trauma": null
+    },
+    {
+      "id": "b34334fa-dcd2-41ec-b961-f618d0517cc4",
+      "name": "Marcus Volkov",
+      "background": "Academic",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.5129576180485206,
+      "ideology": 0.9647188584250248,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "012922dd-a770-4fc9-9cba-0d640791d062",
+      "name": "Pavel Hassan",
+      "background": "Military",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.2547419082602312,
+      "ideology": 1.0,
+      "trauma": "betrayal"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Marcus Volkov",
+      "agent2": "Fatima Okafor",
+      "type": "subordinate",
+      "trust": -0.2719453109767077,
+      "loyalty": 0.3293878521843064
+    },
+    {
+      "agent1": "Carlos Rodriguez",
+      "agent2": "Marcus Volkov",
+      "type": "romantic",
+      "trust": 0.6814486221145244,
+      "loyalty": 0.7306210948495779
+    },
+    {
+      "agent1": "Pavel Hassan",
+      "agent2": "Fatima Okafor",
+      "type": "friend",
+      "trust": 0.767200545554446,
+      "loyalty": 0.7324178073090277
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 15,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "b34334fa-dcd2-41ec-b961-f618d0517cc4",
+      "narrative": "Marcus Volkov freezes as traumatic memories of Traumatic torture event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "ccd01d1f-767f-4018-bf13-bf56019dd57e": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "252a6f88-7064-4944-a1ab-2280b72987f0": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "b34334fa-dcd2-41ec-b961-f618d0517cc4": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "012922dd-a770-4fc9-9cba-0d640791d062": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Marcus Volkov's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Marcus Volkov's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

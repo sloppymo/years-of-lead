@@ -1,0 +1,119 @@
+{
+  "iteration_id": "006_5f84747e",
+  "timestamp": "2025-06-10T01:09:30.428963",
+  "mission": {
+    "id": "OPERATION_THEFT_006",
+    "type": "theft",
+    "objective": "Obtain weapons cache",
+    "location": "Central Government Complex",
+    "security_level": 9
+  },
+  "team": [
+    {
+      "id": "4bcf257a-7208-4413-a3a3-f915d70f89ee",
+      "name": "Marcus Petrov",
+      "background": "Religious",
+      "traits": {
+        "primary": "leader",
+        "secondary": "methodical"
+      },
+      "stress": 0.39922516005867836,
+      "ideology": 0.9775722439782789,
+      "trauma": "discrimination"
+    },
+    {
+      "id": "0f9c49cc-703c-4676-8255-51cd4ae0956a",
+      "name": "Dmitri Delacroix",
+      "background": "Academic",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.3028615888394198,
+      "ideology": 1.0,
+      "trauma": "economic_hardship"
+    },
+    {
+      "id": "07f5f352-fef2-4bf5-820c-110c486c2c40",
+      "name": "Nina Volkov",
+      "background": "Activist",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.4327822862463981,
+      "ideology": 1.0,
+      "trauma": "discrimination"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Dmitri Delacroix",
+      "agent2": "Nina Volkov",
+      "type": "subordinate",
+      "trust": -0.1507896462655715,
+      "loyalty": 0.2745255190000925
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "4bcf257a-7208-4413-a3a3-f915d70f89ee",
+      "narrative": "Marcus Petrov freezes as traumatic memories of Traumatic civilian_deaths event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "4bcf257a-7208-4413-a3a3-f915d70f89ee": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "0f9c49cc-703c-4676-8255-51cd4ae0956a": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "07f5f352-fef2-4bf5-820c-110c486c2c40": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Marcus Petrov's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Dmitri Delacroix's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

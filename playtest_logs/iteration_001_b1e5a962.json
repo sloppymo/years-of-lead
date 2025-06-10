@@ -1,0 +1,113 @@
+{
+  "iteration_id": "001_b1e5a962",
+  "timestamp": "2025-06-10T01:09:30.425835",
+  "mission": {
+    "id": "OPERATION_RESCUE_001",
+    "type": "rescue",
+    "objective": "Extract compromised operative",
+    "location": "Northern Military Installation",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "d9b42be1-8771-4e34-a409-5343aca4a1ec",
+      "name": "Jorge Hassan",
+      "background": "Technical",
+      "traits": {
+        "primary": "analytical",
+        "secondary": "cautious"
+      },
+      "stress": 0.24250154629583898,
+      "ideology": 0.9091653025664155,
+      "trauma": "economic_hardship"
+    },
+    {
+      "id": "f947389e-532c-4b9d-8421-180d40b58941",
+      "name": "Fatima Petrov",
+      "background": "Laborer",
+      "traits": {
+        "primary": "leader",
+        "secondary": "pessimistic"
+      },
+      "stress": 0.3026943303528037,
+      "ideology": 0.5575327993951078,
+      "trauma": null
+    },
+    {
+      "id": "01d893c2-2d8a-453c-84fb-918ade2c8785",
+      "name": "Carlos Rodriguez",
+      "background": "Activist",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.15966926996310557,
+      "ideology": 0.909237194203832,
+      "trauma": "imprisonment"
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Fatima Petrov",
+      "agent2": "Carlos Rodriguez",
+      "type": "subordinate",
+      "trust": -0.2753522572527565,
+      "loyalty": 0.17135800866655768
+    },
+    {
+      "agent1": "Carlos Rodriguez",
+      "agent2": "Fatima Petrov",
+      "type": "romantic",
+      "trust": 0.864794636600298,
+      "loyalty": 0.8318319457654588
+    }
+  ],
+  "outcome": {
+    "result": "disaster",
+    "phases_completed": [],
+    "objectives_completed": 0,
+    "objectives_failed": 1,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 0,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [],
+  "agent_performance": {
+    "d9b42be1-8771-4e34-a409-5343aca4a1ec": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "f947389e-532c-4b9d-8421-180d40b58941": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "01d893c2-2d8a-453c-84fb-918ade2c8785": {
+      "score": 0.5,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [],
+  "narrative_summary": "Mission failed due to system error: 'datetime.timedelta' object has no attribute 'hours'",
+  "symbolic_impact": "Technical failure",
+  "emotional_tone": "ambiguous_outcome",
+  "bugs": [
+    "Mission execution error: 'datetime.timedelta' object has no attribute 'hours'"
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "iteration_id": "017_1ebc5063",
+  "timestamp": "2025-06-10T01:09:30.435993",
+  "mission": {
+    "id": "OPERATION_ASSASSINATION_017",
+    "type": "assassination",
+    "objective": "Neutralize secret police commander (time sensitive)",
+    "location": "Northern Military Installation",
+    "security_level": 8
+  },
+  "team": [
+    {
+      "id": "9f807f2f-e06d-4cf8-b64e-e28ad55441d5",
+      "name": "Aisha Chen",
+      "background": "Technical",
+      "traits": {
+        "primary": "reckless",
+        "secondary": "opportunistic"
+      },
+      "stress": 0.3729346809198191,
+      "ideology": 0.8586590305921125,
+      "trauma": null
+    },
+    {
+      "id": "d76ffeb3-fba2-4b15-9fb0-e67afe0a6b65",
+      "name": "Dmitri Chen",
+      "background": "Military",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.5702659546529469,
+      "ideology": 1.0,
+      "trauma": "betrayal"
+    },
+    {
+      "id": "e026fe52-70a4-4a52-8467-038a7e6798dd",
+      "name": "Elena Hassan",
+      "background": "Journalist",
+      "traits": {
+        "primary": "compassionate",
+        "secondary": "idealistic"
+      },
+      "stress": 0.3183020578757592,
+      "ideology": 1.0,
+      "trauma": null
+    }
+  ],
+  "relationships": [
+    {
+      "agent1": "Dmitri Chen",
+      "agent2": "Elena Hassan",
+      "type": "rival",
+      "trust": -0.33923646974352034,
+      "loyalty": 0.3636498012097811
+    },
+    {
+      "agent1": "Elena Hassan",
+      "agent2": "Aisha Chen",
+      "type": "romantic",
+      "trust": 0.8266851260610772,
+      "loyalty": 0.6796594139104335
+    }
+  ],
+  "outcome": {
+    "result": "aborted",
+    "phases_completed": [
+      "planning",
+      "infiltration",
+      "execution"
+    ],
+    "objectives_completed": 0,
+    "objectives_failed": 0,
+    "casualties": [],
+    "captured": [],
+    "heat_generated": 10,
+    "public_opinion_shift": 0.0,
+    "propaganda_value": 0.0
+  },
+  "psychological_events": [
+    {
+      "phase": "infiltration",
+      "agent": "d76ffeb3-fba2-4b15-9fb0-e67afe0a6b65",
+      "narrative": "Dmitri Chen freezes as traumatic memories of Traumatic civilian_deaths event flood back",
+      "success": false
+    }
+  ],
+  "agent_performance": {
+    "9f807f2f-e06d-4cf8-b64e-e28ad55441d5": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": true,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    },
+    "d76ffeb3-fba2-4b15-9fb0-e67afe0a6b65": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": true,
+      "panic_episodes": 1,
+      "captured": false,
+      "killed": false
+    },
+    "e026fe52-70a4-4a52-8467-038a7e6798dd": {
+      "score": 0.0,
+      "heroic": false,
+      "betrayal": false,
+      "trauma_triggered": false,
+      "panic_episodes": 0,
+      "captured": false,
+      "killed": false
+    }
+  },
+  "memorable_moments": [
+    "Dmitri Chen's haunting flashback during infiltration",
+    "The team's cover blown in a cascade of security alerts",
+    "Aisha Chen's devastating betrayal"
+  ],
+  "narrative_summary": "The mission failed to achieve its primary objectives. The shocking betrayal shattered team cohesion at the worst possible moment. Unexpected complications forced the team to adapt on the fly. The movement must learn from this setback and adapt.",
+  "symbolic_impact": "A learning experience for the movement",
+  "emotional_tone": "fearful_retreat",
+  "bugs": []
+}

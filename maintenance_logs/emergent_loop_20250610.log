@@ -1,4 +1,4 @@
-THIS SHOULD BE A LINTER ERROREMERGENT ITERATION LOOP - Years of Lead
+EMERGENT ITERATION LOOP - Years of Lead
 ==========================================
 Start Time: 2025-06-10T12:00:00
 Target: 20+ iterations, 3+ new emotional tones, 2+ new features
@@ -83,3 +83,25 @@ ITERATION 004 - 2025-06-10T12:45:00
 
 **Test Status**: Ready for validation
 **Health Impact**: Should improve overall health from 0.75 → 0.8+
+
+ITERATION 005 - 2025-06-10T13:00:00
+------------------------------------
+**Priority**: Feature Addition - Dynamic Betrayal Threshold System
+**Issue**: Static betrayal chances don't reflect mission context and narrative tension
+**Solution**: Added contextual modifiers that make betrayal probability dynamic based on mission state
+**File**: src/game/mission_execution.py
+**Lines Changed**: 18 (added contextual mission modifiers and trait considerations)
+**New Feature**:
+- Mission context modifiers: casualties (+5% each), failing objectives (+8%), high heat (+6%)
+- Personal performance impact: failed actions (+4%), panic episodes (+3% each)
+- Additional trait modifiers: CAUTIOUS (+20%), RECKLESS (-20%)
+- Creates realistic escalation where desperate situations breed betrayal
+**Expected Impact**:
+- More narrative-appropriate betrayals (happens when missions go badly)
+- Reduces random betrayals during successful missions
+- Creates emergent storytelling where stress and failure create dramatic tension
+- Meets requirement for "new feature" addition
+- Improves emotional authenticity and player agency understanding
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.8 → 0.82+

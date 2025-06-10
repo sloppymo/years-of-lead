@@ -83,6 +83,16 @@ class FactionManager:
         # Initialize faction data
         for faction_data in factions_config:
             faction_id = faction_data["id"]
+            # Add faction dynamics layer - ITERATION 011
+            faction_data["dynamics"] = {
+                "morale": 50.0,  # 0-100: faction confidence and motivation
+                "loyalty": 75.0,  # 0-100: internal cohesion and trust
+                "ideological_divergence": 0.2,  # 0-1: internal ideological drift
+                "leadership_strength": 60.0,  # 0-100: leader charisma/control
+                "recent_performance": [],  # Track last 5 mission outcomes
+                "internal_factions": [],  # Splinter groups or ideological wings
+                "purge_risk": 0.1  # 0-1: likelihood of internal purges
+            }
             self.factions[faction_id] = faction_data
             
         # Initialize relationships between factions
@@ -310,6 +320,59 @@ class FactionManager:
         value = max(-100, min(100, value))
         self.relationships[faction_id][other_id] = value
         logger.debug(f"Updated relationship between {faction_id} and {other_id} to {value}")
+    
+    def process_agent_mission_impact(self, faction_id: str, agent_id: str, 
+                                   mission_outcome: str, betrayed: bool = False, 
+                                   heroic: bool = False) -> None:
+        """Process how agent mission behavior affects faction dynamics"""
+        if faction_id not in self.factions:
+            return
+            
+        dynamics = self.factions[faction_id]["dynamics"]
+        
+        # Track mission performance history (last 5 missions)
+        dynamics["recent_performance"].append(mission_outcome)
+        if len(dynamics["recent_performance"]) > 5:
+            dynamics["recent_performance"].pop(0)
+        
+        # Betrayal severely damages loyalty and morale
+        if betrayed:
+            dynamics["loyalty"] -= 15.0
+            dynamics["morale"] -= 10.0  
+            dynamics["ideological_divergence"] += 0.1
+            dynamics["purge_risk"] += 0.15
+            logger.info(f"Agent betrayal damaged {faction_id} loyalty/morale")
+        
+        # Heroic actions boost morale and loyalty
+        elif heroic:
+            dynamics["morale"] += 8.0
+            dynamics["loyalty"] += 5.0
+            dynamics["leadership_strength"] += 2.0
+            
+        # Adjust based on mission outcomes
+        if mission_outcome in ["success", "critical_success"]:
+            dynamics["morale"] += 3.0
+        elif mission_outcome in ["failure", "disaster"]:
+            dynamics["morale"] -= 2.0
+            if dynamics["morale"] < 20.0:  # Low morale increases divergence
+                dynamics["ideological_divergence"] += 0.05
+        
+        # Cap values in valid ranges
+        dynamics["morale"] = max(0.0, min(100.0, dynamics["morale"]))
+        dynamics["loyalty"] = max(0.0, min(100.0, dynamics["loyalty"]))
+        dynamics["ideological_divergence"] = max(0.0, min(1.0, dynamics["ideological_divergence"]))
+        dynamics["purge_risk"] = max(0.0, min(1.0, dynamics["purge_risk"]))
+    
+    def get_faction_stability(self, faction_id: str) -> float:
+        """Calculate overall faction stability score (0-1)"""
+        if faction_id not in self.factions:
+            return 0.5
+            
+        dynamics = self.factions[faction_id]["dynamics"] 
+        stability = (dynamics["morale"] + dynamics["loyalty"]) / 200.0
+        stability -= dynamics["ideological_divergence"] * 0.3
+        stability -= dynamics["purge_risk"] * 0.2
+        return max(0.0, min(1.0, stability))
 
 
 class FactionStrategy:

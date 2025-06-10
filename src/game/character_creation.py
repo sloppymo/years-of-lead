@@ -20,6 +20,153 @@ if TYPE_CHECKING:
 # Set up logging
 logger = logging.getLogger(__name__)
 
+# Agent Diaries & Legacy System - ITERATION 013
+class ArcTag(Enum):
+    """Character arc development tags that emerge from mission experiences"""
+    DISILLUSIONED = "disillusioned"      # Lost faith in the cause
+    ICON = "icon"                        # Become legendary among resistance
+    HAUNTED = "haunted"                  # Plagued by mission experiences
+    MENTOR = "mentor"                    # Guides and teaches others
+    SURVIVOR = "survivor"                # Endured impossible odds
+    BETRAYER = "betrayer"                # Known for betraying trust
+    REDEEMED = "redeemed"                # Found redemption after failure
+    BROKEN = "broken"                    # Psychologically shattered
+    LEGEND = "legend"                    # Achieved mythical status
+    OUTCAST = "outcast"                  # Rejected by peers
+
+@dataclass
+class MissionDiaryEntry:
+    """Individual mission log entry with emotional and narrative content"""
+    mission_id: str
+    date: datetime
+    location: str
+    mission_type: str
+    outcome: str
+    emotional_tone: str
+    
+    # Personal reflection and story
+    personal_reflection: str
+    key_moments: List[str]
+    relationships_affected: List[str]
+    trauma_gained: Optional[str] = None
+    skills_developed: Dict[str, int] = field(default_factory=dict)
+    
+    # Character development
+    arc_progression: List[ArcTag] = field(default_factory=list)
+    reputation_change: float = 0.0
+    moral_weight: float = 0.0  # -1.0 to 1.0 (regret to pride)
+
+@dataclass 
+class AgentLegacy:
+    """Complete agent legacy tracking personal growth and reputation"""
+    agent_id: str
+    agent_name: str
+    
+    # Mission history
+    diary_entries: List[MissionDiaryEntry] = field(default_factory=list)
+    missions_completed: int = 0
+    missions_failed: int = 0
+    
+    # Character development
+    active_arc_tags: List[ArcTag] = field(default_factory=list)
+    reputation_score: float = 0.0  # -100 to 100 (despised to revered)
+    legend_status: float = 0.0     # 0 to 1.0 (unknown to mythical)
+    
+    # Relationships and influence
+    mentorship_relationships: List[str] = field(default_factory=list)
+    enemies_made: List[str] = field(default_factory=list)
+    
+    def add_mission_entry(self, entry: MissionDiaryEntry) -> None:
+        """Add a new mission diary entry and update legacy"""
+        self.diary_entries.append(entry)
+        
+        # Update mission counts
+        if entry.outcome in ["success", "critical_success"]:
+            self.missions_completed += 1
+        else:
+            self.missions_failed += 1
+            
+        # Update reputation
+        self.reputation_score += entry.reputation_change
+        self.reputation_score = max(-100.0, min(100.0, self.reputation_score))
+        
+        # Process arc tag development
+        for arc_tag in entry.arc_progression:
+            if arc_tag not in self.active_arc_tags:
+                self.active_arc_tags.append(arc_tag)
+                logger.info(f"Agent {self.agent_name} developed arc tag: {arc_tag.value}")
+        
+        # Calculate legend status
+        self._update_legend_status()
+    
+    def _update_legend_status(self) -> None:
+        """Update legend status based on accumulated experiences"""
+        base_legend = len(self.diary_entries) * 0.02  # Base growth
+        
+        # Arc tags contribute to legend
+        legend_modifiers = {
+            ArcTag.ICON: 0.15, ArcTag.LEGEND: 0.25, ArcTag.SURVIVOR: 0.1,
+            ArcTag.MENTOR: 0.08, ArcTag.REDEEMED: 0.12, ArcTag.BROKEN: -0.05,
+            ArcTag.BETRAYER: -0.1, ArcTag.OUTCAST: -0.08
+        }
+        
+        for arc_tag in self.active_arc_tags:
+            base_legend += legend_modifiers.get(arc_tag, 0.0)
+        
+        # High reputation amplifies legend
+        if self.reputation_score > 50:
+            base_legend *= 1.3
+        elif self.reputation_score < -50:
+            base_legend *= 0.7
+        
+        self.legend_status = max(0.0, min(1.0, base_legend))
+    
+    def get_character_arc_summary(self) -> str:
+        """Generate narrative summary of character development"""
+        if not self.diary_entries:
+            return f"{self.agent_name} has yet to begin their journey."
+        
+        summary = f"{self.agent_name} has completed {len(self.diary_entries)} missions. "
+        
+        # Arc description
+        if self.active_arc_tags:
+            arc_descriptions = {
+                ArcTag.DISILLUSIONED: "has lost faith in the cause",
+                ArcTag.ICON: "has become a symbol of resistance",
+                ArcTag.HAUNTED: "is haunted by past missions",
+                ArcTag.MENTOR: "guides younger operatives",
+                ArcTag.SURVIVOR: "has endured impossible odds",
+                ArcTag.BETRAYER: "is known for betraying trust",
+                ArcTag.REDEEMED: "has found redemption",
+                ArcTag.BROKEN: "struggles with psychological damage",
+                ArcTag.LEGEND: "has achieved mythical status",
+                ArcTag.OUTCAST: "is rejected by their peers"
+            }
+            
+            primary_arc = self.active_arc_tags[0]
+            summary += arc_descriptions.get(primary_arc, "continues their journey")
+            
+            if len(self.active_arc_tags) > 1:
+                summary += f" and shows signs of {self.active_arc_tags[1].value.replace('_', ' ')}"
+        
+        # Reputation context
+        if self.reputation_score > 70:
+            summary += ". They are widely revered among the resistance."
+        elif self.reputation_score > 30:
+            summary += ". They are respected by their comrades."
+        elif self.reputation_score < -30:
+            summary += ". They are distrusted by many."
+        elif self.reputation_score < -70:
+            summary += ". They are despised by most operatives."
+        
+        # Legend status
+        if self.legend_status > 0.8:
+            summary += " Their exploits have become the stuff of legend."
+        elif self.legend_status > 0.5:
+            summary += " Stories of their missions are told throughout the movement."
+        
+        return summary
+
 class BackgroundType(Enum):
     """Character background types"""
     ACADEMIC = "academic"
@@ -703,6 +850,86 @@ class Character:
     
     # Relationship tracking
     relationships_manager: Optional['RelationshipManager'] = None
+    
+    # Agent Diaries & Legacy System - ITERATION 013
+    legacy: Optional[AgentLegacy] = None
+    
+    def __post_init__(self):
+        """Initialize legacy system after character creation"""
+        if self.legacy is None:
+            self.legacy = AgentLegacy(
+                agent_id=self.id,
+                agent_name=self.name
+            )
+    
+    def record_mission_experience(self, mission_id: str, location: str, 
+                                mission_type: str, outcome: str, 
+                                emotional_tone: str, personal_reflection: str,
+                                key_moments: List[str], heroic: bool = False,
+                                betrayed: bool = False, trauma_gained: Optional[str] = None) -> None:
+        """Record a mission experience in the agent's diary"""
+        
+        # Determine arc progression based on mission events
+        arc_progression = []
+        reputation_change = 0.0
+        moral_weight = 0.0
+        
+        if outcome in ["success", "critical_success"]:
+            reputation_change += 5.0
+            moral_weight += 0.3
+            
+            if heroic:
+                arc_progression.append(ArcTag.ICON)
+                reputation_change += 10.0
+                moral_weight += 0.5
+                
+        elif outcome in ["failure", "disaster"]:
+            reputation_change -= 3.0
+            moral_weight -= 0.2
+            
+            # Multiple failures can lead to disillusionment
+            if self.legacy and self.legacy.missions_failed >= 2:
+                arc_progression.append(ArcTag.DISILLUSIONED)
+        
+        if betrayed:
+            arc_progression.append(ArcTag.BETRAYER)
+            reputation_change -= 15.0
+            moral_weight -= 0.7
+            
+        if trauma_gained:
+            arc_progression.append(ArcTag.HAUNTED)
+            
+        # Survival against odds
+        if outcome in ["tactical_withdrawal", "desperate_struggle"] and not betrayed:
+            arc_progression.append(ArcTag.SURVIVOR)
+            reputation_change += 3.0
+            
+        # Create diary entry
+        entry = MissionDiaryEntry(
+            mission_id=mission_id,
+            date=datetime.now(),
+            location=location,
+            mission_type=mission_type,
+            outcome=outcome,
+            emotional_tone=emotional_tone,
+            personal_reflection=personal_reflection,
+            key_moments=key_moments,
+            relationships_affected=[],  # Could be populated by relationship system
+            trauma_gained=trauma_gained,
+            arc_progression=arc_progression,
+            reputation_change=reputation_change,
+            moral_weight=moral_weight
+        )
+        
+        if self.legacy:
+            self.legacy.add_mission_entry(entry)
+            logger.info(f"Recorded mission experience for {self.name}: {outcome} in {location}")
+        
+    def get_legacy_summary(self) -> str:
+        """Get agent's legacy and character arc summary"""
+        if not self.legacy:
+            return f"{self.name} has no recorded legacy."
+        return self.legacy.get_character_arc_summary()
     
     def get_character_summary(self) -> str:
         """Get a comprehensive character summary"""

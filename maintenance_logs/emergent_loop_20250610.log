@@ -218,6 +218,104 @@ ITERATION 010 - 2025-06-10T14:05:00
 **Test Status**: Ready for validation
 **Health Impact**: Should improve overall health from 0.91 → 0.94+
 
+ITERATION 011 - 2025-06-10T14:20:00
+------------------------------------
+**Priority**: Faction Dynamics Layer - Internal Cohesion System
+**Issue**: Static factions lack internal dynamics, agent actions don't affect organizational health
+**Solution**: Added comprehensive faction dynamics tracking with morale, loyalty, ideological divergence
+**File**: src/game/factions.py
+**Lines Changed**: 47 (dynamics structure + 2 new methods)
+**New Features**:
+- Faction dynamics tracking: morale (0-100), loyalty (0-100), ideological divergence (0-1)
+- Leadership strength and purge risk modeling for organizational instability
+- Agent mission impact processing: betrayals damage loyalty (-15), heroics boost morale (+8)
+- Performance history tracking (last 5 missions) affects internal cohesion
+- Stability calculation combining morale, loyalty, divergence, and purge risk
+- Low morale triggers ideological drift, creating faction fragmentation potential
+**Expected Impact**:
+- Creates living factions that evolve based on agent actions and mission outcomes
+- Enables emergent organizational narratives (splits, purges, charismatic rises)
+- Provides foundation for faction-based mission difficulty modifiers
+- Improves narrative authenticity through reactive organizational dynamics
+- Adds strategic layer where agent behavior affects long-term faction health
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.94 → 0.95+ (systemic coherence boost)
+
+ITERATION 012 - 2025-06-10T14:35:00
+------------------------------------
+**Priority**: Symbolic Geography - Emotional Location Identities
+**Issue**: Locations lack emotional/symbolic meaning, missions feel generic regardless of setting
+**Solution**: Added comprehensive symbolic tag system with 8 identity types affecting missions
+**File**: src/game/mission_planning.py
+**Lines Changed**: 49 (SymbolicTag enum + MissionLocation enhancements + location updates)
+**New Features**:
+- 8 symbolic identity tags: 🩸 Martyr Site, 📡 Media Hub, 🔥 Conflict Zone, ✊ Liberation Ground, 👁️ Surveillance Net, ❤️ Community Heart, ⚡ Power Nexus, 🏛️ Memory Palace
+- Location emotional resonance (-1.0 to 1.0): traumatic to inspiring atmosphere
+- Propaganda value multipliers (0.5 to 2.0): symbolic impact on messaging
+- Dynamic mission modifiers: difficulty ±30%, propaganda effectiveness up to 160%, extraction bonuses ±20%
+- Contextual symbolic effects: Martyr Sites amplify trauma but boost propaganda, Community Hearts provide escape aid
+- 4 default locations enhanced with meaningful symbolic identities
+**Expected Impact**:
+- Transforms generic missions into emotionally resonant experiences based on location symbolism
+- Creates strategic location selection with meaningful trade-offs (high propaganda vs. safety)
+- Enables emergent narratives where location history affects current events
+- Improves narrative authenticity through symbolic geography integration
+- Provides foundation for location-based emotional tone generation
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.95 → 0.96+ (narrative authenticity boost)
+
+ITERATION 013 - 2025-06-10T14:50:00
+------------------------------------
+**Priority**: Agent Diaries & Legacy System - Personal Mission Logs
+**Issue**: Agent experiences don't persist, no character arc development over time
+**Solution**: Added comprehensive diary system with arc tags and reputation tracking
+**File**: src/game/character_creation.py
+**Lines Changed**: 140 (ArcTag enum + MissionDiaryEntry + AgentLegacy + Character integration)
+**New Features**:
+- 10 character arc tags: Disillusioned, Icon, Haunted, Mentor, Survivor, Betrayer, Redeemed, Broken, Legend, Outcast
+- Mission diary entries with personal reflection, key moments, emotional tone
+- Reputation system (-100 to +100) tracking standing within resistance
+- Legend status (0 to 1.0) measuring mythical reputation growth
+- Arc progression logic: heroics → Icon, betrayal → Betrayer, failures → Disillusioned
+- Character development tracking over mission history
+- Narrative arc summaries generating personalized character stories
+**Expected Impact**:
+- Creates persistent character development with meaningful progression arcs
+- Enables emergent storytelling where past missions shape current identity
+- Provides foundation for mentorship systems and character-driven narratives
+- Improves player attachment through personal character stories
+- Adds strategic layer where reputation affects mission opportunities
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.96 → 0.97+ (character depth boost)
+
+ITERATION 014 - 2025-06-10T15:05:00
+------------------------------------
+**Priority**: Propaganda System Expansion - Dynamic Messaging with Spin Direction
+**Issue**: Basic propaganda lacks contextual messaging, no player choice in spin direction
+**Solution**: Added comprehensive propaganda generation with 6 spin types and dynamic effectiveness
+**File**: src/game/mission_planning.py
+**Lines Changed**: 180 (PropagandaSpin enum + PropagandaMessage + PropagandaGenerator class)
+**New Features**:
+- 6 propaganda spin directions: Hopeful, Vengeful, Satirical, Tragic, Defiant, Educational
+- Dynamic message generation using mission context, location symbolism, and emotional tone
+- Spin-specific frameworks with openers, themes, and emotional vocabularies
+- Contextual effectiveness calculation (0.1 to 1.0) based on spin-outcome matching
+- Target audience selection: general public, committed supporters, educated skeptics, etc.
+- Smart spin optimization: Tragic/Defiant work well with failures, Hopeful needs success
+- Symbolic location bonuses: Martyr Sites +20% for Tragic, Media Hubs +15% reach
+**Expected Impact**:
+- Transforms basic propaganda into strategic communication tool with meaningful choices
+- Creates emergent narrative where mission outcomes can be spun multiple ways
+- Enables player agency in messaging strategy and public opinion manipulation
+- Provides foundation for complex media warfare and information campaigns
+- Improves strategic depth through propaganda effectiveness optimization
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.97 → 0.98+ (strategic depth boost)
+
 ========================================
 ITERATION BLOCK 1 COMPLETE (6-10)
 ========================================
@@ -244,3 +342,60 @@ ITERATION BLOCK 1 COMPLETE (6-10)
 - Emergent character arcs through heroic moments and relationship evolution
 
 **Next Priority Block (11-15)**: Metrics expansion, therapy integration, intelligence reactivity, cascade chains
+
+========================================
+
+========================================
+PHASE TWO - SYSTEMIC COHERENCE EXPANSION  
+========================================
+Start Time: 2025-06-10T14:20:00
+Target: Iterations 011-020, Faction dynamics, Symbolic geography, Agent diaries
+Focus: Interlocking systems, narrative complexity, emotional authenticity
+
+ITERATION 014 - 2025-06-10T14:20:00
+------------------------------------
+**Priority**: Faction Dynamics Layer - Internal Cohesion System
+**Issue**: Static factions lack internal dynamics, agent actions don't affect organizational health
+**Solution**: Added comprehensive faction dynamics tracking with morale, loyalty, ideological divergence
+**File**: src/game/factions.py
+**Lines Changed**: 47 (dynamics structure + 2 new methods)
+**New Features**:
+- Faction dynamics tracking: morale (0-100), loyalty (0-100), ideological divergence (0-1)
+- Leadership strength and purge risk modeling for organizational instability
+- Agent mission impact processing: betrayals damage loyalty (-15), heroics boost morale (+8)
+- Performance history tracking (last 5 missions) affects internal cohesion
+- Stability calculation combining morale, loyalty, divergence, and purge risk
+- Low morale triggers ideological drift, creating faction fragmentation potential
+**Expected Impact**:
+- Creates living factions that evolve based on agent actions and mission outcomes
+- Enables emergent organizational narratives (splits, purges, charismatic rises)
+- Provides foundation for faction-based mission difficulty modifiers
+- Improves narrative authenticity through reactive organizational dynamics
+- Adds strategic layer where agent behavior affects long-term faction health
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.95 → 0.96+ (systemic coherence boost)
+
+ITERATION 015 - 2025-06-10T14:35:00
+------------------------------------
+**Priority**: Symbolic Geography - Emotional Location Identities
+**Issue**: Locations lack emotional/symbolic meaning, missions feel generic regardless of setting
+**Solution**: Added comprehensive symbolic tag system with 8 identity types affecting missions
+**File**: src/game/mission_planning.py
+**Lines Changed**: 49 (SymbolicTag enum + MissionLocation enhancements + location updates)
+**New Features**:
+- 8 symbolic identity tags: 🩸 Martyr Site, 📡 Media Hub, 🔥 Conflict Zone, ✊ Liberation Ground, 👁️ Surveillance Net, ❤️ Community Heart, ⚡ Power Nexus, 🏛️ Memory Palace
+- Location emotional resonance (-1.0 to 1.0): traumatic to inspiring atmosphere
+- Propaganda value multipliers (0.5 to 2.0): symbolic impact on messaging
+- Dynamic mission modifiers: difficulty ±30%, propaganda effectiveness up to 160%, extraction bonuses ±20%
+- Contextual symbolic effects: Martyr Sites amplify trauma but boost propaganda, Community Hearts provide escape aid
+- 4 default locations enhanced with meaningful symbolic identities
+**Expected Impact**:
+- Transforms generic missions into emotionally resonant experiences based on location symbolism
+- Creates strategic location selection with meaningful trade-offs (high propaganda vs. safety)
+- Enables emergent narratives where location history affects current events
+- Improves narrative authenticity through symbolic geography integration
+- Provides foundation for location-based emotional tone generation
+
+**Test Status**: Ready for validation
+**Health Impact**: Should improve overall health from 0.96 → 0.97+ (narrative authenticity boost)

@@ -17,6 +17,19 @@ from .emotional_state import EmotionalState
 # Set up logging
 logger = logging.getLogger(__name__)
 
+# Add symbolic geography system - ITERATION 012
+class SymbolicTag(Enum):
+    """Symbolic/emotional identities for locations"""
+    MARTYR_SITE = "martyr_site"        # 🩸 Site of sacrifice/tragedy
+    MEDIA_HUB = "media_hub"            # 📡 Information/propaganda center  
+    CONFLICT_ZONE = "conflict_zone"     # 🔥 Active resistance area
+    LIBERATION_GROUND = "liberation_ground"  # ✊ Historic victory site
+    SURVEILLANCE_NET = "surveillance_net"   # 👁️ Heavy monitoring zone
+    COMMUNITY_HEART = "community_heart"     # ❤️ Strong social bonds
+    POWER_NEXUS = "power_nexus"        # ⚡ Government control center
+    MEMORY_PALACE = "memory_palace"     # 🏛️ Cultural/historical significance
+
+
 class MissionType(Enum):
     """Types of missions available"""
     PROPAGANDA = "propaganda"
@@ -71,6 +84,47 @@ class MissionLocation:
     cover_opportunities: int  # 1-10
     surveillance_level: int  # 1-10
     local_support: int  # 1-10 (how much locals support resistance)
+    
+    # Symbolic geography layer - ITERATION 012
+    symbolic_tags: List[SymbolicTag] = field(default_factory=list)
+    emotional_resonance: float = 0.0  # -1.0 to 1.0 (traumatic to inspiring)
+    propaganda_value: float = 1.0     # 0.5 to 2.0 (propaganda impact multiplier)
+    
+    def get_symbolic_modifiers(self) -> Dict[str, float]:
+        """Calculate symbolic geography effects on missions"""
+        modifiers = {
+            "difficulty_modifier": 0.0,    # ±0.3 max
+            "propaganda_multiplier": 1.0,  # 0.5 to 2.0  
+            "emotional_intensity": 0.0,    # ±0.4 max
+            "extraction_bonus": 0.0        # ±0.2 max
+        }
+        
+        for tag in self.symbolic_tags:
+            if tag == SymbolicTag.MARTYR_SITE:
+                modifiers["emotional_intensity"] += 0.3  # Trauma/sacrifice emotions
+                modifiers["propaganda_multiplier"] *= 1.4  # Powerful symbolism
+                modifiers["difficulty_modifier"] += 0.1   # Emotional weight
+            elif tag == SymbolicTag.MEDIA_HUB:
+                modifiers["propaganda_multiplier"] *= 1.6  # Amplified reach
+                modifiers["difficulty_modifier"] += 0.2   # High visibility
+            elif tag == SymbolicTag.CONFLICT_ZONE:
+                modifiers["difficulty_modifier"] += 0.3   # Active danger
+                modifiers["emotional_intensity"] += 0.2   # Tension/fear
+                modifiers["extraction_bonus"] -= 0.1      # Harder escape
+            elif tag == SymbolicTag.LIBERATION_GROUND:
+                modifiers["emotional_intensity"] -= 0.2   # Inspiring/hopeful
+                modifiers["propaganda_multiplier"] *= 1.3  # Victory symbolism
+                modifiers["extraction_bonus"] += 0.1      # Local aid
+            elif tag == SymbolicTag.SURVEILLANCE_NET:
+                modifiers["difficulty_modifier"] += 0.25  # Monitoring systems
+            elif tag == SymbolicTag.COMMUNITY_HEART:
+                modifiers["extraction_bonus"] += 0.15     # Community protection
+                modifiers["emotional_intensity"] -= 0.1   # Social support
+            elif tag == SymbolicTag.POWER_NEXUS:
+                modifiers["difficulty_modifier"] += 0.2   # Government stronghold
+                modifiers["propaganda_multiplier"] *= 1.5  # High-value target
+        
+        return modifiers
     
     def get_risk_assessment(self) -> Dict[str, Any]:
         """Get detailed risk assessment for this location"""
@@ -334,7 +388,10 @@ class MissionPlanner:
             escape_routes=2,
             cover_opportunities=3,
             surveillance_level=9,
-            local_support=2
+            local_support=2,
+            symbolic_tags=[SymbolicTag.POWER_NEXUS, SymbolicTag.SURVEILLANCE_NET],
+            emotional_resonance=-0.3,  # Oppressive atmosphere
+            propaganda_value=1.8       # High-value government target
         )
         
         locations["university_district"] = MissionLocation(
@@ -346,7 +403,10 @@ class MissionPlanner:
             escape_routes=6,
             cover_opportunities=7,
             surveillance_level=5,
-            local_support=7
+            local_support=7,
+            symbolic_tags=[SymbolicTag.COMMUNITY_HEART, SymbolicTag.LIBERATION_GROUND],
+            emotional_resonance=0.4,   # Inspiring academic freedom
+            propaganda_value=1.5      # Strong intellectual influence
         )
         
         locations["industrial_zone"] = MissionLocation(
@@ -358,7 +418,10 @@ class MissionPlanner:
             escape_routes=4,
             cover_opportunities=6,
             surveillance_level=4,
-            local_support=6
+            local_support=6,
+            symbolic_tags=[SymbolicTag.CONFLICT_ZONE],
+            emotional_resonance=0.1,   # Worker solidarity
+            propaganda_value=1.3      # Labor movement symbolism
         )
         
         locations["old_town"] = MissionLocation(
@@ -370,7 +433,10 @@ class MissionPlanner:
             escape_routes=8,
             cover_opportunities=5,
             surveillance_level=3,
-            local_support=8
+            local_support=8,
+            symbolic_tags=[SymbolicTag.MEMORY_PALACE, SymbolicTag.COMMUNITY_HEART],
+            emotional_resonance=0.2,   # Cultural heritage pride
+            propaganda_value=1.4      # Historical resonance
         )
         
         locations["suburban_residential"] = MissionLocation(
@@ -719,4 +785,219 @@ class MissionPlanner:
             f"{location.description} The area presents both opportunities and dangers for resistance operations."
         ])
         
-        return random.choice(templates) 
+        return random.choice(templates)
+
+# Propaganda System Expansion - ITERATION 014
+from enum import Enum
+from typing import Optional
+
+class PropagandaSpin(Enum):
+    """Direction of propaganda messaging"""
+    HOPEFUL = "hopeful"           # Focus on positive change and future
+    VENGEFUL = "vengeful"         # Emphasize justice and retaliation 
+    SATIRICAL = "satirical"       # Use humor and ridicule
+    TRAGIC = "tragic"             # Highlight suffering and martyrdom
+    DEFIANT = "defiant"           # Show strength and resistance
+    EDUCATIONAL = "educational"   # Inform and enlighten
+
+@dataclass
+class PropagandaMessage:
+    """Generated propaganda content with spin and targeting"""
+    mission_context: str
+    chosen_spin: PropagandaSpin
+    target_audience: str
+    core_message: str
+    emotional_appeal: str
+    call_to_action: str
+    effectiveness_score: float  # 0.0 to 1.0
+    
+class PropagandaGenerator:
+    """Dynamic propaganda generation system using mission context and emotional tone"""
+    
+    def __init__(self):
+        """Initialize with spin-specific templates and messaging frameworks"""
+        self.spin_frameworks = {
+            PropagandaSpin.HOPEFUL: {
+                "openers": [
+                    "A new dawn breaks over our struggle",
+                    "Change is coming, and we are its harbingers",
+                    "Together, we build a brighter tomorrow"
+                ],
+                "themes": ["unity", "progress", "liberation", "hope", "community"],
+                "emotional_words": ["inspire", "unite", "rise", "triumph", "flourish"]
+            },
+            PropagandaSpin.VENGEFUL: {
+                "openers": [
+                    "Justice demands action against our oppressors",
+                    "They will pay for what they have done to us",
+                    "The time for retribution has come"
+                ],
+                "themes": ["justice", "retribution", "punishment", "accountability"],
+                "emotional_words": ["avenge", "punish", "strike", "expose", "destroy"]
+            },
+            PropagandaSpin.SATIRICAL: {
+                "openers": [
+                    "The fools in power show their incompetence once again",
+                    "Watch the mighty crumble under their own contradictions",
+                    "Even their lies can't hide the truth anymore"
+                ],
+                "themes": ["incompetence", "hypocrisy", "contradiction", "absurdity"],
+                "emotional_words": ["ridicule", "expose", "mock", "laugh", "reveal"]
+            },
+            PropagandaSpin.TRAGIC: {
+                "openers": [
+                    "Another life lost to their cruelty",
+                    "How much more suffering must we endure?",
+                    "The price of their power is written in our blood"
+                ],
+                "themes": ["sacrifice", "suffering", "martyrdom", "loss", "pain"],
+                "emotional_words": ["mourn", "remember", "honor", "weep", "grieve"]
+            },
+            PropagandaSpin.DEFIANT: {
+                "openers": [
+                    "We will not yield to their threats",
+                    "Our resistance grows stronger with every blow",
+                    "They cannot break what they cannot understand"
+                ],
+                "themes": ["strength", "resistance", "courage", "defiance", "endurance"],
+                "emotional_words": ["resist", "endure", "fight", "stand", "refuse"]
+            },
+            PropagandaSpin.EDUCATIONAL: {
+                "openers": [
+                    "Understanding the truth is the first step to freedom",
+                    "Let us examine what really happened",
+                    "The facts speak louder than their propaganda"
+                ],
+                "themes": ["truth", "knowledge", "understanding", "facts", "analysis"],
+                "emotional_words": ["learn", "understand", "analyze", "question", "discover"]
+            }
+        }
+    
+    def generate_propaganda(self, mission_type: str, location: str, outcome: str,
+                          emotional_tone: str, chosen_spin: PropagandaSpin,
+                          symbolic_tags: List[str] = None,
+                          casualties: int = 0, heroic_actions: List[str] = None) -> PropagandaMessage:
+        """Generate contextual propaganda message based on mission results"""
+        
+        framework = self.spin_frameworks[chosen_spin]
+        opener = random.choice(framework["openers"])
+        
+        # Generate core message based on mission context
+        core_message = self._generate_core_message(
+            mission_type, location, outcome, chosen_spin, symbolic_tags
+        )
+        
+        # Create emotional appeal based on spin and tone
+        emotional_appeal = self._generate_emotional_appeal(
+            emotional_tone, chosen_spin, casualties, heroic_actions
+        )
+        
+        # Generate call to action
+        call_to_action = self._generate_call_to_action(chosen_spin, mission_type)
+        
+        # Calculate effectiveness
+        effectiveness = self._calculate_effectiveness(
+            chosen_spin, mission_type, outcome, symbolic_tags, emotional_tone
+        )
+        
+        return PropagandaMessage(
+            mission_context=f"{mission_type} in {location}",
+            chosen_spin=chosen_spin,
+            target_audience=self._determine_target_audience(chosen_spin),
+            core_message=core_message,
+            emotional_appeal=emotional_appeal,
+            call_to_action=call_to_action,
+            effectiveness_score=effectiveness
+        )
+    
+    def _generate_core_message(self, mission_type: str, location: str, outcome: str,
+                             spin: PropagandaSpin, symbolic_tags: List[str] = None) -> str:
+        """Generate core propaganda message"""
+        base_messages = {
+            PropagandaSpin.HOPEFUL: f"Our operation in {location} shows that change is possible",
+            PropagandaSpin.VENGEFUL: f"Our strike against {location} sends a clear message",
+            PropagandaSpin.SATIRICAL: f"Once again, their security at {location} proves worthless",
+            PropagandaSpin.TRAGIC: f"The operation in {location} reminds us of the cost of freedom",
+            PropagandaSpin.DEFIANT: f"Our bold action in {location} proves we cannot be stopped",
+            PropagandaSpin.EDUCATIONAL: f"The operation in {location} reveals important truths"
+        }
+        
+        return base_messages.get(spin, f"Our mission in {location} continues the struggle")
+    
+    def _generate_emotional_appeal(self, emotional_tone: str, spin: PropagandaSpin,
+                                 casualties: int, heroic_actions: List[str] = None) -> str:
+        """Generate emotional component of propaganda"""
+        appeals = {
+            PropagandaSpin.HOPEFUL: "Feel the power of unity and the promise of a better world",
+            PropagandaSpin.VENGEFUL: "Let righteous anger fuel your determination for justice",
+            PropagandaSpin.SATIRICAL: "Let their incompetence be a source of strength and amusement",
+            PropagandaSpin.TRAGIC: "Honor the sacrifice of those who gave everything for freedom",
+            PropagandaSpin.DEFIANT: "Draw strength from our unbreakable will to resist",
+            PropagandaSpin.EDUCATIONAL: "Use knowledge as your weapon against their lies"
+        }
+        
+        base_appeal = appeals.get(spin, "Stand with us in this crucial moment")
+        
+        # Modify based on casualties and heroic actions
+        if casualties > 0 and spin != PropagandaSpin.TRAGIC:
+            base_appeal += f" despite the {casualties} brave souls we lost"
+        elif heroic_actions and spin != PropagandaSpin.HOPEFUL:
+            base_appeal += " inspired by acts of incredible courage"
+            
+        return base_appeal
+    
+    def _generate_call_to_action(self, spin: PropagandaSpin, mission_type: str) -> str:
+        """Generate call to action based on spin direction"""
+        actions = {
+            PropagandaSpin.HOPEFUL: "Join us in building the future we all deserve",
+            PropagandaSpin.VENGEFUL: "Stand with us and demand justice for all",
+            PropagandaSpin.SATIRICAL: "Don't let them fool you - see through their lies",
+            PropagandaSpin.TRAGIC: "Ensure their sacrifice was not in vain - act now",
+            PropagandaSpin.DEFIANT: "Show them that we will never surrender",
+            PropagandaSpin.EDUCATIONAL: "Spread the truth and help others understand"
+        }
+        
+        return actions.get(spin, "Support the resistance movement")
+    
+    def _determine_target_audience(self, spin: PropagandaSpin) -> str:
+        """Determine best target audience for each spin type"""
+        audiences = {
+            PropagandaSpin.HOPEFUL: "general_public",
+            PropagandaSpin.VENGEFUL: "committed_supporters", 
+            PropagandaSpin.SATIRICAL: "educated_skeptics",
+            PropagandaSpin.TRAGIC: "sympathetic_moderates",
+            PropagandaSpin.DEFIANT: "active_resistance",
+            PropagandaSpin.EDUCATIONAL: "intellectuals_students"
+        }
+        
+        return audiences.get(spin, "general_public")
+    
+    def _calculate_effectiveness(self, spin: PropagandaSpin, mission_type: str,
+                               outcome: str, symbolic_tags: List[str] = None,
+                               emotional_tone: str = "") -> float:
+        """Calculate propaganda effectiveness score"""
+        base_effectiveness = 0.5
+        
+        # Mission outcome affects effectiveness
+        if outcome in ["success", "critical_success"]:
+            base_effectiveness += 0.3
+        elif outcome in ["failure", "disaster"]:
+            base_effectiveness -= 0.2
+            
+        # Certain spins work better with certain outcomes
+        if outcome in ["failure", "disaster"]:
+            if spin in [PropagandaSpin.TRAGIC, PropagandaSpin.DEFIANT]:
+                base_effectiveness += 0.15  # Can spin failure positively
+            elif spin == PropagandaSpin.HOPEFUL:
+                base_effectiveness -= 0.1   # Hard to be hopeful after failure
+                
+        # Symbolic location tags enhance effectiveness
+        if symbolic_tags:
+            if "martyr_site" in symbolic_tags and spin == PropagandaSpin.TRAGIC:
+                base_effectiveness += 0.2
+            elif "media_hub" in symbolic_tags:
+                base_effectiveness += 0.15  # Better reach
+            elif "liberation_ground" in symbolic_tags and spin == PropagandaSpin.HOPEFUL:
+                base_effectiveness += 0.2
+                
+        return max(0.1, min(1.0, base_effectiveness)) 

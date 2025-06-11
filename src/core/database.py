@@ -23,18 +23,18 @@ mongodb_client = None
 async def init_db():
     """Initialize database connections"""
     global mongodb_client
-    
+
     try:
         # PostgreSQL connection
         conn = engine.connect()
         conn.close()
         logger.info("Successfully connected to PostgreSQL")
-        
+
         # MongoDB connection
         mongodb_client = AsyncIOMotorClient(**get_mongo_client_settings())
         await mongodb_client.server_info()  # Verify connection
         logger.info("Successfully connected to MongoDB")
-        
+
         return True
     except Exception as e:
         logger.error(f"Database connection failed: {str(e)}")
@@ -55,7 +55,7 @@ def get_mongodb():
     global mongodb_client
     if mongodb_client is None:
         mongodb_client = AsyncIOMotorClient(**get_mongo_client_settings())
-    
+
     db = mongodb_client[settings.MONGO_DB]
     return db
 

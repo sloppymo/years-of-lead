@@ -63,17 +63,17 @@ class RandomEvent:
     outcomes: List[EventOutcome]
     duration: int = 1  # How many turns the event lasts
     cooldown: int = 0  # Turns before event can repeat
-    
+
     def get_random_outcome(self) -> EventOutcome:
         """Get a random outcome based on probabilities"""
         roll = random.random()
         cumulative_prob = 0.0
-        
+
         for outcome in self.outcomes:
             cumulative_prob += outcome.probability
             if roll <= cumulative_prob:
                 return outcome
-        
+
         # Fallback to first outcome
         return self.outcomes[0] if self.outcomes else None
 
@@ -94,17 +94,17 @@ class Encounter:
 
 class EventGenerator:
     """Main class for generating random events and encounters"""
-    
+
     def __init__(self):
         self.events = self._create_events()
         self.encounters = self._create_encounters()
         self.active_events = {}
         self.event_cooldowns = {}
-    
+
     def _create_events(self) -> Dict[str, RandomEvent]:
         """Create all available random events"""
         events = {}
-        
+
         # ENVIRONMENTAL EVENTS
         events["storm_approaching"] = RandomEvent(
             id="storm_approaching",
@@ -137,7 +137,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["power_outage"] = RandomEvent(
             id="power_outage",
             name="Power Outage",
@@ -169,7 +169,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # POLITICAL EVENTS
         events["government_crackdown"] = RandomEvent(
             id="government_crackdown",
@@ -202,7 +202,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["policy_change"] = RandomEvent(
             id="policy_change",
             name="New Government Policy",
@@ -234,7 +234,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # SOCIAL EVENTS
         events["protest_movement"] = RandomEvent(
             id="protest_movement",
@@ -267,7 +267,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["community_support"] = RandomEvent(
             id="community_support",
             name="Community Support",
@@ -299,7 +299,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # ECONOMIC EVENTS
         events["market_crash"] = RandomEvent(
             id="market_crash",
@@ -332,7 +332,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["resource_shortage"] = RandomEvent(
             id="resource_shortage",
             name="Resource Shortage",
@@ -364,7 +364,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # SECURITY EVENTS
         events["surveillance_increase"] = RandomEvent(
             id="surveillance_increase",
@@ -397,7 +397,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["police_raid"] = RandomEvent(
             id="police_raid",
             name="Police Raid",
@@ -429,7 +429,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # FACTION EVENTS
         events["faction_conflict"] = RandomEvent(
             id="faction_conflict",
@@ -462,7 +462,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         events["allied_support"] = RandomEvent(
             id="allied_support",
             name="Allied Support",
@@ -494,7 +494,7 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         # PERSONAL EVENTS
         events["personal_crisis"] = RandomEvent(
             id="personal_crisis",
@@ -527,13 +527,13 @@ class EventGenerator:
                 )
             ]
         )
-        
+
         return events
-    
+
     def _create_encounters(self) -> Dict[str, Encounter]:
         """Create all available encounters"""
         encounters = {}
-        
+
         # FRIENDLY ENCOUNTERS
         encounters["helpful_civilian"] = Encounter(
             id="helpful_civilian",
@@ -546,7 +546,7 @@ class EventGenerator:
                 {"text": "Recruit them", "effects": {"recruitment": 1, "heat": 1}}
             ]
         )
-        
+
         encounters["former_comrade"] = Encounter(
             id="former_comrade",
             name="Former Comrade",
@@ -558,7 +558,7 @@ class EventGenerator:
                 {"text": "Question their loyalty", "effects": {"heat": 1, "trust": -1}}
             ]
         )
-        
+
         # NEUTRAL ENCOUNTERS
         encounters["informant"] = Encounter(
             id="informant",
@@ -572,7 +572,7 @@ class EventGenerator:
                 {"text": "Decline", "effects": {"heat": 0}}
             ]
         )
-        
+
         encounters["street_vendor"] = Encounter(
             id="street_vendor",
             name="Street Vendor",
@@ -584,7 +584,7 @@ class EventGenerator:
                 {"text": "Move on", "effects": {"heat": 0}}
             ]
         )
-        
+
         # HOSTILE ENCOUNTERS
         encounters["police_patrol"] = Encounter(
             id="police_patrol",
@@ -598,7 +598,7 @@ class EventGenerator:
                 {"text": "Run", "effects": {"heat": 2, "escape_test": True}}
             ]
         )
-        
+
         encounters["corporate_security"] = Encounter(
             id="corporate_security",
             name="Corporate Security",
@@ -611,7 +611,7 @@ class EventGenerator:
                 {"text": "Create a diversion", "effects": {"heat": 2, "combat_test": True}}
             ]
         )
-        
+
         # AMBIGUOUS ENCOUNTERS
         encounters["mysterious_stranger"] = Encounter(
             id="mysterious_stranger",
@@ -625,7 +625,7 @@ class EventGenerator:
                 {"text": "Reject immediately", "effects": {"heat": -1, "opportunity": -1}}
             ]
         )
-        
+
         encounters["double_agent"] = Encounter(
             id="double_agent",
             name="Suspected Double Agent",
@@ -638,7 +638,7 @@ class EventGenerator:
                 {"text": "Monitor them", "effects": {"heat": 0, "intelligence": 1}}
             ]
         )
-        
+
         # MYSTERIOUS ENCOUNTERS
         encounters["strange_signal"] = Encounter(
             id="strange_signal",
@@ -652,7 +652,7 @@ class EventGenerator:
                 {"text": "Ignore it", "effects": {"heat": 0, "opportunity": -1}}
             ]
         )
-        
+
         encounters["hidden_cache"] = Encounter(
             id="hidden_cache",
             name="Hidden Cache",
@@ -665,63 +665,63 @@ class EventGenerator:
                 {"text": "Leave it for others", "effects": {"heat": -1, "morale": 1}}
             ]
         )
-        
+
         return encounters
-    
+
     def generate_random_event(self, game_state: Dict[str, Any]) -> Optional[RandomEvent]:
         """Generate a random event based on current game state"""
         available_events = []
-        
+
         for event_id, event in self.events.items():
             # Check if event is on cooldown
             if event_id in self.event_cooldowns:
                 if self.event_cooldowns[event_id] > 0:
                     continue
-            
+
             # Check trigger conditions
             if self._check_event_conditions(event, game_state):
                 available_events.append(event)
-        
+
         if not available_events:
             return None
-        
+
         # Weight events by severity and current game state
         weighted_events = []
         for event in available_events:
             weight = self._calculate_event_weight(event, game_state)
             weighted_events.extend([event] * weight)
-        
+
         if not weighted_events:
             return None
-        
+
         return random.choice(weighted_events)
-    
+
     def generate_random_encounter(self, character: Any, location: str) -> Optional[Encounter]:
         """Generate a random encounter for a character"""
         available_encounters = []
-        
+
         for encounter_id, encounter in self.encounters.items():
             # Check location restrictions
             if encounter.location_restrictions and location not in encounter.location_restrictions:
                 continue
-            
+
             # Check skill requirements
             if self._check_encounter_requirements(encounter, character):
                 available_encounters.append(encounter)
-        
+
         if not available_encounters:
             return None
-        
+
         return random.choice(available_encounters)
-    
+
     def _check_event_conditions(self, event: RandomEvent, game_state: Dict[str, Any]) -> bool:
         """Check if event conditions are met"""
         conditions = event.trigger_conditions
-        
+
         for condition, value in conditions.items():
             if condition == "turn_number" and value == "any":
                 continue
-            
+
             if condition in game_state:
                 if isinstance(value, list):
                     if game_state[condition] not in value:
@@ -730,9 +730,9 @@ class EventGenerator:
                     return False
             else:
                 return False
-        
+
         return True
-    
+
     def _calculate_event_weight(self, event: RandomEvent, game_state: Dict[str, Any]) -> int:
         """Calculate event weight based on severity and game state"""
         base_weight = {
@@ -741,34 +741,34 @@ class EventGenerator:
             EventSeverity.MAJOR: 3,
             EventSeverity.CRITICAL: 4
         }
-        
+
         weight = base_weight.get(event.severity, 1)
-        
+
         # Adjust weight based on game state
         if "unrest" in game_state and game_state["unrest"] > 5:
             weight += 1
-        
+
         if "heat_level" in game_state and game_state["heat_level"] > 5:
             weight += 1
-        
+
         return weight
-    
+
     def _check_encounter_requirements(self, encounter: Encounter, character: Any) -> bool:
         """Check if character meets encounter requirements"""
         if not encounter.required_skills:
             return True
-        
+
         for skill, level in encounter.required_skills.items():
             if hasattr(character, 'skills') and hasattr(character.skills, skill):
                 if getattr(character.skills, skill) < level:
                     return False
-        
+
         return True
-    
+
     def apply_event_outcome(self, event: RandomEvent, game_state: Dict[str, Any]) -> Dict[str, Any]:
         """Apply an event outcome to the game state"""
         outcome = event.get_random_outcome()
-        
+
         # Apply effects
         for effect, value in outcome.effects.items():
             if effect in game_state:
@@ -776,12 +776,12 @@ class EventGenerator:
                     game_state[effect] += value
                 elif isinstance(game_state[effect], str):
                     game_state[effect] = value
-        
+
         # Set cooldown
         self.event_cooldowns[event.id] = event.cooldown
-        
+
         return outcome
-    
+
     def update_cooldowns(self):
         """Update event cooldowns"""
         for event_id in list(self.event_cooldowns.keys()):
@@ -800,9 +800,9 @@ if __name__ == "__main__":
     # Test the event system
     print("Testing Random Events System")
     print("=" * 50)
-    
+
     generator = create_event_generator()
-    
+
     # Test event generation
     game_state = {
         "weather": "clear",
@@ -810,17 +810,17 @@ if __name__ == "__main__":
         "unrest": 6,
         "heat_level": 7
     }
-    
+
     event = generator.generate_random_event(game_state)
     if event:
         print(f"Generated event: {event.name}")
         print(f"Description: {event.description}")
         print(f"Severity: {event.severity.value}")
-        
+
         outcome = generator.apply_event_outcome(event, game_state)
         print(f"Outcome: {outcome.description}")
         print(f"Effects: {outcome.effects}")
     else:
         print("No events available for current game state")
-    
-    print(f"\nUpdated game state: {game_state}") 
+
+    print(f"\nUpdated game state: {game_state}")

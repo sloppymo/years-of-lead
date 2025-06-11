@@ -18,21 +18,21 @@ from repositories.operations import cell_repository, operation_repository
 
 class DistrictService:
     """District service for managing district entities and territorial dynamics"""
-    
+
     def __init__(self):
         pass
-    
+
     async def get_districts_in_game(
         self, db: AsyncSession, game_id: str
     ) -> List[GameDistrictResponse]:
         """Get all districts in a game"""
         districts = await game_district_repository.get_by_game(db, game_id)
-        
+
         result = []
         for district in districts:
             # Get faction control data for each district
             control_data = await game_district_repository.get_faction_control(db, district.id)
-            
+
             result.append(GameDistrictResponse(
                 id=district.id,
                 game_id=district.game_id,
@@ -47,9 +47,9 @@ class DistrictService:
                 heat=district.heat,
                 faction_control=control_data
             ))
-                
+
         return result
-    
+
     async def get_district_details(
         self, db: AsyncSession, district_id: str
     ) -> Optional[Dict[str, Any]]:
@@ -57,10 +57,10 @@ class DistrictService:
         district = await game_district_repository.get(db, district_id)
         if not district:
             return None
-            
+
         # Get basic district data
         control_data = await game_district_repository.get_faction_control(db, district.id)
-        
+
         # Get cells in district
         cells = await cell_repository.get_by_district(db, district.id)
         cell_data = []
@@ -73,7 +73,7 @@ class DistrictService:
                 "size": cell.size,
                 "specialization": cell.specialization
             })
-        
+
         # Get active operations in district
         operations = await operation_repository.get_by_district(db, district.id)
         operation_data = []
@@ -87,7 +87,7 @@ class DistrictService:
                     "current_stage": operation.current_stage,
                     "scheduled_for_turn": operation.scheduled_for_turn
                 })
-        
+
         # Compile comprehensive district details
         district_details = {
             "district": GameDistrictResponse(
@@ -107,33 +107,33 @@ class DistrictService:
             "cells": cell_data,
             "active_operations": operation_data
         }
-        
+
         return district_details
-    
+
     async def update_district_metrics(
-        self, 
-        db: AsyncSession, 
-        district_id: str, 
+        self,
+        db: AsyncSession,
+        district_id: str,
         metrics: DistrictMetricsUpdate
     ) -> Optional[GameDistrictResponse]:
         """Update district metrics"""
         updated_district = await game_district_repository.update_metrics(
-            db, 
-            district_id, 
+            db,
+            district_id,
             metrics.security_level,
             metrics.unrest_level,
             metrics.prosperity_level,
             metrics.heat
         )
-        
+
         if not updated_district:
             return None
-            
+
         # Get faction control data
         control_data = await game_district_repository.get_faction_control(
             db, district_id
         )
-            
+
         return GameDistrictResponse(
             id=updated_district.id,
             game_id=updated_district.game_id,
@@ -148,12 +148,12 @@ class DistrictService:
             heat=updated_district.heat,
             faction_control=control_data
         )
-    
+
     async def update_faction_control(
-        self, 
-        db: AsyncSession, 
-        district_id: str, 
-        faction_id: str, 
+        self,
+        db: AsyncSession,
+        district_id: str,
+        faction_id: str,
         control_percentage: float,
         influence: Optional[float] = None,
         heat: Optional[float] = None
@@ -162,19 +162,19 @@ class DistrictService:
         # Validate entities exist
         district = await game_district_repository.get(db, district_id)
         faction = await game_faction_repository.get(db, faction_id)
-        
+
         if not district or not faction:
             return False
-            
+
         # Ensure faction belongs to the same game as district
         if district.game_id != faction.game_id:
             return False
-            
+
         # Update control
         return await game_district_repository.update_faction_control(
             db, district_id, faction_id, control_percentage, influence, heat
         )
-    
+
     async def calculate_unrest_factors(
         self, db: AsyncSession, district_id: str
     ) -> Dict[str, Any]:
@@ -182,18 +182,18 @@ class DistrictService:
         district = await game_district_repository.get(db, district_id)
         if not district:
             return {}
-            
+
         # Get faction control data
         control_data = await game_district_repository.get_faction_control(db, district_id)
-        
+
         # Get cells in district
         cells = await cell_repository.get_by_district(db, district_id)
-        
+
         # Get operations in district
         operations = await operation_repository.get_by_district(db, district_id)
-        active_operations = [op for op in operations 
+        active_operations = [op for op in operations
                            if op.current_stage != "completed" and op.current_stage != "failed"]
-        
+
         # Calculate factors
         factors = {
             "base_unrest": district.unrest_level,
@@ -204,7 +204,7 @@ class DistrictService:
             "active_operations": len(active_operations) * 3,  # Active operations increase unrest
             "control_disparity": self._calculate_control_disparity(control_data)  # Contested districts have higher unrest
         }
-        
+
         # Calculate total unrest change
         factors["total_change"] = sum([
             factors["prosperity_factor"],
@@ -214,70 +214,70 @@ class DistrictService:
             factors["active_operations"],
             factors["control_disparity"]
         ])
-        
+
         # Calculate projected unrest
         factors["projected_unrest"] = max(0, min(100, district.unrest_level + factors["total_change"]))
-        
+
         return factors
-    
+
     def _calculate_control_disparity(self, control_data: Dict[str, float]) -> float:
         """Calculate unrest factor from control disparity among factions"""
         if not control_data:
             return 0
-            
+
         # If one faction has overwhelming control, unrest is lower
         # If control is split among factions, unrest is higher
         values = list(control_data.values())
         if len(values) <= 1:
             return 0
-            
+
         max_control = max(values)
         second_highest = sorted(values, reverse=True)[1] if len(values) > 1 else 0
-        
+
         # Calculate disparity - higher disparity (one dominant faction) means lower unrest
         disparity = max_control - second_highest
-        
+
         # Map disparity to unrest factor: high disparity = low unrest, low disparity = high unrest
         return max(0, 20 - (disparity / 5))
-    
+
     async def recalculate_district_metrics(
         self, db: AsyncSession, game_id: str
     ) -> bool:
         """Recalculate metrics for all districts in a game based on events"""
         districts = await game_district_repository.get_by_game(db, game_id)
-        
+
         for district in districts:
             # Calculate new unrest
             unrest_factors = await self.calculate_unrest_factors(db, district.id)
             new_unrest = round(unrest_factors["projected_unrest"])
-            
+
             # Adjust security based on state faction control
             control_data = await game_district_repository.get_faction_control(db, district.id)
-            
+
             # Find state faction(s)
             game_factions = await game_faction_repository.get_by_game(db, game_id)
             state_factions = [f for f in game_factions if f.faction_type == "state"]
-            
+
             # Calculate security adjustment
             security_adjustment = 0
             for faction in state_factions:
                 faction_control = control_data.get(faction.id, 0)
                 security_adjustment += (faction_control / 100) * 0.5  # State control increases security
-            
+
             new_security = max(1, min(10, district.security_level + security_adjustment))
-            
+
             # Adjust prosperity based on unrest and security
             prosperity_change = 0
             if new_unrest > 50:
                 prosperity_change -= (new_unrest - 50) / 10  # High unrest decreases prosperity
             if new_security < 5:
                 prosperity_change -= (5 - new_security) * 2  # Low security decreases prosperity
-            
+
             new_prosperity = max(0, min(100, district.prosperity_level + prosperity_change))
-            
+
             # Decay heat over time (heat naturally decreases)
             new_heat = max(0, district.heat - 5)
-            
+
             # Update district
             await game_district_repository.update_metrics(
                 db,
@@ -287,7 +287,7 @@ class DistrictService:
                 prosperity_level=round(new_prosperity),
                 heat=round(new_heat)
             )
-            
+
         return True
 
 

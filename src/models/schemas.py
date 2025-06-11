@@ -36,7 +36,7 @@ class UserResponse(UserBase):
     is_active: bool
     is_superuser: bool
     created_at: datetime
-    
+
     class Config:
         orm_mode = True
 
@@ -66,7 +66,7 @@ class FactionResponse(FactionBase):
     """Schema for faction response"""
     id: str
     default_strength: int
-    
+
     class Config:
         orm_mode = True
 
@@ -77,7 +77,7 @@ class FactionRelationshipResponse(BaseModel):
     other_faction_id: str
     relationship_value: int
     updated_at: datetime
-    
+
     class Config:
         orm_mode = True
 
@@ -100,7 +100,7 @@ class DistrictCreate(DistrictBase):
 class DistrictResponse(DistrictBase):
     """Schema for district response"""
     id: str
-    
+
     class Config:
         orm_mode = True
 
@@ -125,7 +125,7 @@ class GameResponse(BaseModel):
     is_completed: bool
     created_at: datetime
     last_played_at: datetime
-    
+
     class Config:
         orm_mode = True
 
@@ -139,7 +139,7 @@ class GameStateResponse(BaseModel):
     is_completed: bool
     created_at: datetime
     last_played_at: datetime
-    
+
     class Config:
         orm_mode = True
 
@@ -177,7 +177,7 @@ class EventResponse(BaseModel):
     description: Optional[str] = None
     data: Dict[str, Any]
     narrative_text: Optional[str] = None
-    
+
     class Config:
         orm_mode = True
 
@@ -202,7 +202,7 @@ class PlayerCharacterResponse(PlayerCharacterBase):
     game_id: str
     heat: int
     emotional_state: Optional[Dict[str, Any]] = {}
-    
+
     class Config:
         orm_mode = True
 
@@ -230,7 +230,7 @@ class CellResponse(CellBase):
     cover_strength: int
     morale: int
     heat: int
-    
+
     class Config:
         orm_mode = True
 
@@ -266,7 +266,7 @@ class OperationResponse(OperationBase):
     heat_generation: int
     required_resources: Dict[str, int]
     potential_outcomes: Optional[Dict[str, Any]] = {}
-    
+
     class Config:
         orm_mode = True
 
@@ -288,7 +288,7 @@ class JournalEntryResponse(BaseModel):
     content: str
     emotional_tags: Optional[List[Dict[str, Any]]] = []
     narrative_context: Optional[Dict[str, Any]] = {}
-    
+
     class Config:
         orm_mode = True
 

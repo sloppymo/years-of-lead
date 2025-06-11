@@ -96,4 +96,4 @@ class HistoricalMemory:
         return len(self._events)
 
 # Global instance
-historical_memory = HistoricalMemory() 
+historical_memory = HistoricalMemory()

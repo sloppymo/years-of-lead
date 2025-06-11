@@ -34,7 +34,7 @@ def test_character_creation_valid():
 def test_character_creation_edge_cases():
     """Test edge cases in character creation"""
     creator = CharacterCreator()
-    
+
     # Test with minimum skill points
     character = creator.create_character(
         name="Minimal Agent",
@@ -45,7 +45,7 @@ def test_character_creation_edge_cases():
         has_trauma=False
     )
     assert character.skills.get_total_skill_points() >= 8  # Minimum base skills
-    
+
     # Test with maximum skill points
     character = creator.create_character(
         name="Skilled Agent",
@@ -57,7 +57,7 @@ def test_character_creation_edge_cases():
     )
     # Allow for background bonuses + max skill points
     assert character.skills.get_total_skill_points() <= 70  # Base + max points + bonuses
-    
+
     # Test trauma generation
     assert character.trauma is not None
     assert 0.0 <= character.trauma.severity <= 1.0
@@ -65,7 +65,7 @@ def test_character_creation_edge_cases():
 def test_character_creation_invalid_inputs():
     """Test character creation with invalid inputs"""
     creator = CharacterCreator()
-    
+
     # Test invalid background type
     with pytest.raises(ValueError):
         creator.create_character(
@@ -74,7 +74,7 @@ def test_character_creation_invalid_inputs():
             primary_trait=PersonalityTrait.LOYAL,
             secondary_trait=PersonalityTrait.PRAGMATIC
         )
-    
+
     # Test invalid personality traits
     with pytest.raises(ValueError):
         creator.create_character(
@@ -83,7 +83,7 @@ def test_character_creation_invalid_inputs():
             primary_trait="invalid_trait",
             secondary_trait=PersonalityTrait.PRAGMATIC
         )
-    
+
     # Test negative skill points
     with pytest.raises(ValueError):
         creator.create_character(
@@ -103,13 +103,13 @@ def test_character_serialization():
         primary_trait=PersonalityTrait.COMPASSIONATE,
         secondary_trait=PersonalityTrait.CAUTIOUS
     )
-    
+
     # Serialize
     data = original.serialize()
     assert isinstance(data, dict)
     assert data['name'] == "Serial Agent"
     assert data['background']['type'] == "medical"
-    
+
     # Deserialize
     restored = Character.deserialize(data)
     assert restored.name == original.name
@@ -140,7 +140,7 @@ def test_mission_planning_edge_cases():
     """Test edge cases in mission planning"""
     creator = CharacterCreator()
     planner = MissionPlanner()
-    
+
     # Test with single participant
     operative = creator.create_character(
         name="Solo Agent",
@@ -148,7 +148,7 @@ def test_mission_planning_edge_cases():
         primary_trait=PersonalityTrait.RECKLESS,
         secondary_trait=PersonalityTrait.OPPORTUNISTIC
     )
-    
+
     plan = planner.create_mission_plan(
         mission_type=MissionType.ASSASSINATION,
         location_name="government_quarter",
@@ -156,7 +156,7 @@ def test_mission_planning_edge_cases():
     )
     assert len(plan.participants) == 1
     assert plan.calculated_risk.value in ["low", "medium", "high", "extreme"]
-    
+
     # Test with large team
     team = []
     for i in range(5):
@@ -167,7 +167,7 @@ def test_mission_planning_edge_cases():
             secondary_trait=PersonalityTrait.METHODICAL
         )
         team.append(agent)
-    
+
     plan = planner.create_mission_plan(
         mission_type=MissionType.RESCUE,
         location_name="suburban_residential",
@@ -186,7 +186,7 @@ def test_mission_planning_invalid_inputs():
         primary_trait=PersonalityTrait.LOYAL,
         secondary_trait=PersonalityTrait.PRAGMATIC
     )
-    
+
     # Test invalid mission type
     with pytest.raises(ValueError):
         planner.create_mission_plan(
@@ -194,7 +194,7 @@ def test_mission_planning_invalid_inputs():
             location_name="industrial_zone",
             participants=[operative]
         )
-    
+
     # Test invalid location
     with pytest.raises(ValueError):
         planner.create_mission_plan(
@@ -202,7 +202,7 @@ def test_mission_planning_invalid_inputs():
             location_name="nonexistent_location",
             participants=[operative]
         )
-    
+
     # Test empty participants (should raise ValueError, not ZeroDivisionError)
     with pytest.raises(ValueError):
         planner.create_mission_plan(
@@ -215,7 +215,7 @@ def test_mission_risk_assessment():
     """Test comprehensive risk assessment"""
     creator = CharacterCreator()
     planner = MissionPlanner()
-    
+
     # Create team with different skill levels
     team = []
     backgrounds = [BackgroundType.MILITARY, BackgroundType.TECHNICAL, BackgroundType.MEDICAL]
@@ -227,13 +227,13 @@ def test_mission_risk_assessment():
             secondary_trait=PersonalityTrait.CAUTIOUS
         )
         team.append(agent)
-    
+
     plan = planner.create_mission_plan(
         mission_type=MissionType.RESCUE,
         location_name="government_quarter",
         participants=team
     )
-    
+
     risk_assessment = plan.get_risk_assessment()
     assert "risk_level" in risk_assessment
     assert "overall_risk_score" in risk_assessment
@@ -262,7 +262,7 @@ def test_intelligence_system_edge_cases():
     database = IntelligenceDatabase()
     from game.intelligence_system import IntelligenceGenerator
     generator = IntelligenceGenerator()
-    
+
     # Test with available intelligence types (skip ones without templates)
     available_types = [
         IntelligenceType.GOVERNMENT_MOVEMENT,
@@ -271,7 +271,7 @@ def test_intelligence_system_edge_cases():
         IntelligenceType.SOCIAL_UNREST,
         IntelligenceType.MILITARY_ACTIVITY
     ]
-    
+
     for intel_type in available_types:
         try:
             event = generator.generate_event(
@@ -288,11 +288,11 @@ def test_intelligence_system_edge_cases():
             if "No templates available" in str(e):
                 continue
             raise
-    
+
     # Test pattern detection with many events
     assert len(database.events) > 0
     assert isinstance(database.patterns, list)
-    
+
     # Test threat assessment
     threat_assessment = database.threat_assessments.get("overall", {})
     assert isinstance(threat_assessment, dict)
@@ -301,7 +301,7 @@ def test_intelligence_event_validation():
     """Test intelligence event validation"""
     from game.intelligence_system import IntelligenceGenerator, IntelligenceSource
     generator = IntelligenceGenerator()
-    
+
     # Test with different sources
     for source in IntelligenceSource:
         event = generator.generate_event(
@@ -327,28 +327,28 @@ def test_emotional_state_transitions():
 def test_emotional_state_edge_cases():
     """Test edge cases in emotional state"""
     state = EmotionalState()
-    
+
     # Test extreme values
     state.fear = 2.0
     state._clamp_values()
     assert state.fear == 1.0
-    
+
     state.fear = -2.0
     state._clamp_values()
     assert state.fear == -1.0
-    
+
     # Test trauma application
     state.apply_trauma(0.5, "violence_witnessed")
     assert state.trauma_level > 0
     # Trauma can affect fear, but it might be negative due to drift
     # Just check that trauma was applied
     assert state.trauma_level > 0
-    
+
     # Test emotional drift
     original_fear = state.fear
     state.apply_drift(1.0)
     assert state.fear != original_fear  # Should have drifted
-    
+
     # Test stability calculation
     stability = state.get_emotional_stability()
     assert 0.0 <= stability <= 1.0
@@ -359,14 +359,14 @@ def test_emotional_state_serialization():
     state.fear = 0.5
     state.anger = -0.3
     state.trauma_level = 0.2
-    
+
     # Serialize
     data = state.serialize()
     assert isinstance(data, dict)
     assert data['fear'] == 0.5
     assert data['anger'] == -0.3
     assert data['trauma_level'] == 0.2
-    
+
     # Deserialize
     restored = EmotionalState.deserialize(data)
     assert restored.fear == state.fear
@@ -393,7 +393,7 @@ def test_faction_relationships():
     manager = FactionManager()
     import asyncio
     asyncio.run(manager.initialize(game_state=None))
-    
+
     # Test setting relationships
     faction_ids = list(manager.factions.keys())
     if len(faction_ids) >= 2:
@@ -411,7 +411,7 @@ def test_character_mission_integration():
     """Test integration between character creation and mission planning"""
     creator = CharacterCreator()
     planner = MissionPlanner()
-    
+
     # Create diverse team
     team = []
     backgrounds = [BackgroundType.MILITARY, BackgroundType.TECHNICAL, BackgroundType.MEDICAL]
@@ -423,14 +423,14 @@ def test_character_mission_integration():
             secondary_trait=PersonalityTrait.CAUTIOUS
         )
         team.append(agent)
-    
+
     # Plan mission
     plan = planner.create_mission_plan(
         mission_type=MissionType.RESCUE,
         location_name="government_quarter",
         participants=team
     )
-    
+
     # Verify integration
     assert len(plan.participants) == len(team)
     for participant in plan.participants:
@@ -443,7 +443,7 @@ def test_intelligence_mission_integration():
     from game.intelligence_system import IntelligenceGenerator
     generator = IntelligenceGenerator()
     database = IntelligenceDatabase()
-    
+
     # Generate intelligence about a location
     try:
         event = generator.generate_event(
@@ -452,7 +452,7 @@ def test_intelligence_mission_integration():
             priority=IntelligencePriority.HIGH
         )
         database.add_event(event)
-        
+
         # Verify intelligence affects mission planning
         assert event.location == "Government Quarter"
         assert event.priority == IntelligencePriority.HIGH
@@ -472,7 +472,7 @@ def test_large_scale_operations():
     """Test performance with many characters and missions"""
     creator = CharacterCreator()
     planner = MissionPlanner()
-    
+
     # Create many characters
     characters = []
     for i in range(20):
@@ -483,7 +483,7 @@ def test_large_scale_operations():
             secondary_trait=PersonalityTrait.PRAGMATIC
         )
         characters.append(character)
-    
+
     # Plan multiple missions
     missions = []
     for i in range(5):
@@ -494,7 +494,7 @@ def test_large_scale_operations():
             participants=team
         )
         missions.append(mission)
-    
+
     assert len(missions) == 5
     for mission in missions:
         assert len(mission.participants) == 4
@@ -503,7 +503,7 @@ def test_large_scale_operations():
 def test_error_recovery():
     """Test system recovery from errors"""
     creator = CharacterCreator()
-    
+
     # Test that system can continue after invalid inputs
     try:
         creator.create_character(
@@ -514,7 +514,7 @@ def test_error_recovery():
         )
     except ValueError:
         pass  # Expected
-    
+
     # System should still work after error
     character = creator.create_character(
         name="Recovery Test",
@@ -522,4 +522,4 @@ def test_error_recovery():
         primary_trait=PersonalityTrait.LOYAL,
         secondary_trait=PersonalityTrait.PRAGMATIC
     )
-    assert character.name == "Recovery Test" 
+    assert character.name == "Recovery Test"

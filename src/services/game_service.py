@@ -11,7 +11,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from models.sql_models import Game, GameEvent, Scenario, Faction, GameFaction, District, GameDistrict
 from models.nosql_models import GameStateSnapshot, GameEventLog
 from models.schemas import (
-    GameCreate, GameResponse, ScenarioResponse, 
+    GameCreate, GameResponse, ScenarioResponse,
     GameFactionCreate, GameDistrictCreate
 )
 
@@ -24,10 +24,10 @@ from repositories.nosql_repositories import GameStateSnapshotRepository, GameEve
 
 class GameService:
     """Game service for managing game sessions and state"""
-    
+
     def __init__(self, mongo_db: Optional[AsyncIOMotorDatabase] = None):
         self.mongo_db = mongo_db
-        
+
         # Initialize NoSQL repositories if mongodb is provided
         if mongo_db:
             self.snapshot_repository = GameStateSnapshotRepository(mongo_db)
@@ -35,10 +35,10 @@ class GameService:
         else:
             self.snapshot_repository = None
             self.event_repository = None
-    
+
     async def create_game(
-        self, 
-        db: AsyncSession, 
+        self,
+        db: AsyncSession,
         game_data: GameCreate,
         user_id: str
     ) -> GameResponse:
@@ -47,7 +47,7 @@ class GameService:
         scenario = await db.get(Scenario, game_data.scenario_id)
         if not scenario:
             raise ValueError(f"Scenario with ID {game_data.scenario_id} not found")
-            
+
         # Create game record
         game_dict = game_data.dict()
         game_dict["id"] = str(uuid.uuid4())
@@ -56,17 +56,17 @@ class GameService:
         game_dict["is_completed"] = False
         game_dict["created_at"] = datetime.utcnow()
         game_dict["last_played_at"] = datetime.utcnow()
-        
+
         game = await game_repository.create(db, obj_in=game_dict)
-        
+
         # Initialize game entities based on scenario
         await self._initialize_game_factions(db, game.id, game_data.scenario_id)
         await self._initialize_game_districts(db, game.id, game_data.scenario_id)
-        
+
         # Create initial game state snapshot
         if self.snapshot_repository:
             await self._create_initial_snapshot(db, game.id)
-        
+
         # Return created game
         return GameResponse(
             id=game.id,
@@ -79,17 +79,17 @@ class GameService:
             created_at=game.created_at,
             last_played_at=game.last_played_at
         )
-    
+
     async def get_game(
-        self, 
-        db: AsyncSession, 
+        self,
+        db: AsyncSession,
         game_id: str
     ) -> Optional[GameResponse]:
         """Get game by ID"""
         game = await game_repository.get(db, game_id)
         if not game:
             return None
-            
+
         return GameResponse(
             id=game.id,
             name=game.name,
@@ -101,17 +101,17 @@ class GameService:
             created_at=game.created_at,
             last_played_at=game.last_played_at
         )
-    
+
     async def get_user_games(
-        self, 
-        db: AsyncSession, 
+        self,
+        db: AsyncSession,
         user_id: str,
         skip: int = 0,
         limit: int = 100
     ) -> List[GameResponse]:
         """Get all games created by user"""
         games = await game_repository.get_by_user(db, user_id, skip, limit)
-        
+
         return [
             GameResponse(
                 id=game.id,
@@ -126,51 +126,51 @@ class GameService:
             )
             for game in games
         ]
-    
+
     async def advance_turn(self, db: AsyncSession, game_id: str) -> Optional[GameResponse]:
         """Advance game to next turn"""
         # Get current game
         game = await game_repository.get(db, game_id)
         if not game:
             return None
-            
+
         if game.is_completed:
             return GameResponse.from_orm(game)
-            
+
         # Save current game state snapshot before advancing
         if self.snapshot_repository:
             await self._create_snapshot(db, game_id, game.current_turn)
-            
+
         # Process end of turn events
         await self._process_end_of_turn(db, game)
-        
+
         # Advance turn
         await game_repository.increment_turn(db, game_id)
         await game_repository.update_last_played(db, game_id)
-        
+
         # Get updated game
         updated_game = await game_repository.get(db, game_id)
-        
+
         # Process beginning of turn events
         await self._process_beginning_of_turn(db, updated_game)
-        
+
         return GameResponse.from_orm(updated_game)
-    
+
     async def _initialize_game_factions(
-        self, 
-        db: AsyncSession, 
-        game_id: str, 
+        self,
+        db: AsyncSession,
+        game_id: str,
         scenario_id: str
     ) -> List[str]:
         """Initialize factions for a new game based on scenario"""
         # Get factions from scenario
         scenario_factions = await faction_repository.list(
-            db, 
+            db,
             filter_dict={"scenario_id": scenario_id}
         )
-        
+
         created_faction_ids = []
-        
+
         # Create game faction instances for each faction template
         for template in scenario_factions:
             # Default starting values
@@ -180,7 +180,7 @@ class GameService:
                 "intel": 5,
                 "support": 50  # Base public support level
             }
-            
+
             # Adjust based on faction type
             if template.faction_type == "state":
                 starting_resources = {
@@ -196,7 +196,7 @@ class GameService:
                     "intel": 10,
                     "support": 30
                 }
-            
+
             # Create game faction
             game_faction = GameFactionCreate(
                 id=str(uuid.uuid4()),
@@ -212,30 +212,30 @@ class GameService:
                 popularity=50,  # Default to neutral popularity
                 heat=0        # Start with no heat/suspicion
             )
-            
+
             created_faction = await game_faction_repository.create(
-                db, 
+                db,
                 obj_in=game_faction.dict()
             )
             created_faction_ids.append(created_faction.id)
-            
+
         return created_faction_ids
-    
+
     async def _initialize_game_districts(
-        self, 
-        db: AsyncSession, 
-        game_id: str, 
+        self,
+        db: AsyncSession,
+        game_id: str,
         scenario_id: str
     ) -> List[str]:
         """Initialize districts for a new game based on scenario"""
         # Get districts from scenario
         scenario_districts = await district_repository.list(
-            db, 
+            db,
             filter_dict={"scenario_id": scenario_id}
         )
-        
+
         created_district_ids = []
-        
+
         # Create game district instances for each district template
         for template in scenario_districts:
             # Create game district
@@ -252,20 +252,20 @@ class GameService:
                 prosperity_level=50,  # Default average prosperity
                 heat=0              # Start with no heat/attention
             )
-            
+
             created_district = await game_district_repository.create(
-                db, 
+                db,
                 obj_in=game_district.dict()
             )
             created_district_ids.append(created_district.id)
-            
+
             # Set up initial faction control for this district
             # By default, state faction controls most districts
             state_factions = await game_faction_repository.list(
                 db,
                 filter_dict={"game_id": game_id, "faction_type": "state"}
             )
-            
+
             if state_factions:
                 main_state_faction = state_factions[0]
                 # Set default 80% control for state faction
@@ -277,9 +277,9 @@ class GameService:
                     70.0,  # 70% influence
                     10.0   # 10% heat
                 )
-            
+
         return created_district_ids
-    
+
     async def _create_initial_snapshot(
         self,
         db: AsyncSession,
@@ -288,9 +288,9 @@ class GameService:
         """Create initial game state snapshot"""
         if not self.snapshot_repository:
             return
-            
+
         game = await game_repository.get(db, game_id)
-        
+
         # Get game factions
         factions = await game_faction_repository.get_by_game(db, game_id)
         faction_data = []
@@ -301,7 +301,7 @@ class GameService:
                 "resources": faction.resources,
                 "popularity": faction.popularity
             })
-            
+
         # Get game districts
         districts = await game_district_repository.get_by_game(db, game_id)
         district_data = []
@@ -310,7 +310,7 @@ class GameService:
             control_data = await game_district_repository.get_faction_control(
                 db, district.id
             )
-            
+
             district_data.append({
                 "id": district.id,
                 "name": district.name,
@@ -318,7 +318,7 @@ class GameService:
                 "unrest_level": district.unrest_level,
                 "faction_control": control_data
             })
-        
+
         # Create snapshot
         snapshot = GameStateSnapshot(
             game_id=game_id,
@@ -333,9 +333,9 @@ class GameService:
                 "heat": 0
             }
         )
-        
+
         await self.snapshot_repository.create(snapshot.dict())
-    
+
     async def _create_snapshot(
         self,
         db: AsyncSession,
@@ -345,11 +345,11 @@ class GameService:
         """Create game state snapshot for current turn"""
         if not self.snapshot_repository:
             return
-            
+
         # Similar to _create_initial_snapshot but for regular turns
         # Implementation would be similar but with current game state data
         pass
-    
+
     async def _process_end_of_turn(
         self,
         db: AsyncSession,
@@ -362,7 +362,7 @@ class GameService:
         # Apply district effects
         # Generate end-of-turn events
         pass
-    
+
     async def _process_beginning_of_turn(
         self,
         db: AsyncSession,
@@ -373,7 +373,7 @@ class GameService:
         # Apply passive effects
         # Generate beginning-of-turn events
         pass
-    
+
     async def _log_game_event(
         self,
         event_type: str,
@@ -387,7 +387,7 @@ class GameService:
         """Log a game event"""
         if not self.event_repository:
             return
-            
+
         event = GameEventLog(
             game_id=game_id,
             turn=turn,
@@ -398,7 +398,7 @@ class GameService:
             affected_entities=affected_entities,
             outcome=outcome
         )
-        
+
         await self.event_repository.create(event.dict())
 
 

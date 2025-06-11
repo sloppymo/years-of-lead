@@ -71,7 +71,7 @@ class MissionLocation:
     cover_opportunities: int  # 1-10
     surveillance_level: int  # 1-10
     local_support: int  # 1-10 (how much locals support resistance)
-    
+
     def get_risk_assessment(self) -> Dict[str, Any]:
         """Get detailed risk assessment for this location"""
         risks = {
@@ -79,10 +79,10 @@ class MissionLocation:
             "detection_risk": (self.surveillance_level + self.population_density) // 2,
             "escape_risk": max(1, 10 - self.escape_routes),
             "support_risk": max(1, 10 - self.local_support),
-            "overall_risk": (self.security_level + self.surveillance_level + 
+            "overall_risk": (self.security_level + self.surveillance_level +
                            (10 - self.escape_routes) + (10 - self.local_support)) // 4
         }
-        
+
         # Determine risk level
         if risks["overall_risk"] <= 3:
             risks["risk_level"] = RiskLevel.LOW
@@ -92,7 +92,7 @@ class MissionLocation:
             risks["risk_level"] = RiskLevel.HIGH
         else:
             risks["risk_level"] = RiskLevel.EXTREME
-            
+
         return risks
 
 
@@ -105,33 +105,33 @@ class MissionPlan:
     location: MissionLocation
     participants: List[Character]
     phase: MissionPhase = MissionPhase.PLANNING
-    
+
     # Planning details
     approach_method: str = ""
     escape_plan: str = ""
     contingency_plans: List[str] = field(default_factory=list)
-    
+
     # Resource allocation
     equipment_needed: List[str] = field(default_factory=list)
     budget_allocated: int = 0
     time_estimate: int = 0  # in hours
-    
+
     # Risk assessment
     calculated_risk: RiskLevel = RiskLevel.MEDIUM
     success_probability: float = 0.5
-    
+
     # Narrative elements
     mission_story: str = ""
     potential_consequences: List[str] = field(default_factory=list)
-    
+
     def calculate_success_probability(self) -> float:
         """Calculate probability of mission success"""
         base_probability = 0.5
-        
+
         # Adjust based on objective difficulty
         difficulty_modifier = (10 - self.objective.difficulty) * 0.05
         base_probability += difficulty_modifier
-        
+
         # Adjust based on participant skills
         skill_bonus = 0
         required_skills = self._get_required_skills()
@@ -141,14 +141,14 @@ class MissionPlan:
                 skill_bonus += 0.1
             elif team_skill >= required_level * 0.7:
                 skill_bonus += 0.05
-        
+
         base_probability += skill_bonus
-        
+
         # Adjust based on location risk
         location_risks = self.location.get_risk_assessment()
         risk_penalty = (location_risks["overall_risk"] - 5) * 0.05
         base_probability -= risk_penalty
-        
+
         # Adjust based on planning quality
         planning_bonus = 0
         if self.approach_method:
@@ -157,11 +157,11 @@ class MissionPlan:
             planning_bonus += 0.1
         if len(self.contingency_plans) > 0:
             planning_bonus += min(0.2, len(self.contingency_plans) * 0.05)
-        
+
         base_probability += planning_bonus
-        
+
         return max(0.1, min(0.95, base_probability))
-    
+
     def _get_required_skills(self) -> Dict[str, int]:
         """Get skills required for this mission type"""
         skill_requirements = {
@@ -174,23 +174,23 @@ class MissionPlan:
             MissionType.ASSASSINATION: {"combat": 5, "stealth": 4},
             MissionType.INFILTRATION: {"stealth": 4, "social": 3, "intelligence": 2}
         }
-        
+
         return skill_requirements.get(self.mission_type, {})
-    
+
     def get_risk_assessment(self) -> Dict[str, Any]:
         """Get comprehensive risk assessment"""
         location_risks = self.location.get_risk_assessment()
         required_skills = self._get_required_skills()
-        
+
         # Calculate skill gaps
         skill_gaps = {}
         for skill, required_level in required_skills.items():
             team_skill = sum(getattr(char.skills, skill, 1) for char in self.participants)
             skill_gaps[skill] = max(0, required_level - team_skill)
-        
+
         # Calculate team stress level
         team_stress = sum(char.emotional_state.trauma_level for char in self.participants) / len(self.participants)
-        
+
         # Calculate overall risk
         risk_factors = {
             "location_risk": location_risks["overall_risk"],
@@ -198,9 +198,9 @@ class MissionPlan:
             "team_stress_risk": team_stress * 10,
             "planning_risk": 0 if self.approach_method and self.escape_plan else 3
         }
-        
+
         overall_risk = sum(risk_factors.values()) / len(risk_factors)
-        
+
         # Determine risk level
         if overall_risk <= 3:
             risk_level = RiskLevel.LOW
@@ -210,7 +210,7 @@ class MissionPlan:
             risk_level = RiskLevel.HIGH
         else:
             risk_level = RiskLevel.EXTREME
-        
+
         return {
             "risk_level": risk_level,
             "overall_risk_score": overall_risk,
@@ -220,7 +220,7 @@ class MissionPlan:
             "team_stress": team_stress,
             "success_probability": self.calculate_success_probability()
         }
-    
+
     def generate_mission_story(self) -> str:
         """Generate narrative description of the mission"""
         mission_stories = {
@@ -233,24 +233,24 @@ class MissionPlan:
             MissionType.ASSASSINATION: f"Elimination mission targeting a high-value target in {self.location.name}. This operation carries extreme risks and moral implications.",
             MissionType.INFILTRATION: f"Deep infiltration mission into {self.location.name}. The team must establish long-term presence while gathering intelligence."
         }
-        
+
         base_story = mission_stories.get(self.mission_type, f"Mission in {self.location.name}")
-        
+
         # Add location-specific details
         if self.location.local_support >= 7:
             base_story += " Local support is strong, which should aid the operation."
         elif self.location.local_support <= 3:
             base_story += " Local support is weak, requiring extra caution."
-        
+
         if self.location.surveillance_level >= 7:
             base_story += " Heavy surveillance in the area increases detection risk."
-        
+
         return base_story
-    
+
     def get_potential_consequences(self) -> List[str]:
         """Get potential consequences of mission success or failure"""
         consequences = []
-        
+
         # Success consequences
         if self.mission_type == MissionType.PROPAGANDA:
             consequences.extend([
@@ -301,30 +301,30 @@ class MissionPlan:
                 "Risk of discovery increases over time",
                 "Potential for deep cover operations"
             ])
-        
+
         # Add location-specific consequences
         if self.location.local_support >= 7:
             consequences.append("Strong local support may provide additional assistance")
         elif self.location.local_support <= 3:
             consequences.append("Weak local support may lead to betrayal")
-        
+
         return consequences
 
 
 class MissionPlanner:
     """Mission planning system with comprehensive validation and error handling"""
-    
+
     def __init__(self):
         """Initialize mission planner with locations and objectives"""
         self.available_locations = self._create_default_locations()
         self.available_objectives = self._create_default_objectives()
-        logger.info("MissionPlanner initialized with %d locations and %d mission types", 
+        logger.info("MissionPlanner initialized with %d locations and %d mission types",
                    len(self.available_locations), len(self.available_objectives))
-    
+
     def _create_default_locations(self) -> Dict[str, MissionLocation]:
         """Create default mission locations"""
         locations = {}
-        
+
         locations["government_quarter"] = MissionLocation(
             name="Government Quarter",
             description="High-security government district with police presence",
@@ -336,7 +336,7 @@ class MissionPlanner:
             surveillance_level=9,
             local_support=2
         )
-        
+
         locations["university_district"] = MissionLocation(
             name="University District",
             description="Academic area with student population and research facilities",
@@ -348,7 +348,7 @@ class MissionPlanner:
             surveillance_level=5,
             local_support=7
         )
-        
+
         locations["industrial_zone"] = MissionLocation(
             name="Industrial Zone",
             description="Factory district with heavy machinery and worker population",
@@ -360,7 +360,7 @@ class MissionPlanner:
             surveillance_level=4,
             local_support=6
         )
-        
+
         locations["old_town"] = MissionLocation(
             name="Old Town Market",
             description="Historic district with markets and residential areas",
@@ -372,7 +372,7 @@ class MissionPlanner:
             surveillance_level=3,
             local_support=8
         )
-        
+
         locations["suburban_residential"] = MissionLocation(
             name="Suburban Residential",
             description="Middle-class residential area with families",
@@ -384,7 +384,7 @@ class MissionPlanner:
             surveillance_level=2,
             local_support=5
         )
-        
+
         locations["downtown_commercial"] = MissionLocation(
             name="Downtown Commercial",
             description="Business district with offices and shopping centers",
@@ -396,13 +396,13 @@ class MissionPlanner:
             surveillance_level=7,
             local_support=4
         )
-        
+
         return locations
-    
+
     def _create_default_objectives(self) -> Dict[MissionType, MissionObjective]:
         """Create default mission objectives"""
         objectives = {}
-        
+
         objectives[MissionType.PROPAGANDA] = MissionObjective(
             type="propaganda",
             description="Spread revolutionary propaganda to sway public opinion",
@@ -412,7 +412,7 @@ class MissionPlanner:
             rewards={"influence": 50, "money": 5000},
             penalties={"heat": 20, "influence": -10}
         )
-        
+
         objectives[MissionType.SABOTAGE] = MissionObjective(
             type="sabotage",
             description="Disable key infrastructure or equipment",
@@ -422,7 +422,7 @@ class MissionPlanner:
             rewards={"influence": 30, "money": 10000},
             penalties={"heat": 40, "influence": -20}
         )
-        
+
         objectives[MissionType.RECRUITMENT] = MissionObjective(
             type="recruitment",
             description="Recruit new operatives to the resistance",
@@ -432,7 +432,7 @@ class MissionPlanner:
             rewards={"personnel": 3, "influence": 20},
             penalties={"heat": 15, "influence": -15}
         )
-        
+
         objectives[MissionType.INTELLIGENCE] = MissionObjective(
             type="intelligence",
             description="Gather sensitive information from target location",
@@ -442,7 +442,7 @@ class MissionPlanner:
             rewards={"intelligence": 100, "influence": 25},
             penalties={"heat": 25, "intelligence": -50}
         )
-        
+
         objectives[MissionType.FINANCING] = MissionObjective(
             type="financing",
             description="Secure financial resources for the resistance",
@@ -452,7 +452,7 @@ class MissionPlanner:
             rewards={"money": 25000, "influence": 15},
             penalties={"heat": 20, "money": -5000}
         )
-        
+
         objectives[MissionType.RESCUE] = MissionObjective(
             type="rescue",
             description="Rescue captured comrades from enemy custody",
@@ -462,7 +462,7 @@ class MissionPlanner:
             rewards={"personnel": 2, "influence": 40, "morale": 50},
             penalties={"heat": 50, "morale": -30}
         )
-        
+
         objectives[MissionType.ASSASSINATION] = MissionObjective(
             type="assassination",
             description="Eliminate high-value target",
@@ -472,7 +472,7 @@ class MissionPlanner:
             rewards={"influence": 60, "money": 15000},
             penalties={"heat": 80, "influence": -40, "morale": -20}
         )
-        
+
         objectives[MissionType.INFILTRATION] = MissionObjective(
             type="infiltration",
             description="Establish long-term presence in target location",
@@ -482,22 +482,22 @@ class MissionPlanner:
             rewards={"intelligence": 200, "influence": 35},
             penalties={"heat": 30, "personnel": -1}
         )
-        
+
         return objectives
-    
-    def create_mission_plan(self, mission_type: MissionType, location_name: str, 
+
+    def create_mission_plan(self, mission_type: MissionType, location_name: str,
                           participants: List[Character]) -> MissionPlan:
         """
         Create a mission plan with comprehensive validation
-        
+
         Args:
             mission_type: Type of mission to plan
             location_name: Name of the location (must exist)
             participants: List of characters participating (must be non-empty)
-            
+
         Returns:
             MissionPlan object
-            
+
         Raises:
             ValueError: If inputs are invalid
             TypeError: If input types are incorrect
@@ -505,19 +505,19 @@ class MissionPlanner:
         try:
             # Validate inputs
             self._validate_mission_inputs(mission_type, location_name, participants)
-            
-            logger.info("Creating mission plan: %s at %s with %d participants", 
+
+            logger.info("Creating mission plan: %s at %s with %d participants",
                        mission_type.value, location_name, len(participants))
-            
+
             # Get location and objective
             location = self.available_locations.get(location_name)
             objective = self.available_objectives.get(mission_type)
-            
+
             if not location:
                 raise ValueError(f"Location not found: {location_name}")
             if not objective:
                 raise ValueError(f"Mission type not supported: {mission_type}")
-            
+
             # Create mission plan
             plan = MissionPlan(
                 id=str(uuid.uuid4()),
@@ -526,30 +526,30 @@ class MissionPlanner:
                 location=location,
                 participants=participants.copy()  # Copy to avoid external modification
             )
-            
+
             # Calculate success probability and risk
             plan.success_probability = plan.calculate_success_probability()
             risk_assessment = plan.get_risk_assessment()
             plan.calculated_risk = risk_assessment["risk_level"]
-            
+
             # Generate narrative elements
             plan.mission_story = plan.generate_mission_story()
             plan.potential_consequences = plan.get_potential_consequences()
-            
+
             # Calculate resource requirements
             self._calculate_resource_requirements(plan)
-            
-            logger.info("Mission plan created successfully: %s (ID: %s, Risk: %s, Success: %.1f%%)", 
-                       mission_type.value, plan.id, plan.calculated_risk.value, 
+
+            logger.info("Mission plan created successfully: %s (ID: %s, Risk: %s, Success: %.1f%%)",
+                       mission_type.value, plan.id, plan.calculated_risk.value,
                        plan.success_probability * 100)
-            
+
             return plan
-            
+
         except Exception as e:
             logger.error("Failed to create mission plan: %s", str(e))
             raise
-    
-    def _validate_mission_inputs(self, mission_type: MissionType, location_name: str, 
+
+    def _validate_mission_inputs(self, mission_type: MissionType, location_name: str,
                                participants: List[Character]) -> None:
         """Validate all mission planning inputs"""
         # Validate mission type
@@ -561,7 +561,7 @@ class MissionPlanner:
                     raise ValueError(f"Invalid mission type: {mission_type}")
             else:
                 raise TypeError(f"Mission type must be MissionType enum, got {type(mission_type)}")
-        
+
         # Validate location name
         if not isinstance(location_name, str):
             raise TypeError(f"Location name must be a string, got {type(location_name)}")
@@ -569,27 +569,27 @@ class MissionPlanner:
             raise ValueError("Location name cannot be empty")
         if location_name not in self.available_locations:
             raise ValueError(f"Location not available: {location_name}")
-        
+
         # Validate participants
         if not isinstance(participants, list):
             raise TypeError(f"Participants must be a list, got {type(participants)}")
         if not participants:
             raise ValueError("Mission must have at least one participant")
-        
+
         for i, participant in enumerate(participants):
             if not isinstance(participant, Character):
                 raise TypeError(f"Participant {i} must be a Character, got {type(participant)}")
             if not participant.name:
                 raise ValueError(f"Participant {i} has no name")
-        
+
         # Check for duplicate participants
         participant_names = [p.name for p in participants]
         if len(participant_names) != len(set(participant_names)):
             raise ValueError("Duplicate participants not allowed")
-        
-        logger.debug("Mission input validation passed for: %s at %s", 
+
+        logger.debug("Mission input validation passed for: %s at %s",
                     mission_type.value, location_name)
-    
+
     def _calculate_resource_requirements(self, plan: MissionPlan) -> None:
         """Calculate resource requirements for the mission"""
         try:
@@ -604,9 +604,9 @@ class MissionPlanner:
                 MissionType.ASSASSINATION: ["weapons", "stealth equipment"],
                 MissionType.INFILTRATION: ["stealth equipment", "communication devices"]
             }
-            
+
             plan.equipment_needed = base_equipment.get(plan.mission_type, ["basic equipment"])
-            
+
             # Calculate budget based on mission type and team size
             base_budget = {
                 MissionType.PROPAGANDA: 1000,
@@ -618,13 +618,13 @@ class MissionPlanner:
                 MissionType.ASSASSINATION: 10000,
                 MissionType.INFILTRATION: 4000
             }
-            
+
             team_multiplier = len(plan.participants) * 0.5
             risk_multiplier = 1.0 + (plan.location.security_level * 0.1)
-            
-            plan.budget_allocated = int(base_budget.get(plan.mission_type, 2000) * 
+
+            plan.budget_allocated = int(base_budget.get(plan.mission_type, 2000) *
                                       (1 + team_multiplier) * risk_multiplier)
-            
+
             # Calculate time estimate
             base_time = {
                 MissionType.PROPAGANDA: 4,
@@ -636,29 +636,29 @@ class MissionPlanner:
                 MissionType.ASSASSINATION: 12,
                 MissionType.INFILTRATION: 24
             }
-            
+
             plan.time_estimate = base_time.get(plan.mission_type, 8)
-            
-            logger.debug("Calculated resources for mission %s: Budget $%d, Time %d hours", 
+
+            logger.debug("Calculated resources for mission %s: Budget $%d, Time %d hours",
                         plan.mission_type.value, plan.budget_allocated, plan.time_estimate)
-            
+
         except Exception as e:
             logger.error("Failed to calculate resource requirements: %s", str(e))
             # Set default values on error
             plan.equipment_needed = ["basic equipment"]
             plan.budget_allocated = 2000
             plan.time_estimate = 8
-    
+
     def get_location_details(self, location_name: str) -> Dict[str, Any]:
         """Get detailed information about a location with validation"""
         try:
             if not isinstance(location_name, str):
                 raise TypeError(f"Location name must be a string, got {type(location_name)}")
-            
+
             location = self.available_locations.get(location_name)
             if not location:
                 raise ValueError(f"Location not found: {location_name}")
-            
+
             details = {
                 "name": location.name,
                 "description": location.description,
@@ -672,14 +672,14 @@ class MissionPlanner:
                 "flavor_text": self._generate_location_flavor_text(location),
                 "risk_assessment": location.get_risk_assessment()
             }
-            
+
             logger.debug("Retrieved details for location: %s", location_name)
             return details
-            
+
         except Exception as e:
             logger.error("Failed to get location details for %s: %s", location_name, str(e))
             raise
-    
+
     def _generate_location_flavor_text(self, location: MissionLocation) -> str:
         """Generate procedural flavor text for a location"""
         flavor_templates = {
@@ -714,9 +714,9 @@ class MissionPlanner:
                 "Shoppers and workers create a constant flow of humanity, providing both anonymity and the risk of being noticed. The pursuit of profit masks the pursuit of power."
             ]
         }
-        
+
         templates = flavor_templates.get(location.name, [
             f"{location.description} The area presents both opportunities and dangers for resistance operations."
         ])
-        
-        return random.choice(templates) 
+
+        return random.choice(templates)

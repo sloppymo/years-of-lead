@@ -12,6 +12,7 @@ from enum import Enum
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from .emotional_state import EmotionalState, create_random_emotional_state
+from .dynamic_narrative_tone import VoiceConfiguration, EmotionalTone, SymbolicElement, NarrativeStyle
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -87,7 +88,7 @@ class Background:
     starting_resources: Dict[str, int]
     connections: List[str]  # NPC connections
     trauma_risk: List[TraumaType]
-    
+
     def get_background_story(self, character_name: str) -> str:
         """Generate a personalized background story"""
         stories = {
@@ -116,26 +117,26 @@ class CharacterSkills:
     medical: int = 1
     survival: int = 1
     intelligence: int = 1
-    
+
     def apply_background_bonuses(self, background: Background):
         """Apply background skill bonuses"""
         for skill_category, bonus in background.skill_bonuses.items():
             if hasattr(self, skill_category.value):
                 current_value = getattr(self, skill_category.value)
                 setattr(self, skill_category.value, current_value + bonus)
-    
+
     def get_total_skill_points(self) -> int:
         """Get total skill points invested"""
         return sum([
             self.combat, self.stealth, self.hacking, self.social,
             self.technical, self.medical, self.survival, self.intelligence
         ])
-    
+
     def can_increase_skill(self, skill_category: SkillCategory, current_points: int, max_points: int) -> bool:
         """Check if a skill can be increased"""
         if current_points >= max_points:
             return False
-        
+
         current_skill = getattr(self, skill_category.value)
         return current_skill < 10  # Max skill level of 10
 
@@ -146,11 +147,11 @@ class CharacterTraits:
     primary_trait: PersonalityTrait
     secondary_trait: PersonalityTrait
     background_traits: List[PersonalityTrait] = field(default_factory=list)
-    
+
     def get_all_traits(self) -> List[PersonalityTrait]:
         """Get all character traits"""
         return [self.primary_trait, self.secondary_trait] + self.background_traits
-    
+
     def get_trait_description(self) -> str:
         """Get a description of the character's personality"""
         trait_descriptions = {
@@ -171,10 +172,10 @@ class CharacterTraits:
             PersonalityTrait.CREATIVE: "finds innovative solutions to problems",
             PersonalityTrait.METHODICAL: "follows established procedures"
         }
-        
+
         primary_desc = trait_descriptions.get(self.primary_trait, "complex")
         secondary_desc = trait_descriptions.get(self.secondary_trait, "multifaceted")
-        
+
         return f"{primary_desc} and {secondary_desc}"
 
 
@@ -186,7 +187,7 @@ class CharacterTrauma:
     description: str
     emotional_impact: Dict[str, float]
     triggers: List[str]
-    
+
     def get_trauma_story(self, character_name: str) -> str:
         """Generate a trauma story for the character"""
         stories = {
@@ -212,7 +213,7 @@ class CharacterMotivation:
     personal_goal: str
     ideological_commitment: float  # 0.0 to 1.0
     willingness_to_sacrifice: float  # 0.0 to 1.0
-    
+
     def get_motivation_description(self) -> str:
         """Get a description of the character's motivations"""
         return f"Driven by {self.primary_motivation} and {self.secondary_motivation}. Their personal goal is {self.personal_goal}."
@@ -220,16 +221,16 @@ class CharacterMotivation:
 
 class CharacterCreator:
     """Character creation system with comprehensive validation and error handling"""
-    
+
     def __init__(self):
         """Initialize character creator with backgrounds and validation"""
         self.backgrounds = self._create_backgrounds()
         logger.info("CharacterCreator initialized with %d background types", len(self.backgrounds))
-    
+
     def _create_backgrounds(self) -> Dict[BackgroundType, Background]:
         """Create all available backgrounds"""
         backgrounds = {}
-        
+
         # Academic Background
         backgrounds[BackgroundType.ACADEMIC] = Background(
             type=BackgroundType.ACADEMIC,
@@ -241,7 +242,7 @@ class CharacterCreator:
             connections=["former colleagues", "research contacts", "university staff"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
-        
+
         # Military Background
         backgrounds[BackgroundType.MILITARY] = Background(
             type=BackgroundType.MILITARY,
@@ -253,7 +254,7 @@ class CharacterCreator:
             connections=["former comrades", "military contacts", "veterans"],
             trauma_risk=[TraumaType.COMBAT_TRAUMA, TraumaType.BETRAYAL]
         )
-        
+
         # Criminal Background
         backgrounds[BackgroundType.CRIMINAL] = Background(
             type=BackgroundType.CRIMINAL,
@@ -265,7 +266,7 @@ class CharacterCreator:
             connections=["street contacts", "criminal network", "former gang members"],
             trauma_risk=[TraumaType.IMPRISONMENT, TraumaType.WITNESSING_VIOLENCE]
         )
-        
+
         # Corporate Background
         backgrounds[BackgroundType.CORPORATE] = Background(
             type=BackgroundType.CORPORATE,
@@ -277,7 +278,7 @@ class CharacterCreator:
             connections=["corporate contacts", "business associates", "former colleagues"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
-        
+
         # Medical Background
         backgrounds[BackgroundType.MEDICAL] = Background(
             type=BackgroundType.MEDICAL,
@@ -289,7 +290,7 @@ class CharacterCreator:
             connections=["medical contacts", "hospital staff", "pharmaceutical contacts"],
             trauma_risk=[TraumaType.WITNESSING_VIOLENCE, TraumaType.BETRAYAL]
         )
-        
+
         # Technical Background
         backgrounds[BackgroundType.TECHNICAL] = Background(
             type=BackgroundType.TECHNICAL,
@@ -301,7 +302,7 @@ class CharacterCreator:
             connections=["tech contacts", "hacker community", "former colleagues"],
             trauma_risk=[TraumaType.BETRAYAL, TraumaType.ECONOMIC_HARDSHIP]
         )
-        
+
         # Journalist Background
         backgrounds[BackgroundType.JOURNALIST] = Background(
             type=BackgroundType.JOURNALIST,
@@ -313,7 +314,7 @@ class CharacterCreator:
             connections=["media contacts", "sources", "fellow journalists"],
             trauma_risk=[TraumaType.WITNESSING_VIOLENCE, TraumaType.IMPRISONMENT]
         )
-        
+
         # Religious Background
         backgrounds[BackgroundType.RELIGIOUS] = Background(
             type=BackgroundType.RELIGIOUS,
@@ -325,7 +326,7 @@ class CharacterCreator:
             connections=["religious community", "faith leaders", "charitable organizations"],
             trauma_risk=[TraumaType.DISCRIMINATION, TraumaType.BETRAYAL]
         )
-        
+
         # Activist Background
         backgrounds[BackgroundType.ACTIVIST] = Background(
             type=BackgroundType.ACTIVIST,
@@ -337,7 +338,7 @@ class CharacterCreator:
             connections=["activist network", "community organizers", "political contacts"],
             trauma_risk=[TraumaType.IMPRISONMENT, TraumaType.DISCRIMINATION]
         )
-        
+
         # Laborer Background
         backgrounds[BackgroundType.LABORER] = Background(
             type=BackgroundType.LABORER,
@@ -349,15 +350,15 @@ class CharacterCreator:
             connections=["union contacts", "fellow workers", "community members"],
             trauma_risk=[TraumaType.ECONOMIC_HARDSHIP, TraumaType.FAMILY_SEPARATION]
         )
-        
+
         return backgrounds
-    
-    def create_character(self, name: str, background_type: BackgroundType, 
+
+    def create_character(self, name: str, background_type: BackgroundType,
                         primary_trait: PersonalityTrait, secondary_trait: PersonalityTrait,
                         skill_points: int = 20, has_trauma: bool = True) -> 'Character':
         """
         Create a character with comprehensive validation and error handling
-        
+
         Args:
             name: Character name (must be non-empty string)
             background_type: Character background type
@@ -365,53 +366,56 @@ class CharacterCreator:
             secondary_trait: Secondary personality trait
             skill_points: Points to allocate to skills (0-50)
             has_trauma: Whether character has trauma
-            
+
         Returns:
             Character object
-            
+
         Raises:
             ValueError: If any input is invalid
             TypeError: If input types are incorrect
         """
         try:
             # Validate inputs
-            self._validate_character_inputs(name, background_type, primary_trait, 
+            self._validate_character_inputs(name, background_type, primary_trait,
                                           secondary_trait, skill_points)
-            
+
             logger.info("Creating character: %s (%s background)", name, background_type.value)
-            
+
             # Get background
             background = self.backgrounds.get(background_type)
             if not background:
                 raise ValueError(f"Invalid background type: {background_type}")
-            
+
             # Create skills
             skills = CharacterSkills()
             skills.apply_background_bonuses(background)
-            
+
             # Allocate skill points
             if skill_points > 0:
                 self._allocate_skill_points(skills, skill_points)
-            
+
             # Create traits
             traits = CharacterTraits(
                 primary_trait=primary_trait,
                 secondary_trait=secondary_trait,
                 background_traits=background.trait_modifiers.copy()
             )
-            
+
             # Generate trauma if requested
             trauma = None
             if has_trauma and random.random() < 0.7:  # 70% chance of trauma
                 trauma = self._generate_trauma(background)
                 logger.debug("Generated trauma for %s: %s", name, trauma.type.value if trauma else "None")
-            
+
             # Create motivation
             motivation = self._generate_motivation(background, traits)
-            
+
             # Create emotional state
             emotional_state = self._create_emotional_state(traits, trauma)
-            
+
+            # Create voice configuration
+            voice_config = self._create_default_voice_config(traits, background)
+
             # Create character
             character = Character(
                 id=str(uuid.uuid4()),
@@ -421,16 +425,17 @@ class CharacterCreator:
                 traits=traits,
                 trauma=trauma,
                 motivation=motivation,
-                emotional_state=emotional_state
+                emotional_state=emotional_state,
+                voice_config=voice_config
             )
-            
+
             logger.info("Successfully created character: %s (ID: %s)", name, character.id)
             return character
-            
+
         except Exception as e:
             logger.error("Failed to create character '%s': %s", name, str(e))
             raise
-    
+
     def _validate_character_inputs(self, name: str, background_type: BackgroundType,
                                  primary_trait: PersonalityTrait, secondary_trait: PersonalityTrait,
                                  skill_points: int) -> None:
@@ -444,7 +449,7 @@ class CharacterCreator:
             raise ValueError("Name too long (max 50 characters)")
         if any(char in name for char in ['<', '>', '&', '"', "'"]):
             raise ValueError("Name contains invalid characters")
-        
+
         # Validate background type
         if not isinstance(background_type, BackgroundType):
             if isinstance(background_type, str):
@@ -454,7 +459,7 @@ class CharacterCreator:
                     raise ValueError(f"Invalid background type: {background_type}")
             else:
                 raise TypeError(f"Background type must be BackgroundType enum, got {type(background_type)}")
-        
+
         # Validate personality traits
         if not isinstance(primary_trait, PersonalityTrait):
             if isinstance(primary_trait, str):
@@ -464,7 +469,7 @@ class CharacterCreator:
                     raise ValueError(f"Invalid primary trait: {primary_trait}")
             else:
                 raise TypeError(f"Primary trait must be PersonalityTrait enum, got {type(primary_trait)}")
-        
+
         if not isinstance(secondary_trait, PersonalityTrait):
             if isinstance(secondary_trait, str):
                 try:
@@ -473,7 +478,7 @@ class CharacterCreator:
                     raise ValueError(f"Invalid secondary trait: {secondary_trait}")
             else:
                 raise TypeError(f"Secondary trait must be PersonalityTrait enum, got {type(secondary_trait)}")
-        
+
         # Validate skill points
         if not isinstance(skill_points, int):
             raise TypeError(f"Skill points must be an integer, got {type(skill_points)}")
@@ -481,47 +486,47 @@ class CharacterCreator:
             raise ValueError(f"Skill points cannot be negative: {skill_points}")
         if skill_points > 50:
             raise ValueError(f"Skill points too high (max 50): {skill_points}")
-        
+
         # Validate trait combination
         if primary_trait == secondary_trait:
             raise ValueError("Primary and secondary traits cannot be the same")
-        
+
         logger.debug("Character input validation passed for: %s", name)
-    
+
     def _allocate_skill_points(self, skills: CharacterSkills, skill_points: int) -> None:
         """Allocate skill points with validation"""
         try:
             available_points = skill_points
             skill_categories = list(SkillCategory)
-            
+
             # Randomly allocate points
             while available_points > 0 and skill_categories:
                 category = random.choice(skill_categories)
                 current_skill = getattr(skills, category.value)
-                
+
                 if current_skill < 10:  # Max skill level
                     points_to_add = min(available_points, random.randint(1, 3))
                     setattr(skills, category.value, current_skill + points_to_add)
                     available_points -= points_to_add
                 else:
                     skill_categories.remove(category)
-            
+
             logger.debug("Allocated %d skill points", skill_points - available_points)
-            
+
         except Exception as e:
             logger.error("Failed to allocate skill points: %s", str(e))
             raise
-    
+
     def _generate_trauma(self, background: Background) -> Optional[CharacterTrauma]:
         """Generate trauma based on background with error handling"""
         try:
             if not background.trauma_risk:
                 return None
-            
+
             # Select trauma type based on background risk
             trauma_type = random.choice(background.trauma_risk)
             severity = random.uniform(0.3, 0.8)
-            
+
             # Generate trauma description
             descriptions = {
                 TraumaType.COMBAT_TRAUMA: "Witnessed or participated in violent combat",
@@ -535,9 +540,9 @@ class CharacterCreator:
                 TraumaType.FAMILY_SEPARATION: "Was separated from family",
                 TraumaType.NATURAL_DISASTER: "Survived a natural disaster"
             }
-            
+
             description = descriptions.get(trauma_type, "Experienced traumatic events")
-            
+
             # Generate emotional impact
             emotional_impact = {
                 'fear': random.uniform(0.2, 0.6),
@@ -545,10 +550,10 @@ class CharacterCreator:
                 'anger': random.uniform(0.1, 0.4),
                 'trust': -random.uniform(0.2, 0.5)
             }
-            
+
             # Generate triggers
             triggers = self._generate_trauma_triggers(trauma_type)
-            
+
             return CharacterTrauma(
                 type=trauma_type,
                 severity=severity,
@@ -556,11 +561,11 @@ class CharacterCreator:
                 emotional_impact=emotional_impact,
                 triggers=triggers
             )
-            
+
         except Exception as e:
             logger.error("Failed to generate trauma: %s", str(e))
             return None
-    
+
     def _generate_trauma_triggers(self, trauma_type: TraumaType) -> List[str]:
         """Generate trauma triggers based on trauma type"""
         triggers_map = {
@@ -575,12 +580,12 @@ class CharacterCreator:
             TraumaType.FAMILY_SEPARATION: ["family events", "children", "home"],
             TraumaType.NATURAL_DISASTER: ["similar weather", "destruction", "chaos"]
         }
-        
+
         return triggers_map.get(trauma_type, ["stressful situations"])
-    
+
     def _generate_motivation(self, background: Background, traits: CharacterTraits) -> CharacterMotivation:
         """Generate character motivation based on background and traits"""
-        
+
         # Primary motivations based on background
         background_motivations = {
             BackgroundType.ACADEMIC: ["seeking truth", "intellectual freedom", "social justice"],
@@ -594,7 +599,7 @@ class CharacterCreator:
             BackgroundType.ACTIVIST: ["social change", "political reform", "community empowerment"],
             BackgroundType.LABORER: ["workers' rights", "economic justice", "dignity and respect"]
         }
-        
+
         # Secondary motivations based on traits
         trait_motivations = {
             PersonalityTrait.IDEALISTIC: ["creating a better world", "moral principles", "universal justice"],
@@ -608,10 +613,10 @@ class CharacterCreator:
             PersonalityTrait.LEADER: ["guiding others", "building movements", "inspiring change"],
             PersonalityTrait.FOLLOWER: ["supporting leaders", "team contribution", "loyal service"]
         }
-        
+
         primary_motivation = random.choice(background_motivations.get(background.type, ["change"]))
         secondary_motivation = random.choice(trait_motivations.get(traits.primary_trait, ["survival"]))
-        
+
         # Personal goal
         personal_goals = [
             "finding a safe haven for their family",
@@ -623,13 +628,13 @@ class CharacterCreator:
             "protecting their community from harm",
             "exposing the truth about the system"
         ]
-        
+
         personal_goal = random.choice(personal_goals)
-        
+
         # Ideological commitment and willingness to sacrifice
         ideological_commitment = random.uniform(0.6, 0.95)
         willingness_to_sacrifice = random.uniform(0.4, 0.9)
-        
+
         # Adjust based on traits
         if PersonalityTrait.IDEALISTIC in traits.get_all_traits():
             ideological_commitment += 0.1
@@ -637,7 +642,7 @@ class CharacterCreator:
             willingness_to_sacrifice += 0.1
         if PersonalityTrait.CAUTIOUS in traits.get_all_traits():
             willingness_to_sacrifice -= 0.1
-        
+
         return CharacterMotivation(
             primary_motivation=primary_motivation,
             secondary_motivation=secondary_motivation,
@@ -645,13 +650,13 @@ class CharacterCreator:
             ideological_commitment=min(1.0, ideological_commitment),
             willingness_to_sacrifice=min(1.0, willingness_to_sacrifice)
         )
-    
+
     def _create_emotional_state(self, traits: CharacterTraits, trauma: Optional[CharacterTrauma]) -> EmotionalState:
         """Create emotional state based on traits and trauma"""
-        
+
         # Start with base emotional state
         emotional_state = create_random_emotional_state()
-        
+
         # Modify based on personality traits
         for trait in traits.get_all_traits():
             if trait == PersonalityTrait.OPTIMISTIC:
@@ -671,18 +676,142 @@ class CharacterCreator:
             elif trait == PersonalityTrait.OPPORTUNISTIC:
                 emotional_state.trust -= 0.1
                 emotional_state.fear += 0.1
-        
+
         # Apply trauma effects if present
         if trauma:
             for emotion, modifier in trauma.emotional_impact.items():
                 if hasattr(emotional_state, emotion):
                     current_value = getattr(emotional_state, emotion)
                     setattr(emotional_state, emotion, current_value + modifier)
-        
+
         # Ensure values are clamped to valid ranges
         emotional_state._clamp_values()
-        
+
         return emotional_state
+
+    def _create_default_voice_config(self, traits: CharacterTraits, background: Background) -> VoiceConfiguration:
+        """Create a default voice configuration based on character traits and background"""
+        config = VoiceConfiguration(character_id=str(uuid.uuid4()))
+
+        # Set emotional tones based on personality traits
+        if PersonalityTrait.PESSIMISTIC in traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.WRY)
+            config.emotional_tones.append(EmotionalTone.CYNICAL)
+
+        if PersonalityTrait.OPTIMISTIC in traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.HOPEFUL)
+            config.emotional_tones.append(EmotionalTone.IDEALISTIC)
+
+        if PersonalityTrait.RUTHLESS in traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.SARDONIC)
+            config.emotional_tones.append(EmotionalTone.BITTER)
+
+        if PersonalityTrait.COMPASSIONATE in traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.MELANCHOLIC)
+            config.emotional_tones.append(EmotionalTone.NOSTALGIC)
+
+        if PersonalityTrait.RECKLESS in traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.REBELLIOUS)
+            config.emotional_tones.append(EmotionalTone.DEFIANT)
+
+        # Set symbolic preferences based on background
+        background_symbols = {
+            BackgroundType.JOURNALIST: [SymbolicElement.PHOTOGRAPHS, SymbolicElement.COFFEE],
+            BackgroundType.CRIMINAL: [SymbolicElement.SHADOWS, SymbolicElement.CIGARETTES],
+            BackgroundType.MILITARY: [SymbolicElement.STATUES, SymbolicElement.SMALL_OBJECTS],
+            BackgroundType.ACADEMIC: [SymbolicElement.GRAFFITI, SymbolicElement.MUSIC],
+            BackgroundType.ACTIVIST: [SymbolicElement.FLOWERS, SymbolicElement.GRAFFITI],
+            BackgroundType.MEDICAL: [SymbolicElement.COFFEE, SymbolicElement.RAIN],
+            BackgroundType.RELIGIOUS: [SymbolicElement.FLOWERS, SymbolicElement.STATUES]
+        }
+
+        if background.type in background_symbols:
+            config.symbolic_preferences.extend(background_symbols[background.type])
+
+        # Set style notes based on traits
+        if PersonalityTrait.ANALYTICAL in traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.OBSERVATIONAL)
+            config.style_notes.append(NarrativeStyle.DIRECT_SPEECH)
+
+        if PersonalityTrait.CREATIVE in traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.POETIC_LANGUAGE)
+            config.style_notes.append(NarrativeStyle.METAPHORICAL)
+
+        if PersonalityTrait.METHODICAL in traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.SHORT_SENTENCES)
+
+        if PersonalityTrait.OPPORTUNISTIC in traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.SARCASM_COPING)
+            config.style_notes.append(NarrativeStyle.DRY_HUMOR)
+
+        # Add some default player-authored lines based on character archetype
+        self._add_default_voice_lines(config, traits, background)
+
+        return config
+
+    def _add_default_voice_lines(self, config: VoiceConfiguration, traits: CharacterTraits, background: Background):
+        """Add some default voice lines based on character archetype"""
+        # Add lines based on background and traits
+        archetype_lines = {
+            (BackgroundType.JOURNALIST, PersonalityTrait.PESSIMISTIC): [
+                "The truth is just another commodity here.",
+                "Every story has three versions. None of them true."
+            ],
+            (BackgroundType.CRIMINAL, PersonalityTrait.PRAGMATIC): [
+                "Rules are for people who can't afford to break them.",
+                "There's always an angle. Always a way out."
+            ],
+            (BackgroundType.ACADEMIC, PersonalityTrait.IDEALISTIC): [
+                "Knowledge is the last free thing they haven't figured out how to tax.",
+                "Every revolution starts with a question they don't want answered."
+            ],
+            (BackgroundType.ACTIVIST, PersonalityTrait.COMPASSIONATE): [
+                "Change happens one heart at a time.",
+                "They can break our bodies, but not our hope."
+            ],
+            (BackgroundType.MILITARY, PersonalityTrait.LOYAL): [
+                "Orders are orders. But conscience is conscience.",
+                "Some battles aren't worth winning."
+            ]
+        }
+
+        # Look for matching archetype
+        for (bg_type, trait), lines in archetype_lines.items():
+            if (background.type == bg_type and
+                trait in traits.get_all_traits()):
+                for line in lines:
+                    config.add_player_line(line)
+                break
+
+        # Add trauma-informed lines if character has trauma
+        if self._generate_trauma(background):
+            trauma_lines = {
+                TraumaType.WITNESSING_VIOLENCE: [
+                    "Some sounds never leave you.",
+                    "Sleep doesn't come easy anymore."
+                ],
+                TraumaType.BETRAYAL: [
+                    "Trust is a luxury I can't afford.",
+                    "Everyone has a price. I've learned that the hard way."
+                ],
+                TraumaType.LOSS_OF_LOVED_ONE: [
+                    "They're gone, but the fight continues.",
+                    "I carry their memory with every step."
+                ],
+                TraumaType.TORTURE: [
+                    "Pain is temporary. Purpose is forever.",
+                    "They broke my body, not my spirit."
+                ],
+                TraumaType.FAMILY_SEPARATION: [
+                    "Home is wherever you make your stand.",
+                    "Sometimes running away is the bravest thing you can do."
+                ]
+            }
+
+            trauma = self._generate_trauma(background)
+            if trauma and trauma.type in trauma_lines:
+                for line in trauma_lines[trauma.type]:
+                    config.add_player_line(line)
 
 
 @dataclass
@@ -696,7 +825,136 @@ class Character:
     trauma: Optional[CharacterTrauma]
     motivation: CharacterMotivation
     emotional_state: EmotionalState
-    
+    voice_config: Optional[VoiceConfiguration] = None  # New: voice configuration for narrative tone
+
+    def __post_init__(self):
+        """Initialize voice configuration if not provided"""
+        if self.voice_config is None:
+            self.voice_config = self._create_default_voice_config()
+
+    def _create_default_voice_config(self) -> VoiceConfiguration:
+        """Create a default voice configuration based on character traits and background"""
+        config = VoiceConfiguration(character_id=self.id)
+
+        # Set emotional tones based on personality traits
+        if PersonalityTrait.PESSIMISTIC in self.traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.WRY)
+            config.emotional_tones.append(EmotionalTone.CYNICAL)
+
+        if PersonalityTrait.OPTIMISTIC in self.traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.HOPEFUL)
+            config.emotional_tones.append(EmotionalTone.IDEALISTIC)
+
+        if PersonalityTrait.RUTHLESS in self.traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.SARDONIC)
+            config.emotional_tones.append(EmotionalTone.BITTER)
+
+        if PersonalityTrait.COMPASSIONATE in self.traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.MELANCHOLIC)
+            config.emotional_tones.append(EmotionalTone.NOSTALGIC)
+
+        if PersonalityTrait.RECKLESS in self.traits.get_all_traits():
+            config.emotional_tones.append(EmotionalTone.REBELLIOUS)
+            config.emotional_tones.append(EmotionalTone.DEFIANT)
+
+        # Set symbolic preferences based on background
+        background_symbols = {
+            BackgroundType.JOURNALIST: [SymbolicElement.PHOTOGRAPHS, SymbolicElement.COFFEE],
+            BackgroundType.CRIMINAL: [SymbolicElement.SHADOWS, SymbolicElement.CIGARETTES],
+            BackgroundType.MILITARY: [SymbolicElement.STATUES, SymbolicElement.SMALL_OBJECTS],
+            BackgroundType.ACADEMIC: [SymbolicElement.GRAFFITI, SymbolicElement.MUSIC],
+            BackgroundType.ACTIVIST: [SymbolicElement.FLOWERS, SymbolicElement.GRAFFITI],
+            BackgroundType.MEDICAL: [SymbolicElement.COFFEE, SymbolicElement.RAIN],
+            BackgroundType.RELIGIOUS: [SymbolicElement.FLOWERS, SymbolicElement.STATUES]
+        }
+
+        if self.background.type in background_symbols:
+            config.symbolic_preferences.extend(background_symbols[self.background.type])
+
+        # Set style notes based on traits
+        if PersonalityTrait.ANALYTICAL in self.traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.OBSERVATIONAL)
+            config.style_notes.append(NarrativeStyle.DIRECT_SPEECH)
+
+        if PersonalityTrait.CREATIVE in self.traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.POETIC_LANGUAGE)
+            config.style_notes.append(NarrativeStyle.METAPHORICAL)
+
+        if PersonalityTrait.METHODICAL in self.traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.SHORT_SENTENCES)
+
+        if PersonalityTrait.OPPORTUNISTIC in self.traits.get_all_traits():
+            config.style_notes.append(NarrativeStyle.SARCASM_COPING)
+            config.style_notes.append(NarrativeStyle.DRY_HUMOR)
+
+        # Add some default player-authored lines based on character archetype
+        self._add_default_voice_lines(config)
+
+        return config
+
+    def _add_default_voice_lines(self, config: VoiceConfiguration):
+        """Add some default voice lines based on character archetype"""
+        # Add lines based on background and traits
+        archetype_lines = {
+            (BackgroundType.JOURNALIST, PersonalityTrait.PESSIMISTIC): [
+                "The truth is just another commodity here.",
+                "Every story has three versions. None of them true."
+            ],
+            (BackgroundType.CRIMINAL, PersonalityTrait.PRAGMATIC): [
+                "Rules are for people who can't afford to break them.",
+                "There's always an angle. Always a way out."
+            ],
+            (BackgroundType.ACADEMIC, PersonalityTrait.IDEALISTIC): [
+                "Knowledge is the last free thing they haven't figured out how to tax.",
+                "Every revolution starts with a question they don't want answered."
+            ],
+            (BackgroundType.ACTIVIST, PersonalityTrait.COMPASSIONATE): [
+                "Change happens one heart at a time.",
+                "They can break our bodies, but not our hope."
+            ],
+            (BackgroundType.MILITARY, PersonalityTrait.LOYAL): [
+                "Orders are orders. But conscience is conscience.",
+                "Some battles aren't worth winning."
+            ]
+        }
+
+        # Look for matching archetype
+        for (bg_type, trait), lines in archetype_lines.items():
+            if (self.background.type == bg_type and
+                trait in self.traits.get_all_traits()):
+                for line in lines:
+                    config.add_player_line(line)
+                break
+
+        # Add trauma-informed lines if character has trauma
+        if self.trauma:
+            trauma_lines = {
+                TraumaType.WITNESSING_VIOLENCE: [
+                    "Some sounds never leave you.",
+                    "Sleep doesn't come easy anymore."
+                ],
+                TraumaType.BETRAYAL: [
+                    "Trust is a luxury I can't afford.",
+                    "Everyone has a price. I've learned that the hard way."
+                ],
+                TraumaType.LOSS_OF_LOVED_ONE: [
+                    "They're gone, but the fight continues.",
+                    "I carry their memory with every step."
+                ],
+                TraumaType.TORTURE: [
+                    "Pain is temporary. Purpose is forever.",
+                    "They broke my body, not my spirit."
+                ],
+                TraumaType.FAMILY_SEPARATION: [
+                    "Home is wherever you make your stand.",
+                    "Sometimes running away is the bravest thing you can do."
+                ]
+            }
+
+            if self.trauma.type in trauma_lines:
+                for line in trauma_lines[self.trauma.type]:
+                    config.add_player_line(line)
+
     def get_character_summary(self) -> str:
         """Get a comprehensive character summary"""
         summary = f"""
@@ -731,14 +989,14 @@ STARTING RESOURCES:
 
 CONNECTIONS: {', '.join(self.background.connections)}
 """
-        
+
         if self.trauma:
             summary += f"""
 TRAUMA: {self.trauma.get_trauma_story(self.name)}
 Severity: {self.trauma.severity:.1%}
 Triggers: {', '.join(self.trauma.triggers)}
 """
-        
+
         summary += f"""
 EMOTIONAL STATE:
   Trust: {self.emotional_state.trust:.2f}
@@ -751,22 +1009,22 @@ EMOTIONAL STATE:
   Disgust: {self.emotional_state.disgust:.2f}
   Trauma Level: {self.emotional_state.trauma_level:.2f}
 """
-        
+
         return summary
-    
+
     def get_character_story(self) -> str:
         """Get a narrative character story"""
         story = f"{self.name} is a {self.background.name.lower()} who joined the resistance. "
         story += f"They are {self.traits.get_trait_description()}. "
         story += f"{self.motivation.get_motivation_description()}"
-        
+
         if self.trauma:
             story += f" {self.trauma.get_trauma_story(self.name)}"
-        
+
         story += f" Their background as a {self.background.name.lower()} has given them unique skills and perspectives that they bring to the struggle."
-        
+
         return story
-    
+
     def serialize(self) -> Dict[str, Any]:
         """Serialize character to dictionary"""
         data = {
@@ -804,9 +1062,10 @@ EMOTIONAL STATE:
                 'ideological_commitment': self.motivation.ideological_commitment,
                 'willingness_to_sacrifice': self.motivation.willingness_to_sacrifice
             },
-            'emotional_state': self.emotional_state.serialize()
+            'emotional_state': self.emotional_state.serialize(),
+            'voice_config': self.voice_config.to_dict() if self.voice_config else None  # New: serialize voice config
         }
-        
+
         if self.trauma:
             data['trauma'] = {
                 'type': self.trauma.type.value,
@@ -815,9 +1074,9 @@ EMOTIONAL STATE:
                 'emotional_impact': self.trauma.emotional_impact,
                 'triggers': self.trauma.triggers
             }
-        
+
         return data
-    
+
     @classmethod
     def deserialize(cls, data: Dict[str, Any]) -> 'Character':
         """Deserialize character from dictionary"""
@@ -833,7 +1092,7 @@ EMOTIONAL STATE:
             connections=background_data['connections'],
             trauma_risk=[TraumaType(t) for t in background_data['trauma_risk']]
         )
-        
+
         # Reconstruct skills
         skills_data = data['skills']
         skills = CharacterSkills(
@@ -846,7 +1105,7 @@ EMOTIONAL STATE:
             survival=skills_data['survival'],
             intelligence=skills_data['intelligence']
         )
-        
+
         # Reconstruct traits
         traits_data = data['traits']
         traits = CharacterTraits(
@@ -854,7 +1113,7 @@ EMOTIONAL STATE:
             secondary_trait=PersonalityTrait(traits_data['secondary_trait']),
             background_traits=[PersonalityTrait(t) for t in traits_data['background_traits']]
         )
-        
+
         # Reconstruct trauma
         trauma = None
         if 'trauma' in data:
@@ -866,7 +1125,7 @@ EMOTIONAL STATE:
                 emotional_impact=trauma_data['emotional_impact'],
                 triggers=trauma_data['triggers']
             )
-        
+
         # Reconstruct motivation
         motivation_data = data['motivation']
         motivation = CharacterMotivation(
@@ -876,11 +1135,16 @@ EMOTIONAL STATE:
             ideological_commitment=motivation_data['ideological_commitment'],
             willingness_to_sacrifice=motivation_data['willingness_to_sacrifice']
         )
-        
+
         # Reconstruct emotional state
         emotional_state = EmotionalState.deserialize(data['emotional_state'])
-        
-        return cls(
+
+        # Reconstruct voice configuration
+        voice_config = None
+        if 'voice_config' in data and data['voice_config']:
+            voice_config = VoiceConfiguration.from_dict(data['voice_config'])
+
+        character = cls(
             id=data['id'],
             name=data['name'],
             background=background,
@@ -888,8 +1152,11 @@ EMOTIONAL STATE:
             traits=traits,
             trauma=trauma,
             motivation=motivation,
-            emotional_state=emotional_state
+            emotional_state=emotional_state,
+            voice_config=voice_config
         )
+
+        return character
 
 
 def create_random_character(name: str = None) -> Character:
@@ -902,14 +1169,14 @@ def create_random_character(name: str = None) -> Character:
             "Bay", "Brook", "Dakota", "Dallas", "Drew", "Eden", "Ellis", "Fallon"
         ]
         name = random.choice(names)
-    
+
     creator = CharacterCreator()
-    
+
     # Randomly select background and traits
     background_type = random.choice(list(BackgroundType))
     primary_trait = random.choice(list(PersonalityTrait))
     secondary_trait = random.choice([t for t in PersonalityTrait if t != primary_trait])
-    
+
     return creator.create_character(name, background_type, primary_trait, secondary_trait)
 
 
@@ -917,13 +1184,13 @@ if __name__ == "__main__":
     # Test character creation
     print("Testing Character Creation System")
     print("=" * 50)
-    
+
     # Create a random character
     character = create_random_character("Test Character")
     print(character.get_character_summary())
-    
+
     # Test serialization
     print("\nTesting Serialization:")
     serialized = character.serialize()
     deserialized = Character.deserialize(serialized)
-    print(f"Serialization successful: {deserialized.name == character.name}") 
+    print(f"Serialization successful: {deserialized.name == character.name}")

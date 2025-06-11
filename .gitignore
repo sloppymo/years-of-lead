@@ -18,3 +18,5 @@ maintenance_logs/iteration_0*.json
 # editor cruft
 .DS_Store
 *.swp
+venv/
+__pycache__/

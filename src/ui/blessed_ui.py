@@ -149,4 +149,4 @@ class BlessedUI:
 if __name__ == '__main__':
     gs = GameState()
     ui = BlessedUI(gs)
-    ui.run() 
+    ui.run()

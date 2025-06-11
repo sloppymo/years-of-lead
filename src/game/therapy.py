@@ -88,4 +88,4 @@ class TherapySession:
                 "therapy_type": self.therapy_type.value,
                 "support_bonus": support.get_resilience_modifier() if support else 0.0,
             }
-        ) 
+        )

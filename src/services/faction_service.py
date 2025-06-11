@@ -23,22 +23,22 @@ from repositories.nosql_repositories import FactionAnalyticsRepository
 
 class FactionService:
     """Faction service for managing faction entities and interactions"""
-    
+
     def __init__(self, mongo_db: Optional[AsyncIOMotorDatabase] = None):
         self.mongo_db = mongo_db
-        
+
         # Initialize NoSQL repositories if mongodb is provided
         if mongo_db:
             self.analytics_repository = FactionAnalyticsRepository(mongo_db)
         else:
             self.analytics_repository = None
-    
+
     async def get_factions_in_game(
         self, db: AsyncSession, game_id: str
     ) -> List[GameFactionResponse]:
         """Get all factions in a game"""
         factions = await game_faction_repository.get_by_game(db, game_id)
-        
+
         return [
             GameFactionResponse(
                 id=faction.id,
@@ -56,7 +56,7 @@ class FactionService:
             )
             for faction in factions
         ]
-    
+
     async def set_player_faction(
         self, db: AsyncSession, game_id: str, faction_id: str
     ) -> Optional[GameFactionResponse]:
@@ -67,17 +67,17 @@ class FactionService:
             if faction.is_player_faction:
                 faction.is_player_faction = False
                 db.add(faction)
-                
+
         # Set new player faction
         faction = await game_faction_repository.get(db, faction_id)
         if not faction or faction.game_id != game_id:
             return None
-            
+
         faction.is_player_faction = True
         db.add(faction)
         await db.commit()
         await db.refresh(faction)
-        
+
         return GameFactionResponse(
             id=faction.id,
             game_id=faction.game_id,
@@ -92,7 +92,7 @@ class FactionService:
             popularity=faction.popularity,
             heat=faction.heat
         )
-    
+
     async def update_faction_resources(
         self, db: AsyncSession, faction_id: str, resources_update: FactionResourcesUpdate
     ) -> Optional[GameFactionResponse]:
@@ -100,10 +100,10 @@ class FactionService:
         updated_faction = await game_faction_repository.update_resources(
             db, faction_id, resources_update.resources
         )
-        
+
         if not updated_faction:
             return None
-            
+
         return GameFactionResponse(
             id=updated_faction.id,
             game_id=updated_faction.game_id,
@@ -118,14 +118,14 @@ class FactionService:
             popularity=updated_faction.popularity,
             heat=updated_faction.heat
         )
-    
+
     async def get_faction_relationships(
         self, db: AsyncSession, faction_id: str
     ) -> Dict[str, Dict[str, Any]]:
         """Get all relationships for a faction with faction details"""
         # Get basic relationship values
         relationships = await game_faction_repository.get_relationships(db, faction_id)
-        
+
         # Expand with faction details
         result = {}
         for other_faction_id, value in relationships.items():
@@ -137,33 +137,33 @@ class FactionService:
                     "ideology": other_faction.ideology,
                     "value": value
                 }
-                
+
         return result
-    
+
     async def update_relationship(
-        self, 
-        db: AsyncSession, 
-        faction_id: str, 
-        other_faction_id: str, 
+        self,
+        db: AsyncSession,
+        faction_id: str,
+        other_faction_id: str,
         value: int
     ) -> bool:
         """Update relationship between two factions"""
         # Validate factions exist
         faction = await game_faction_repository.get(db, faction_id)
         other_faction = await game_faction_repository.get(db, other_faction_id)
-        
+
         if not faction or not other_faction:
             return False
-            
+
         # Ensure both factions are part of the same game
         if faction.game_id != other_faction.game_id:
             return False
-            
+
         # Update relationship
         return await game_faction_repository.update_relationship(
             db, faction_id, other_faction_id, value
         )
-    
+
     async def create_cell(
         self, db: AsyncSession, cell_data: CellCreate
     ) -> CellResponse:
@@ -172,7 +172,7 @@ class FactionService:
         faction = await game_faction_repository.get(db, cell_data.faction_id)
         if not faction:
             raise ValueError(f"Faction with ID {cell_data.faction_id} not found")
-            
+
         # Set default values
         cell_dict = cell_data.dict()
         cell_dict["id"] = str(uuid.uuid4())
@@ -184,10 +184,10 @@ class FactionService:
             cell_dict["heat"] = 0
         if "size" not in cell_dict or cell_dict["size"] is None:
             cell_dict["size"] = 3  # Default cell size
-        
+
         # Create cell
         cell = await cell_repository.create(db, obj_in=cell_dict)
-        
+
         return CellResponse(
             id=cell.id,
             name=cell.name,
@@ -202,7 +202,7 @@ class FactionService:
             specialization=cell.specialization,
             equipment=cell.equipment
         )
-    
+
     async def create_operation(
         self, db: AsyncSession, operation_data: OperationCreate
     ) -> OperationResponse:
@@ -211,7 +211,7 @@ class FactionService:
         faction = await game_faction_repository.get(db, operation_data.faction_id)
         if not faction:
             raise ValueError(f"Faction with ID {operation_data.faction_id} not found")
-            
+
         # Set default values
         operation_dict = operation_data.dict()
         operation_dict["id"] = str(uuid.uuid4())
@@ -219,14 +219,14 @@ class FactionService:
             operation_dict["current_stage"] = "planning"
         if "success_probability" not in operation_dict or operation_dict["success_probability"] is None:
             operation_dict["success_probability"] = 0.5  # 50% default probability
-            
+
         # Create operation
         operation = await operation_repository.create(db, obj_in=operation_dict)
-        
+
         # Assign cells if provided
         if operation_data.cell_ids:
             await operation_repository.assign_cells(db, operation.id, operation_data.cell_ids)
-        
+
         return OperationResponse(
             id=operation.id,
             name=operation.name,
@@ -243,7 +243,7 @@ class FactionService:
             expected_outcomes=operation.expected_outcomes,
             actual_outcomes=operation.actual_outcomes
         )
-    
+
     async def calculate_support_in_district(
         self, db: AsyncSession, faction_id: str, district_id: str
     ) -> Dict[str, float]:
@@ -252,13 +252,13 @@ class FactionService:
         control_data = await game_district_repository.get_faction_control(
             db, district_id
         )
-        
+
         faction_control = control_data.get(faction_id, 0.0)
-        
+
         # Consider cells in the district
         cells = await cell_repository.get_by_district(db, district_id)
         faction_cells = [cell for cell in cells if cell.faction_id == faction_id]
-        
+
         # Calculate support based on cells' influence
         cell_influence = sum(
             [
@@ -266,14 +266,14 @@ class FactionService:
                 for cell in faction_cells
             ]
         )
-        
+
         # Calculate influence from operations
         operations = await operation_repository.get_by_district(db, district_id)
         faction_operations = [op for op in operations if op.faction_id == faction_id]
         completed_ops = [op for op in faction_operations if op.current_stage == "completed"]
-        
+
         operation_influence = len(completed_ops) * 5  # Each successful operation adds influence
-        
+
         # Combined support calculation
         combined_support = {
             "control_percentage": faction_control,
@@ -281,45 +281,45 @@ class FactionService:
             "operation_influence": min(20.0, operation_influence),  # Cap operation influence
             "total_support": min(100.0, faction_control + cell_influence/3 + operation_influence/5)
         }
-        
+
         return combined_support
-    
+
     async def record_faction_analytics(
         self, db: AsyncSession, game_id: str, turn: int
     ) -> bool:
         """Record analytics data for all factions in a game"""
         if not self.analytics_repository:
             return False
-            
+
         # Get all factions in game
         factions = await game_faction_repository.get_by_game(db, game_id)
-        
+
         for faction in factions:
             # Calculate total control across all districts
             game_districts = await game_district_repository.get_by_game(db, game_id)
             total_control = 0.0
             district_control = {}
-            
+
             for district in game_districts:
                 control_data = await game_district_repository.get_faction_control(
                     db, district.id
                 )
                 district_control[district.id] = control_data.get(faction.id, 0.0)
                 total_control += control_data.get(faction.id, 0.0)
-                
+
             # Calculate average control
             avg_control = total_control / len(game_districts) if game_districts else 0
-            
+
             # Get all cells for this faction
             cells = await cell_repository.get_by_faction(db, faction.id)
             cell_count = len(cells)
-            
+
             # Get all operations for this faction
             operations = await operation_repository.get_by_faction(db, faction.id)
             active_operations = len([op for op in operations if op.current_stage != "completed" and op.current_stage != "failed"])
             completed_operations = len([op for op in operations if op.current_stage == "completed"])
             failed_operations = len([op for op in operations if op.current_stage == "failed"])
-            
+
             # Create analytics entry
             analytics = FactionAnalytics(
                 game_id=game_id,
@@ -341,10 +341,10 @@ class FactionService:
                     "failed_operations": failed_operations
                 }
             )
-            
+
             # Save analytics
             await self.analytics_repository.create(analytics.dict())
-            
+
         return True
 
 

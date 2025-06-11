@@ -5,7 +5,7 @@ This module provides functions to initialize the game with default content.
 """
 
 from .core import (
-    GameState, Agent, Faction, Location, 
+    GameState, Agent, Faction, Location,
     SkillType, Skill, Equipment, EquipmentType
 )
 
@@ -13,7 +13,7 @@ from .core import (
 def create_default_game() -> GameState:
     """Create a game with default factions, locations, and agents"""
     gs = GameState()
-    
+
     # Create default locations
     locations = [
         Location(
@@ -47,10 +47,10 @@ def create_default_game() -> GameState:
             unrest_level=2
         )
     ]
-    
+
     for location in locations:
         gs.add_location(location)
-    
+
     # Create default factions
     factions = [
         Faction(
@@ -69,10 +69,10 @@ def create_default_game() -> GameState:
             resources={"money": 120, "influence": 55, "personnel": 10}
         )
     ]
-    
+
     for faction in factions:
         gs.add_faction(faction)
-    
+
     # Create default agents
     agents = [
         # Resistance agents
@@ -86,7 +86,7 @@ def create_default_game() -> GameState:
         Agent(
             id="carlos",
             name="Carlos Rivera",
-            faction_id="resistance", 
+            faction_id="resistance",
             location_id="downtown",
             background="military"
         ),
@@ -97,7 +97,7 @@ def create_default_game() -> GameState:
             location_id="industrial",
             background="civilian"
         ),
-        
+
         # Student movement agents
         Agent(
             id="david",
@@ -113,7 +113,7 @@ def create_default_game() -> GameState:
             location_id="university",
             background="student"
         ),
-        
+
         # Workers union agents
         Agent(
             id="miguel",
@@ -130,7 +130,7 @@ def create_default_game() -> GameState:
             background="civilian"
         )
     ]
-    
+
     # Set up agent skills based on background
     for agent in agents:
         if agent.background == "military":
@@ -145,9 +145,9 @@ def create_default_game() -> GameState:
             agent.skills[SkillType.PERSUASION] = Skill(SkillType.PERSUASION, level=4)
             agent.skills[SkillType.SURVIVAL] = Skill(SkillType.SURVIVAL, level=4)
             agent.skills[SkillType.STEALTH] = Skill(SkillType.STEALTH, level=3)
-        
+
         gs.add_agent(agent)
-    
+
     # Create some basic equipment
     equipment_templates = [
         Equipment(
@@ -175,7 +175,7 @@ def create_default_game() -> GameState:
             description="Electronics and mechanical tools"
         )
     ]
-    
+
     # Give some agents equipment
     if "carlos" in gs.agents:
         gs.agents["carlos"].add_equipment(equipment_templates[0])  # Radio
@@ -183,14 +183,14 @@ def create_default_game() -> GameState:
         gs.agents["elena"].add_equipment(equipment_templates[1])  # Medkit
     if "david" in gs.agents:
         gs.agents["david"].add_equipment(equipment_templates[2])  # Toolkit
-    
+
     return gs
 
 
 def create_sandbox_game() -> GameState:
     """Create a minimal sandbox game for testing"""
     gs = GameState()
-    
+
     # Single location
     gs.add_location(Location(
         id="test_city",
@@ -198,14 +198,14 @@ def create_sandbox_game() -> GameState:
         security_level=5,
         unrest_level=5
     ))
-    
+
     # Single faction
     gs.add_faction(Faction(
         id="test_faction",
         name="Test Faction",
         resources={"money": 100, "influence": 50, "personnel": 5}
     ))
-    
+
     # Single agent
     gs.add_agent(Agent(
         id="test_agent",
@@ -213,5 +213,5 @@ def create_sandbox_game() -> GameState:
         faction_id="test_faction",
         location_id="test_city"
     ))
-    
-    return gs 
+
+    return gs

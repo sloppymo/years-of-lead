@@ -3,7 +3,7 @@ SQLAlchemy models for Years of Lead PostgreSQL database
 """
 
 from sqlalchemy import (
-    Boolean, Column, ForeignKey, Integer, String, 
+    Boolean, Column, ForeignKey, Integer, String,
     Float, DateTime, Text, Enum, JSON, Table
 )
 from sqlalchemy.orm import relationship
@@ -30,7 +30,7 @@ class IdeologyType(enum.Enum):
     RADICAL_LEFT = "radical_left"
     CENTRIST = "centrist"
     CORPORATIST = "corporatist"
-    RELIGIOUS_RIGHT = "religious_right" 
+    RELIGIOUS_RIGHT = "religious_right"
     REGIONALIST = "regionalist"
 
 
@@ -71,7 +71,7 @@ faction_relationships = Table(
 class User(Base):
     """User model for authentication"""
     __tablename__ = "users"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     username = Column(String, unique=True, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
@@ -81,7 +81,7 @@ class User(Base):
     is_superuser = Column(Boolean, default=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-    
+
     # Relationships
     games = relationship("Game", back_populates="user")
 
@@ -89,7 +89,7 @@ class User(Base):
 class Game(Base):
     """Game session model"""
     __tablename__ = "games"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String, nullable=False)
     user_id = Column(String, ForeignKey("users.id"), nullable=False)
@@ -100,7 +100,7 @@ class Game(Base):
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     last_played_at = Column(DateTime, default=func.now())
-    
+
     # Relationships
     user = relationship("User", back_populates="games")
     scenario = relationship("Scenario")
@@ -113,7 +113,7 @@ class Game(Base):
 class Scenario(Base):
     """Game scenario model"""
     __tablename__ = "scenarios"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String, nullable=False, unique=True)
     description = Column(Text)
@@ -122,7 +122,7 @@ class Scenario(Base):
     faction_settings = Column(JSON)
     district_settings = Column(JSON)
     created_at = Column(DateTime, default=func.now())
-    
+
     # Relationships
     games = relationship("Game", back_populates="scenario")
 
@@ -130,7 +130,7 @@ class Scenario(Base):
 class Faction(Base):
     """Faction template model"""
     __tablename__ = "factions"
-    
+
     id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
@@ -138,7 +138,7 @@ class Faction(Base):
     ideology = Column(Enum(IdeologyType), nullable=False)
     default_strength = Column(Integer, default=50)  # 0-100
     specialties = Column(JSON)  # List of specialties
-    
+
     # Relationships
     game_factions = relationship("GameFaction", back_populates="faction_template")
 
@@ -146,7 +146,7 @@ class Faction(Base):
 class GameFaction(Base):
     """Instance of a faction in a specific game"""
     __tablename__ = "game_factions"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     game_id = Column(String, ForeignKey("games.id"), nullable=False)
     faction_template_id = Column(String, ForeignKey("factions.id"), nullable=False)
@@ -154,7 +154,7 @@ class GameFaction(Base):
     strength = Column(Integer, default=50)
     resources = Column(JSON)  # Dictionary of resources
     is_player_faction = Column(Boolean, default=False)
-    
+
     # Relationships
     game = relationship("Game", back_populates="game_factions")
     faction_template = relationship("Faction", back_populates="game_factions")
@@ -165,14 +165,14 @@ class GameFaction(Base):
 class District(Base):
     """District template model"""
     __tablename__ = "districts"
-    
+
     id = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
     default_population = Column(Integer, default=100000)
     default_security_level = Column(Integer, default=5)  # 1-10
     geo_data = Column(JSON)  # Geographic information
-    
+
     # Relationships
     game_districts = relationship("GameDistrict", back_populates="district_template")
 
@@ -180,7 +180,7 @@ class District(Base):
 class GameDistrict(Base):
     """Instance of a district in a specific game"""
     __tablename__ = "game_districts"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     game_id = Column(String, ForeignKey("games.id"), nullable=False)
     district_template_id = Column(String, ForeignKey("districts.id"), nullable=False)
@@ -190,7 +190,7 @@ class GameDistrict(Base):
     unrest_level = Column(Integer, default=0)  # 0-100
     prosperity_level = Column(Integer, default=50)  # 0-100
     heat = Column(Integer, default=0)  # How much attention from authorities
-    
+
     # Relationships
     game = relationship("Game", back_populates="game_districts")
     district_template = relationship("District", back_populates="game_districts")
@@ -201,7 +201,7 @@ class GameDistrict(Base):
 class PlayerCharacter(Base):
     """Player character model"""
     __tablename__ = "player_characters"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     game_id = Column(String, ForeignKey("games.id"), nullable=False)
     name = Column(String, nullable=False)
@@ -210,7 +210,7 @@ class PlayerCharacter(Base):
     traits = Column(JSON)  # Character traits
     heat = Column(Integer, default=0)  # Personal heat level
     emotional_state = Column(JSON)  # SYLVA emotional data
-    
+
     # Relationships
     game = relationship("Game", back_populates="player_characters")
     cells = relationship("Cell", back_populates="leader")
@@ -220,7 +220,7 @@ class PlayerCharacter(Base):
 class Cell(Base):
     """Cell model - small group of operatives"""
     __tablename__ = "cells"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     faction_id = Column(String, ForeignKey("game_factions.id"), nullable=False)
     district_id = Column(String, ForeignKey("game_districts.id"), nullable=False)
@@ -231,7 +231,7 @@ class Cell(Base):
     morale = Column(Integer, default=50)  # 0-100
     skill_levels = Column(JSON)  # Various skill ratings
     heat = Column(Integer, default=0)  # How much attention from authorities
-    
+
     # Relationships
     faction = relationship("GameFaction", back_populates="cells")
     district = relationship("GameDistrict", back_populates="cells")
@@ -242,7 +242,7 @@ class Cell(Base):
 class Operation(Base):
     """Operation model - activities conducted by cells"""
     __tablename__ = "operations"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     faction_id = Column(String, ForeignKey("game_factions.id"), nullable=False)
     district_id = Column(String, ForeignKey("game_districts.id"), nullable=False)
@@ -257,7 +257,7 @@ class Operation(Base):
     heat_generation = Column(Integer, default=10)  # Heat generated on success
     required_resources = Column(JSON)  # Resources needed
     potential_outcomes = Column(JSON)  # Possible results
-    
+
     # Relationships
     faction = relationship("GameFaction", back_populates="operations")
     district = relationship("GameDistrict", back_populates="operations")
@@ -275,7 +275,7 @@ cell_operations = Table(
 class GameEvent(Base):
     """Game event model"""
     __tablename__ = "game_events"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     game_id = Column(String, ForeignKey("games.id"), nullable=False)
     event_type = Column(String, nullable=False)
@@ -283,7 +283,7 @@ class GameEvent(Base):
     timestamp = Column(DateTime, default=func.now())
     data = Column(JSON)  # Event data
     narrative_text = Column(Text)  # SYLVA/WREN generated narrative
-    
+
     # Relationships
     game = relationship("Game", back_populates="events")
 
@@ -291,7 +291,7 @@ class GameEvent(Base):
 class JournalEntry(Base):
     """Player character journal entries"""
     __tablename__ = "journal_entries"
-    
+
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     character_id = Column(String, ForeignKey("player_characters.id"), nullable=False)
     turn = Column(Integer, nullable=False)
@@ -300,6 +300,6 @@ class JournalEntry(Base):
     content = Column(Text, nullable=False)
     emotional_tags = Column(JSON)  # SYLVA emotional tags
     narrative_context = Column(JSON)  # WREN narrative context
-    
+
     # Relationships
     character = relationship("PlayerCharacter", back_populates="journal_entries")

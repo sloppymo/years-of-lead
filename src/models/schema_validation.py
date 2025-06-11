@@ -39,11 +39,11 @@ def pydantic_to_mongodb_schema(model_class) -> Dict[str, Any]:
     """
     # Get the JSON schema from the model
     schema = model_class.schema()
-    
+
     # Extract the properties and required fields
     properties = schema.get("properties", {})
     required = schema.get("required", [])
-    
+
     # MongoDB validation schema format
     mongodb_schema = {
         "$jsonSchema": {
@@ -52,11 +52,11 @@ def pydantic_to_mongodb_schema(model_class) -> Dict[str, Any]:
             "properties": {}
         }
     }
-    
+
     # Convert Pydantic types to MongoDB BSON types
     for field_name, field_schema in properties.items():
         mongodb_field = {"description": field_schema.get("description", "")}
-        
+
         # Map Python types to BSON types
         field_type = field_schema.get("type")
         if field_type == "string":
@@ -74,9 +74,9 @@ def pydantic_to_mongodb_schema(model_class) -> Dict[str, Any]:
                 mongodb_field["items"] = {"bsonType": "object"}
         elif field_type == "object":
             mongodb_field["bsonType"] = "object"
-        
+
         mongodb_schema["$jsonSchema"]["properties"][field_name] = mongodb_field
-    
+
     return mongodb_schema
 
 
@@ -85,14 +85,14 @@ def setup_collection_validations(mongo_client: MongoClient, db_name: str) -> Non
     Set up MongoDB collection validations for all models
     """
     db = mongo_client[db_name]
-    
+
     # Get existing collection names
     existing_collections = db.list_collection_names()
-    
+
     for collection_name, model_class in COLLECTION_MODELS.items():
         # Create validation schema
         schema = pydantic_to_mongodb_schema(model_class)
-        
+
         if collection_name in existing_collections:
             # Update existing collection with validation
             try:
@@ -109,7 +109,7 @@ def setup_collection_validations(mongo_client: MongoClient, db_name: str) -> Non
             # Create new collection with validation
             try:
                 db.create_collection(
-                    collection_name, 
+                    collection_name,
                     validator=schema,
                     validationLevel="moderate",
                     validationAction="warn"
@@ -164,13 +164,13 @@ def create_mongodb_indexes(mongo_client: MongoClient, db_name: str) -> None:
     """
     db = mongo_client[db_name]
     indexes = get_mongodb_indexes()
-    
+
     for collection_name, collection_indexes in indexes.items():
         if collection_name not in db.list_collection_names():
             continue
-            
+
         collection = db[collection_name]
-        
+
         for index_def in collection_indexes:
             keys = index_def.pop("keys")
             try:

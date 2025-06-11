@@ -17,13 +17,13 @@ from .character_creation import (
 
 class CharacterCreationUI:
     """Interactive character creation interface"""
-    
+
     def __init__(self):
         self.creator = CharacterCreator()
         self.current_character = None
         self.creation_steps = [
             "name",
-            "background", 
+            "background",
             "primary_trait",
             "secondary_trait",
             "skills",
@@ -31,48 +31,48 @@ class CharacterCreationUI:
         ]
         self.current_step = 0
         self.character_data = {}
-    
+
     def clear_screen(self):
         """Clear the terminal screen"""
         os.system('clear' if os.name == 'posix' else 'cls')
-    
+
     def print_banner(self):
         """Print the character creation banner"""
         print("=" * 80)
         print("""
- ██████╗██╗  ██╗ █████╗ ██████╗ ███████╗ █████╗  ██████╗ ████████╗███████╗██████╗ 
+ ██████╗██╗  ██╗ █████╗ ██████╗ ███████╗ █████╗  ██████╗ ████████╗███████╗██████╗
 ██╔════╝██║  ██║██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗
 ██║     ███████║███████║██████╔╝█████╗  ███████║██║   ██║   ██║   █████╗  ██████╔╝
 ██║     ██╔══██║██╔══██║██╔══██╗██╔══╝  ██╔══██║██║   ██║   ██║   ██╔══╝  ██╔══██╗
 ╚██████╗██║  ██║██║  ██║██║  ██║███████╗██║  ██║╚██████╔╝   ██║   ███████╗██║  ██║
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝
-                                                                                    
+
                            Character Creation System
 """)
         print("=" * 80)
-    
+
     def print_progress(self):
         """Print creation progress"""
         step_names = {
             "name": "Character Name",
-            "background": "Background Selection", 
+            "background": "Background Selection",
             "primary_trait": "Primary Personality",
             "secondary_trait": "Secondary Personality",
             "skills": "Skill Allocation",
             "review": "Final Review"
         }
-        
+
         current_step_name = step_names.get(self.creation_steps[self.current_step], "Unknown")
         print(f"\nStep {self.current_step + 1} of {len(self.creation_steps)}: {current_step_name}")
         print("-" * 50)
-    
+
     def confirm_choice(self, prompt: str, choice: str) -> bool:
         """Ask user to confirm their choice"""
         print(f"\n{'-' * 60}")
         print(f"CONFIRMATION: {prompt}")
         print(f"Your choice: {choice}")
         print(f"{'-' * 60}")
-        
+
         while True:
             confirm = input("Are you sure? (y/n): ").strip().lower()
             if confirm in ['y', 'yes']:
@@ -81,29 +81,29 @@ class CharacterCreationUI:
                 return False
             else:
                 print("Please enter 'y' for yes or 'n' for no.")
-    
+
     def get_name_input(self) -> str:
         """Get character name from user with confirmation"""
         while True:
             print("\nEnter your character's name:")
             print("(The name will be hidden as you type for security)")
             name = getpass.getpass("Name: ").strip()
-            
+
             if not name:
                 print("Name cannot be empty. Please try again.")
                 continue
-            
+
             # Show the name and confirm
             print(f"\nYou entered: {name}")
             if self.confirm_choice("Character Name", name):
                 return name
             else:
                 print("Let's try again...")
-    
+
     def get_background_details(self, bg_type: BackgroundType) -> Dict[str, Any]:
         """Get detailed information about a background"""
         background = self.creator.backgrounds[bg_type]
-        
+
         details = {
             "name": background.name,
             "description": background.description,
@@ -115,9 +115,9 @@ class CharacterCreationUI:
             "mechanical_effects": self._get_background_mechanics(bg_type),
             "narrative_consequences": self._get_background_narrative(bg_type)
         }
-        
+
         return details
-    
+
     def _get_background_mechanics(self, bg_type: BackgroundType) -> Dict[str, str]:
         """Get mechanical effects of background choices"""
         mechanics = {
@@ -182,9 +182,9 @@ class CharacterCreationUI:
                 "heat_penalty": "Monitored by labor unions"
             }
         }
-        
+
         return mechanics.get(bg_type, {})
-    
+
     def _get_background_narrative(self, bg_type: BackgroundType) -> Dict[str, str]:
         """Get narrative consequences of background choices"""
         narrative = {
@@ -249,82 +249,82 @@ class CharacterCreationUI:
                 "future_opportunities": "Can access industrial areas and organize workers"
             }
         }
-        
+
         return narrative.get(bg_type, {})
-    
+
     def display_background_details(self, bg_type: BackgroundType):
         """Display detailed background information"""
         details = self.get_background_details(bg_type)
-        
+
         print(f"\n{'=' * 60}")
         print(f"BACKGROUND: {details['name'].upper()}")
         print(f"{'=' * 60}")
-        
+
         print(f"\n📖 DESCRIPTION:")
         print(f"{details['description']}")
-        
+
         print(f"\n📚 PERSONAL STORY:")
         print(f"{details['story']}")
-        
+
         print(f"\n⚔️  MECHANICAL EFFECTS:")
         mechanics = details['mechanical_effects']
         for key, value in mechanics.items():
             print(f"  • {key.replace('_', ' ').title()}: {value}")
-        
+
         print(f"\n🎭 NARRATIVE CONSEQUENCES:")
         narrative = details['narrative_consequences']
         for key, value in narrative.items():
             print(f"  • {key.replace('_', ' ').title()}: {value}")
-        
+
         print(f"\n💰 STARTING RESOURCES:")
         for resource, amount in details['starting_resources'].items():
             print(f"  • {resource.title()}: {amount}")
-        
+
         print(f"\n🔗 CONNECTIONS:")
         for connection in details['connections']:
             print(f"  • {connection}")
-        
+
         print(f"\n⚠️  TRAUMA RISKS:")
         for trauma in details['trauma_risk']:
             print(f"  • {trauma.value.replace('_', ' ').title()}")
-    
+
     def select_background(self) -> BackgroundType:
         """Interactive background selection with detailed information"""
         backgrounds = list(BackgroundType)
         selected = None
-        
+
         while selected is None:
             print("\nSelect your character's background:")
             print("-" * 40)
-            
+
             for i, bg_type in enumerate(backgrounds, 1):
                 background = self.creator.backgrounds[bg_type]
                 print(f"{i:2d}. {background.name}")
-            
+
             print(f"\n{len(backgrounds) + 1:2d}. View detailed information")
             print(" 0. Back to previous step")
-            
+
             try:
                 choice = int(input(f"\nEnter choice (0-{len(backgrounds) + 1}): "))
-                
+
                 if choice == 0:
                     return None  # Go back
                 elif 1 <= choice <= len(backgrounds):
                     bg_type = backgrounds[choice - 1]
                     background = self.creator.backgrounds[bg_type]
-                    
+
                     if self.confirm_choice("Background Selection", background.name):
                         selected = bg_type
                     else:
                         print("Let's try again...")
-                        
+
                 elif choice == len(backgrounds) + 1:
                     # Show detailed information
                     print("\nWhich background would you like to learn more about?")
                     for i, bg_type in enumerate(backgrounds, 1):
                         background = self.creator.backgrounds[bg_type]
                         print(f"{i:2d}. {background.name}")
-                    
+
                     try:
                         detail_choice = int(input(f"\nEnter choice (1-{len(backgrounds)}): "))
                         if 1 <= detail_choice <= len(backgrounds):
@@ -337,14 +337,14 @@ class CharacterCreationUI:
                             print("Invalid choice.")
                     except ValueError:
                         print("Please enter a valid number.")
-                        
+
                 else:
                     print(f"Please enter a number between 0 and {len(backgrounds) + 1}")
             except ValueError:
                 print("Please enter a valid number")
-        
+
         return selected
-    
+
     def get_trait_details(self, trait: PersonalityTrait) -> Dict[str, str]:
         """Get detailed information about a personality trait"""
         details = {
@@ -461,72 +461,72 @@ class CharacterCreationUI:
                 "conflicts": "May miss creative opportunities"
             }
         }
-        
+
         return details.get(trait, {})
-    
+
     def display_trait_details(self, trait: PersonalityTrait):
         """Display detailed trait information"""
         details = self.get_trait_details(trait)
-        
+
         print(f"\n{'=' * 60}")
         print(f"PERSONALITY TRAIT: {trait.value.replace('_', ' ').upper()}")
         print(f"{'=' * 60}")
-        
+
         print(f"\n📖 DESCRIPTION:")
         print(f"{details['description']}")
-        
+
         print(f"\n⚔️  MECHANICAL EFFECTS:")
         print(f"{details['mechanical_effects']}")
-        
+
         print(f"\n🎭 NARRATIVE IMPACT:")
         print(f"{details['narrative_impact']}")
-        
+
         print(f"\n👥 RELATIONSHIPS:")
         print(f"{details['relationships']}")
-        
+
         print(f"\n⚔️  POTENTIAL CONFLICTS:")
         print(f"{details['conflicts']}")
-    
+
     def select_trait(self, trait_type: str, exclude_trait: Optional[PersonalityTrait] = None) -> PersonalityTrait:
         """Interactive trait selection with detailed information"""
         traits = list(PersonalityTrait)
         if exclude_trait:
             traits = [t for t in traits if t != exclude_trait]
-        
+
         selected = None
-        
+
         while selected is None:
             print(f"\nSelect your character's {trait_type} personality trait:")
             print("-" * 50)
-            
+
             for i, trait in enumerate(traits, 1):
                 trait_desc = trait.value.replace('_', ' ').title()
                 print(f"{i:2d}. {trait_desc}")
-            
+
             print(f"\n{len(traits) + 1:2d}. View detailed information")
             print(" 0. Back to previous step")
-            
+
             try:
                 choice = int(input(f"\nEnter choice (0-{len(traits) + 1}): "))
-                
+
                 if choice == 0:
                     return None  # Go back
                 elif 1 <= choice <= len(traits):
                     trait = traits[choice - 1]
                     trait_desc = trait.value.replace('_', ' ').title()
-                    
+
                     if self.confirm_choice(f"{trait_type} Personality Trait", trait_desc):
                         selected = trait
                     else:
                         print("Let's try again...")
-                        
+
                 elif choice == len(traits) + 1:
                     # Show detailed information
                     print(f"\nWhich {trait_type.lower()} trait would you like to learn more about?")
                     for i, trait in enumerate(traits, 1):
                         trait_desc = trait.value.replace('_', ' ').title()
                         print(f"{i:2d}. {trait_desc}")
-                    
+
                     try:
                         detail_choice = int(input(f"\nEnter choice (1-{len(traits)}): "))
                         if 1 <= detail_choice <= len(traits):
@@ -539,14 +539,14 @@ class CharacterCreationUI:
                             print("Invalid choice.")
                     except ValueError:
                         print("Please enter a valid number.")
-                        
+
                 else:
                     print(f"Please enter a number between 0 and {len(traits) + 1}")
             except ValueError:
                 print("Please enter a valid number")
-        
+
         return selected
-    
+
     def allocate_skills(self) -> Dict[str, int]:
         """Interactive skill allocation with detailed explanations"""
         max_points = 20
@@ -555,12 +555,12 @@ class CharacterCreationUI:
             'combat': 1, 'stealth': 1, 'hacking': 1, 'social': 1,
             'technical': 1, 'medical': 1, 'survival': 1, 'intelligence': 1
         }
-        
+
         # Apply background bonuses first
         background = self.creator.backgrounds[self.character_data['background']]
         for skill_category, bonus in background.skill_bonuses.items():
             skills[skill_category.value] += bonus
-        
+
         skill_descriptions = {
             'combat': "Fighting, weapons, tactical combat",
             'stealth': "Sneaking, hiding, avoiding detection",
@@ -571,20 +571,20 @@ class CharacterCreationUI:
             'survival': "Wilderness survival, resourcefulness, adaptability",
             'intelligence': "Analysis, research, strategic thinking"
         }
-        
+
         print(f"\nSkill Allocation - {remaining_points} points remaining")
         print("Skills start at level 1. Maximum level is 10.")
         print("-" * 50)
-        
+
         while remaining_points > 0:
             # Display current skills
             print("\nCurrent Skills:")
             for skill_name, level in skills.items():
                 desc = skill_descriptions[skill_name]
                 print(f"  {skill_name.title():12}: {level}/10 - {desc}")
-            
+
             print(f"\nPoints remaining: {remaining_points}")
-            
+
             # Get skill to increase
             skill_names = list(skills.keys())
             print("\nSkills to increase:")
@@ -592,13 +592,13 @@ class CharacterCreationUI:
                 current_level = skills[skill_name]
                 if current_level < 10:
                     print(f"{i:2d}. {skill_name.title()} (currently {current_level})")
-            
+
             print(f"\n{len(skill_names) + 1:2d}. View skill descriptions")
             print(" 0. Finish allocation")
-            
+
             try:
                 choice = int(input(f"\nSelect option (0-{len(skill_names) + 1}): "))
-                
+
                 if choice == 0:
                     if remaining_points > 0:
                         print(f"\nYou still have {remaining_points} points remaining.")
@@ -609,15 +609,15 @@ class CharacterCreationUI:
                             continue
                     else:
                         break
-                        
+
                 elif 1 <= choice <= len(skill_names):
                     skill_name = skill_names[choice - 1]
                     current_level = skills[skill_name]
-                    
+
                     if current_level >= 10:
                         print(f"{skill_name.title()} is already at maximum level!")
                         continue
-                    
+
                     # Get number of points to invest
                     max_invest = min(remaining_points, 10 - current_level)
                     if max_invest == 1:
@@ -632,16 +632,16 @@ class CharacterCreationUI:
                         except ValueError:
                             print("Please enter a valid number")
                             continue
-                    
+
                     skills[skill_name] += points_to_invest
                     remaining_points -= points_to_invest
-                    
+
                     print(f"\n✅ {skill_name.title()} increased to {skills[skill_name]}/10")
-                    
+
                     if remaining_points == 0:
                         print("\nAll points allocated!")
                         break
-                        
+
                 elif choice == len(skill_names) + 1:
                     # Show skill descriptions
                     print(f"\n{'=' * 60}")
@@ -653,30 +653,30 @@ class CharacterCreationUI:
                     self.clear_screen()
                     self.print_banner()
                     self.print_progress()
-                    
+
                 else:
                     print(f"Please enter a number between 0 and {len(skill_names) + 1}")
             except ValueError:
                 print("Please enter a valid number")
-        
+
         return skills
-    
+
     def review_character(self) -> bool:
         """Review character and confirm creation"""
         print("\n" + "=" * 60)
         print("CHARACTER REVIEW")
         print("=" * 60)
-        
+
         # Create temporary character for review
         temp_character = self.create_character_from_data()
-        
+
         # Display character summary
         print(temp_character.get_character_summary())
-        
+
         print("\n" + "=" * 60)
         print("FINAL CONFIRMATION")
         print("=" * 60)
-        
+
         while True:
             confirm = input("\nAre you satisfied with this character? (y/n): ").strip().lower()
             if confirm in ['y', 'yes']:
@@ -685,7 +685,7 @@ class CharacterCreationUI:
                 return False
             else:
                 print("Please enter 'y' for yes or 'n' for no.")
-    
+
     def create_character_from_data(self) -> Character:
         """Create character from collected data"""
         return self.creator.create_character(
@@ -694,24 +694,24 @@ class CharacterCreationUI:
             primary_trait=self.character_data['primary_trait'],
             secondary_trait=self.character_data['secondary_trait']
         )
-    
+
     def run_character_creation(self) -> Optional[Character]:
         """Run the complete character creation process"""
         self.clear_screen()
         self.print_banner()
-        
+
         while self.current_step < len(self.creation_steps):
             self.print_progress()
-            
+
             step = self.creation_steps[self.current_step]
-            
+
             if step == "name":
                 name = self.get_name_input()
                 if name is None:
                     continue
                 self.character_data['name'] = name
                 self.current_step += 1
-                
+
             elif step == "background":
                 background = self.select_background()
                 if background is None:
@@ -720,7 +720,7 @@ class CharacterCreationUI:
                     continue
                 self.character_data['background'] = background
                 self.current_step += 1
-                
+
             elif step == "primary_trait":
                 trait = self.select_trait("Primary")
                 if trait is None:
@@ -729,7 +729,7 @@ class CharacterCreationUI:
                     continue
                 self.character_data['primary_trait'] = trait
                 self.current_step += 1
-                
+
             elif step == "secondary_trait":
                 trait = self.select_trait("Secondary", self.character_data.get('primary_trait'))
                 if trait is None:
@@ -738,12 +738,12 @@ class CharacterCreationUI:
                     continue
                 self.character_data['secondary_trait'] = trait
                 self.current_step += 1
-                
+
             elif step == "skills":
                 skills = self.allocate_skills()
                 self.character_data['skills'] = skills
                 self.current_step += 1
-                
+
             elif step == "review":
                 if self.review_character():
                     self.current_step += 1
@@ -751,20 +751,20 @@ class CharacterCreationUI:
                     # Go back to previous step
                     self.current_step -= 1
                     continue
-        
+
         # Create final character
         if self.current_step >= len(self.creation_steps):
             character = self.create_character_from_data()
             print(f"\n🎉 Character '{character.name}' created successfully!")
             return character
-        
+
         return None
-    
+
     def quick_create_character(self, name: str = None) -> Character:
         """Quick character creation for testing"""
         if name is None:
             name = input("Enter character name: ").strip()
-        
+
         return self.creator.create_character(
             name=name,
             background_type=BackgroundType.MILITARY,
@@ -775,27 +775,27 @@ class CharacterCreationUI:
 
 class CharacterManagementUI:
     """Character management interface"""
-    
+
     def __init__(self):
         self.characters = []
-    
+
     def add_character(self, character: Character):
         """Add a character to the roster"""
         self.characters.append(character)
-    
+
     def list_characters(self):
         """List all characters"""
         if not self.characters:
             print("No characters in roster.")
             return
-        
+
         print("\nCHARACTER ROSTER")
         print("=" * 50)
         for i, character in enumerate(self.characters, 1):
             print(f"{i:2d}. {character.name} - {character.background.name}")
             print(f"    {character.traits.get_trait_description()}")
             print()
-    
+
     def view_character(self, character_index: int):
         """View detailed character information"""
         if 1 <= character_index <= len(self.characters):
@@ -803,15 +803,15 @@ class CharacterManagementUI:
             print(character.get_character_summary())
         else:
             print("Invalid character index.")
-    
+
     def select_character(self) -> Optional[Character]:
         """Select a character from the roster"""
         if not self.characters:
             print("No characters available.")
             return None
-        
+
         self.list_characters()
-        
+
         while True:
             try:
                 choice = int(input(f"\nSelect character (1-{len(self.characters)}): "))
@@ -825,19 +825,19 @@ class CharacterManagementUI:
 
 def integrate_with_main_menu():
     """Integration function for main menu"""
-    
+
     def character_creation_menu():
         """Character creation menu option"""
         creator = CharacterCreationUI()
         character = creator.run_character_creation()
-        
+
         if character:
             manager = CharacterManagementUI()
             manager.add_character(character)
             print(f"\nCharacter '{character.name}' added to roster!")
-        
+
         return character
-    
+
     return character_creation_menu
 
 
@@ -845,13 +845,13 @@ if __name__ == "__main__":
     # Test the character creation system
     print("Testing Character Creation UI")
     print("=" * 50)
-    
+
     # Test quick creation
     ui = CharacterCreationUI()
     character = ui.quick_create_character("Test Character")
     print(character.get_character_summary())
-    
+
     # Test management
     mgmt = CharacterManagementUI()
     mgmt.add_character(character)
-    mgmt.list_characters() 
+    mgmt.list_characters()

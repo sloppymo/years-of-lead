@@ -96,7 +96,7 @@ async def get_game_state(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have access to this game"
         )
-        
+
     # Get full game state including factions, districts, etc.
     # For MVP, we'll implement a simplified state response
     # This should be expanded for a full implementation
@@ -129,14 +129,14 @@ async def process_game_turn(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have access to this game"
         )
-    
+
     # Check if game is completed
     if game.is_completed:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Game is already completed"
         )
-    
+
     # Advance turn
     updated_game = await game_service.advance_turn(db, game_id)
     if not updated_game:
@@ -144,7 +144,7 @@ async def process_game_turn(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to advance game turn"
         )
-        
+
     return updated_game
 
 @router.post("/{game_id}/action", response_model=GameActionResponse)
@@ -159,7 +159,7 @@ async def perform_game_action(
     # For MVP, we'll just accept actions and log them
     # In a full implementation, we would process these actions through
     # the game engine and return the results
-    
+
     # First ensure user has access to this game
     game = await game_service.get_game(db, game_id)
     if not game:
@@ -172,7 +172,7 @@ async def perform_game_action(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have access to this game"
         )
-    
+
     # Basic MVP response - this would be expanded in the full implementation
     return GameActionResponse(
         success=True,
@@ -201,7 +201,7 @@ async def list_game_events(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You don't have access to this game"
         )
-    
+
     # For MVP, return simplified mock events
     # This would be replaced with actual events from the database
     return [

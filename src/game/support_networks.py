@@ -56,4 +56,4 @@ def register_support_network(network: SupportNetwork):
 
 
 def get_support_network(network_id: str) -> Optional[SupportNetwork]:
-    return _support_registry.get(network_id) 
+    return _support_registry.get(network_id)

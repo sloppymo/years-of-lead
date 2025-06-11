@@ -18,11 +18,11 @@ from .core import SkillType, Location, Agent
 
 class MissionEventGenerator:
     """Generates contextual random events during missions"""
-    
+
     def __init__(self):
         self.event_templates = self._initialize_event_templates()
         self.event_counter = 0
-    
+
     def _initialize_event_templates(self) -> Dict[EventCategory, List[Dict[str, Any]]]:
         """Initialize event templates by category"""
         return {
@@ -97,7 +97,7 @@ class MissionEventGenerator:
                     ]
                 }
             ],
-            
+
             EventCategory.ENVIRONMENTAL: [
                 {
                     'name': 'weather_change',
@@ -142,7 +142,7 @@ class MissionEventGenerator:
                     ]
                 }
             ],
-            
+
             EventCategory.SOCIAL: [
                 {
                     'name': 'informant_betrayal',
@@ -187,7 +187,7 @@ class MissionEventGenerator:
                     ]
                 }
             ],
-            
+
             EventCategory.POLITICAL: [
                 {
                     'name': 'media_presence',
@@ -232,7 +232,7 @@ class MissionEventGenerator:
                     ]
                 }
             ],
-            
+
             EventCategory.PERSONAL: [
                 {
                     'name': 'agent_breakdown',
@@ -278,40 +278,40 @@ class MissionEventGenerator:
                 }
             ]
         }
-    
-    def generate_event(self, mission: Mission, location: Location, 
+
+    def generate_event(self, mission: Mission, location: Location,
                       agents: List[Agent], turn_number: int) -> Optional[MissionEvent]:
         """Generate a contextual event based on mission state"""
-        
+
         # Determine event probability based on mission phase and location
         event_chance = self._calculate_event_probability(mission, location)
-        
+
         if random.random() > event_chance:
             return None
-        
+
         # Select appropriate event category
         category = self._select_event_category(mission, location, agents)
-        
+
         # Get possible events for this category and phase
         possible_events = [
             template for template in self.event_templates[category]
             if mission.current_phase in template['phases']
         ]
-        
+
         if not possible_events:
             return None
-        
+
         # Select and create event
         template = random.choice(possible_events)
         return self._create_event_from_template(template, category, mission, location, agents)
-    
+
     def _calculate_event_probability(self, mission: Mission, location: Location) -> float:
         """Calculate probability of an event occurring"""
         base_probability = 0.3
-        
+
         # Increase probability based on location security
         security_modifier = location.security_level / 20.0
-        
+
         # Increase probability based on mission type risk
         risk_modifiers = {
             MissionType.ASSASSINATION: 0.3,
@@ -322,7 +322,7 @@ class MissionEventGenerator:
             MissionType.PROPAGANDA_CAMPAIGN: 0.05
         }
         risk_modifier = risk_modifiers.get(mission.mission_type, 0.1)
-        
+
         # Phase modifiers
         phase_modifiers = {
             MissionPhase.PLANNING: 0.1,
@@ -332,13 +332,13 @@ class MissionEventGenerator:
             MissionPhase.AFTERMATH: 0.15
         }
         phase_modifier = phase_modifiers.get(mission.current_phase, 0.2)
-        
+
         return min(0.8, base_probability + security_modifier + risk_modifier + phase_modifier)
-    
-    def _select_event_category(self, mission: Mission, location: Location, 
+
+    def _select_event_category(self, mission: Mission, location: Location,
                               agents: List[Agent]) -> EventCategory:
         """Select appropriate event category based on context"""
-        
+
         # Weight categories based on mission context
         weights = {
             EventCategory.SECURITY: location.security_level,
@@ -347,37 +347,37 @@ class MissionEventGenerator:
             EventCategory.POLITICAL: mission.complexity.political_sensitivity * 10,
             EventCategory.PERSONAL: sum(agent.stress for agent in agents) / (len(agents) * 10)
         }
-        
+
         # Special weights for certain mission types
         if mission.mission_type in [MissionType.ASSASSINATION, MissionType.SABOTAGE]:
             weights[EventCategory.SECURITY] *= 1.5
         elif mission.mission_type in [MissionType.PROPAGANDA_CAMPAIGN, MissionType.RECRUITMENT_DRIVE]:
             weights[EventCategory.SOCIAL] *= 1.5
-        
+
         # Random weighted selection
         categories = list(weights.keys())
         category_weights = list(weights.values())
-        
+
         return random.choices(categories, weights=category_weights)[0]
-    
-    def _create_event_from_template(self, template: Dict[str, Any], 
+
+    def _create_event_from_template(self, template: Dict[str, Any],
                                    category: EventCategory,
-                                   mission: Mission, 
+                                   mission: Mission,
                                    location: Location,
                                    agents: List[Agent]) -> MissionEvent:
         """Create an event instance from a template"""
-        
+
         self.event_counter += 1
         event_id = f"event_{self.event_counter}_{template['name']}"
-        
+
         # Determine severity based on template range and context
         min_severity, max_severity = template['severity_range']
         severity = random.uniform(min_severity, max_severity)
-        
+
         # Adjust severity based on mission progress
         if mission.progress > 0.7:  # Near completion
             severity *= 1.2
-        
+
         # Create the event
         event = MissionEvent(
             id=event_id,
@@ -390,14 +390,14 @@ class MissionEventGenerator:
             potential_consequences=self._generate_consequences(template, severity),
             choices=template['choices']
         )
-        
+
         return event
-    
+
     def _generate_consequences(self, template: Dict[str, Any], severity: float) -> List[str]:
         """Generate potential consequences based on event template and severity"""
-        
+
         base_consequences = []
-        
+
         # Add severity-based consequences
         if severity > 0.7:
             base_consequences.extend([
@@ -417,5 +417,5 @@ class MissionEventGenerator:
                 "stress_increase",
                 "resource_loss"
             ])
-        
-        return base_consequences 
+
+        return base_consequences

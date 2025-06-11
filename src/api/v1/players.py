@@ -123,7 +123,7 @@ async def create_cell(
     # For MVP, return mock data
     # In a full implementation, we would create in the database
     faction_service = FactionService(db)
-    
+
     # Simple validation
     faction = await faction_service.get_faction(faction_id)
     if not faction:
@@ -131,7 +131,7 @@ async def create_cell(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Faction with ID {faction_id} not found"
         )
-    
+
     return {
         "id": "new_cell_id",
         "name": cell_data.name,

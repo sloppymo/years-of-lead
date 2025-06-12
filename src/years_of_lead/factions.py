@@ -3,7 +3,7 @@ Faction management system for Years of Lead
 Handles faction behaviors, relationships, and AI decision making
 """
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any, Optional
 import random
 from loguru import logger
 
@@ -21,7 +21,9 @@ class FactionManager:
         self.factions = {}
         self.relationships = {}
 
-    async def initialize(self, game_state, scenario_config: Optional[Dict[str, Any]] = None) -> None:
+    async def initialize(
+        self, game_state, scenario_config: Optional[Dict[str, Any]] = None
+    ) -> None:
         """
         Initialize factions based on scenario configuration
 
@@ -38,7 +40,7 @@ class FactionManager:
                 "strength": 50,
                 "ideology": "radical_left",
                 "resources": {"money": 500, "influence": 200, "personnel": 30},
-                "specialties": ["direct_action", "underground_networks", "sabotage"]
+                "specialties": ["direct_action", "underground_networks", "sabotage"],
             },
             {
                 "id": "thinktanks",
@@ -47,7 +49,7 @@ class FactionManager:
                 "strength": 70,
                 "ideology": "centrist",
                 "resources": {"money": 2000, "influence": 1000, "personnel": 15},
-                "specialties": ["media_influence", "policy_shaping", "research"]
+                "specialties": ["media_influence", "policy_shaping", "research"],
             },
             {
                 "id": "corporations",
@@ -56,7 +58,11 @@ class FactionManager:
                 "strength": 85,
                 "ideology": "corporatist",
                 "resources": {"money": 5000, "influence": 800, "personnel": 20},
-                "specialties": ["financial_pressure", "regulatory_capture", "market_manipulation"]
+                "specialties": [
+                    "financial_pressure",
+                    "regulatory_capture",
+                    "market_manipulation",
+                ],
             },
             {
                 "id": "religious",
@@ -65,7 +71,11 @@ class FactionManager:
                 "strength": 60,
                 "ideology": "religious_right",
                 "resources": {"money": 1200, "influence": 500, "personnel": 40},
-                "specialties": ["recruitment", "community_organizing", "morality_policing"]
+                "specialties": [
+                    "recruitment",
+                    "community_organizing",
+                    "morality_policing",
+                ],
             },
             {
                 "id": "separatists",
@@ -74,11 +84,19 @@ class FactionManager:
                 "strength": 65,
                 "ideology": "regionalist",
                 "resources": {"money": 1500, "influence": 400, "personnel": 35},
-                "specialties": ["territorial_control", "resource_extraction", "autonomous_governance"]
-            }
+                "specialties": [
+                    "territorial_control",
+                    "resource_extraction",
+                    "autonomous_governance",
+                ],
+            },
         ]
 
-        factions_config = scenario_config.get("factions", default_factions) if scenario_config else default_factions
+        factions_config = (
+            scenario_config.get("factions", default_factions)
+            if scenario_config
+            else default_factions
+        )
 
         # Initialize faction data
         for faction_data in factions_config:
@@ -105,8 +123,13 @@ class FactionManager:
                     continue
 
                 # Skip if relationship is already defined in the opposite direction
-                if other_id in self.relationships and faction_id in self.relationships[other_id]:
-                    self.relationships[faction_id][other_id] = self.relationships[other_id][faction_id]
+                if (
+                    other_id in self.relationships
+                    and faction_id in self.relationships[other_id]
+                ):
+                    self.relationships[faction_id][other_id] = self.relationships[
+                        other_id
+                    ][faction_id]
                     continue
 
                 # Generate relationship value between -100 (enemies) to 100 (allies)
@@ -115,19 +138,25 @@ class FactionManager:
                 other_ideology = self.factions[other_id].get("ideology", "")
 
                 # Basic ideological compatibility
-                base_value = self._calculate_ideological_compatibility(faction_ideology, other_ideology)
+                base_value = self._calculate_ideological_compatibility(
+                    faction_ideology, other_ideology
+                )
 
                 # Add some randomness
                 random_factor = random.randint(-20, 20)
 
                 relationship_value = base_value + random_factor
-                relationship_value = max(-100, min(100, relationship_value))  # Clamp to -100 to 100
+                relationship_value = max(
+                    -100, min(100, relationship_value)
+                )  # Clamp to -100 to 100
 
                 self.relationships[faction_id][other_id] = relationship_value
 
         logger.debug(f"Initialized faction relationships: {self.relationships}")
 
-    def _calculate_ideological_compatibility(self, ideology1: str, ideology2: str) -> int:
+    def _calculate_ideological_compatibility(
+        self, ideology1: str, ideology2: str
+    ) -> int:
         """
         Calculate base compatibility between two ideologies
 
@@ -140,40 +169,42 @@ class FactionManager:
                 "centrist": -40,
                 "corporatist": -80,
                 "religious_right": -60,
-                "regionalist": 20
+                "regionalist": 20,
             },
             "centrist": {
                 "radical_left": -40,
                 "centrist": 80,
                 "corporatist": 40,
                 "religious_right": 0,
-                "regionalist": -20
+                "regionalist": -20,
             },
             "corporatist": {
                 "radical_left": -80,
                 "centrist": 40,
                 "corporatist": 80,
                 "religious_right": 20,
-                "regionalist": -40
+                "regionalist": -40,
             },
             "religious_right": {
                 "radical_left": -60,
                 "centrist": 0,
                 "corporatist": 20,
                 "religious_right": 80,
-                "regionalist": 0
+                "regionalist": 0,
             },
             "regionalist": {
                 "radical_left": 20,
                 "centrist": -20,
                 "corporatist": -40,
                 "religious_right": 0,
-                "regionalist": 80
-            }
+                "regionalist": 80,
+            },
         }
 
         # Default to neutral if ideologies aren't found
-        if ideology1 not in compatibility or ideology2 not in compatibility.get(ideology1, {}):
+        if ideology1 not in compatibility or ideology2 not in compatibility.get(
+            ideology1, {}
+        ):
             return 0
 
         return compatibility[ideology1][ideology2]
@@ -196,15 +227,20 @@ class FactionManager:
 
         # For each faction, determine and execute actions
         for faction_id, faction_data in self.factions.items():
-            faction_results = await self._process_faction_turn(faction_id, faction_data, game_state, current_turn)
+            faction_results = await self._process_faction_turn(
+                faction_id, faction_data, game_state, current_turn
+            )
             results["faction_actions"][faction_id] = faction_results
 
         logger.info(f"Processed turn {current_turn} for {len(self.factions)} factions")
         return results
 
     async def _process_faction_turn(
-        self, faction_id: str, faction_data: Dict[str, Any],
-        game_state, current_turn: int
+        self,
+        faction_id: str,
+        faction_data: Dict[str, Any],
+        game_state,
+        current_turn: int,
     ) -> Dict[str, Any]:
         """
         Process a single faction's turn
@@ -233,10 +269,14 @@ class FactionManager:
         # Execute actions and get results
         action_results = []
         for action in selected_actions:
-            result = await self._execute_faction_action(faction_id, faction_data, action, game_state)
+            result = await self._execute_faction_action(
+                faction_id, faction_data, action, game_state
+            )
             action_results.append(result)
 
-        logger.debug(f"Faction {faction_id} completed {len(action_results)} actions on turn {current_turn}")
+        logger.debug(
+            f"Faction {faction_id} completed {len(action_results)} actions on turn {current_turn}"
+        )
 
         return {
             "faction_id": faction_id,
@@ -245,11 +285,13 @@ class FactionManager:
             # Include summaries of changes
             "faction_updates": {},  # Changes to faction data
             "district_changes": {},  # Changes to districts
-            "heat_changes": {},      # Changes to heat levels
-            "events": []            # Events generated
+            "heat_changes": {},  # Changes to heat levels
+            "events": [],  # Events generated
         }
 
-    def _get_faction_strategy(self, faction_id: str, faction_data: Dict[str, Any]) -> Any:
+    def _get_faction_strategy(
+        self, faction_id: str, faction_data: Dict[str, Any]
+    ) -> Any:
         """
         Get the AI strategy object for a faction
 
@@ -259,8 +301,11 @@ class FactionManager:
         return FactionStrategy()
 
     async def _execute_faction_action(
-        self, faction_id: str, faction_data: Dict[str, Any],
-        action: Dict[str, Any], game_state
+        self,
+        faction_id: str,
+        faction_data: Dict[str, Any],
+        action: Dict[str, Any],
+        game_state,
     ) -> Dict[str, Any]:
         """
         Execute a faction action and determine results
@@ -286,9 +331,7 @@ class FactionManager:
             "action_type": action_type,
             "target": target,
             "success": True,
-            "effects": {
-                "description": f"Faction {faction_id} performed {action_type}"
-            }
+            "effects": {"description": f"Faction {faction_id} performed {action_type}"},
         }
 
     def get_faction(self, faction_id: str) -> Optional[Dict[str, Any]]:
@@ -297,7 +340,10 @@ class FactionManager:
 
     def get_relationship(self, faction_id: str, other_id: str) -> int:
         """Get relationship value between two factions"""
-        if faction_id not in self.relationships or other_id not in self.relationships[faction_id]:
+        if (
+            faction_id not in self.relationships
+            or other_id not in self.relationships[faction_id]
+        ):
             return 0
         return self.relationships[faction_id][other_id]
 
@@ -309,7 +355,9 @@ class FactionManager:
         # Clamp value between -100 and 100
         value = max(-100, min(100, value))
         self.relationships[faction_id][other_id] = value
-        logger.debug(f"Updated relationship between {faction_id} and {other_id} to {value}")
+        logger.debug(
+            f"Updated relationship between {faction_id} and {other_id} to {value}"
+        )
 
 
 class FactionStrategy:
@@ -326,16 +374,28 @@ class FactionStrategy:
         return [
             {"type": "resource_acquisition", "priority": 1},
             {"type": "influence_expansion", "priority": 2},
-            {"type": "threat_response", "priority": 3}
+            {"type": "threat_response", "priority": 3},
         ]
 
     def generate_actions(self, goals, game_state):
         """Generate possible actions to achieve goals"""
         # Placeholder implementation
         return [
-            {"id": "action1", "type": "recruit", "target": {"type": "district", "id": "downtown"}},
-            {"id": "action2", "type": "campaign", "target": {"type": "district", "id": "university"}},
-            {"id": "action3", "type": "sabotage", "target": {"type": "faction", "id": "corporations"}}
+            {
+                "id": "action1",
+                "type": "recruit",
+                "target": {"type": "district", "id": "downtown"},
+            },
+            {
+                "id": "action2",
+                "type": "campaign",
+                "target": {"type": "district", "id": "university"},
+            },
+            {
+                "id": "action3",
+                "type": "sabotage",
+                "target": {"type": "faction", "id": "corporations"},
+            },
         ]
 
     def select_actions(self, possible_actions, game_state):

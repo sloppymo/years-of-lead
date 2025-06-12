@@ -181,4 +181,4 @@ The game now has all the requested improvements and is ready for playtesting. Us
 3. **Gather intelligence** with detailed event information
 4. **Experience narrative consequences** for all their choices
 
-The systems are fully integrated and provide a rich, detailed experience that matches the user's vision for the game. 
+The systems are fully integrated and provide a rich, detailed experience that matches the user's vision for the game.

@@ -6,7 +6,7 @@ and covert operations to centralize hard-coded values.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, Any
+from typing import Dict
 
 
 @dataclass
@@ -78,11 +78,9 @@ class DiplomaticConstants:
 
     # Mission & Operation Constants
     INFILTRATION_DISCOVERY_CHANCE: float = 0.12
-    EXFILTRATION_FAILURE_PENALTIES: Dict[str, int] = field(default_factory=lambda: {
-        "heat": 20,
-        "exposure": 1,
-        "trust_loss": 0.2
-    })
+    EXFILTRATION_FAILURE_PENALTIES: Dict[str, int] = field(
+        default_factory=lambda: {"heat": 20, "exposure": 1, "trust_loss": 0.2}
+    )
 
     # Character Development Constants
     ESPIONAGE_EXPERIENCE_GAIN: int = 15
@@ -102,40 +100,40 @@ class OperationalConstants:
             "base_cost": 25,
             "trust_requirement": 0.6,
             "success_rate": 0.85,
-            "heat_gain": 3
+            "heat_gain": 3,
         },
         "JOINT_SABOTAGE": {
             "base_cost": 75,
             "trust_requirement": 0.7,
             "success_rate": 0.75,
-            "heat_gain": 12
+            "heat_gain": 12,
         },
         "COORDINATED_PROPAGANDA": {
             "base_cost": 40,
             "trust_requirement": 0.5,
             "success_rate": 0.90,
-            "heat_gain": 5
+            "heat_gain": 5,
         },
         "RESOURCE_TRANSFER": {
             "base_cost": 15,
             "trust_requirement": 0.4,
             "success_rate": 0.95,
-            "heat_gain": 1
+            "heat_gain": 1,
         },
         "FALSE_FLAG": {
             "base_cost": 100,
             "trust_requirement": 0.8,
             "success_rate": 0.60,
             "heat_gain": 25,
-            "detection_chance": 0.30
-        }
+            "detection_chance": 0.30,
+        },
     }
 
     SURVEILLANCE_THRESHOLDS = {
         "LOW": {"min_heat": 0, "detection_modifier": 0.0},
         "MEDIUM": {"min_heat": 20, "detection_modifier": 0.15},
         "HIGH": {"min_heat": 50, "detection_modifier": 0.30},
-        "CRITICAL": {"min_heat": 80, "detection_modifier": 0.50}
+        "CRITICAL": {"min_heat": 80, "detection_modifier": 0.50},
     }
 
 

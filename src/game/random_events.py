@@ -7,43 +7,46 @@ dynamic encounters and events affecting players, factions, and the environment.
 
 import random
 from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
-from .emotional_state import EmotionalState
 
 
 class EventType(Enum):
     """Types of random events"""
-    ENCOUNTER = "encounter"           # Direct player interaction
-    ENVIRONMENTAL = "environmental"   # Weather, disasters, etc.
-    POLITICAL = "political"           # Government actions, policy changes
-    SOCIAL = "social"                 # Community events, protests
-    ECONOMIC = "economic"             # Market changes, resource availability
-    SECURITY = "security"             # Police actions, surveillance
-    FACTION = "faction"               # Other faction activities
-    PERSONAL = "personal"             # Character-specific events
+
+    ENCOUNTER = "encounter"  # Direct player interaction
+    ENVIRONMENTAL = "environmental"  # Weather, disasters, etc.
+    POLITICAL = "political"  # Government actions, policy changes
+    SOCIAL = "social"  # Community events, protests
+    ECONOMIC = "economic"  # Market changes, resource availability
+    SECURITY = "security"  # Police actions, surveillance
+    FACTION = "faction"  # Other faction activities
+    PERSONAL = "personal"  # Character-specific events
 
 
 class EventSeverity(Enum):
     """Event severity levels"""
-    MINOR = "minor"       # Slight inconvenience or opportunity
-    MODERATE = "moderate" # Noticeable impact
-    MAJOR = "major"       # Significant consequences
-    CRITICAL = "critical" # Game-changing events
+
+    MINOR = "minor"  # Slight inconvenience or opportunity
+    MODERATE = "moderate"  # Noticeable impact
+    MAJOR = "major"  # Significant consequences
+    CRITICAL = "critical"  # Game-changing events
 
 
 class EncounterType(Enum):
     """Types of encounters"""
-    FRIENDLY = "friendly"         # Helpful NPCs, allies
-    NEUTRAL = "neutral"          # Bystanders, informants
-    HOSTILE = "hostile"          # Enemies, authorities
-    AMBIGUOUS = "ambiguous"      # Uncertain intentions
-    MYSTERIOUS = "mysterious"    # Unknown entities
+
+    FRIENDLY = "friendly"  # Helpful NPCs, allies
+    NEUTRAL = "neutral"  # Bystanders, informants
+    HOSTILE = "hostile"  # Enemies, authorities
+    AMBIGUOUS = "ambiguous"  # Uncertain intentions
+    MYSTERIOUS = "mysterious"  # Unknown entities
 
 
 @dataclass
 class EventOutcome:
     """Possible outcome of an event"""
+
     description: str
     probability: float  # 0.0 to 1.0
     effects: Dict[str, Any]  # Effects on game state
@@ -54,6 +57,7 @@ class EventOutcome:
 @dataclass
 class RandomEvent:
     """A random event that can occur"""
+
     id: str
     name: str
     description: str
@@ -81,6 +85,7 @@ class RandomEvent:
 @dataclass
 class Encounter:
     """A direct encounter with an NPC or situation"""
+
     id: str
     name: str
     description: str
@@ -119,23 +124,27 @@ class EventGenerator:
                     probability=0.6,
                     effects={"visibility": -1, "movement_speed": -1},
                     emotional_impact={"fear": 0.1},
-                    narrative_text="The storm brings heavy rain but passes without incident."
+                    narrative_text="The storm brings heavy rain but passes without incident.",
                 ),
                 EventOutcome(
                     description="The storm causes flooding and infrastructure damage.",
                     probability=0.3,
-                    effects={"visibility": -2, "movement_speed": -2, "security_level": -1},
+                    effects={
+                        "visibility": -2,
+                        "movement_speed": -2,
+                        "security_level": -1,
+                    },
                     emotional_impact={"fear": 0.3, "sadness": 0.2},
-                    narrative_text="Flooding disrupts normal operations and creates chaos."
+                    narrative_text="Flooding disrupts normal operations and creates chaos.",
                 ),
                 EventOutcome(
                     description="The storm provides excellent cover for operations.",
                     probability=0.1,
                     effects={"stealth_bonus": 2, "security_level": -2},
                     emotional_impact={"anticipation": 0.2},
-                    narrative_text="The storm's chaos provides perfect cover for covert activities."
-                )
-            ]
+                    narrative_text="The storm's chaos provides perfect cover for covert activities.",
+                ),
+            ],
         )
 
         events["power_outage"] = RandomEvent(
@@ -151,23 +160,27 @@ class EventGenerator:
                     probability=0.5,
                     effects={"hacking_difficulty": 1, "security_systems": -1},
                     emotional_impact={"fear": 0.1},
-                    narrative_text="The power outage creates minor disruptions."
+                    narrative_text="The power outage creates minor disruptions.",
                 ),
                 EventOutcome(
                     description="Extended blackout causes widespread chaos.",
                     probability=0.3,
-                    effects={"hacking_difficulty": 2, "security_systems": -2, "unrest": 2},
+                    effects={
+                        "hacking_difficulty": 2,
+                        "security_systems": -2,
+                        "unrest": 2,
+                    },
                     emotional_impact={"fear": 0.4, "anger": 0.2},
-                    narrative_text="The blackout plunges the district into darkness and chaos."
+                    narrative_text="The blackout plunges the district into darkness and chaos.",
                 ),
                 EventOutcome(
                     description="The outage provides opportunities for infiltration.",
                     probability=0.2,
                     effects={"stealth_bonus": 3, "security_systems": -3},
                     emotional_impact={"anticipation": 0.3},
-                    narrative_text="The darkness provides perfect cover for operations."
-                )
-            ]
+                    narrative_text="The darkness provides perfect cover for operations.",
+                ),
+            ],
         )
 
         # POLITICAL EVENTS
@@ -184,23 +197,31 @@ class EventGenerator:
                     probability=0.4,
                     effects={"security_level": 2, "heat_generation": 1},
                     emotional_impact={"fear": 0.3, "anger": 0.2},
-                    narrative_text="Police presence increases dramatically across the district."
+                    narrative_text="Police presence increases dramatically across the district.",
                 ),
                 EventOutcome(
                     description="Mass arrests and raids on suspected locations.",
                     probability=0.3,
-                    effects={"security_level": 3, "heat_generation": 2, "faction_resources": -1},
+                    effects={
+                        "security_level": 3,
+                        "heat_generation": 2,
+                        "faction_resources": -1,
+                    },
                     emotional_impact={"fear": 0.5, "anger": 0.4, "trust": -0.2},
-                    narrative_text="Authorities conduct widespread raids and arrests."
+                    narrative_text="Authorities conduct widespread raids and arrests.",
                 ),
                 EventOutcome(
                     description="The crackdown backfires, increasing public support.",
                     probability=0.3,
-                    effects={"security_level": 1, "public_support": 2, "recruitment": 1},
+                    effects={
+                        "security_level": 1,
+                        "public_support": 2,
+                        "recruitment": 1,
+                    },
                     emotional_impact={"anger": 0.3, "anticipation": 0.2},
-                    narrative_text="The heavy-handed response turns public opinion against the government."
-                )
-            ]
+                    narrative_text="The heavy-handed response turns public opinion against the government.",
+                ),
+            ],
         )
 
         events["policy_change"] = RandomEvent(
@@ -216,23 +237,23 @@ class EventGenerator:
                     probability=0.4,
                     effects={"unrest": 2, "public_support": 1},
                     emotional_impact={"anger": 0.3, "disgust": 0.2},
-                    narrative_text="New restrictions on civil liberties spark public outrage."
+                    narrative_text="New restrictions on civil liberties spark public outrage.",
                 ),
                 EventOutcome(
                     description="Economic policies create hardship for residents.",
                     probability=0.3,
                     effects={"unrest": 3, "economic_stability": -2},
                     emotional_impact={"anger": 0.4, "sadness": 0.2},
-                    narrative_text="Economic policies create widespread hardship and resentment."
+                    narrative_text="Economic policies create widespread hardship and resentment.",
                 ),
                 EventOutcome(
                     description="The policies are relatively benign.",
                     probability=0.3,
                     effects={"unrest": 0, "public_support": 0},
                     emotional_impact={"anticipation": 0.1},
-                    narrative_text="The new policies have minimal impact on daily life."
-                )
-            ]
+                    narrative_text="The new policies have minimal impact on daily life.",
+                ),
+            ],
         )
 
         # SOCIAL EVENTS
@@ -249,23 +270,23 @@ class EventGenerator:
                     probability=0.4,
                     effects={"public_support": 2, "heat_generation": 1},
                     emotional_impact={"anticipation": 0.2, "joy": 0.1},
-                    narrative_text="A peaceful protest draws attention to social issues."
+                    narrative_text="A peaceful protest draws attention to social issues.",
                 ),
                 EventOutcome(
                     description="Protest turns violent, creating chaos.",
                     probability=0.3,
                     effects={"unrest": 3, "security_level": 2, "heat_generation": 2},
                     emotional_impact={"fear": 0.3, "anger": 0.3},
-                    narrative_text="The protest turns violent, creating chaos in the streets."
+                    narrative_text="The protest turns violent, creating chaos in the streets.",
                 ),
                 EventOutcome(
                     description="Protest is brutally suppressed by authorities.",
                     probability=0.3,
                     effects={"unrest": 4, "public_support": 3, "security_level": 3},
                     emotional_impact={"anger": 0.5, "fear": 0.2, "disgust": 0.3},
-                    narrative_text="Authorities brutally suppress the protest, creating martyrs."
-                )
-            ]
+                    narrative_text="Authorities brutally suppress the protest, creating martyrs.",
+                ),
+            ],
         )
 
         events["community_support"] = RandomEvent(
@@ -281,23 +302,23 @@ class EventGenerator:
                     probability=0.6,
                     effects={"resources": 1, "intelligence": 1},
                     emotional_impact={"trust": 0.2, "joy": 0.1},
-                    narrative_text="Community members provide supplies and valuable information."
+                    narrative_text="Community members provide supplies and valuable information.",
                 ),
                 EventOutcome(
                     description="Community offers safe houses and hiding places.",
                     probability=0.3,
                     effects={"safe_houses": 1, "stealth_bonus": 1},
                     emotional_impact={"trust": 0.3, "joy": 0.2},
-                    narrative_text="Community members offer safe houses and hiding places."
+                    narrative_text="Community members offer safe houses and hiding places.",
                 ),
                 EventOutcome(
                     description="Community organizes fundraising and recruitment.",
                     probability=0.1,
                     effects={"resources": 2, "recruitment": 2},
                     emotional_impact={"trust": 0.4, "joy": 0.3},
-                    narrative_text="The community organizes fundraising and recruitment efforts."
-                )
-            ]
+                    narrative_text="The community organizes fundraising and recruitment efforts.",
+                ),
+            ],
         )
 
         # ECONOMIC EVENTS
@@ -314,23 +335,23 @@ class EventGenerator:
                     probability=0.5,
                     effects={"unrest": 2, "economic_stability": -2},
                     emotional_impact={"anger": 0.3, "sadness": 0.2},
-                    narrative_text="Economic hardship creates widespread discontent."
+                    narrative_text="Economic hardship creates widespread discontent.",
                 ),
                 EventOutcome(
                     description="The crash creates opportunities for recruitment.",
                     probability=0.3,
                     effects={"recruitment": 2, "public_support": 1},
                     emotional_impact={"anticipation": 0.2},
-                    narrative_text="Economic hardship makes people more receptive to resistance."
+                    narrative_text="Economic hardship makes people more receptive to resistance.",
                 ),
                 EventOutcome(
                     description="The crash affects faction resources.",
                     probability=0.2,
                     effects={"faction_resources": -2, "unrest": 1},
                     emotional_impact={"fear": 0.2},
-                    narrative_text="The economic crash impacts faction funding and resources."
-                )
-            ]
+                    narrative_text="The economic crash impacts faction funding and resources.",
+                ),
+            ],
         )
 
         events["resource_shortage"] = RandomEvent(
@@ -346,23 +367,23 @@ class EventGenerator:
                     probability=0.5,
                     effects={"resource_cost": 1},
                     emotional_impact={"fear": 0.1},
-                    narrative_text="Resource shortages create minor inconveniences."
+                    narrative_text="Resource shortages create minor inconveniences.",
                 ),
                 EventOutcome(
                     description="Severe shortage affects operations.",
                     probability=0.3,
                     effects={"resource_cost": 2, "operation_difficulty": 1},
                     emotional_impact={"fear": 0.2, "anger": 0.1},
-                    narrative_text="Severe shortages make operations more difficult."
+                    narrative_text="Severe shortages make operations more difficult.",
                 ),
                 EventOutcome(
                     description="Shortage creates black market opportunities.",
                     probability=0.2,
                     effects={"black_market": 1, "stealth_bonus": 1},
                     emotional_impact={"anticipation": 0.2},
-                    narrative_text="The shortage creates opportunities in the black market."
-                )
-            ]
+                    narrative_text="The shortage creates opportunities in the black market.",
+                ),
+            ],
         )
 
         # SECURITY EVENTS
@@ -379,23 +400,27 @@ class EventGenerator:
                     probability=0.5,
                     effects={"stealth_difficulty": 1, "security_level": 1},
                     emotional_impact={"fear": 0.2},
-                    narrative_text="Increased surveillance makes operations more challenging."
+                    narrative_text="Increased surveillance makes operations more challenging.",
                 ),
                 EventOutcome(
                     description="Heavy surveillance with informant network.",
                     probability=0.3,
-                    effects={"stealth_difficulty": 2, "security_level": 2, "heat_generation": 1},
+                    effects={
+                        "stealth_difficulty": 2,
+                        "security_level": 2,
+                        "heat_generation": 1,
+                    },
                     emotional_impact={"fear": 0.3, "trust": -0.1},
-                    narrative_text="Heavy surveillance and informant networks create paranoia."
+                    narrative_text="Heavy surveillance and informant networks create paranoia.",
                 ),
                 EventOutcome(
                     description="Surveillance system has vulnerabilities.",
                     probability=0.2,
                     effects={"hacking_opportunity": 1, "intelligence": 1},
                     emotional_impact={"anticipation": 0.2},
-                    narrative_text="The surveillance system has exploitable vulnerabilities."
-                )
-            ]
+                    narrative_text="The surveillance system has exploitable vulnerabilities.",
+                ),
+            ],
         )
 
         events["police_raid"] = RandomEvent(
@@ -411,23 +436,27 @@ class EventGenerator:
                     probability=0.4,
                     effects={"heat_generation": 1, "security_level": 1},
                     emotional_impact={"fear": 0.3, "anger": 0.2},
-                    narrative_text="The raid finds nothing but increases tension in the community."
+                    narrative_text="The raid finds nothing but increases tension in the community.",
                 ),
                 EventOutcome(
                     description="Raid captures some operatives.",
                     probability=0.3,
-                    effects={"heat_generation": 2, "faction_resources": -1, "morale": -1},
+                    effects={
+                        "heat_generation": 2,
+                        "faction_resources": -1,
+                        "morale": -1,
+                    },
                     emotional_impact={"fear": 0.4, "sadness": 0.3, "anger": 0.3},
-                    narrative_text="The raid captures several operatives, dealing a blow to the resistance."
+                    narrative_text="The raid captures several operatives, dealing a blow to the resistance.",
                 ),
                 EventOutcome(
                     description="Raid is successfully evaded.",
                     probability=0.3,
                     effects={"heat_generation": 0, "morale": 1},
                     emotional_impact={"joy": 0.2, "anticipation": 0.1},
-                    narrative_text="Operatives successfully evade the raid, boosting morale."
-                )
-            ]
+                    narrative_text="Operatives successfully evade the raid, boosting morale.",
+                ),
+            ],
         )
 
         # FACTION EVENTS
@@ -444,23 +473,23 @@ class EventGenerator:
                     probability=0.5,
                     effects={"faction_cooperation": -1},
                     emotional_impact={"anger": 0.1},
-                    narrative_text="A minor disagreement between factions is quickly resolved."
+                    narrative_text="A minor disagreement between factions is quickly resolved.",
                 ),
                 EventOutcome(
                     description="Serious conflict affects operations.",
                     probability=0.3,
                     effects={"faction_cooperation": -2, "operation_difficulty": 1},
                     emotional_impact={"anger": 0.3, "trust": -0.2},
-                    narrative_text="Serious conflict between factions hampers operations."
+                    narrative_text="Serious conflict between factions hampers operations.",
                 ),
                 EventOutcome(
                     description="Conflict leads to faction split.",
                     probability=0.2,
                     effects={"faction_resources": -1, "public_support": -1},
                     emotional_impact={"anger": 0.4, "sadness": 0.2},
-                    narrative_text="The conflict leads to a faction split, weakening the resistance."
-                )
-            ]
+                    narrative_text="The conflict leads to a faction split, weakening the resistance.",
+                ),
+            ],
         )
 
         events["allied_support"] = RandomEvent(
@@ -476,23 +505,23 @@ class EventGenerator:
                     probability=0.6,
                     effects={"intelligence": 1, "resources": 1},
                     emotional_impact={"trust": 0.2, "joy": 0.1},
-                    narrative_text="Allied factions provide valuable intelligence and resources."
+                    narrative_text="Allied factions provide valuable intelligence and resources.",
                 ),
                 EventOutcome(
                     description="Allies offer specialized training.",
                     probability=0.3,
                     effects={"skill_bonus": 1, "morale": 1},
                     emotional_impact={"anticipation": 0.2, "joy": 0.1},
-                    narrative_text="Allied factions provide specialized training to operatives."
+                    narrative_text="Allied factions provide specialized training to operatives.",
                 ),
                 EventOutcome(
                     description="Allies coordinate joint operations.",
                     probability=0.1,
                     effects={"operation_bonus": 2, "faction_cooperation": 1},
                     emotional_impact={"anticipation": 0.3, "trust": 0.2},
-                    narrative_text="Allied factions coordinate joint operations for maximum impact."
-                )
-            ]
+                    narrative_text="Allied factions coordinate joint operations for maximum impact.",
+                ),
+            ],
         )
 
         # PERSONAL EVENTS
@@ -509,23 +538,23 @@ class EventGenerator:
                     probability=0.5,
                     effects={"character_growth": 1, "team_bonding": 1},
                     emotional_impact={"trust": 0.2, "joy": 0.1},
-                    narrative_text="With support from comrades, the character overcomes their crisis."
+                    narrative_text="With support from comrades, the character overcomes their crisis.",
                 ),
                 EventOutcome(
                     description="Crisis affects character's effectiveness.",
                     probability=0.3,
                     effects={"character_effectiveness": -1, "stress": 1},
                     emotional_impact={"sadness": 0.2, "fear": 0.1},
-                    narrative_text="The personal crisis affects the character's effectiveness."
+                    narrative_text="The personal crisis affects the character's effectiveness.",
                 ),
                 EventOutcome(
                     description="Crisis leads to character growth.",
                     probability=0.2,
                     effects={"character_growth": 2, "skill_bonus": 1},
                     emotional_impact={"anticipation": 0.2, "joy": 0.1},
-                    narrative_text="The crisis becomes a catalyst for character growth."
-                )
-            ]
+                    narrative_text="The crisis becomes a catalyst for character growth.",
+                ),
+            ],
         )
 
         return events
@@ -543,8 +572,8 @@ class EventGenerator:
             choices=[
                 {"text": "Accept their help", "effects": {"resources": 1, "heat": -1}},
                 {"text": "Decline politely", "effects": {"heat": 0}},
-                {"text": "Recruit them", "effects": {"recruitment": 1, "heat": 1}}
-            ]
+                {"text": "Recruit them", "effects": {"recruitment": 1, "heat": 1}},
+            ],
         )
 
         encounters["former_comrade"] = Encounter(
@@ -553,10 +582,13 @@ class EventGenerator:
             description="You encounter a former resistance member who left the struggle.",
             encounter_type=EncounterType.AMBIGUOUS,
             choices=[
-                {"text": "Reconnect and recruit", "effects": {"recruitment": 1, "intelligence": 1}},
+                {
+                    "text": "Reconnect and recruit",
+                    "effects": {"recruitment": 1, "intelligence": 1},
+                },
                 {"text": "Respect their choice", "effects": {"heat": -1}},
-                {"text": "Question their loyalty", "effects": {"heat": 1, "trust": -1}}
-            ]
+                {"text": "Question their loyalty", "effects": {"heat": 1, "trust": -1}},
+            ],
         )
 
         # NEUTRAL ENCOUNTERS
@@ -567,10 +599,16 @@ class EventGenerator:
             encounter_type=EncounterType.NEUTRAL,
             required_skills={"social": 2},
             choices=[
-                {"text": "Buy the information", "effects": {"intelligence": 2, "resources": -1}},
-                {"text": "Negotiate the price", "effects": {"intelligence": 1, "resources": -1}},
-                {"text": "Decline", "effects": {"heat": 0}}
-            ]
+                {
+                    "text": "Buy the information",
+                    "effects": {"intelligence": 2, "resources": -1},
+                },
+                {
+                    "text": "Negotiate the price",
+                    "effects": {"intelligence": 1, "resources": -1},
+                },
+                {"text": "Decline", "effects": {"heat": 0}},
+            ],
         )
 
         encounters["street_vendor"] = Encounter(
@@ -579,10 +617,13 @@ class EventGenerator:
             description="A street vendor offers unusual goods.",
             encounter_type=EncounterType.NEUTRAL,
             choices=[
-                {"text": "Browse their wares", "effects": {"equipment": 1, "resources": -1}},
+                {
+                    "text": "Browse their wares",
+                    "effects": {"equipment": 1, "resources": -1},
+                },
                 {"text": "Ask about rumors", "effects": {"intelligence": 1}},
-                {"text": "Move on", "effects": {"heat": 0}}
-            ]
+                {"text": "Move on", "effects": {"heat": 0}},
+            ],
         )
 
         # HOSTILE ENCOUNTERS
@@ -595,8 +636,8 @@ class EventGenerator:
             choices=[
                 {"text": "Try to hide", "effects": {"heat": -1, "stealth_test": True}},
                 {"text": "Act natural", "effects": {"heat": 0, "social_test": True}},
-                {"text": "Run", "effects": {"heat": 2, "escape_test": True}}
-            ]
+                {"text": "Run", "effects": {"heat": 2, "escape_test": True}},
+            ],
         )
 
         encounters["corporate_security"] = Encounter(
@@ -606,10 +647,19 @@ class EventGenerator:
             encounter_type=EncounterType.HOSTILE,
             required_skills={"stealth": 2, "hacking": 1},
             choices=[
-                {"text": "Avoid detection", "effects": {"heat": -1, "stealth_test": True}},
-                {"text": "Jam their systems", "effects": {"heat": 1, "hacking_test": True}},
-                {"text": "Create a diversion", "effects": {"heat": 2, "combat_test": True}}
-            ]
+                {
+                    "text": "Avoid detection",
+                    "effects": {"heat": -1, "stealth_test": True},
+                },
+                {
+                    "text": "Jam their systems",
+                    "effects": {"heat": 1, "hacking_test": True},
+                },
+                {
+                    "text": "Create a diversion",
+                    "effects": {"heat": 2, "combat_test": True},
+                },
+            ],
         )
 
         # AMBIGUOUS ENCOUNTERS
@@ -622,8 +672,11 @@ class EventGenerator:
             choices=[
                 {"text": "Hear them out", "effects": {"intelligence": 1, "risk": 1}},
                 {"text": "Be cautious", "effects": {"heat": 0, "intelligence": 0}},
-                {"text": "Reject immediately", "effects": {"heat": -1, "opportunity": -1}}
-            ]
+                {
+                    "text": "Reject immediately",
+                    "effects": {"heat": -1, "opportunity": -1},
+                },
+            ],
         )
 
         encounters["double_agent"] = Encounter(
@@ -633,10 +686,13 @@ class EventGenerator:
             encounter_type=EncounterType.AMBIGUOUS,
             required_skills={"intelligence": 3, "social": 2},
             choices=[
-                {"text": "Confront them", "effects": {"heat": 2, "trust": -1, "intelligence": 1}},
+                {
+                    "text": "Confront them",
+                    "effects": {"heat": 2, "trust": -1, "intelligence": 1},
+                },
                 {"text": "Gather evidence", "effects": {"intelligence": 2, "heat": 0}},
-                {"text": "Monitor them", "effects": {"heat": 0, "intelligence": 1}}
-            ]
+                {"text": "Monitor them", "effects": {"heat": 0, "intelligence": 1}},
+            ],
         )
 
         # MYSTERIOUS ENCOUNTERS
@@ -647,10 +703,13 @@ class EventGenerator:
             encounter_type=EncounterType.MYSTERIOUS,
             required_skills={"technical": 2, "hacking": 1},
             choices=[
-                {"text": "Investigate the signal", "effects": {"intelligence": 2, "risk": 2}},
+                {
+                    "text": "Investigate the signal",
+                    "effects": {"intelligence": 2, "risk": 2},
+                },
                 {"text": "Trace its source", "effects": {"intelligence": 1, "heat": 1}},
-                {"text": "Ignore it", "effects": {"heat": 0, "opportunity": -1}}
-            ]
+                {"text": "Ignore it", "effects": {"heat": 0, "opportunity": -1}},
+            ],
         )
 
         encounters["hidden_cache"] = Encounter(
@@ -661,14 +720,19 @@ class EventGenerator:
             required_skills={"survival": 2},
             choices=[
                 {"text": "Take everything", "effects": {"resources": 2, "heat": 1}},
-                {"text": "Take only what you need", "effects": {"resources": 1, "heat": 0}},
-                {"text": "Leave it for others", "effects": {"heat": -1, "morale": 1}}
-            ]
+                {
+                    "text": "Take only what you need",
+                    "effects": {"resources": 1, "heat": 0},
+                },
+                {"text": "Leave it for others", "effects": {"heat": -1, "morale": 1}},
+            ],
         )
 
         return encounters
 
-    def generate_random_event(self, game_state: Dict[str, Any]) -> Optional[RandomEvent]:
+    def generate_random_event(
+        self, game_state: Dict[str, Any]
+    ) -> Optional[RandomEvent]:
         """Generate a random event based on current game state"""
         available_events = []
 
@@ -696,13 +760,18 @@ class EventGenerator:
 
         return random.choice(weighted_events)
 
-    def generate_random_encounter(self, character: Any, location: str) -> Optional[Encounter]:
+    def generate_random_encounter(
+        self, character: Any, location: str
+    ) -> Optional[Encounter]:
         """Generate a random encounter for a character"""
         available_encounters = []
 
         for encounter_id, encounter in self.encounters.items():
             # Check location restrictions
-            if encounter.location_restrictions and location not in encounter.location_restrictions:
+            if (
+                encounter.location_restrictions
+                and location not in encounter.location_restrictions
+            ):
                 continue
 
             # Check skill requirements
@@ -714,7 +783,9 @@ class EventGenerator:
 
         return random.choice(available_encounters)
 
-    def _check_event_conditions(self, event: RandomEvent, game_state: Dict[str, Any]) -> bool:
+    def _check_event_conditions(
+        self, event: RandomEvent, game_state: Dict[str, Any]
+    ) -> bool:
         """Check if event conditions are met"""
         conditions = event.trigger_conditions
 
@@ -733,13 +804,15 @@ class EventGenerator:
 
         return True
 
-    def _calculate_event_weight(self, event: RandomEvent, game_state: Dict[str, Any]) -> int:
+    def _calculate_event_weight(
+        self, event: RandomEvent, game_state: Dict[str, Any]
+    ) -> int:
         """Calculate event weight based on severity and game state"""
         base_weight = {
             EventSeverity.MINOR: 1,
             EventSeverity.MODERATE: 2,
             EventSeverity.MAJOR: 3,
-            EventSeverity.CRITICAL: 4
+            EventSeverity.CRITICAL: 4,
         }
 
         weight = base_weight.get(event.severity, 1)
@@ -753,19 +826,23 @@ class EventGenerator:
 
         return weight
 
-    def _check_encounter_requirements(self, encounter: Encounter, character: Any) -> bool:
+    def _check_encounter_requirements(
+        self, encounter: Encounter, character: Any
+    ) -> bool:
         """Check if character meets encounter requirements"""
         if not encounter.required_skills:
             return True
 
         for skill, level in encounter.required_skills.items():
-            if hasattr(character, 'skills') and hasattr(character.skills, skill):
+            if hasattr(character, "skills") and hasattr(character.skills, skill):
                 if getattr(character.skills, skill) < level:
                     return False
 
         return True
 
-    def apply_event_outcome(self, event: RandomEvent, game_state: Dict[str, Any]) -> Dict[str, Any]:
+    def apply_event_outcome(
+        self, event: RandomEvent, game_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply an event outcome to the game state"""
         outcome = event.get_random_outcome()
 
@@ -804,12 +881,7 @@ if __name__ == "__main__":
     generator = create_event_generator()
 
     # Test event generation
-    game_state = {
-        "weather": "clear",
-        "season": "summer",
-        "unrest": 6,
-        "heat_level": 7
-    }
+    game_state = {"weather": "clear", "season": "summer", "unrest": 6, "heat_level": 7}
 
     event = generator.generate_random_event(game_state)
     if event:

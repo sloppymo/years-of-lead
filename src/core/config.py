@@ -2,9 +2,9 @@
 Configuration settings for Years of Lead
 """
 
-import os
 from typing import Dict, Any
 from pydantic import BaseSettings, Field
+
 
 class Settings(BaseSettings):
     # API settings
@@ -29,7 +29,9 @@ class Settings(BaseSettings):
     # Security settings
     SECRET_KEY: str = Field(default="development_secret_key", env="SECRET_KEY")
     ALGORITHM: str = Field(default="HS256", env="ALGORITHM")
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, env="ACCESS_TOKEN_EXPIRE_MINUTES")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
+        default=30, env="ACCESS_TOKEN_EXPIRE_MINUTES"
+    )
 
     # SYLVA API settings
     SYLVA_API_KEY: str = Field(default="", env="SYLVA_API_KEY")
@@ -50,11 +52,14 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
 
+
 settings = Settings()
+
 
 def get_db_uri() -> str:
     """Get the PostgreSQL database URI"""
     return f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}"
+
 
 def get_mongo_client_settings() -> Dict[str, Any]:
     """Get the MongoDB client settings"""

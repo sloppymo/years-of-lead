@@ -73,18 +73,10 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     async def bulk_update(
-        self,
-        db: AsyncSession,
-        *,
-        ids: List[str],
-        obj_in: Dict[str, Any]
+        self, db: AsyncSession, *, ids: List[str], obj_in: Dict[str, Any]
     ) -> bool:
         """Update multiple records by ID"""
-        stmt = (
-            sql_update(self.model)
-            .where(self.model.id.in_(ids))
-            .values(**obj_in)
-        )
+        stmt = sql_update(self.model).where(self.model.id.in_(ids)).values(**obj_in)
 
         await db.execute(stmt)
         await db.commit()

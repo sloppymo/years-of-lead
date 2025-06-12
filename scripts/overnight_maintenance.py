@@ -13,12 +13,12 @@ Usage:
     python scripts/overnight_maintenance.py --dry-run    # Test mode only
 """
 
+import sys
 import argparse
 import time
 import json
-import sys
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 import signal
 import traceback
 
@@ -29,10 +29,13 @@ sys.path.insert(0, str(project_root / "src"))
 from maintenance.maintenance_mode import MaintenanceMode
 from maintenance.metrics import GameHealthMetrics
 
+
 class OvernightMaintenanceManager:
     """Manages automated overnight maintenance operations"""
 
-    def __init__(self, max_hours: float = 8.0, complexity_budget: int = 50, dry_run: bool = False):
+    def __init__(
+        self, max_hours: float = 8.0, complexity_budget: int = 50, dry_run: bool = False
+    ):
         self.max_hours = max_hours
         self.total_complexity_budget = complexity_budget
         self.dry_run = dry_run
@@ -53,7 +56,7 @@ class OvernightMaintenanceManager:
         # Initialize logging
         self.log_file = self._setup_logging()
 
-        print(f"🌙 Overnight Maintenance Manager Initialized")
+        print("🌙 Overnight Maintenance Manager Initialized")
         print(f"   Max Duration: {max_hours} hours")
         print(f"   Complexity Budget: {complexity_budget}")
         print(f"   Dry Run: {dry_run}")
@@ -82,10 +85,10 @@ class OvernightMaintenanceManager:
             "iterations": [],
             "health_snapshots": [],
             "errors": [],
-            "summary": {}
+            "summary": {},
         }
 
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             json.dump(initial_log, f, indent=2)
 
         return log_file
@@ -93,13 +96,13 @@ class OvernightMaintenanceManager:
     def _log_event(self, event_type: str, data: dict):
         """Log an event to the overnight maintenance log"""
         try:
-            with open(self.log_file, 'r') as f:
+            with open(self.log_file, "r") as f:
                 log_data = json.load(f)
 
             log_entry = {
                 "timestamp": datetime.now().isoformat(),
                 "type": event_type,
-                "data": data
+                "data": data,
             }
 
             if event_type == "iteration":
@@ -109,7 +112,7 @@ class OvernightMaintenanceManager:
             elif event_type == "error":
                 log_data["errors"].append(log_entry)
 
-            with open(self.log_file, 'w') as f:
+            with open(self.log_file, "w") as f:
                 json.dump(log_data, f, indent=2)
 
         except Exception as e:
@@ -150,9 +153,11 @@ class OvernightMaintenanceManager:
 
         # Check if system health is degrading consistently
         if len(self.health_history) >= 3:
-            recent_health = [h.get("overall_health", 0) for h in self.health_history[-3:]]
+            recent_health = [
+                h.get("overall_health", 0) for h in self.health_history[-3:]
+            ]
             if all(h < 0.4 for h in recent_health):
-                print(f"🏥 System health consistently low, stopping maintenance")
+                print("🏥 System health consistently low, stopping maintenance")
                 return False
 
         return True
@@ -176,7 +181,7 @@ class OvernightMaintenanceManager:
                     "iteration": self.iterations_completed + 1,
                     "dry_run": True,
                     "simulated_improvement": "Example optimization",
-                    "complexity_cost": 2
+                    "complexity_cost": 2,
                 }
                 success = True
             else:
@@ -192,7 +197,7 @@ class OvernightMaintenanceManager:
                     "iteration": maintenance.iteration,
                     "improvements_made": len(maintenance.improvements_log),
                     "remaining_budget": maintenance.complexity_budget,
-                    "improvements": maintenance.improvements_log
+                    "improvements": maintenance.improvements_log,
                 }
 
                 # Update our budget
@@ -203,18 +208,22 @@ class OvernightMaintenanceManager:
 
             # Take health snapshot after iteration
             post_health = self._take_health_snapshot()
-            health_change = post_health.get('overall_health', 0) - pre_health.get('overall_health', 0)
+            health_change = post_health.get("overall_health", 0) - pre_health.get(
+                "overall_health", 0
+            )
 
-            iteration_data.update({
-                "pre_health": pre_health.get('overall_health', 0),
-                "post_health": post_health.get('overall_health', 0),
-                "health_change": health_change,
-                "remaining_total_budget": self.total_complexity_budget
-            })
+            iteration_data.update(
+                {
+                    "pre_health": pre_health.get("overall_health", 0),
+                    "post_health": post_health.get("overall_health", 0),
+                    "health_change": health_change,
+                    "remaining_total_budget": self.total_complexity_budget,
+                }
+            )
 
             self._log_event("iteration", iteration_data)
 
-            print(f"✅ Iteration completed")
+            print("✅ Iteration completed")
             print(f"   Health change: {health_change:+.3f}")
             print(f"   Remaining budget: {self.total_complexity_budget}")
 
@@ -230,7 +239,7 @@ class OvernightMaintenanceManager:
             error_data = {
                 "iteration": self.iterations_completed + 1,
                 "error": str(e),
-                "traceback": traceback.format_exc()
+                "traceback": traceback.format_exc(),
             }
             self._log_event("error", error_data)
             print(f"❌ Error in iteration {self.iterations_completed + 1}: {e}")
@@ -262,22 +271,23 @@ class OvernightMaintenanceManager:
             "final_health": final_health,
             "health_trend": health_trend,
             "avg_iteration_time": total_duration / max(self.iterations_completed, 1),
-            "success_rate": (self.iterations_completed - self.error_count) / max(self.iterations_completed, 1)
+            "success_rate": (self.iterations_completed - self.error_count)
+            / max(self.iterations_completed, 1),
         }
 
         # Update log file with summary
         try:
-            with open(self.log_file, 'r') as f:
+            with open(self.log_file, "r") as f:
                 log_data = json.load(f)
             log_data["summary"] = summary
-            with open(self.log_file, 'w') as f:
+            with open(self.log_file, "w") as f:
                 json.dump(log_data, f, indent=2)
         except Exception as e:
             print(f"Warning: Could not update log summary: {e}")
 
         # Print report
         print(f"\n{'='*80}")
-        print(f"                    OVERNIGHT MAINTENANCE COMPLETE")
+        print("                    OVERNIGHT MAINTENANCE COMPLETE")
         print(f"{'='*80}")
         print(f"Duration: {total_duration/3600:.2f} hours")
         print(f"Iterations: {self.iterations_completed}")
@@ -285,7 +295,9 @@ class OvernightMaintenanceManager:
         print(f"Errors: {self.error_count}")
         print(f"Success Rate: {summary['success_rate']:.2%}")
         print()
-        print(f"Health Trend: {initial_health:.3f} → {final_health:.3f} ({health_trend:+.3f})")
+        print(
+            f"Health Trend: {initial_health:.3f} → {final_health:.3f} ({health_trend:+.3f})"
+        )
 
         if health_trend > 0.05:
             print("📈 System health IMPROVED significantly")
@@ -301,7 +313,9 @@ class OvernightMaintenanceManager:
 
     def run_overnight_maintenance(self):
         """Run the main overnight maintenance loop"""
-        print(f"🚀 Starting overnight maintenance at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(
+            f"🚀 Starting overnight maintenance at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        )
         self.start_time = time.time()
 
         # Initial health check
@@ -309,12 +323,12 @@ class OvernightMaintenanceManager:
         initial_health = self._take_health_snapshot()
         print(f"Initial health score: {initial_health.get('overall_health', 0):.3f}")
 
-        if initial_health.get('overall_health', 0) < 0.3:
+        if initial_health.get("overall_health", 0) < 0.3:
             print("⚠️  WARNING: Initial system health is very low!")
             print("   Consider manual intervention before automated maintenance")
             if not self.dry_run:
                 response = input("Continue anyway? (y/N): ")
-                if response.lower() != 'y':
+                if response.lower() != "y":
                     print("Maintenance cancelled by user")
                     return
 
@@ -323,7 +337,11 @@ class OvernightMaintenanceManager:
 
         # Main maintenance loop
         try:
-            while self._should_continue() and iteration_count < max_iterations and self.total_complexity_budget > 0:
+            while (
+                self._should_continue()
+                and iteration_count < max_iterations
+                and self.total_complexity_budget > 0
+            ):
                 success = self._run_single_iteration()
 
                 if not success:
@@ -345,6 +363,7 @@ class OvernightMaintenanceManager:
             # Always generate final report
             self._generate_final_report()
 
+
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
@@ -356,30 +375,31 @@ Examples:
   python scripts/overnight_maintenance.py --hours 4      # Run for 4 hours
   python scripts/overnight_maintenance.py --budget 100   # Use larger complexity budget
   python scripts/overnight_maintenance.py --dry-run      # Test mode only
-        """
+        """,
     )
 
     parser.add_argument(
         "--hours",
         type=float,
         default=8.0,
-        help="Maximum hours to run maintenance (default: 8.0)"
+        help="Maximum hours to run maintenance (default: 8.0)",
     )
 
     parser.add_argument(
         "--budget",
         type=int,
         default=50,
-        help="Total complexity budget for all improvements (default: 50)"
+        help="Total complexity budget for all improvements (default: 50)",
     )
 
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Run in test mode without making actual changes"
+        help="Run in test mode without making actual changes",
     )
 
     return parser.parse_args()
+
 
 def main():
     """Main entry point for overnight maintenance"""
@@ -404,9 +424,7 @@ def main():
 
     try:
         manager = OvernightMaintenanceManager(
-            max_hours=args.hours,
-            complexity_budget=args.budget,
-            dry_run=args.dry_run
+            max_hours=args.hours, complexity_budget=args.budget, dry_run=args.dry_run
         )
 
         manager.run_overnight_maintenance()
@@ -415,6 +433,7 @@ def main():
         print(f"❌ Fatal error: {e}")
         traceback.print_exc()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -4,7 +4,6 @@ Provides functions to create and update MongoDB collection validation schemas
 """
 
 from typing import Dict, Any, List
-import json
 from pymongo import MongoClient
 from pymongo.errors import OperationFailure
 
@@ -46,11 +45,7 @@ def pydantic_to_mongodb_schema(model_class) -> Dict[str, Any]:
 
     # MongoDB validation schema format
     mongodb_schema = {
-        "$jsonSchema": {
-            "bsonType": "object",
-            "required": required,
-            "properties": {}
-        }
+        "$jsonSchema": {"bsonType": "object", "required": required, "properties": {}}
     }
 
     # Convert Pydantic types to MongoDB BSON types
@@ -96,12 +91,14 @@ def setup_collection_validations(mongo_client: MongoClient, db_name: str) -> Non
         if collection_name in existing_collections:
             # Update existing collection with validation
             try:
-                db.command({
-                    "collMod": collection_name,
-                    "validator": schema,
-                    "validationLevel": "moderate",
-                    "validationAction": "warn"
-                })
+                db.command(
+                    {
+                        "collMod": collection_name,
+                        "validator": schema,
+                        "validationLevel": "moderate",
+                        "validationAction": "warn",
+                    }
+                )
                 print(f"Updated validation for collection: {collection_name}")
             except OperationFailure as e:
                 print(f"Failed to update validation for {collection_name}: {e}")
@@ -112,7 +109,7 @@ def setup_collection_validations(mongo_client: MongoClient, db_name: str) -> Non
                     collection_name,
                     validator=schema,
                     validationLevel="moderate",
-                    validationAction="warn"
+                    validationAction="warn",
                 )
                 print(f"Created collection with validation: {collection_name}")
             except OperationFailure as e:
@@ -127,25 +124,23 @@ def get_mongodb_indexes() -> Dict[str, List[Dict[str, Any]]]:
     return {
         "game_state_snapshots": [
             {"keys": [("game_id", 1), ("turn", 1)], "unique": True},
-            {"keys": [("game_id", 1), ("timestamp", -1)]}
+            {"keys": [("game_id", 1), ("timestamp", -1)]},
         ],
         "game_event_logs": [
             {"keys": [("game_id", 1), ("event_id", 1)], "unique": True},
             {"keys": [("game_id", 1), ("turn", 1)]},
-            {"keys": [("game_id", 1), ("event_type", 1)]}
+            {"keys": [("game_id", 1), ("event_type", 1)]},
         ],
         "player_journals": [
             {"keys": [("id", 1)], "unique": True},
             {"keys": [("game_id", 1), ("character_id", 1), ("turn", -1)]},
-            {"keys": [("game_id", 1), ("timestamp", -1)]}
+            {"keys": [("game_id", 1), ("timestamp", -1)]},
         ],
         "faction_analytics": [
             {"keys": [("game_id", 1), ("faction_id", 1), ("turn", 1)], "unique": True},
-            {"keys": [("game_id", 1), ("faction_id", 1), ("timestamp", -1)]}
+            {"keys": [("game_id", 1), ("faction_id", 1), ("timestamp", -1)]},
         ],
-        "world_states": [
-            {"keys": [("game_id", 1), ("turn", 1)], "unique": True}
-        ],
+        "world_states": [{"keys": [("game_id", 1), ("turn", 1)], "unique": True}],
         "ai_training_data": [
             {"keys": [("game_id", 1), ("data_type", 1), ("collection_time", -1)]}
         ],
@@ -154,7 +149,7 @@ def get_mongodb_indexes() -> Dict[str, List[Dict[str, Any]]]:
         ],
         "wren_integration_data": [
             {"keys": [("game_id", 1), ("character_id", 1), ("timestamp", -1)]}
-        ]
+        ],
     }
 
 

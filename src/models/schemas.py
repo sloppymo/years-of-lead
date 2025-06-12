@@ -4,9 +4,8 @@ Defines Pydantic models for request/response validation
 """
 
 from datetime import datetime
-from typing import Dict, List, Optional, Any, Union
-from pydantic import BaseModel, Field, validator, EmailStr
-from enum import Enum
+from typing import Dict, List, Optional, Any
+from pydantic import BaseModel, EmailStr
 
 from models.sql_models import FactionType, IdeologyType, OperationType
 
@@ -14,6 +13,7 @@ from models.sql_models import FactionType, IdeologyType, OperationType
 # Auth schemas
 class UserBase(BaseModel):
     """Base user schema"""
+
     username: str
     email: EmailStr
     full_name: Optional[str] = None
@@ -21,17 +21,20 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     """Schema for user creation"""
+
     password: str
 
 
 class UserLogin(BaseModel):
     """Schema for user login"""
+
     username: str
     password: str
 
 
 class UserResponse(UserBase):
     """Schema for user response"""
+
     id: str
     is_active: bool
     is_superuser: bool
@@ -43,6 +46,7 @@ class UserResponse(UserBase):
 
 class Token(BaseModel):
     """Schema for auth token"""
+
     access_token: str
     token_type: str = "bearer"
 
@@ -50,6 +54,7 @@ class Token(BaseModel):
 # Faction schemas
 class FactionBase(BaseModel):
     """Base faction schema"""
+
     name: str
     description: Optional[str] = None
     faction_type: FactionType
@@ -59,11 +64,13 @@ class FactionBase(BaseModel):
 
 class FactionCreate(FactionBase):
     """Schema for faction creation"""
+
     default_strength: int = 50
 
 
 class FactionResponse(FactionBase):
     """Schema for faction response"""
+
     id: str
     default_strength: int
 
@@ -73,6 +80,7 @@ class FactionResponse(FactionBase):
 
 class FactionRelationshipResponse(BaseModel):
     """Schema for faction relationship response"""
+
     faction_id: str
     other_faction_id: str
     relationship_value: int
@@ -85,6 +93,7 @@ class FactionRelationshipResponse(BaseModel):
 # District schemas
 class DistrictBase(BaseModel):
     """Base district schema"""
+
     name: str
     description: Optional[str] = None
     default_population: int = 100000
@@ -94,11 +103,13 @@ class DistrictBase(BaseModel):
 
 class DistrictCreate(DistrictBase):
     """Schema for district creation"""
+
     pass
 
 
 class DistrictResponse(DistrictBase):
     """Schema for district response"""
+
     id: str
 
     class Config:
@@ -108,6 +119,7 @@ class DistrictResponse(DistrictBase):
 # Game schemas
 class GameCreate(BaseModel):
     """Schema for creating a new game"""
+
     name: str
     scenario_id: Optional[str] = None
     max_turns: int = 100
@@ -116,6 +128,7 @@ class GameCreate(BaseModel):
 
 class GameResponse(BaseModel):
     """Schema for game response"""
+
     id: str
     name: str
     scenario_id: Optional[str]
@@ -132,6 +145,7 @@ class GameResponse(BaseModel):
 
 class GameStateResponse(BaseModel):
     """Schema for game state response"""
+
     id: str
     name: str
     current_turn: int
@@ -146,6 +160,7 @@ class GameStateResponse(BaseModel):
 
 class GameActionRequest(BaseModel):
     """Schema for game action request"""
+
     action_type: str
     target_id: Optional[str] = None
     parameters: Optional[Dict[str, Any]] = {}
@@ -153,6 +168,7 @@ class GameActionRequest(BaseModel):
 
 class GameActionResponse(BaseModel):
     """Schema for game action response"""
+
     success: bool
     message: str
     results: Optional[Dict[str, Any]] = {}
@@ -160,6 +176,7 @@ class GameActionResponse(BaseModel):
 
 class TurnResponse(BaseModel):
     """Schema for turn processing response"""
+
     turn_number: int
     events: List[Dict[str, Any]]
     faction_updates: Dict[str, Dict[str, Any]]
@@ -169,6 +186,7 @@ class TurnResponse(BaseModel):
 
 class EventResponse(BaseModel):
     """Schema for event response"""
+
     id: str
     event_type: str
     turn: int
@@ -185,6 +203,7 @@ class EventResponse(BaseModel):
 # Player schemas
 class PlayerCharacterBase(BaseModel):
     """Base player character schema"""
+
     name: str
     background: Optional[str] = None
     skills: Optional[Dict[str, int]] = {}
@@ -193,11 +212,13 @@ class PlayerCharacterBase(BaseModel):
 
 class PlayerCharacterCreate(PlayerCharacterBase):
     """Schema for player character creation"""
+
     pass
 
 
 class PlayerCharacterResponse(PlayerCharacterBase):
     """Schema for player character response"""
+
     id: str
     game_id: str
     heat: int
@@ -209,6 +230,7 @@ class PlayerCharacterResponse(PlayerCharacterBase):
 
 class CellBase(BaseModel):
     """Base cell schema"""
+
     name: str
     size: int = 3
     skill_levels: Optional[Dict[str, int]] = {}
@@ -216,6 +238,7 @@ class CellBase(BaseModel):
 
 class CellCreate(CellBase):
     """Schema for cell creation"""
+
     faction_id: str
     district_id: str
     leader_id: Optional[str] = None
@@ -223,6 +246,7 @@ class CellCreate(CellBase):
 
 class CellResponse(CellBase):
     """Schema for cell response"""
+
     id: str
     faction_id: str
     district_id: str
@@ -238,6 +262,7 @@ class CellResponse(CellBase):
 # Operation schemas
 class OperationBase(BaseModel):
     """Base operation schema"""
+
     name: str
     description: Optional[str] = None
     operation_type: OperationType
@@ -245,6 +270,7 @@ class OperationBase(BaseModel):
 
 class OperationCreate(OperationBase):
     """Schema for operation creation"""
+
     faction_id: str
     district_id: str
     planning_turns: int = 1
@@ -255,6 +281,7 @@ class OperationCreate(OperationBase):
 
 class OperationResponse(OperationBase):
     """Schema for operation response"""
+
     id: str
     faction_id: str
     district_id: str
@@ -274,12 +301,14 @@ class OperationResponse(OperationBase):
 # Journal schemas
 class JournalEntryCreate(BaseModel):
     """Schema for journal entry creation"""
+
     title: Optional[str] = None
     content: str
 
 
 class JournalEntryResponse(BaseModel):
     """Schema for journal entry response"""
+
     id: str
     character_id: str
     turn: int
@@ -296,6 +325,7 @@ class JournalEntryResponse(BaseModel):
 # AI integration schemas
 class SylvaRequest(BaseModel):
     """Schema for SYLVA API requests"""
+
     character_id: str
     game_id: str
     content: str
@@ -305,6 +335,7 @@ class SylvaRequest(BaseModel):
 
 class SylvaResponse(BaseModel):
     """Schema for SYLVA API responses"""
+
     emotional_analysis: Dict[str, float]
     symbolic_elements: List[Dict[str, Any]]
     narrative_suggestions: Optional[Dict[str, Any]] = {}
@@ -313,6 +344,7 @@ class SylvaResponse(BaseModel):
 
 class WrenRequest(BaseModel):
     """Schema for WREN API requests"""
+
     character_id: Optional[str] = None
     game_id: str
     content: str
@@ -322,6 +354,7 @@ class WrenRequest(BaseModel):
 
 class WrenResponse(BaseModel):
     """Schema for WREN API responses"""
+
     reflective_prompts: List[str]
     narrative_elements: Dict[str, Any]
     character_growth_suggestions: Optional[Dict[str, Any]] = {}

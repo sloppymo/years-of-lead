@@ -6,12 +6,13 @@ Years of Lead menu system and game state.
 """
 
 import os
-import sys
 import getpass
-from typing import List, Tuple, Optional, Dict, Any
+from typing import Optional, Dict, Any
 from .character_creation import (
-    CharacterCreator, Character, BackgroundType, PersonalityTrait,
-    SkillCategory, CharacterSkills, CharacterTraits, CharacterMotivation
+    CharacterCreator,
+    Character,
+    BackgroundType,
+    PersonalityTrait,
 )
 
 
@@ -27,19 +28,20 @@ class CharacterCreationUI:
             "primary_trait",
             "secondary_trait",
             "skills",
-            "review"
+            "review",
         ]
         self.current_step = 0
         self.character_data = {}
 
     def clear_screen(self):
         """Clear the terminal screen"""
-        os.system('clear' if os.name == 'posix' else 'cls')
+        os.system("clear" if os.name == "posix" else "cls")
 
     def print_banner(self):
         """Print the character creation banner"""
         print("=" * 80)
-        print("""
+        print(
+            """
  ██████╗██╗  ██╗ █████╗ ██████╗ ███████╗ █████╗  ██████╗ ████████╗███████╗██████╗
 ██╔════╝██║  ██║██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗
 ██║     ███████║███████║██████╔╝█████╗  ███████║██║   ██║   ██║   █████╗  ██████╔╝
@@ -48,7 +50,8 @@ class CharacterCreationUI:
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝
 
                            Character Creation System
-""")
+"""
+        )
         print("=" * 80)
 
     def print_progress(self):
@@ -59,11 +62,15 @@ class CharacterCreationUI:
             "primary_trait": "Primary Personality",
             "secondary_trait": "Secondary Personality",
             "skills": "Skill Allocation",
-            "review": "Final Review"
+            "review": "Final Review",
         }
 
-        current_step_name = step_names.get(self.creation_steps[self.current_step], "Unknown")
-        print(f"\nStep {self.current_step + 1} of {len(self.creation_steps)}: {current_step_name}")
+        current_step_name = step_names.get(
+            self.creation_steps[self.current_step], "Unknown"
+        )
+        print(
+            f"\nStep {self.current_step + 1} of {len(self.creation_steps)}: {current_step_name}"
+        )
         print("-" * 50)
 
     def confirm_choice(self, prompt: str, choice: str) -> bool:
@@ -75,9 +82,9 @@ class CharacterCreationUI:
 
         while True:
             confirm = input("Are you sure? (y/n): ").strip().lower()
-            if confirm in ['y', 'yes']:
+            if confirm in ["y", "yes"]:
                 return True
-            elif confirm in ['n', 'no']:
+            elif confirm in ["n", "no"]:
                 return False
             else:
                 print("Please enter 'y' for yes or 'n' for no.")
@@ -113,7 +120,7 @@ class CharacterCreationUI:
             "connections": background.connections,
             "trauma_risk": background.trauma_risk,
             "mechanical_effects": self._get_background_mechanics(bg_type),
-            "narrative_consequences": self._get_background_narrative(bg_type)
+            "narrative_consequences": self._get_background_narrative(bg_type),
         }
 
         return details
@@ -125,62 +132,62 @@ class CharacterCreationUI:
                 "combat_bonus": "+2 Combat, +1 Survival",
                 "resource_bonus": "Access to military equipment",
                 "special_ability": "Can train other operatives in combat",
-                "heat_penalty": "Higher suspicion from authorities"
+                "heat_penalty": "Higher suspicion from authorities",
             },
             BackgroundType.TECHNICAL: {
                 "technical_bonus": "+2 Technical, +1 Hacking",
                 "resource_bonus": "Access to technical equipment",
                 "special_ability": "Can hack security systems",
-                "heat_penalty": "Monitored by tech companies"
+                "heat_penalty": "Monitored by tech companies",
             },
             BackgroundType.MEDICAL: {
                 "medical_bonus": "+2 Medical, +1 Intelligence",
                 "resource_bonus": "Access to medical supplies",
                 "special_ability": "Can heal injured operatives",
-                "heat_penalty": "Monitored by health authorities"
+                "heat_penalty": "Monitored by health authorities",
             },
             BackgroundType.CRIMINAL: {
                 "stealth_bonus": "+2 Stealth, +1 Social",
                 "resource_bonus": "Access to black market",
                 "special_ability": "Can gather intelligence from criminal networks",
-                "heat_penalty": "Already known to police"
+                "heat_penalty": "Already known to police",
             },
             BackgroundType.ACADEMIC: {
                 "intelligence_bonus": "+2 Intelligence, +1 Technical",
                 "resource_bonus": "Access to research facilities",
                 "special_ability": "Can analyze complex information",
-                "heat_penalty": "Monitored by academic institutions"
+                "heat_penalty": "Monitored by academic institutions",
             },
             BackgroundType.CORPORATE: {
                 "social_bonus": "+2 Social, +1 Intelligence",
                 "resource_bonus": "Access to corporate resources",
                 "special_ability": "Can infiltrate corporate targets",
-                "heat_penalty": "Monitored by corporate security"
+                "heat_penalty": "Monitored by corporate security",
             },
             BackgroundType.JOURNALIST: {
                 "social_bonus": "+2 Social, +1 Intelligence",
                 "resource_bonus": "Access to media contacts",
                 "special_ability": "Can spread propaganda effectively",
-                "heat_penalty": "Monitored by media companies"
+                "heat_penalty": "Monitored by media companies",
             },
             BackgroundType.RELIGIOUS: {
                 "social_bonus": "+2 Social, +1 Medical",
                 "resource_bonus": "Access to community networks",
                 "special_ability": "Can recruit from religious communities",
-                "heat_penalty": "Monitored by religious authorities"
+                "heat_penalty": "Monitored by religious authorities",
             },
             BackgroundType.ACTIVIST: {
                 "social_bonus": "+2 Social, +1 Stealth",
                 "resource_bonus": "Access to activist networks",
                 "special_ability": "Can organize protests and demonstrations",
-                "heat_penalty": "Already on watch lists"
+                "heat_penalty": "Already on watch lists",
             },
             BackgroundType.LABORER: {
                 "survival_bonus": "+2 Survival, +1 Technical",
                 "resource_bonus": "Access to industrial areas",
                 "special_ability": "Can sabotage industrial targets",
-                "heat_penalty": "Monitored by labor unions"
-            }
+                "heat_penalty": "Monitored by labor unions",
+            },
         }
 
         return mechanics.get(bg_type, {})
@@ -192,62 +199,62 @@ class CharacterCreationUI:
                 "personal_conflicts": "Struggles with following orders vs. personal morality",
                 "relationships": "May have former comrades who could help or betray",
                 "psychological_impact": "Combat experience affects decision-making",
-                "future_opportunities": "Can access military intelligence and equipment"
+                "future_opportunities": "Can access military intelligence and equipment",
             },
             BackgroundType.TECHNICAL: {
                 "personal_conflicts": "Balancing technical solutions with human costs",
                 "relationships": "Network of tech professionals and hackers",
                 "psychological_impact": "Analytical thinking may override emotional concerns",
-                "future_opportunities": "Can develop advanced surveillance and communication systems"
+                "future_opportunities": "Can develop advanced surveillance and communication systems",
             },
             BackgroundType.MEDICAL: {
                 "personal_conflicts": "Hippocratic oath vs. revolutionary violence",
                 "relationships": "Network of medical professionals and patients",
                 "psychological_impact": "Deep empathy may lead to hesitation in violent situations",
-                "future_opportunities": "Can provide medical support and access to restricted areas"
+                "future_opportunities": "Can provide medical support and access to restricted areas",
             },
             BackgroundType.CRIMINAL: {
                 "personal_conflicts": "Criminal past vs. revolutionary ideals",
                 "relationships": "Complex network of criminals, some trustworthy, some not",
                 "psychological_impact": "Street-smart but may struggle with trust",
-                "future_opportunities": "Can access black market and criminal intelligence"
+                "future_opportunities": "Can access black market and criminal intelligence",
             },
             BackgroundType.ACADEMIC: {
                 "personal_conflicts": "Intellectual analysis vs. direct action",
                 "relationships": "Network of academics and researchers",
                 "psychological_impact": "May overthink situations and hesitate",
-                "future_opportunities": "Can access research facilities and academic networks"
+                "future_opportunities": "Can access research facilities and academic networks",
             },
             BackgroundType.CORPORATE: {
                 "personal_conflicts": "Corporate success vs. revolutionary goals",
                 "relationships": "Network of business contacts and former colleagues",
                 "psychological_impact": "May be accustomed to working within systems",
-                "future_opportunities": "Can infiltrate corporate targets and access resources"
+                "future_opportunities": "Can infiltrate corporate targets and access resources",
             },
             BackgroundType.JOURNALIST: {
                 "personal_conflicts": "Objectivity vs. advocacy for the cause",
                 "relationships": "Network of media contacts and sources",
                 "psychological_impact": "May feel compelled to document everything",
-                "future_opportunities": "Can spread propaganda and gather intelligence"
+                "future_opportunities": "Can spread propaganda and gather intelligence",
             },
             BackgroundType.RELIGIOUS: {
                 "personal_conflicts": "Religious faith vs. revolutionary violence",
                 "relationships": "Network of religious community members",
                 "psychological_impact": "May seek divine guidance in difficult decisions",
-                "future_opportunities": "Can recruit from religious communities and access facilities"
+                "future_opportunities": "Can recruit from religious communities and access facilities",
             },
             BackgroundType.ACTIVIST: {
                 "personal_conflicts": "Peaceful protest vs. armed resistance",
                 "relationships": "Network of activists and community organizers",
                 "psychological_impact": "May be idealistic but inexperienced with violence",
-                "future_opportunities": "Can organize mass actions and recruit from activist circles"
+                "future_opportunities": "Can organize mass actions and recruit from activist circles",
             },
             BackgroundType.LABORER: {
                 "personal_conflicts": "Working class solidarity vs. individual survival",
                 "relationships": "Network of workers and union members",
                 "psychological_impact": "May be practical and focused on immediate needs",
-                "future_opportunities": "Can access industrial areas and organize workers"
-            }
+                "future_opportunities": "Can access industrial areas and organize workers",
+            },
         }
 
         return narrative.get(bg_type, {})
@@ -260,32 +267,32 @@ class CharacterCreationUI:
         print(f"BACKGROUND: {details['name'].upper()}")
         print(f"{'=' * 60}")
 
-        print(f"\n📖 DESCRIPTION:")
+        print("\n📖 DESCRIPTION:")
         print(f"{details['description']}")
 
-        print(f"\n📚 PERSONAL STORY:")
+        print("\n📚 PERSONAL STORY:")
         print(f"{details['story']}")
 
-        print(f"\n⚔️  MECHANICAL EFFECTS:")
-        mechanics = details['mechanical_effects']
+        print("\n⚔️  MECHANICAL EFFECTS:")
+        mechanics = details["mechanical_effects"]
         for key, value in mechanics.items():
             print(f"  • {key.replace('_', ' ').title()}: {value}")
 
-        print(f"\n🎭 NARRATIVE CONSEQUENCES:")
-        narrative = details['narrative_consequences']
+        print("\n🎭 NARRATIVE CONSEQUENCES:")
+        narrative = details["narrative_consequences"]
         for key, value in narrative.items():
             print(f"  • {key.replace('_', ' ').title()}: {value}")
 
-        print(f"\n💰 STARTING RESOURCES:")
-        for resource, amount in details['starting_resources'].items():
+        print("\n💰 STARTING RESOURCES:")
+        for resource, amount in details["starting_resources"].items():
             print(f"  • {resource.title()}: {amount}")
 
-        print(f"\n🔗 CONNECTIONS:")
-        for connection in details['connections']:
+        print("\n🔗 CONNECTIONS:")
+        for connection in details["connections"]:
             print(f"  • {connection}")
 
-        print(f"\n⚠️  TRAUMA RISKS:")
-        for trauma in details['trauma_risk']:
+        print("\n⚠️  TRAUMA RISKS:")
+        for trauma in details["trauma_risk"]:
             print(f"  • {trauma.value.replace('_', ' ').title()}")
 
     def select_background(self) -> BackgroundType:
@@ -326,9 +333,13 @@ class CharacterCreationUI:
                         print(f"{i:2d}. {background.name}")
 
                     try:
-                        detail_choice = int(input(f"\nEnter choice (1-{len(backgrounds)}): "))
+                        detail_choice = int(
+                            input(f"\nEnter choice (1-{len(backgrounds)}): ")
+                        )
                         if 1 <= detail_choice <= len(backgrounds):
-                            self.display_background_details(backgrounds[detail_choice - 1])
+                            self.display_background_details(
+                                backgrounds[detail_choice - 1]
+                            )
                             input("\nPress Enter to continue...")
                             self.clear_screen()
                             self.print_banner()
@@ -353,113 +364,113 @@ class CharacterCreationUI:
                 "mechanical_effects": "+2 to recruitment rolls, -1 to pragmatic decisions",
                 "narrative_impact": "May refuse morally questionable missions",
                 "relationships": "Inspires others but may be seen as naive",
-                "conflicts": "Struggles with necessary compromises"
+                "conflicts": "Struggles with necessary compromises",
             },
             PersonalityTrait.PRAGMATIC: {
                 "description": "Focused on practical results over ideology",
                 "mechanical_effects": "+2 to survival rolls, -1 to morale checks",
                 "narrative_impact": "Willing to make hard choices for the cause",
                 "relationships": "Respected for effectiveness but may seem cold",
-                "conflicts": "May alienate more idealistic comrades"
+                "conflicts": "May alienate more idealistic comrades",
             },
             PersonalityTrait.CAUTIOUS: {
                 "description": "Careful and methodical in approach",
                 "mechanical_effects": "+2 to stealth rolls, -1 to initiative",
                 "narrative_impact": "Prefers planning over direct action",
                 "relationships": "Trusted for reliability but may seem slow",
-                "conflicts": "May miss opportunities due to over-planning"
+                "conflicts": "May miss opportunities due to over-planning",
             },
             PersonalityTrait.RECKLESS: {
                 "description": "Willing to take bold risks",
                 "mechanical_effects": "+2 to combat rolls, -1 to stealth",
                 "narrative_impact": "May charge into dangerous situations",
                 "relationships": "Inspiring in combat but may endanger others",
-                "conflicts": "May put comrades at unnecessary risk"
+                "conflicts": "May put comrades at unnecessary risk",
             },
             PersonalityTrait.COMPASSIONATE: {
                 "description": "Deeply concerned with others' welfare",
                 "mechanical_effects": "+2 to medical rolls, -1 to ruthless decisions",
                 "narrative_impact": "May hesitate to harm enemies",
                 "relationships": "Beloved by comrades but may be exploited",
-                "conflicts": "Struggles with necessary violence"
+                "conflicts": "Struggles with necessary violence",
             },
             PersonalityTrait.RUTHLESS: {
                 "description": "Willing to make hard choices",
                 "mechanical_effects": "+2 to intimidation rolls, -1 to trust",
                 "narrative_impact": "May use extreme methods",
                 "relationships": "Feared and respected but not loved",
-                "conflicts": "May alienate more compassionate comrades"
+                "conflicts": "May alienate more compassionate comrades",
             },
             PersonalityTrait.ANALYTICAL: {
                 "description": "Thinks through problems systematically",
                 "mechanical_effects": "+2 to intelligence rolls, -1 to social",
                 "narrative_impact": "May overthink situations",
                 "relationships": "Valued for planning but may seem cold",
-                "conflicts": "May miss emotional aspects of situations"
+                "conflicts": "May miss emotional aspects of situations",
             },
             PersonalityTrait.INTUITIVE: {
                 "description": "Relies on gut feelings and instincts",
                 "mechanical_effects": "+2 to surprise rolls, -1 to planning",
                 "narrative_impact": "May make snap decisions",
                 "relationships": "Trusted instincts but may seem unpredictable",
-                "conflicts": "May ignore logical planning"
+                "conflicts": "May ignore logical planning",
             },
             PersonalityTrait.LOYAL: {
                 "description": "Devoted to comrades and cause",
                 "mechanical_effects": "+2 to morale rolls, -1 to betrayal resistance",
                 "narrative_impact": "May be too trusting of allies",
                 "relationships": "Beloved by comrades but vulnerable to betrayal",
-                "conflicts": "May ignore warning signs about allies"
+                "conflicts": "May ignore warning signs about allies",
             },
             PersonalityTrait.OPPORTUNISTIC: {
                 "description": "Adapts quickly to changing situations",
                 "mechanical_effects": "+2 to flexibility rolls, -1 to consistency",
                 "narrative_impact": "May change plans frequently",
                 "relationships": "Valued for adaptability but may seem unreliable",
-                "conflicts": "May seem inconsistent to comrades"
+                "conflicts": "May seem inconsistent to comrades",
             },
             PersonalityTrait.LEADER: {
                 "description": "Naturally takes charge in groups",
                 "mechanical_effects": "+2 to leadership rolls, -1 to following orders",
                 "narrative_impact": "May challenge authority",
                 "relationships": "Natural leader but may conflict with other leaders",
-                "conflicts": "May struggle with being subordinate"
+                "conflicts": "May struggle with being subordinate",
             },
             PersonalityTrait.FOLLOWER: {
                 "description": "Prefers to support others' leadership",
                 "mechanical_effects": "+2 to teamwork rolls, -1 to initiative",
                 "narrative_impact": "May hesitate to take charge",
                 "relationships": "Reliable team player but may lack initiative",
-                "conflicts": "May not step up when needed"
+                "conflicts": "May not step up when needed",
             },
             PersonalityTrait.OPTIMISTIC: {
                 "description": "Maintains hope even in dark times",
                 "mechanical_effects": "+2 to morale rolls, -1 to realistic assessment",
                 "narrative_impact": "May underestimate dangers",
                 "relationships": "Inspiring to others but may seem naive",
-                "conflicts": "May ignore warning signs"
+                "conflicts": "May ignore warning signs",
             },
             PersonalityTrait.PESSIMISTIC: {
                 "description": "Prepares for the worst outcomes",
                 "mechanical_effects": "+2 to survival rolls, -1 to morale",
                 "narrative_impact": "May be overly cautious",
                 "relationships": "Valued for realism but may be depressing",
-                "conflicts": "May demoralize comrades"
+                "conflicts": "May demoralize comrades",
             },
             PersonalityTrait.CREATIVE: {
                 "description": "Finds innovative solutions to problems",
                 "mechanical_effects": "+2 to problem-solving rolls, -1 to routine tasks",
                 "narrative_impact": "May prefer unconventional approaches",
                 "relationships": "Valued for ideas but may seem impractical",
-                "conflicts": "May ignore proven methods"
+                "conflicts": "May ignore proven methods",
             },
             PersonalityTrait.METHODICAL: {
                 "description": "Follows established procedures",
                 "mechanical_effects": "+2 to technical rolls, -1 to improvisation",
                 "narrative_impact": "May be slow to adapt",
                 "relationships": "Reliable but may seem rigid",
-                "conflicts": "May miss creative opportunities"
-            }
+                "conflicts": "May miss creative opportunities",
+            },
         }
 
         return details.get(trait, {})
@@ -472,22 +483,24 @@ class CharacterCreationUI:
         print(f"PERSONALITY TRAIT: {trait.value.replace('_', ' ').upper()}")
         print(f"{'=' * 60}")
 
-        print(f"\n📖 DESCRIPTION:")
+        print("\n📖 DESCRIPTION:")
         print(f"{details['description']}")
 
-        print(f"\n⚔️  MECHANICAL EFFECTS:")
+        print("\n⚔️  MECHANICAL EFFECTS:")
         print(f"{details['mechanical_effects']}")
 
-        print(f"\n🎭 NARRATIVE IMPACT:")
+        print("\n🎭 NARRATIVE IMPACT:")
         print(f"{details['narrative_impact']}")
 
-        print(f"\n👥 RELATIONSHIPS:")
+        print("\n👥 RELATIONSHIPS:")
         print(f"{details['relationships']}")
 
-        print(f"\n⚔️  POTENTIAL CONFLICTS:")
+        print("\n⚔️  POTENTIAL CONFLICTS:")
         print(f"{details['conflicts']}")
 
-    def select_trait(self, trait_type: str, exclude_trait: Optional[PersonalityTrait] = None) -> PersonalityTrait:
+    def select_trait(
+        self, trait_type: str, exclude_trait: Optional[PersonalityTrait] = None
+    ) -> PersonalityTrait:
         """Interactive trait selection with detailed information"""
         traits = list(PersonalityTrait)
         if exclude_trait:
@@ -500,7 +513,7 @@ class CharacterCreationUI:
             print("-" * 50)
 
             for i, trait in enumerate(traits, 1):
-                trait_desc = trait.value.replace('_', ' ').title()
+                trait_desc = trait.value.replace("_", " ").title()
                 print(f"{i:2d}. {trait_desc}")
 
             print(f"\n{len(traits) + 1:2d}. View detailed information")
@@ -513,22 +526,28 @@ class CharacterCreationUI:
                     return None  # Go back
                 elif 1 <= choice <= len(traits):
                     trait = traits[choice - 1]
-                    trait_desc = trait.value.replace('_', ' ').title()
+                    trait_desc = trait.value.replace("_", " ").title()
 
-                    if self.confirm_choice(f"{trait_type} Personality Trait", trait_desc):
+                    if self.confirm_choice(
+                        f"{trait_type} Personality Trait", trait_desc
+                    ):
                         selected = trait
                     else:
                         print("Let's try again...")
 
                 elif choice == len(traits) + 1:
                     # Show detailed information
-                    print(f"\nWhich {trait_type.lower()} trait would you like to learn more about?")
+                    print(
+                        f"\nWhich {trait_type.lower()} trait would you like to learn more about?"
+                    )
                     for i, trait in enumerate(traits, 1):
-                        trait_desc = trait.value.replace('_', ' ').title()
+                        trait_desc = trait.value.replace("_", " ").title()
                         print(f"{i:2d}. {trait_desc}")
 
                     try:
-                        detail_choice = int(input(f"\nEnter choice (1-{len(traits)}): "))
+                        detail_choice = int(
+                            input(f"\nEnter choice (1-{len(traits)}): ")
+                        )
                         if 1 <= detail_choice <= len(traits):
                             self.display_trait_details(traits[detail_choice - 1])
                             input("\nPress Enter to continue...")
@@ -552,24 +571,30 @@ class CharacterCreationUI:
         max_points = 20
         remaining_points = max_points
         skills = {
-            'combat': 1, 'stealth': 1, 'hacking': 1, 'social': 1,
-            'technical': 1, 'medical': 1, 'survival': 1, 'intelligence': 1
+            "combat": 1,
+            "stealth": 1,
+            "hacking": 1,
+            "social": 1,
+            "technical": 1,
+            "medical": 1,
+            "survival": 1,
+            "intelligence": 1,
         }
 
         # Apply background bonuses first
-        background = self.creator.backgrounds[self.character_data['background']]
+        background = self.creator.backgrounds[self.character_data["background"]]
         for skill_category, bonus in background.skill_bonuses.items():
             skills[skill_category.value] += bonus
 
         skill_descriptions = {
-            'combat': "Fighting, weapons, tactical combat",
-            'stealth': "Sneaking, hiding, avoiding detection",
-            'hacking': "Computer systems, digital security, cyber warfare",
-            'social': "Persuasion, recruitment, public speaking",
-            'technical': "Engineering, mechanics, technical problem-solving",
-            'medical': "Healing, first aid, medical knowledge",
-            'survival': "Wilderness survival, resourcefulness, adaptability",
-            'intelligence': "Analysis, research, strategic thinking"
+            "combat": "Fighting, weapons, tactical combat",
+            "stealth": "Sneaking, hiding, avoiding detection",
+            "hacking": "Computer systems, digital security, cyber warfare",
+            "social": "Persuasion, recruitment, public speaking",
+            "technical": "Engineering, mechanics, technical problem-solving",
+            "medical": "Healing, first aid, medical knowledge",
+            "survival": "Wilderness survival, resourcefulness, adaptability",
+            "intelligence": "Analysis, research, strategic thinking",
         }
 
         print(f"\nSkill Allocation - {remaining_points} points remaining")
@@ -602,8 +627,12 @@ class CharacterCreationUI:
                 if choice == 0:
                     if remaining_points > 0:
                         print(f"\nYou still have {remaining_points} points remaining.")
-                        continue_choice = input("Are you sure you want to finish? (y/n): ").strip().lower()
-                        if continue_choice in ['y', 'yes']:
+                        continue_choice = (
+                            input("Are you sure you want to finish? (y/n): ")
+                            .strip()
+                            .lower()
+                        )
+                        if continue_choice in ["y", "yes"]:
                             break
                         else:
                             continue
@@ -623,11 +652,15 @@ class CharacterCreationUI:
                     if max_invest == 1:
                         points_to_invest = 1
                     else:
-                        points_input = input(f"How many points to invest in {skill_name.title()}? (1-{max_invest}): ")
+                        points_input = input(
+                            f"How many points to invest in {skill_name.title()}? (1-{max_invest}): "
+                        )
                         try:
                             points_to_invest = int(points_input)
                             if not (1 <= points_to_invest <= max_invest):
-                                print(f"Please enter a number between 1 and {max_invest}")
+                                print(
+                                    f"Please enter a number between 1 and {max_invest}"
+                                )
                                 continue
                         except ValueError:
                             print("Please enter a valid number")
@@ -636,7 +669,9 @@ class CharacterCreationUI:
                     skills[skill_name] += points_to_invest
                     remaining_points -= points_to_invest
 
-                    print(f"\n✅ {skill_name.title()} increased to {skills[skill_name]}/10")
+                    print(
+                        f"\n✅ {skill_name.title()} increased to {skills[skill_name]}/10"
+                    )
 
                     if remaining_points == 0:
                         print("\nAll points allocated!")
@@ -678,10 +713,14 @@ class CharacterCreationUI:
         print("=" * 60)
 
         while True:
-            confirm = input("\nAre you satisfied with this character? (y/n): ").strip().lower()
-            if confirm in ['y', 'yes']:
+            confirm = (
+                input("\nAre you satisfied with this character? (y/n): ")
+                .strip()
+                .lower()
+            )
+            if confirm in ["y", "yes"]:
                 return True
-            elif confirm in ['n', 'no']:
+            elif confirm in ["n", "no"]:
                 return False
             else:
                 print("Please enter 'y' for yes or 'n' for no.")
@@ -689,10 +728,10 @@ class CharacterCreationUI:
     def create_character_from_data(self) -> Character:
         """Create character from collected data"""
         return self.creator.create_character(
-            name=self.character_data['name'],
-            background_type=self.character_data['background'],
-            primary_trait=self.character_data['primary_trait'],
-            secondary_trait=self.character_data['secondary_trait']
+            name=self.character_data["name"],
+            background_type=self.character_data["background"],
+            primary_trait=self.character_data["primary_trait"],
+            secondary_trait=self.character_data["secondary_trait"],
         )
 
     def run_character_creation(self) -> Optional[Character]:
@@ -709,7 +748,7 @@ class CharacterCreationUI:
                 name = self.get_name_input()
                 if name is None:
                     continue
-                self.character_data['name'] = name
+                self.character_data["name"] = name
                 self.current_step += 1
 
             elif step == "background":
@@ -718,7 +757,7 @@ class CharacterCreationUI:
                     if self.current_step > 0:
                         self.current_step -= 1
                     continue
-                self.character_data['background'] = background
+                self.character_data["background"] = background
                 self.current_step += 1
 
             elif step == "primary_trait":
@@ -727,21 +766,23 @@ class CharacterCreationUI:
                     if self.current_step > 0:
                         self.current_step -= 1
                     continue
-                self.character_data['primary_trait'] = trait
+                self.character_data["primary_trait"] = trait
                 self.current_step += 1
 
             elif step == "secondary_trait":
-                trait = self.select_trait("Secondary", self.character_data.get('primary_trait'))
+                trait = self.select_trait(
+                    "Secondary", self.character_data.get("primary_trait")
+                )
                 if trait is None:
                     if self.current_step > 0:
                         self.current_step -= 1
                     continue
-                self.character_data['secondary_trait'] = trait
+                self.character_data["secondary_trait"] = trait
                 self.current_step += 1
 
             elif step == "skills":
                 skills = self.allocate_skills()
-                self.character_data['skills'] = skills
+                self.character_data["skills"] = skills
                 self.current_step += 1
 
             elif step == "review":
@@ -769,7 +810,7 @@ class CharacterCreationUI:
             name=name,
             background_type=BackgroundType.MILITARY,
             primary_trait=PersonalityTrait.LOYAL,
-            secondary_trait=PersonalityTrait.PRAGMATIC
+            secondary_trait=PersonalityTrait.PRAGMATIC,
         )
 
 

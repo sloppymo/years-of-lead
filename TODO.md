@@ -2,7 +2,7 @@
 
 ## 🔧 **Technical Implementation Tasks (Immediate)**
 
-### Betrayal Engine Expansion  
+### Betrayal Engine Expansion
 - [ ] **Trigger Delay Implementation**
   - [ ] Add psychological preparation time before betrayal activation
   - [ ] Implement stress accumulation effects on betrayal timing
@@ -440,4 +440,4 @@
 
 **Last Updated**: January 2025
 **Next Review**: Weekly
-**Priority**: High Priority items should be completed before moving to Medium Priority 
+**Priority**: High Priority items should be completed before moving to Medium Priority

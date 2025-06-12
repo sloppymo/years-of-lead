@@ -8,14 +8,14 @@ location-based influence mechanics, and dynamic neighborhood control systems.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Any
+from typing import Dict, List, Optional, Any
 from enum import Enum
-import uuid
-from .geography import SymbolicLocation, get_modifier, ARCHETYPES
+from .geography import SymbolicLocation
 
 
 class InfluenceType(Enum):
     """Types of influence factions can exert in locations"""
+
     POLITICAL = "political"
     ECONOMIC = "economic"
     CULTURAL = "cultural"
@@ -25,6 +25,7 @@ class InfluenceType(Enum):
 
 class ReputationEvent(Enum):
     """Events that affect faction reputation in locations"""
+
     SUCCESSFUL_OPERATION = "successful_operation"
     FAILED_OPERATION = "failed_operation"
     CIVILIAN_CASUALTIES = "civilian_casualties"
@@ -38,6 +39,7 @@ class ReputationEvent(Enum):
 @dataclass
 class LocationInfluence:
     """Tracks faction influence in a specific location"""
+
     faction_id: str
     location_id: str
     influence_types: Dict[InfluenceType, float] = field(default_factory=dict)
@@ -69,7 +71,7 @@ class LocationInfluence:
             ReputationEvent.BETRAYAL_EXPOSED: -0.20,
             ReputationEvent.ALLIANCE_FORMED: 0.08,
             ReputationEvent.PROPAGANDA_CAMPAIGN: 0.06,
-            ReputationEvent.POLICE_CRACKDOWN: -0.10
+            ReputationEvent.POLICE_CRACKDOWN: -0.10,
         }
 
         modifier = event_modifiers.get(event, 0.0) * magnitude
@@ -77,18 +79,21 @@ class LocationInfluence:
         self.reputation_score = max(0.0, min(1.0, self.reputation_score + modifier))
 
         # Record the event
-        self.reputation_events.append({
-            "event": event.value,
-            "modifier": modifier,
-            "old_reputation": old_reputation,
-            "new_reputation": self.reputation_score,
-            "turn": 0  # Will be set by caller
-        })
+        self.reputation_events.append(
+            {
+                "event": event.value,
+                "modifier": modifier,
+                "old_reputation": old_reputation,
+                "new_reputation": self.reputation_score,
+                "turn": 0,  # Will be set by caller
+            }
+        )
 
 
 @dataclass
 class CityLocation(SymbolicLocation):
     """Extended location with city reputation mechanics"""
+
     population: int = 1000
     affluence_level: float = 0.5  # 0.0 = poor, 1.0 = wealthy
     security_level: float = 0.5  # 0.0 = no security, 1.0 = high security
@@ -103,19 +108,24 @@ class CityLocation(SymbolicLocation):
     operation_difficulty_modifier: float = 0.0
     narrative_tone_modifier: Dict[str, float] = field(default_factory=dict)
 
-    def add_faction_influence(self, faction_id: str, influence_type: InfluenceType,
-                            initial_strength: float = 0.1, turn: int = 0) -> LocationInfluence:
+    def add_faction_influence(
+        self,
+        faction_id: str,
+        influence_type: InfluenceType,
+        initial_strength: float = 0.1,
+        turn: int = 0,
+    ) -> LocationInfluence:
         """Add or update faction influence in this location"""
         if faction_id not in self.faction_influences:
             self.faction_influences[faction_id] = LocationInfluence(
-                faction_id=faction_id,
-                location_id=self.id,
-                established_turn=turn
+                faction_id=faction_id, location_id=self.id, established_turn=turn
             )
 
         influence = self.faction_influences[faction_id]
         current_strength = influence.influence_types.get(influence_type, 0.0)
-        influence.influence_types[influence_type] = min(1.0, current_strength + initial_strength)
+        influence.influence_types[influence_type] = min(
+            1.0, current_strength + initial_strength
+        )
 
         self._update_control_dynamics()
         return influence
@@ -146,7 +156,9 @@ class CityLocation(SymbolicLocation):
         elif self.archetype == "government":
             archetype_modifier = 0.15  # All operations harder in government areas
 
-        return base_modifier + reputation_modifier + security_modifier + archetype_modifier
+        return (
+            base_modifier + reputation_modifier + security_modifier + archetype_modifier
+        )
 
     def _update_control_dynamics(self):
         """Update which faction dominates this location"""
@@ -167,7 +179,9 @@ class CityLocation(SymbolicLocation):
             dominant_strength = faction_totals[dominant_faction]
 
             # Check if actually dominant (>40% stronger than next best)
-            other_factions = {k: v for k, v in faction_totals.items() if k != dominant_faction}
+            other_factions = {
+                k: v for k, v in faction_totals.items() if k != dominant_faction
+            }
             if other_factions:
                 second_best = max(other_factions.values())
                 if dominant_strength > second_best * 1.4:
@@ -185,7 +199,9 @@ class CityLocation(SymbolicLocation):
                 total_influence = sum(faction_totals.values())
                 if total_influence > 0:
                     control_pct = (dominant_strength / total_influence) * 100
-                    self.faction_influences[self.dominant_faction].control_percentage = control_pct
+                    self.faction_influences[
+                        self.dominant_faction
+                    ].control_percentage = control_pct
 
 
 class CityReputationSystem:
@@ -201,9 +217,14 @@ class CityReputationSystem:
         self.media_heat: int = 0
         self.civilian_morale: float = 0.6
 
-    def create_location(self, name: str, archetype: str = "neutral",
-                       population: int = 1000, affluence: float = 0.5,
-                       security: float = 0.5) -> str:
+    def create_location(
+        self,
+        name: str,
+        archetype: str = "neutral",
+        population: int = 1000,
+        affluence: float = 0.5,
+        security: float = 0.5,
+    ) -> str:
         """Create a new city location"""
         location_id = f"location_{name.lower().replace(' ', '_')}_{len(self.locations)}"
 
@@ -213,36 +234,50 @@ class CityReputationSystem:
             archetype=archetype,
             population=population,
             affluence_level=affluence,
-            security_level=security
+            security_level=security,
         )
 
         self.locations[location_id] = location
         return location_id
 
-    def establish_influence(self, faction_id: str, location_id: str,
-                          influence_type: InfluenceType, strength: float = 0.1) -> bool:
+    def establish_influence(
+        self,
+        faction_id: str,
+        location_id: str,
+        influence_type: InfluenceType,
+        strength: float = 0.1,
+    ) -> bool:
         """Establish faction influence in a location"""
         if location_id not in self.locations:
             return False
 
         location = self.locations[location_id]
-        location.add_faction_influence(faction_id, influence_type, strength, self.current_turn)
+        location.add_faction_influence(
+            faction_id, influence_type, strength, self.current_turn
+        )
 
         # Record establishment event
-        self.reputation_events.append({
-            "type": "influence_established",
-            "faction": faction_id,
-            "location": location_id,
-            "influence_type": influence_type.value,
-            "strength": strength,
-            "turn": self.current_turn
-        })
+        self.reputation_events.append(
+            {
+                "type": "influence_established",
+                "faction": faction_id,
+                "location": location_id,
+                "influence_type": influence_type.value,
+                "strength": strength,
+                "turn": self.current_turn,
+            }
+        )
 
         return True
 
-    def process_operation_impact(self, faction_id: str, location_id: str,
-                               operation_type: str, success: bool,
-                               civilian_impact: bool = False) -> Dict[str, Any]:
+    def process_operation_impact(
+        self,
+        faction_id: str,
+        location_id: str,
+        operation_type: str,
+        success: bool,
+        civilian_impact: bool = False,
+    ) -> Dict[str, Any]:
         """Process the reputation impact of an operation"""
         if location_id not in self.locations:
             return {"error": "Location not found"}
@@ -251,7 +286,7 @@ class CityReputationSystem:
         results = {
             "reputation_changes": {},
             "influence_changes": {},
-            "narrative_impact": ""
+            "narrative_impact": "",
         }
 
         # Determine reputation event
@@ -272,30 +307,36 @@ class CityReputationSystem:
             results["reputation_changes"][faction_id] = {
                 "old": old_reputation,
                 "new": influence.reputation_score,
-                "change": influence.reputation_score - old_reputation
+                "change": influence.reputation_score - old_reputation,
             }
 
         # Update city-wide metrics
         if civilian_impact:
             self.civilian_morale = max(0.0, self.civilian_morale - 0.05)
             self.media_heat += 10
-            results["narrative_impact"] = f"Civilian casualties in {location.name} sparked outrage"
+            results[
+                "narrative_impact"
+            ] = f"Civilian casualties in {location.name} sparked outrage"
         elif success:
             if location.archetype in ["sanctuary", "university"]:
                 self.civilian_morale = min(1.0, self.civilian_morale + 0.02)
-            results["narrative_impact"] = f"Successful operation in {location.name} builds {faction_id} reputation"
+            results[
+                "narrative_impact"
+            ] = f"Successful operation in {location.name} builds {faction_id} reputation"
 
         # Record global event
-        self.reputation_events.append({
-            "type": "operation_impact",
-            "faction": faction_id,
-            "location": location_id,
-            "operation_type": operation_type,
-            "success": success,
-            "civilian_impact": civilian_impact,
-            "reputation_change": results["reputation_changes"].get(faction_id, {}),
-            "turn": self.current_turn
-        })
+        self.reputation_events.append(
+            {
+                "type": "operation_impact",
+                "faction": faction_id,
+                "location": location_id,
+                "operation_type": operation_type,
+                "success": success,
+                "civilian_impact": civilian_impact,
+                "reputation_change": results["reputation_changes"].get(faction_id, {}),
+                "turn": self.current_turn,
+            }
+        )
 
         return results
 
@@ -319,21 +360,17 @@ class CityReputationSystem:
                     faction_id: {
                         "total_influence": influence.get_total_influence(),
                         "reputation": influence.reputation_score,
-                        "control_percentage": influence.control_percentage
+                        "control_percentage": influence.control_percentage,
                     }
                     for faction_id, influence in location.faction_influences.items()
-                }
+                },
             }
         return summary
 
     def process_turn(self, turn_number: int) -> Dict[str, Any]:
         """Process turn-based reputation and influence changes"""
         self.current_turn = turn_number
-        results = {
-            "reputation_shifts": [],
-            "control_changes": [],
-            "city_events": []
-        }
+        results = {"reputation_shifts": [], "control_changes": [], "city_events": []}
 
         # Gradual reputation decay/recovery
         for location_id, location in self.locations.items():
@@ -341,9 +378,13 @@ class CityReputationSystem:
                 # Reputation naturally drifts toward neutral (0.5) over time
                 decay_rate = 0.01
                 if influence.reputation_score > 0.5:
-                    influence.reputation_score = max(0.5, influence.reputation_score - decay_rate)
+                    influence.reputation_score = max(
+                        0.5, influence.reputation_score - decay_rate
+                    )
                 elif influence.reputation_score < 0.5:
-                    influence.reputation_score = min(0.5, influence.reputation_score + decay_rate)
+                    influence.reputation_score = min(
+                        0.5, influence.reputation_score + decay_rate
+                    )
 
         # Media heat decay
         self.media_heat = max(0, self.media_heat - 2)
@@ -353,12 +394,14 @@ class CityReputationSystem:
             old_dominant = location.dominant_faction
             location._update_control_dynamics()
             if location.dominant_faction != old_dominant:
-                results["control_changes"].append({
-                    "location": location_id,
-                    "old_dominant": old_dominant,
-                    "new_dominant": location.dominant_faction,
-                    "contested": location.contested
-                })
+                results["control_changes"].append(
+                    {
+                        "location": location_id,
+                        "old_dominant": old_dominant,
+                        "new_dominant": location.dominant_faction,
+                        "contested": location.contested,
+                    }
+                )
 
         return results
 

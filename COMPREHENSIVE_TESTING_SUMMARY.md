@@ -62,11 +62,11 @@ def _validate_character_inputs(self, name, background_type, primary_trait, secon
         raise ValueError("Name cannot be empty or whitespace")
     if len(name) > 50:
         raise ValueError("Name too long (max 50 characters)")
-    
+
     # Background type validation
     if not isinstance(background_type, BackgroundType):
         raise TypeError(f"Background type must be BackgroundType enum, got {type(background_type)}")
-    
+
     # Skill points validation
     if skill_points < 0:
         raise ValueError(f"Skill points cannot be negative: {skill_points}")
@@ -81,7 +81,7 @@ def _validate_mission_inputs(self, mission_type, location_name, participants):
     # Validate participants
     if not participants:
         raise ValueError("Mission must have at least one participant")
-    
+
     # Check for duplicate participants
     participant_names = [p.name for p in participants]
     if len(participant_names) != len(set(participant_names)):
@@ -97,7 +97,7 @@ def _validate_event_inputs(self, event_type, location, priority, source):
         raise ValueError("Location cannot be empty")
     if len(location) > 100:
         raise ValueError("Location too long (max 100 characters)")
-    
+
     # Fallback for missing templates
     if not templates:
         raise ValueError(f"No templates available for event type: {event_type}")
@@ -112,12 +112,12 @@ logger = logging.getLogger(__name__)
 
 # Info level for major operations
 logger.info("Creating character: %s (%s background)", name, background_type.value)
-logger.info("Mission plan created successfully: %s (ID: %s, Risk: %s, Success: %.1f%%)", 
+logger.info("Mission plan created successfully: %s (ID: %s, Risk: %s, Success: %.1f%%)",
            mission_type.value, plan.id, plan.calculated_risk.value, plan.success_probability * 100)
 
 # Debug level for detailed operations
 logger.debug("Character input validation passed for: %s", name)
-logger.debug("Calculated resources for mission %s: Budget $%d, Time %d hours", 
+logger.debug("Calculated resources for mission %s: Budget $%d, Time %d hours",
             plan.mission_type.value, plan.budget_allocated, plan.time_estimate)
 
 # Warning level for potential issues
@@ -243,7 +243,7 @@ The Years of Lead project now has:
 
 The project is now ready for production use with confidence in its reliability, maintainability, and user experience quality.
 
-**Last Updated**: January 2025  
-**Test Status**: ✅ All Tests Passing  
-**Coverage**: Comprehensive  
-**Quality**: Production Ready 
+**Last Updated**: January 2025
+**Test Status**: ✅ All Tests Passing
+**Coverage**: Comprehensive
+**Quality**: Production Ready

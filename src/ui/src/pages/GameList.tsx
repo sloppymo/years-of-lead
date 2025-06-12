@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Typography, 
-  Box, 
-  Card, 
-  CardContent, 
-  CardActions, 
-  Button, 
+import {
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
   Grid,
   Skeleton,
   Alert,
@@ -50,25 +50,25 @@ const GameList: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const gamesData = await gameService.getGames();
         setGames(gamesData);
         setFilteredGames(gamesData);
-        
+
         setLoading(false);
       } catch (err: any) {
         setError(err.response?.data?.detail || 'Failed to load games');
         setLoading(false);
       }
     };
-    
+
     fetchGames();
   }, []);
 
   useEffect(() => {
     // Filter games based on search term
     if (searchTerm) {
-      const filtered = games.filter(game => 
+      const filtered = games.filter(game =>
         game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         game.scenario.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         game.player_faction.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -98,9 +98,9 @@ const GameList: React.FC = () => {
         <Typography variant="h4" component="h1">
           Your Games
         </Typography>
-        <Button 
-          variant="contained" 
-          color="primary" 
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleCreateGame}
           startIcon={<AddIcon />}
         >
@@ -154,11 +154,11 @@ const GameList: React.FC = () => {
             No games found
           </Typography>
           <Typography color="text.secondary">
-            {searchTerm ? "Try a different search term or" : "You haven't created any games yet."} 
+            {searchTerm ? "Try a different search term or" : "You haven't created any games yet."}
           </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
+          <Button
+            variant="contained"
+            color="primary"
             sx={{ mt: 2 }}
             onClick={handleCreateGame}
             startIcon={<AddIcon />}
@@ -170,35 +170,35 @@ const GameList: React.FC = () => {
         <Grid container spacing={3}>
           {filteredGames.map(game => (
             <Grid item xs={12} md={6} lg={4} key={game.id}>
-              <Card sx={{ 
-                height: '100%', 
-                display: 'flex', 
+              <Card sx={{
+                height: '100%',
+                display: 'flex',
                 flexDirection: 'column',
                 transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
                 '&:hover': {
                   transform: 'translateY(-4px)',
                   boxShadow: 4,
                   cursor: 'pointer'
-                } 
+                }
               }} onClick={() => handleGameClick(game.id)}>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                     <Typography variant="h6" component="h3" noWrap>
                       {game.name}
                     </Typography>
-                    <Chip 
-                      label={`Turn ${game.turn}`} 
-                      color="primary" 
-                      size="small" 
+                    <Chip
+                      label={`Turn ${game.turn}`}
+                      color="primary"
+                      size="small"
                     />
                   </Box>
-                  
+
                   <Typography variant="body2" color="text.secondary" gutterBottom>
                     {game.scenario.name}
                   </Typography>
-                  
+
                   <Divider sx={{ my: 1 }} />
-                  
+
                   <Typography variant="body2">
                     <strong>Faction:</strong> {game.player_faction.name}
                   </Typography>
@@ -211,9 +211,9 @@ const GameList: React.FC = () => {
                   <Typography variant="body2">
                     <strong>Last played:</strong> {formatDate(game.last_updated || game.start_date)}
                   </Typography>
-                  
+
                   <Box mt={1}>
-                    <Chip 
+                    <Chip
                       label={game.state === 'active' ? 'Active' : 'Completed'}
                       color={game.state === 'active' ? 'success' : 'default'}
                       size="small"

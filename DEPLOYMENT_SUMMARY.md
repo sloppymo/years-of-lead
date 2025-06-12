@@ -115,7 +115,7 @@ All changes have been successfully pushed to the GitHub repository: `https://git
 
 ---
 
-**Deployment Date**: January 2025  
-**Deployment Status**: ✅ Successful  
-**Next Review**: Weekly  
-**Maintainer**: sloppymo 
+**Deployment Date**: January 2025
+**Deployment Status**: ✅ Successful
+**Next Review**: Weekly
+**Maintainer**: sloppymo

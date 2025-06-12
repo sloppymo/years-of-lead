@@ -5,7 +5,7 @@
 The automated maintenance system for Years of Lead acts like a careful gardener, tending to your codebase by making small, targeted improvements while ensuring nothing breaks. This system implements several important software engineering concepts:
 
 - **Regression testing** - Making sure old features still work
-- **Metrics-driven development** - Measuring quality objectively  
+- **Metrics-driven development** - Measuring quality objectively
 - **Complexity budgeting** - Preventing feature creep
 - **Automated refactoring** - Improving code systematically
 
@@ -77,7 +77,7 @@ The maintenance system uses a "complexity budget" to prevent endless tinkering:
 ### Health Status Indicators
 
 - 🟢 **Excellent** (80%+) - System is healthy
-- 🟡 **Good** (60-80%) - System is stable  
+- 🟡 **Good** (60-80%) - System is stable
 - 🟠 **Needs Attention** (40-60%) - Issues detected
 - 🔴 **Critical** (<40%) - Immediate attention required
 
@@ -263,7 +263,7 @@ def collect_comprehensive_metrics(self, project_root: Path = None) -> Dict:
 - Verify Python path includes `src` directory
 - Check file permissions on `run_maintenance.py`
 
-**Tests failing during maintenance** 
+**Tests failing during maintenance**
 - Run tests manually: `python -m pytest tests/ -v`
 - Check for missing test dependencies
 - Review test output in maintenance logs
@@ -303,7 +303,7 @@ tail -f maintenance_logs/iteration_001.json
 ### Maintenance Schedule
 
 **Daily**: Health check and light maintenance (1-2 iterations)
-**Weekly**: Deep maintenance session (5-10 iterations)  
+**Weekly**: Deep maintenance session (5-10 iterations)
 **Monthly**: Full system optimization and metric export
 **Before releases**: Comprehensive health check and targeted fixes
 
@@ -383,4 +383,4 @@ To contribute to the maintenance system:
 
 ---
 
-*The automated maintenance system helps keep Years of Lead healthy and improving over time. Like a good gardener, it makes small, careful changes that compound into significant improvements while keeping the system stable and reliable.* 
+*The automated maintenance system helps keep Years of Lead healthy and improving over time. Like a good gardener, it makes small, careful changes that compound into significant improvements while keeping the system stable and reliable.*

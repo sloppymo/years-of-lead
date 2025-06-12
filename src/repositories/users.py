@@ -34,9 +34,11 @@ class UserRepository(BaseRepository[User, UserCreate, UserBase]):
         user = await self.get(db, user_id)
         return user is not None and user.is_superuser
 
-    async def get_active_users(self, db: AsyncSession, skip: int = 0, limit: int = 100) -> List[User]:
+    async def get_active_users(
+        self, db: AsyncSession, skip: int = 0, limit: int = 100
+    ) -> List[User]:
         """Get active users"""
-        query = select(User).where(User.is_active == True).offset(skip).limit(limit)
+        query = select(User).where(User.is_active).offset(skip).limit(limit)
         result = await db.execute(query)
         return result.scalars().all()
 

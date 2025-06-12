@@ -3,21 +3,29 @@ SQLAlchemy models for Years of Lead PostgreSQL database
 """
 
 from sqlalchemy import (
-    Boolean, Column, ForeignKey, Integer, String,
-    Float, DateTime, Text, Enum, JSON, Table
+    Boolean,
+    Column,
+    ForeignKey,
+    Integer,
+    String,
+    Float,
+    DateTime,
+    Text,
+    Enum,
+    JSON,
+    Table,
 )
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 import uuid
 import enum
-from datetime import datetime
 
 from core.database import Base
 
 
 class FactionType(enum.Enum):
     """Types of factions available in the game"""
+
     ANARCHIST = "anarchist"
     THINKTANK = "thinktank"
     CORPORATE = "corporate"
@@ -27,6 +35,7 @@ class FactionType(enum.Enum):
 
 class IdeologyType(enum.Enum):
     """Types of ideologies available in the game"""
+
     RADICAL_LEFT = "radical_left"
     CENTRIST = "centrist"
     CORPORATIST = "corporatist"
@@ -36,6 +45,7 @@ class IdeologyType(enum.Enum):
 
 class OperationType(enum.Enum):
     """Types of operations available in the game"""
+
     RECRUITMENT = "recruitment"
     PROTEST = "protest"
     SABOTAGE = "sabotage"
@@ -55,7 +65,7 @@ faction_district_control = Table(
     Column("control_percentage", Float, default=0.0),
     Column("influence", Float, default=0.0),
     Column("heat", Float, default=0.0),
-    Column("updated_at", DateTime, default=func.now(), onupdate=func.now())
+    Column("updated_at", DateTime, default=func.now(), onupdate=func.now()),
 )
 
 faction_relationships = Table(
@@ -64,12 +74,13 @@ faction_relationships = Table(
     Column("faction_id", String, ForeignKey("factions.id"), primary_key=True),
     Column("other_faction_id", String, ForeignKey("factions.id"), primary_key=True),
     Column("relationship_value", Integer, default=0),  # -100 to 100
-    Column("updated_at", DateTime, default=func.now(), onupdate=func.now())
+    Column("updated_at", DateTime, default=func.now(), onupdate=func.now()),
 )
 
 
 class User(Base):
     """User model for authentication"""
+
     __tablename__ = "users"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -88,6 +99,7 @@ class User(Base):
 
 class Game(Base):
     """Game session model"""
+
     __tablename__ = "games"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -112,6 +124,7 @@ class Game(Base):
 
 class Scenario(Base):
     """Game scenario model"""
+
     __tablename__ = "scenarios"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -129,6 +142,7 @@ class Scenario(Base):
 
 class Faction(Base):
     """Faction template model"""
+
     __tablename__ = "factions"
 
     id = Column(String, primary_key=True)
@@ -145,6 +159,7 @@ class Faction(Base):
 
 class GameFaction(Base):
     """Instance of a faction in a specific game"""
+
     __tablename__ = "game_factions"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -164,6 +179,7 @@ class GameFaction(Base):
 
 class District(Base):
     """District template model"""
+
     __tablename__ = "districts"
 
     id = Column(String, primary_key=True)
@@ -179,6 +195,7 @@ class District(Base):
 
 class GameDistrict(Base):
     """Instance of a district in a specific game"""
+
     __tablename__ = "game_districts"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -200,6 +217,7 @@ class GameDistrict(Base):
 
 class PlayerCharacter(Base):
     """Player character model"""
+
     __tablename__ = "player_characters"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -219,6 +237,7 @@ class PlayerCharacter(Base):
 
 class Cell(Base):
     """Cell model - small group of operatives"""
+
     __tablename__ = "cells"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -241,6 +260,7 @@ class Cell(Base):
 
 class Operation(Base):
     """Operation model - activities conducted by cells"""
+
     __tablename__ = "operations"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -251,7 +271,9 @@ class Operation(Base):
     operation_type = Column(Enum(OperationType), nullable=False)
     planning_turns = Column(Integer, default=1)  # Turns needed for planning
     execution_turns = Column(Integer, default=1)  # Turns needed for execution
-    current_stage = Column(String, default="planning")  # planning, executing, completed, failed
+    current_stage = Column(
+        String, default="planning"
+    )  # planning, executing, completed, failed
     risk_level = Column(Integer, default=50)  # 0-100
     success_probability = Column(Float, default=0.5)  # 0-1
     heat_generation = Column(Integer, default=10)  # Heat generated on success
@@ -268,12 +290,13 @@ cell_operations = Table(
     "cell_operations",
     Base.metadata,
     Column("cell_id", String, ForeignKey("cells.id"), primary_key=True),
-    Column("operation_id", String, ForeignKey("operations.id"), primary_key=True)
+    Column("operation_id", String, ForeignKey("operations.id"), primary_key=True),
 )
 
 
 class GameEvent(Base):
     """Game event model"""
+
     __tablename__ = "game_events"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -290,6 +313,7 @@ class GameEvent(Base):
 
 class JournalEntry(Base):
     """Player character journal entries"""
+
     __tablename__ = "journal_entries"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))

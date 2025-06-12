@@ -14,7 +14,7 @@ import random
 class GamePhase(Enum):
     """Game turn phases"""
     PLANNING = "planning"
-    ACTION = "action" 
+    ACTION = "action"
     RESOLUTION = "resolution"
 
 
@@ -52,7 +52,7 @@ class Skill:
     experience: int = 0
 
 
-@dataclass  
+@dataclass
 class Equipment:
     """Equipment item"""
     name: str
@@ -73,7 +73,7 @@ class Agent:
     stress: int = 0
     skills: Dict[SkillType, Skill] = field(default_factory=dict)
     equipment: List[Equipment] = field(default_factory=list)
-    
+
     def __post_init__(self):
         """Initialize default skills"""
         if not self.skills:
@@ -89,7 +89,7 @@ class Faction:
     current_goal: str = "recruitment"
     resources: Dict[str, int] = field(default_factory=lambda: {
         "money": 100,
-        "influence": 10, 
+        "influence": 10,
         "personnel": 5
     })
 
@@ -117,7 +117,7 @@ class Mission:
 
 class GameState:
     """Main game state manager"""
-    
+
     def __init__(self):
         self.turn_number = 1
         self.current_phase = GamePhase.PLANNING
@@ -127,14 +127,14 @@ class GameState:
         self.active_missions: Dict[str, Mission] = {}
         self.recent_narrative: List[str] = []
         self.active_events: List[str] = []
-    
+
     def initialize_game(self):
         """Initialize the game with default content"""
         self._create_default_factions()
         self._create_default_locations()
         self._create_default_agents()
         self._add_initial_narrative()
-    
+
     def _create_default_factions(self):
         """Create the default resistance factions"""
         self.factions = {
@@ -145,19 +145,19 @@ class GameState:
                 resources={"money": 150, "influence": 15, "personnel": 8}
             ),
             "urban_liberation": Faction(
-                id="urban_liberation", 
+                id="urban_liberation",
                 name="Urban Liberation Front",
                 current_goal="propaganda",
                 resources={"money": 80, "influence": 25, "personnel": 12}
             ),
             "underground": Faction(
                 id="underground",
-                name="Underground Network", 
+                name="Underground Network",
                 current_goal="intelligence",
                 resources={"money": 200, "influence": 8, "personnel": 4}
             )
         }
-    
+
     def _create_default_locations(self):
         """Create the default game locations"""
         self.locations = {
@@ -174,7 +174,7 @@ class GameState:
                 unrest_level=6
             ),
             "industrial_zone": Location(
-                id="industrial_zone", 
+                id="industrial_zone",
                 name="Industrial Zone",
                 security_level=6,
                 unrest_level=8
@@ -192,7 +192,7 @@ class GameState:
                 unrest_level=5
             )
         }
-    
+
     def _create_default_agents(self):
         """Create the default operative agents"""
         agent_configs = [
@@ -203,7 +203,7 @@ class GameState:
             ("agent_sofia", "Sofia Vargas", "urban_liberation", "university_district", "organizer"),
             ("agent_miguel", "Miguel Torres", "underground", "government_quarter", "insider")
         ]
-        
+
         for agent_id, name, faction_id, location_id, background in agent_configs:
             self.agents[agent_id] = Agent(
                 id=agent_id,
@@ -214,12 +214,12 @@ class GameState:
                 loyalty=random.randint(60, 90),
                 stress=random.randint(10, 30)
             )
-    
+
     def _add_initial_narrative(self):
         """Add initial narrative events"""
         self.recent_narrative = [
             "Resistance cells established across the city",
-            "Government increases security patrols in university district", 
+            "Government increases security patrols in university district",
             "Underground network reports increased surveillance",
             "Worker strikes spread through industrial zones",
             "Student protests gain momentum in university district",
@@ -227,7 +227,7 @@ class GameState:
             "Resistance recruitment drives begin in safe areas",
             "Intelligence reports government infiltration attempts"
         ]
-    
+
     def advance_turn(self):
         """Advance the game to the next phase/turn"""
         if self.current_phase == GamePhase.PLANNING:
@@ -240,60 +240,60 @@ class GameState:
             self.current_phase = GamePhase.PLANNING
             self.turn_number += 1
             self._process_resolution_phase()
-    
+
     def _process_planning_phase(self):
         """Process planning phase actions"""
         self.recent_narrative.append(f"Turn {self.turn_number}: Planning phase - Factions coordinate operations")
-    
+
     def _process_action_phase(self):
         """Process action phase operations"""
         self.recent_narrative.append(f"Turn {self.turn_number}: Action phase - Operatives execute missions")
-        
+
         # Simulate some mission results
         for faction in self.factions.values():
             if random.random() < 0.3:  # 30% chance of event
                 self._generate_faction_event(faction)
-    
+
     def _process_resolution_phase(self):
         """Process resolution phase outcomes"""
         self.recent_narrative.append(f"Turn {self.turn_number}: Resolution phase - Assessing operation outcomes")
-        
+
         # Update faction resources
         for faction in self.factions.values():
             self._update_faction_resources(faction)
-    
+
     def _generate_faction_event(self, faction: Faction):
         """Generate a random event for a faction"""
         events = [
             f"{faction.name} successfully recruits new operatives",
-            f"{faction.name} operation encounters government resistance", 
+            f"{faction.name} operation encounters government resistance",
             f"{faction.name} discovers valuable intelligence",
             f"{faction.name} faces internal loyalty challenges",
             f"{faction.name} establishes new safe house location"
         ]
-        
+
         event = random.choice(events)
         self.recent_narrative.append(event)
-    
+
     def _update_faction_resources(self, faction: Faction):
         """Update faction resources based on activities"""
         # Small random resource changes
         money_change = random.randint(-10, 20)
         influence_change = random.randint(-2, 5)
         personnel_change = random.randint(-1, 2)
-        
+
         faction.resources["money"] = max(0, faction.resources["money"] + money_change)
         faction.resources["influence"] = max(0, faction.resources["influence"] + influence_change)
         faction.resources["personnel"] = max(1, faction.resources["personnel"] + personnel_change)
-    
+
     def get_status_summary(self) -> Dict[str, Any]:
         """Get current game status summary"""
         active_agents = len([a for a in self.agents.values() if a.status == AgentStatus.ACTIVE])
-        
+
         faction_resources = {}
         for faction_id, faction in self.factions.items():
             faction_resources[faction_id] = faction.resources.copy()
-        
+
         return {
             "turn": self.turn_number,
             "phase": self.current_phase.value,
@@ -303,17 +303,17 @@ class GameState:
             "recent_narrative": self.recent_narrative[-10:],  # Last 10 events
             "active_events": self.active_events
         }
-    
+
     def get_agent_locations(self) -> Dict[str, List[str]]:
         """Get agents grouped by location"""
         locations = {}
-        
+
         for agent in self.agents.values():
             if agent.status == AgentStatus.ACTIVE:
                 if agent.location_id not in locations:
                     locations[agent.location_id] = []
-                
+
                 faction_name = self.factions[agent.faction_id].name
                 locations[agent.location_id].append(f"{agent.name} ({faction_name})")
-        
-        return locations 
+
+        return locations

@@ -5,7 +5,7 @@ Implements the turn-based game loop and event system
 
 import uuid
 import time
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any
 from enum import Enum
 from loguru import logger
 
@@ -16,6 +16,7 @@ from game.factions import FactionManager
 
 class GameStatus(Enum):
     """Game status enum"""
+
     INITIALIZING = "initializing"
     RUNNING = "running"
     PAUSED = "paused"
@@ -44,7 +45,9 @@ class GameEngine:
 
         logger.info(f"Game engine initialized with ID: {self.game_id}")
 
-    async def initialize_game(self, scenario_config: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def initialize_game(
+        self, scenario_config: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Initialize a new game with the given scenario configuration"""
         logger.info(f"Initializing new game with scenario: {scenario_config}")
 
@@ -61,11 +64,14 @@ class GameEngine:
         self.status = GameStatus.RUNNING
 
         # Trigger game start event
-        self.event_manager.trigger("game.started", {
-            "game_id": self.game_id,
-            "start_time": self.start_time,
-            "scenario": scenario_config
-        })
+        self.event_manager.trigger(
+            "game.started",
+            {
+                "game_id": self.game_id,
+                "start_time": self.start_time,
+                "scenario": scenario_config,
+            },
+        )
 
         return self.get_game_info()
 
@@ -96,12 +102,14 @@ class GameEngine:
         turn_data = {
             "game_id": self.game_id,
             "turn": self.current_turn,
-            "max_turns": self.max_turns
+            "max_turns": self.max_turns,
         }
         self.event_manager.trigger("turn.start", turn_data)
 
         # Process faction actions
-        faction_results = await self.faction_manager.process_turn(self.state, self.current_turn)
+        faction_results = await self.faction_manager.process_turn(
+            self.state, self.current_turn
+        )
 
         # Update game state based on actions
         await self.state.update(faction_results)
@@ -120,7 +128,7 @@ class GameEngine:
         return {
             "turn": self.current_turn,
             "faction_results": faction_results,
-            "state_summary": self.state.get_summary()
+            "state_summary": self.state.get_summary(),
         }
 
     async def end_game(self, reason: str) -> Dict[str, Any]:
@@ -139,7 +147,7 @@ class GameEngine:
             "reason": reason,
             "duration": duration,
             "turns": self.current_turn,
-            "state_summary": self.state.get_summary()
+            "state_summary": self.state.get_summary(),
         }
         self.event_manager.trigger("game.ended", end_data)
 
@@ -173,12 +181,15 @@ class GameEngine:
         result = await self.state.process_action(action_data)
 
         # Trigger action event
-        self.event_manager.trigger("player.action", {
-            "game_id": self.game_id,
-            "turn": self.current_turn,
-            "action": action_data,
-            "result": result
-        })
+        self.event_manager.trigger(
+            "player.action",
+            {
+                "game_id": self.game_id,
+                "turn": self.current_turn,
+                "action": action_data,
+                "result": result,
+            },
+        )
 
         return result
 
@@ -195,7 +206,7 @@ class GameEngine:
             "current_turn": self.current_turn,
             "max_turns": self.max_turns,
             "start_time": self.start_time,
-            "state_summary": self.state.get_summary() if self.state else {}
+            "state_summary": self.state.get_summary() if self.state else {},
         }
 
     async def save_game(self) -> Dict[str, Any]:
@@ -221,7 +232,9 @@ class GameEngine:
 
     def _on_faction_action(self, data: Dict[str, Any]):
         """Handle faction action event"""
-        logger.debug(f"Faction {data.get('faction_id')} performed action: {data.get('action_type')}")
+        logger.debug(
+            f"Faction {data.get('faction_id')} performed action: {data.get('action_type')}"
+        )
 
     def _on_game_paused(self, data: Dict[str, Any]):
         """Handle game paused event"""

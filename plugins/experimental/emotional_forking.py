@@ -6,15 +6,15 @@ Implements advanced emotional memory forking, where memories can branch into mul
 versions based on emotional state, perspective, and symbolic interpretation.
 """
 
-import sys
 import os
+import sys
 import random
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from game.entities import Agent, GameState
 from game.advanced_relationships import MemoryEntry
@@ -22,6 +22,7 @@ from game.advanced_relationships import MemoryEntry
 
 class EmotionalForkType(Enum):
     """Types of emotional memory forks"""
+
     PERSPECTIVE_SHIFT = "perspective_shift"
     IDEOLOGICAL_FILTER = "ideological_filter"
     TRAUMA_DISTORTION = "trauma_distortion"
@@ -33,6 +34,7 @@ class EmotionalForkType(Enum):
 @dataclass
 class MemoryFork:
     """Represents a forked memory with emotional/perspective variations"""
+
     original_memory_id: str
     fork_type: EmotionalForkType
     fork_id: str
@@ -52,7 +54,9 @@ class EmotionalForkingEngine:
         self.memory_resonance_threshold = 0.6
         self.fork_propagation_rate = 0.3
 
-    def process_memory_forking(self, agent: Agent, memory: MemoryEntry) -> Optional[MemoryFork]:
+    def process_memory_forking(
+        self, agent: Agent, memory: MemoryEntry
+    ) -> Optional[MemoryFork]:
         """Process potential forking for a memory"""
         if random.random() > 0.7:  # 30% chance of forking
             fork = MemoryFork(
@@ -62,7 +66,7 @@ class EmotionalForkingEngine:
                 variant_summary=f"Reinterpreted: {memory.summary}",
                 emotional_divergence={"hope": 0.2, "fear": -0.1},
                 symbolic_elements=["transformation", "growth"],
-                created_turn=self.game_state.turn_number
+                created_turn=self.game_state.turn_number,
             )
 
             if not hasattr(agent, "memory_forks"):
@@ -72,7 +76,9 @@ class EmotionalForkingEngine:
             return fork
         return None
 
-    def propagate_collective_memory(self, shared_memory_id: str, participating_agents: List[str]):
+    def propagate_collective_memory(
+        self, shared_memory_id: str, participating_agents: List[str]
+    ):
         """Propagate a collective memory fork across multiple agents"""
         collective_fork = MemoryFork(
             original_memory_id=shared_memory_id,
@@ -82,7 +88,7 @@ class EmotionalForkingEngine:
             emotional_divergence={"hope": 0.2, "trust": 0.2},
             symbolic_elements=["unity", "shared", "collective"],
             created_turn=self.game_state.turn_number,
-            stability=0.9
+            stability=0.9,
         )
 
         # Apply to all participating agents

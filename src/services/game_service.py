@@ -2,24 +2,31 @@
 Game service for managing game sessions and state
 """
 
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from models.sql_models import Game, GameEvent, Scenario, Faction, GameFaction, District, GameDistrict
+from models.sql_models import (
+    Game,
+    Scenario,
+)
 from models.nosql_models import GameStateSnapshot, GameEventLog
 from models.schemas import (
-    GameCreate, GameResponse, ScenarioResponse,
-    GameFactionCreate, GameDistrictCreate
+    GameCreate,
+    GameResponse,
+    GameFactionCreate,
+    GameDistrictCreate,
 )
 
 from repositories.games import game_repository
 from repositories.factions import faction_repository, game_faction_repository
 from repositories.districts import district_repository, game_district_repository
-from repositories.operations import operation_repository, cell_repository
-from repositories.nosql_repositories import GameStateSnapshotRepository, GameEventLogRepository
+from repositories.nosql_repositories import (
+    GameStateSnapshotRepository,
+    GameEventLogRepository,
+)
 
 
 class GameService:
@@ -37,10 +44,7 @@ class GameService:
             self.event_repository = None
 
     async def create_game(
-        self,
-        db: AsyncSession,
-        game_data: GameCreate,
-        user_id: str
+        self, db: AsyncSession, game_data: GameCreate, user_id: str
     ) -> GameResponse:
         """Create a new game session"""
         # Validate scenario existence
@@ -77,14 +81,10 @@ class GameService:
             is_completed=game.is_completed,
             created_by=game.created_by,
             created_at=game.created_at,
-            last_played_at=game.last_played_at
+            last_played_at=game.last_played_at,
         )
 
-    async def get_game(
-        self,
-        db: AsyncSession,
-        game_id: str
-    ) -> Optional[GameResponse]:
+    async def get_game(self, db: AsyncSession, game_id: str) -> Optional[GameResponse]:
         """Get game by ID"""
         game = await game_repository.get(db, game_id)
         if not game:
@@ -99,15 +99,11 @@ class GameService:
             is_completed=game.is_completed,
             created_by=game.created_by,
             created_at=game.created_at,
-            last_played_at=game.last_played_at
+            last_played_at=game.last_played_at,
         )
 
     async def get_user_games(
-        self,
-        db: AsyncSession,
-        user_id: str,
-        skip: int = 0,
-        limit: int = 100
+        self, db: AsyncSession, user_id: str, skip: int = 0, limit: int = 100
     ) -> List[GameResponse]:
         """Get all games created by user"""
         games = await game_repository.get_by_user(db, user_id, skip, limit)
@@ -122,12 +118,14 @@ class GameService:
                 is_completed=game.is_completed,
                 created_by=game.created_by,
                 created_at=game.created_at,
-                last_played_at=game.last_played_at
+                last_played_at=game.last_played_at,
             )
             for game in games
         ]
 
-    async def advance_turn(self, db: AsyncSession, game_id: str) -> Optional[GameResponse]:
+    async def advance_turn(
+        self, db: AsyncSession, game_id: str
+    ) -> Optional[GameResponse]:
         """Advance game to next turn"""
         # Get current game
         game = await game_repository.get(db, game_id)
@@ -157,16 +155,12 @@ class GameService:
         return GameResponse.from_orm(updated_game)
 
     async def _initialize_game_factions(
-        self,
-        db: AsyncSession,
-        game_id: str,
-        scenario_id: str
+        self, db: AsyncSession, game_id: str, scenario_id: str
     ) -> List[str]:
         """Initialize factions for a new game based on scenario"""
         # Get factions from scenario
         scenario_factions = await faction_repository.list(
-            db,
-            filter_dict={"scenario_id": scenario_id}
+            db, filter_dict={"scenario_id": scenario_id}
         )
 
         created_faction_ids = []
@@ -178,7 +172,7 @@ class GameService:
                 "money": 1000,
                 "weapons": 10,
                 "intel": 5,
-                "support": 50  # Base public support level
+                "support": 50,  # Base public support level
             }
 
             # Adjust based on faction type
@@ -187,14 +181,14 @@ class GameService:
                     "money": 5000,
                     "weapons": 50,
                     "intel": 20,
-                    "support": 40
+                    "support": 40,
                 }
             elif template.faction_type == "insurgent":
                 starting_resources = {
                     "money": 500,
                     "weapons": 5,
                     "intel": 10,
-                    "support": 30
+                    "support": 30,
                 }
 
             # Create game faction
@@ -210,28 +204,23 @@ class GameService:
                 is_player_faction=False,  # Default to AI-controlled
                 is_active=True,
                 popularity=50,  # Default to neutral popularity
-                heat=0        # Start with no heat/suspicion
+                heat=0,  # Start with no heat/suspicion
             )
 
             created_faction = await game_faction_repository.create(
-                db,
-                obj_in=game_faction.dict()
+                db, obj_in=game_faction.dict()
             )
             created_faction_ids.append(created_faction.id)
 
         return created_faction_ids
 
     async def _initialize_game_districts(
-        self,
-        db: AsyncSession,
-        game_id: str,
-        scenario_id: str
+        self, db: AsyncSession, game_id: str, scenario_id: str
     ) -> List[str]:
         """Initialize districts for a new game based on scenario"""
         # Get districts from scenario
         scenario_districts = await district_repository.list(
-            db,
-            filter_dict={"scenario_id": scenario_id}
+            db, filter_dict={"scenario_id": scenario_id}
         )
 
         created_district_ids = []
@@ -248,22 +237,20 @@ class GameService:
                 district_type=template.district_type,
                 population=template.population,
                 security_level=5,  # Default mid-level security
-                unrest_level=0,    # Start with no unrest
+                unrest_level=0,  # Start with no unrest
                 prosperity_level=50,  # Default average prosperity
-                heat=0              # Start with no heat/attention
+                heat=0,  # Start with no heat/attention
             )
 
             created_district = await game_district_repository.create(
-                db,
-                obj_in=game_district.dict()
+                db, obj_in=game_district.dict()
             )
             created_district_ids.append(created_district.id)
 
             # Set up initial faction control for this district
             # By default, state faction controls most districts
             state_factions = await game_faction_repository.list(
-                db,
-                filter_dict={"game_id": game_id, "faction_type": "state"}
+                db, filter_dict={"game_id": game_id, "faction_type": "state"}
             )
 
             if state_factions:
@@ -275,16 +262,12 @@ class GameService:
                     main_state_faction.id,
                     80.0,  # 80% control
                     70.0,  # 70% influence
-                    10.0   # 10% heat
+                    10.0,  # 10% heat
                 )
 
         return created_district_ids
 
-    async def _create_initial_snapshot(
-        self,
-        db: AsyncSession,
-        game_id: str
-    ) -> None:
+    async def _create_initial_snapshot(self, db: AsyncSession, game_id: str) -> None:
         """Create initial game state snapshot"""
         if not self.snapshot_repository:
             return
@@ -295,12 +278,14 @@ class GameService:
         factions = await game_faction_repository.get_by_game(db, game_id)
         faction_data = []
         for faction in factions:
-            faction_data.append({
-                "id": faction.id,
-                "name": faction.name,
-                "resources": faction.resources,
-                "popularity": faction.popularity
-            })
+            faction_data.append(
+                {
+                    "id": faction.id,
+                    "name": faction.name,
+                    "resources": faction.resources,
+                    "popularity": faction.popularity,
+                }
+            )
 
         # Get game districts
         districts = await game_district_repository.get_by_game(db, game_id)
@@ -311,13 +296,15 @@ class GameService:
                 db, district.id
             )
 
-            district_data.append({
-                "id": district.id,
-                "name": district.name,
-                "security_level": district.security_level,
-                "unrest_level": district.unrest_level,
-                "faction_control": control_data
-            })
+            district_data.append(
+                {
+                    "id": district.id,
+                    "name": district.name,
+                    "security_level": district.security_level,
+                    "unrest_level": district.unrest_level,
+                    "faction_control": control_data,
+                }
+            )
 
         # Create snapshot
         snapshot = GameStateSnapshot(
@@ -327,21 +314,12 @@ class GameService:
             factions=faction_data,
             districts=district_data,
             events=[],
-            player_status={
-                "resources": {},
-                "influence": 0,
-                "heat": 0
-            }
+            player_status={"resources": {}, "influence": 0, "heat": 0},
         )
 
         await self.snapshot_repository.create(snapshot.dict())
 
-    async def _create_snapshot(
-        self,
-        db: AsyncSession,
-        game_id: str,
-        turn: int
-    ) -> None:
+    async def _create_snapshot(self, db: AsyncSession, game_id: str, turn: int) -> None:
         """Create game state snapshot for current turn"""
         if not self.snapshot_repository:
             return
@@ -350,11 +328,7 @@ class GameService:
         # Implementation would be similar but with current game state data
         pass
 
-    async def _process_end_of_turn(
-        self,
-        db: AsyncSession,
-        game: Game
-    ) -> None:
+    async def _process_end_of_turn(self, db: AsyncSession, game: Game) -> None:
         """Process end of turn events and calculations"""
         # Process operations
         # Update faction resources
@@ -363,11 +337,7 @@ class GameService:
         # Generate end-of-turn events
         pass
 
-    async def _process_beginning_of_turn(
-        self,
-        db: AsyncSession,
-        game: Game
-    ) -> None:
+    async def _process_beginning_of_turn(self, db: AsyncSession, game: Game) -> None:
         """Process beginning of turn events and calculations"""
         # Set up new operations
         # Apply passive effects
@@ -382,7 +352,7 @@ class GameService:
         title: str,
         description: str,
         affected_entities: Dict[str, List[str]],
-        outcome: Dict[str, Any]
+        outcome: Dict[str, Any],
     ) -> None:
         """Log a game event"""
         if not self.event_repository:
@@ -396,7 +366,7 @@ class GameService:
             title=title,
             description=description,
             affected_entities=affected_entities,
-            outcome=outcome
+            outcome=outcome,
         )
 
         await self.event_repository.create(event.dict())

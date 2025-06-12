@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Paper, 
-  TextField, 
-  Button, 
-  Grid, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+import {
+  Box,
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   FormHelperText,
   Alert,
   CircularProgress,
@@ -55,7 +55,7 @@ const NewGame: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // In a real implementation, we would fetch the actual scenarios and factions
         // For now, we'll use mock data
         const mockScenarios: Scenario[] = [
@@ -84,7 +84,7 @@ const NewGame: React.FC = () => {
             image_url: 'https://via.placeholder.com/400x200?text=Italy+1975'
           }
         ];
-        
+
         const mockFactions: Faction[] = [
           {
             id: '1',
@@ -119,10 +119,10 @@ const NewGame: React.FC = () => {
             playable: false
           }
         ];
-        
+
         setScenarios(mockScenarios);
         setFactions(mockFactions.filter(f => f.playable));
-        
+
         setLoading(false);
       } catch (err: any) {
         console.error(err);
@@ -130,7 +130,7 @@ const NewGame: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -154,14 +154,14 @@ const NewGame: React.FC = () => {
       try {
         setSubmitting(true);
         setError(null);
-        
+
         // In a real implementation, we would call the API
         // For now, we'll simulate a successful request
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         // Mock response
         const gameId = 'new-game-123';
-        
+
         // Navigate to the new game
         navigate(`/games/${gameId}`);
       } catch (err: any) {
@@ -202,7 +202,7 @@ const NewGame: React.FC = () => {
           <Typography variant="h6" gutterBottom>
             Game Details
           </Typography>
-          
+
           <TextField
             fullWidth
             id="name"
@@ -223,13 +223,13 @@ const NewGame: React.FC = () => {
         {formik.touched.scenarioId && formik.errors.scenarioId && (
           <FormHelperText error>{formik.errors.scenarioId}</FormHelperText>
         )}
-        
+
         <Grid container spacing={3} sx={{ mb: 4 }}>
           {scenarios.map((scenario) => (
             <Grid item xs={12} md={4} key={scenario.id}>
-              <Card 
-                raised={formik.values.scenarioId === scenario.id} 
-                sx={{ 
+              <Card
+                raised={formik.values.scenarioId === scenario.id}
+                sx={{
                   border: formik.values.scenarioId === scenario.id ? '2px solid' : 'none',
                   borderColor: 'primary.main'
                 }}
@@ -262,17 +262,17 @@ const NewGame: React.FC = () => {
         <Typography variant="h6" gutterBottom>
           Select Faction
         </Typography>
-        
+
         {formik.touched.factionId && formik.errors.factionId && (
           <FormHelperText error>{formik.errors.factionId}</FormHelperText>
         )}
-        
+
         <Grid container spacing={3} sx={{ mb: 4 }}>
           {factions.map((faction) => (
             <Grid item xs={12} md={4} key={faction.id}>
-              <Card 
+              <Card
                 raised={formik.values.factionId === faction.id}
-                sx={{ 
+                sx={{
                   border: formik.values.factionId === faction.id ? '2px solid' : 'none',
                   borderColor: 'primary.main'
                 }}
@@ -319,9 +319,9 @@ const NewGame: React.FC = () => {
           <Button onClick={() => navigate('/games')} variant="outlined">
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             color="primary"
             disabled={submitting || !formik.isValid}
           >

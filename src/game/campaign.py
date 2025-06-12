@@ -19,8 +19,10 @@ import datetime as _dt
 # Campaign Data Structures
 # ---------------------------------------------------------------------------
 
+
 class CampaignStage(Enum):
     """High-level stages a campaign progresses through."""
+
     PLANNING = auto()
     EXECUTION = auto()
     CONSOLIDATION = auto()
@@ -37,10 +39,14 @@ class Campaign:
     faction_id: str
     id: str = field(default_factory=lambda: f"cmp_{uuid.uuid4().hex[:8]}")
 
-    stages: List[CampaignStage] = field(default_factory=lambda: [CampaignStage.PLANNING])
+    stages: List[CampaignStage] = field(
+        default_factory=lambda: [CampaignStage.PLANNING]
+    )
     current_stage: CampaignStage = CampaignStage.PLANNING
     completed: bool = False
-    missions: List[str] = field(default_factory=list)  # mission IDs linked to this campaign
+    missions: List[str] = field(
+        default_factory=list
+    )  # mission IDs linked to this campaign
 
     def advance_stage(self):  # ITERATION_034
         """Advance to the next campaign stage."""
@@ -58,9 +64,11 @@ class Campaign:
         if mission_id not in self.missions:
             self.missions.append(mission_id)
 
+
 # ---------------------------------------------------------------------------
 # Historical Memory – global registry
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class HistoricalEvent:
@@ -84,9 +92,15 @@ class HistoricalMemory:
     def record_event(self, event: HistoricalEvent):  # ITERATION_034
         self._events.append(event)
 
-    def query(self, faction_id: Optional[str] = None, since_turn: int = 0) -> List[HistoricalEvent]:
+    def query(
+        self, faction_id: Optional[str] = None, since_turn: int = 0
+    ) -> List[HistoricalEvent]:
         """Retrieve events filtered by faction or time."""
-        return [e for e in self._events if (faction_id is None or faction_id in e.factions) and e.turn >= since_turn]
+        return [
+            e
+            for e in self._events
+            if (faction_id is None or faction_id in e.factions) and e.turn >= since_turn
+        ]
 
     def latest(self, limit: int = 5) -> List[HistoricalEvent]:
         return self._events[-limit:]
@@ -94,6 +108,7 @@ class HistoricalMemory:
     # Simple health metric – number of recorded events
     def count(self) -> int:
         return len(self._events)
+
 
 # Global instance
 historical_memory = HistoricalMemory()

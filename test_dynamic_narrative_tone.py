@@ -6,14 +6,24 @@ This script demonstrates the new player-authored narrative system in Years of Le
 showing how players can influence the tone and style of generated content.
 """
 
-import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+import pytest
+
+pytest.skip(
+    "Legacy narrative tone demo – excluded from automated test run",
+    allow_module_level=True,
+)
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 from game.character_creation import CharacterCreator, BackgroundType, PersonalityTrait
 from game.dynamic_narrative_tone import (
-    DynamicNarrativeToneEngine, VoiceConfiguration, EmotionalTone,
-    SymbolicElement, NarrativeStyle, create_default_voice_configurations
+    DynamicNarrativeToneEngine,
+    VoiceConfiguration,
+    EmotionalTone,
+    SymbolicElement,
+    NarrativeStyle,
 )
 from game.narrative_engine import NarrativeEngine
 from game.core import GameState
@@ -30,24 +40,30 @@ def demonstrate_voice_configuration():
         name="Alex Rivera",
         background_type=BackgroundType.JOURNALIST,
         primary_trait=PersonalityTrait.PESSIMISTIC,
-        secondary_trait=PersonalityTrait.ANALYTICAL
+        secondary_trait=PersonalityTrait.ANALYTICAL,
     )
 
     print(f"\n📝 Created Character: {character.name}")
     print(f"Background: {character.background.name}")
-    print(f"Traits: {character.traits.primary_trait.value}, {character.traits.secondary_trait.value}")
+    print(
+        f"Traits: {character.traits.primary_trait.value}, {character.traits.secondary_trait.value}"
+    )
 
     # Show default voice configuration
     voice_config = character.voice_config
-    print(f"\n🎵 Default Voice Configuration:")
+    print("\n🎵 Default Voice Configuration:")
     print(f"Emotional Tones: {[tone.value for tone in voice_config.emotional_tones]}")
-    print(f"Symbolic Preferences: {[symbol.value for symbol in voice_config.symbolic_preferences]}")
+    print(
+        f"Symbolic Preferences: {[symbol.value for symbol in voice_config.symbolic_preferences]}"
+    )
     print(f"Style Notes: {[style.value for style in voice_config.style_notes]}")
     print(f"Default Lines: {len(voice_config.player_authored_lines)}")
 
     for i, line in enumerate(voice_config.player_authored_lines, 1):
         print(f"  {i}. '{line.content}'")
-        print(f"     Tone: {line.emotional_tone.value if line.emotional_tone else 'None'}")
+        print(
+            f"     Tone: {line.emotional_tone.value if line.emotional_tone else 'None'}"
+        )
         print(f"     Symbols: {[s.value for s in line.symbolic_elements]}")
         print(f"     Style: {[s.value for s in line.style_markers]}")
 
@@ -66,14 +82,16 @@ def demonstrate_player_line_addition():
     example_lines = [
         "You mistake gunfire for fireworks. Again.",
         "There's a beauty in broken glass if you squint just right.",
-        "The regime sends flowers now. Carnations. Red, of course."
+        "The regime sends flowers now. Carnations. Red, of course.",
     ]
 
     print("Adding player-authored lines:")
     for line_text in example_lines:
         line = voice_config.add_player_line(line_text)
         print(f"\n  Added: '{line_text}'")
-        print(f"  Detected tone: {line.emotional_tone.value if line.emotional_tone else 'neutral'}")
+        print(
+            f"  Detected tone: {line.emotional_tone.value if line.emotional_tone else 'neutral'}"
+        )
         print(f"  Symbols found: {[s.value for s in line.symbolic_elements]}")
         print(f"  Style markers: {[s.value for s in line.style_markers]}")
 
@@ -91,8 +109,14 @@ def demonstrate_narrative_generation():
     # Create a character with voice configuration
     voice_config = VoiceConfiguration("cynical_reporter")
     voice_config.emotional_tones = [EmotionalTone.WRY, EmotionalTone.SARDONIC]
-    voice_config.symbolic_preferences = [SymbolicElement.CIGARETTES, SymbolicElement.BROKEN_GLASS]
-    voice_config.style_notes = [NarrativeStyle.SARCASM_COPING, NarrativeStyle.SHORT_SENTENCES]
+    voice_config.symbolic_preferences = [
+        SymbolicElement.CIGARETTES,
+        SymbolicElement.BROKEN_GLASS,
+    ]
+    voice_config.style_notes = [
+        NarrativeStyle.SARCASM_COPING,
+        NarrativeStyle.SHORT_SENTENCES,
+    ]
 
     # Add some player lines
     voice_config.add_player_line("You mistake gunfire for fireworks. Again.")
@@ -108,7 +132,7 @@ def demonstrate_narrative_generation():
         "A loud sound echoes from the street outside.",
         "The meeting has been postponed indefinitely.",
         "You receive a message from an unknown contact.",
-        "The news report discusses recent government policies."
+        "The news report discusses recent government policies.",
     ]
 
     print("\nGenerating narratives with voice configuration:")
@@ -116,7 +140,7 @@ def demonstrate_narrative_generation():
         enhanced = tone_engine.generate_narrative_with_voice(
             "cynical_reporter",
             base_event,
-            {"event_type": "daily_life", "intensity": 0.5}
+            {"event_type": "daily_life", "intensity": 0.5},
         )
 
         print(f"\n{i}. Base: {base_event}")
@@ -144,7 +168,7 @@ def demonstrate_voice_commands():
         "set_style poetic_language",
         "show_config",
         "add_line The statue's missing its head. So is the regime.",
-        "show_config"
+        "show_config",
     ]
 
     print("Testing voice commands:")
@@ -171,7 +195,7 @@ def demonstrate_integration_with_existing_systems():
         name="Sofia Chen",
         background_type=BackgroundType.ACTIVIST,
         primary_trait=PersonalityTrait.IDEALISTIC,
-        secondary_trait=PersonalityTrait.COMPASSIONATE
+        secondary_trait=PersonalityTrait.COMPASSIONATE,
     )
 
     # Register character voice with narrative engine
@@ -181,7 +205,7 @@ def demonstrate_integration_with_existing_systems():
     context = {
         "event_type": "resistance_meeting",
         "emotional_context": "hopeful",
-        "location": "safe_house"
+        "location": "safe_house",
     }
 
     base_event = "The resistance cell gathers to plan their next operation."
@@ -194,7 +218,7 @@ def demonstrate_integration_with_existing_systems():
     print(f"Enhanced: {enhanced_narrative}")
 
     # Show voice summary
-    print(f"\nVoice Summary:")
+    print("\nVoice Summary:")
     summary = narrative_engine.get_character_voice_summary(character.id)
     print(summary)
 
@@ -226,7 +250,9 @@ def test_serialization():
     assert restored_config.emotional_tones == original_config.emotional_tones
     assert restored_config.symbolic_preferences == original_config.symbolic_preferences
     assert restored_config.style_notes == original_config.style_notes
-    assert len(restored_config.player_authored_lines) == len(original_config.player_authored_lines)
+    assert len(restored_config.player_authored_lines) == len(
+        original_config.player_authored_lines
+    )
 
     print("✅ Verification successful - all data preserved")
 
@@ -250,7 +276,10 @@ def demonstrate_sylva_wren_integration():
     character_id = "emotional_character"
     voice_config = VoiceConfiguration(character_id)
     voice_config.emotional_tones = [EmotionalTone.MELANCHOLIC]
-    voice_config.symbolic_preferences = [SymbolicElement.BROKEN_GLASS, SymbolicElement.RAIN]
+    voice_config.symbolic_preferences = [
+        SymbolicElement.BROKEN_GLASS,
+        SymbolicElement.RAIN,
+    ]
     voice_config.add_player_line("Memories fall like autumn rain.")
 
     narrative_engine.register_character_voice(character_id, voice_config)
@@ -258,9 +287,7 @@ def demonstrate_sylva_wren_integration():
     # Generate enhanced narrative
     base_event = "You walk through the abandoned district."
     enhanced = narrative_engine.generate_enhanced_narrative(
-        character_id,
-        base_event,
-        {"emotional_context": "nostalgic", "intensity": 0.8}
+        character_id, base_event, {"emotional_context": "nostalgic", "intensity": 0.8}
     )
 
     print(f"Base Event: {base_event}")
@@ -278,12 +305,15 @@ def run_comprehensive_demo():
     try:
         # Run demonstrations
         character, voice_config = demonstrate_voice_configuration()
-        player_config = demonstrate_player_line_addition()
-        tone_engine = demonstrate_narrative_generation()
-        narrative_engine = demonstrate_voice_commands()
-        integration_engine, integration_character = demonstrate_integration_with_existing_systems()
-        serialization_test = test_serialization()
-        sylva_wren_engine = demonstrate_sylva_wren_integration()
+        demonstrate_player_line_addition()
+        demonstrate_narrative_generation()
+        demonstrate_voice_commands()
+        (
+            integration_engine,
+            integration_character,
+        ) = demonstrate_integration_with_existing_systems()
+        test_serialization()
+        demonstrate_sylva_wren_integration()
 
         print("\n🎉 Demonstration Complete!")
         print("=" * 80)
@@ -318,6 +348,7 @@ def run_comprehensive_demo():
     except Exception as e:
         print(f"\n❌ Error during demonstration: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Typography, 
-  Paper, 
-  Grid, 
-  Box, 
-  Card, 
-  CardContent, 
-  CardActions, 
+import {
+  Typography,
+  Paper,
+  Grid,
+  Box,
+  Card,
+  CardContent,
+  CardActions,
   Button,
   Skeleton,
   Alert,
@@ -50,22 +50,22 @@ const Dashboard: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Get current user
         const userData = await authService.getCurrentUser();
         setUser(userData);
-        
+
         // Get user's games
         const gamesData = await gameService.getGames();
         setGames(gamesData);
-        
+
         setLoading(false);
       } catch (err: any) {
         setError(err.response?.data?.detail || 'Failed to load dashboard data');
         setLoading(false);
       }
     };
-    
+
     fetchDashboardData();
   }, []);
 
@@ -83,9 +83,9 @@ const Dashboard: React.FC = () => {
         <Typography variant="h4" component="h1">
           Dashboard
         </Typography>
-        <Button 
-          variant="contained" 
-          color="primary" 
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleCreateGame}
         >
           Create New Game
@@ -105,7 +105,7 @@ const Dashboard: React.FC = () => {
             <Typography variant="h6" component="h2" gutterBottom>
               Your Profile
             </Typography>
-            
+
             {loading ? (
               <>
                 <Skeleton height={30} width="60%" />
@@ -136,7 +136,7 @@ const Dashboard: React.FC = () => {
             <Typography variant="h6" component="h2" gutterBottom>
               Recent Games
             </Typography>
-            
+
             {loading ? (
               <>
                 <Skeleton height={100} />
@@ -158,10 +158,10 @@ const Dashboard: React.FC = () => {
                           <Typography variant="h6" component="h3">
                             {game.name}
                           </Typography>
-                          <Chip 
-                            label={`Turn ${game.turn}`} 
-                            color="primary" 
-                            size="small" 
+                          <Chip
+                            label={`Turn ${game.turn}`}
+                            color="primary"
+                            size="small"
                           />
                         </Box>
                         <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -172,8 +172,8 @@ const Dashboard: React.FC = () => {
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button 
-                          size="small" 
+                        <Button
+                          size="small"
                           color="primary"
                           onClick={() => handleContinueGame(game.id)}
                         >
@@ -183,11 +183,11 @@ const Dashboard: React.FC = () => {
                     </Card>
                   </Grid>
                 ))}
-                
+
                 {games.length > 3 && (
                   <Grid item xs={12}>
-                    <Button 
-                      color="primary" 
+                    <Button
+                      color="primary"
                       onClick={() => navigate('/games')}
                       sx={{ mt: 1 }}
                     >

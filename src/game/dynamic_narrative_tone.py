@@ -10,13 +10,12 @@ from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, field
 from enum import Enum
 import random
-import json
-import re
 from loguru import logger
 
 
 class EmotionalTone(Enum):
     """Core emotional tones for narrative filtering"""
+
     WRY = "wry"
     TRAGIC = "tragic"
     REBELLIOUS = "rebellious"
@@ -33,6 +32,7 @@ class EmotionalTone(Enum):
 
 class SymbolicElement(Enum):
     """Symbolic elements that can influence narrative generation"""
+
     SMALL_OBJECTS = "small objects"
     GRAFFITI = "graffiti"
     GHOST_SPACES = "ghost spaces"
@@ -49,6 +49,7 @@ class SymbolicElement(Enum):
 
 class NarrativeStyle(Enum):
     """Style characteristics for voice generation"""
+
     ONE_LINERS = "likes one-liners"
     SARCASM_COPING = "uses sarcasm to cope"
     BEAUTY_IN_DESTRUCTION = "notices beauty in destruction"
@@ -64,6 +65,7 @@ class NarrativeStyle(Enum):
 @dataclass
 class PlayerAuthoredLine:
     """A single line authored by the player to influence future narrative"""
+
     content: str
     emotional_tone: Optional[EmotionalTone] = None
     symbolic_elements: Set[SymbolicElement] = field(default_factory=set)
@@ -89,7 +91,7 @@ class PlayerAuthoredLine:
             SymbolicElement.SHADOWS: ["shadow", "dark", "silhouette"],
             SymbolicElement.RAIN: ["rain", "wet", "drip", "storm"],
             SymbolicElement.MUSIC: ["song", "melody", "rhythm", "tune"],
-            SymbolicElement.PHOTOGRAPHS: ["photo", "picture", "image", "memory"]
+            SymbolicElement.PHOTOGRAPHS: ["photo", "picture", "image", "memory"],
         }
 
         for symbol, keywords in symbol_keywords.items():
@@ -97,13 +99,18 @@ class PlayerAuthoredLine:
                 self.symbolic_elements.add(symbol)
 
         # Detect style markers
-        if len([s for s in self.content.split('.') if s.strip()]) == 1 and len(self.content) < 50:
+        if (
+            len([s for s in self.content.split(".") if s.strip()]) == 1
+            and len(self.content) < 50
+        ):
             self.style_markers.add(NarrativeStyle.ONE_LINERS)
 
-        if any(word in content_lower for word in ["beauty", "beautiful", "broken", "ruin"]):
+        if any(
+            word in content_lower for word in ["beauty", "beautiful", "broken", "ruin"]
+        ):
             self.style_markers.add(NarrativeStyle.BEAUTY_IN_DESTRUCTION)
 
-        if self.content.count('.') >= 2 and "." in self.content[:-1]:
+        if self.content.count(".") >= 2 and "." in self.content[:-1]:
             self.style_markers.add(NarrativeStyle.SHORT_SENTENCES)
 
         # Detect emotional tone patterns
@@ -118,6 +125,7 @@ class PlayerAuthoredLine:
 @dataclass
 class VoiceConfiguration:
     """Complete voice configuration for a character's narrative generation"""
+
     character_id: str
     emotional_tones: List[EmotionalTone] = field(default_factory=list)
     symbolic_preferences: List[SymbolicElement] = field(default_factory=list)
@@ -126,8 +134,8 @@ class VoiceConfiguration:
 
     # Advanced settings
     tone_consistency_weight: float = 0.7  # How strongly to maintain consistent tone
-    player_line_influence: float = 0.5    # How much player lines influence generation
-    symbolic_density: float = 0.3         # How often to include symbolic elements
+    player_line_influence: float = 0.5  # How much player lines influence generation
+    symbolic_density: float = 0.3  # How often to include symbolic elements
 
     # Learning parameters
     successful_patterns: Dict[str, int] = field(default_factory=dict)
@@ -157,30 +165,40 @@ class VoiceConfiguration:
 
     def get_recent_lines(self, count: int = 5) -> List[PlayerAuthoredLine]:
         """Get the most recently added player lines"""
-        return sorted(self.player_authored_lines,
-                     key=lambda x: x.created_turn, reverse=True)[:count]
+        return sorted(
+            self.player_authored_lines, key=lambda x: x.created_turn, reverse=True
+        )[:count]
 
     def get_effective_lines(self, min_rating: float = 0.7) -> List[PlayerAuthoredLine]:
         """Get player lines that have been effective at influencing generation"""
-        return [line for line in self.player_authored_lines
-                if line.effectiveness_rating >= min_rating]
+        return [
+            line
+            for line in self.player_authored_lines
+            if line.effectiveness_rating >= min_rating
+        ]
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize voice configuration to dictionary"""
         return {
             "character_id": self.character_id,
             "emotional_tones": [tone.value for tone in self.emotional_tones],
-            "symbolic_preferences": [symbol.value for symbol in self.symbolic_preferences],
+            "symbolic_preferences": [
+                symbol.value for symbol in self.symbolic_preferences
+            ],
             "style_notes": [style.value for style in self.style_notes],
             "player_authored_lines": [
                 {
                     "content": line.content,
-                    "emotional_tone": line.emotional_tone.value if line.emotional_tone else None,
-                    "symbolic_elements": [elem.value for elem in line.symbolic_elements],
+                    "emotional_tone": line.emotional_tone.value
+                    if line.emotional_tone
+                    else None,
+                    "symbolic_elements": [
+                        elem.value for elem in line.symbolic_elements
+                    ],
                     "style_markers": [style.value for style in line.style_markers],
                     "usage_count": line.usage_count,
                     "created_turn": line.created_turn,
-                    "effectiveness_rating": line.effectiveness_rating
+                    "effectiveness_rating": line.effectiveness_rating,
                 }
                 for line in self.player_authored_lines
             ],
@@ -188,17 +206,23 @@ class VoiceConfiguration:
             "player_line_influence": self.player_line_influence,
             "symbolic_density": self.symbolic_density,
             "successful_patterns": self.successful_patterns,
-            "avoided_patterns": self.avoided_patterns
+            "avoided_patterns": self.avoided_patterns,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'VoiceConfiguration':
+    def from_dict(cls, data: Dict[str, Any]) -> "VoiceConfiguration":
         """Deserialize voice configuration from dictionary"""
         config = cls(character_id=data["character_id"])
 
-        config.emotional_tones = [EmotionalTone(tone) for tone in data.get("emotional_tones", [])]
-        config.symbolic_preferences = [SymbolicElement(symbol) for symbol in data.get("symbolic_preferences", [])]
-        config.style_notes = [NarrativeStyle(style) for style in data.get("style_notes", [])]
+        config.emotional_tones = [
+            EmotionalTone(tone) for tone in data.get("emotional_tones", [])
+        ]
+        config.symbolic_preferences = [
+            SymbolicElement(symbol) for symbol in data.get("symbolic_preferences", [])
+        ]
+        config.style_notes = [
+            NarrativeStyle(style) for style in data.get("style_notes", [])
+        ]
 
         config.tone_consistency_weight = data.get("tone_consistency_weight", 0.7)
         config.player_line_influence = data.get("player_line_influence", 0.5)
@@ -210,12 +234,20 @@ class VoiceConfiguration:
         for line_data in data.get("player_authored_lines", []):
             line = PlayerAuthoredLine(
                 content=line_data["content"],
-                emotional_tone=EmotionalTone(line_data["emotional_tone"]) if line_data["emotional_tone"] else None,
-                symbolic_elements=set(SymbolicElement(elem) for elem in line_data.get("symbolic_elements", [])),
-                style_markers=set(NarrativeStyle(style) for style in line_data.get("style_markers", [])),
+                emotional_tone=EmotionalTone(line_data["emotional_tone"])
+                if line_data["emotional_tone"]
+                else None,
+                symbolic_elements=set(
+                    SymbolicElement(elem)
+                    for elem in line_data.get("symbolic_elements", [])
+                ),
+                style_markers=set(
+                    NarrativeStyle(style)
+                    for style in line_data.get("style_markers", [])
+                ),
                 usage_count=line_data.get("usage_count", 0),
                 created_turn=line_data.get("created_turn", 0),
-                effectiveness_rating=line_data.get("effectiveness_rating", 1.0)
+                effectiveness_rating=line_data.get("effectiveness_rating", 1.0),
             )
             config.player_authored_lines.append(line)
 
@@ -227,9 +259,15 @@ class DynamicNarrativeToneEngine:
 
     def __init__(self):
         self.voice_configurations: Dict[str, VoiceConfiguration] = {}
-        self.tone_templates: Dict[EmotionalTone, List[str]] = self._initialize_tone_templates()
-        self.style_patterns: Dict[NarrativeStyle, List[str]] = self._initialize_style_patterns()
-        self.symbol_templates: Dict[SymbolicElement, List[str]] = self._initialize_symbol_templates()
+        self.tone_templates: Dict[
+            EmotionalTone, List[str]
+        ] = self._initialize_tone_templates()
+        self.style_patterns: Dict[
+            NarrativeStyle, List[str]
+        ] = self._initialize_style_patterns()
+        self.symbol_templates: Dict[
+            SymbolicElement, List[str]
+        ] = self._initialize_symbol_templates()
 
     def _initialize_tone_templates(self) -> Dict[EmotionalTone, List[str]]:
         """Initialize base templates for different emotional tones"""
@@ -238,32 +276,32 @@ class DynamicNarrativeToneEngine:
                 "You {action}. {observation}. Of course.",
                 "The {object} {state}. You're not surprised.",
                 "{action_result}. That figures.",
-                "You {action}. Wrong again."
+                "You {action}. Wrong again.",
             ],
             EmotionalTone.TRAGIC: [
                 "You {action}, remembering {memory}.",
                 "The {object} reminds you of what's lost.",
                 "{action_result}, like everything else.",
-                "You {action}, feeling the weight of {emotion}."
+                "You {action}, feeling the weight of {emotion}.",
             ],
             EmotionalTone.REBELLIOUS: [
                 "You {action} despite {authority}.",
                 "The {object} represents everything wrong with {system}.",
                 "You {action}. They can't stop you.",
-                "Let them try to {threat}. You {action} anyway."
+                "Let them try to {threat}. You {action} anyway.",
             ],
             EmotionalTone.SARDONIC: [
                 "You {action}. How {adjective}.",
                 "The {object} {state}. Perfect, just perfect.",
                 "{action_result}. What else is new?",
-                "You {action}. The irony isn't lost on you."
+                "You {action}. The irony isn't lost on you.",
             ],
             EmotionalTone.MELANCHOLIC: [
                 "You {action}, thinking of {past}.",
                 "The {object} holds echoes of {memory}.",
                 "{action_result}, like autumn leaves.",
-                "You {action} with the weight of {emotion}."
-            ]
+                "You {action} with the weight of {emotion}.",
+            ],
         }
 
     def _initialize_style_patterns(self) -> Dict[NarrativeStyle, List[str]]:
@@ -272,23 +310,23 @@ class DynamicNarrativeToneEngine:
             NarrativeStyle.ONE_LINERS: [
                 "{simple_statement}.",
                 "{observation}.",
-                "{action_result}."
+                "{action_result}.",
             ],
             NarrativeStyle.SHORT_SENTENCES: [
                 "{action}. {observation}. {consequence}.",
                 "{statement}. {reaction}. {outcome}.",
-                "{event}. {feeling}. {decision}."
+                "{event}. {feeling}. {decision}.",
             ],
             NarrativeStyle.BEAUTY_IN_DESTRUCTION: [
                 "The broken {object} catches light beautifully.",
                 "There's something lovely about the way {destruction} spreads.",
-                "You find beauty in the {damaged_thing}'s fractures."
+                "You find beauty in the {damaged_thing}'s fractures.",
             ],
             NarrativeStyle.SARCASM_COPING: [
                 "You {action}. How delightfully {ironic_adjective}.",
                 "Oh wonderful, {situation}. Just what you needed.",
-                "Perfect. {problem}. Your day is complete."
-            ]
+                "Perfect. {problem}. Your day is complete.",
+            ],
         }
 
     def _initialize_symbol_templates(self) -> Dict[SymbolicElement, List[str]]:
@@ -297,41 +335,46 @@ class DynamicNarrativeToneEngine:
             SymbolicElement.SMALL_OBJECTS: [
                 "A {small_object} catches your eye.",
                 "You pocket the {small_object}. It might matter later.",
-                "The {small_object} reminds you of {association}."
+                "The {small_object} reminds you of {association}.",
             ],
             SymbolicElement.GRAFFITI: [
                 "Someone has spray-painted {message} on the wall.",
                 "The graffiti tells a story: {narrative}.",
-                "New tags appear overnight. The city speaks."
+                "New tags appear overnight. The city speaks.",
             ],
             SymbolicElement.GHOST_SPACES: [
                 "The empty {space} echoes with {memory}.",
                 "This place used to {past_activity}. Now silence.",
-                "You walk through where {people} once {activity}."
+                "You walk through where {people} once {activity}.",
             ],
             SymbolicElement.CIGARETTES: [
                 "You share your last cigarette with {person}.",
                 "Smoke rises, carrying {metaphor}.",
-                "The ash falls like {comparison}."
+                "The ash falls like {comparison}.",
             ],
             SymbolicElement.COFFEE: [
                 "The coffee smells like {association}.",
                 "Real coffee. A small luxury in these times.",
-                "You savor the warmth, the normalcy."
-            ]
+                "You savor the warmth, the normalcy.",
+            ],
         }
 
     def register_voice_configuration(self, config: VoiceConfiguration):
         """Register a voice configuration for a character"""
         self.voice_configurations[config.character_id] = config
-        logger.info(f"Registered voice configuration for character {config.character_id}")
+        logger.info(
+            f"Registered voice configuration for character {config.character_id}"
+        )
 
-    def get_voice_configuration(self, character_id: str) -> Optional[VoiceConfiguration]:
+    def get_voice_configuration(
+        self, character_id: str
+    ) -> Optional[VoiceConfiguration]:
         """Get voice configuration for a character"""
         return self.voice_configurations.get(character_id)
 
-    def generate_narrative_with_voice(self, character_id: str, base_event: str,
-                                    context: Dict[str, Any] = None) -> str:
+    def generate_narrative_with_voice(
+        self, character_id: str, base_event: str, context: Dict[str, Any] = None
+    ) -> str:
         """Generate narrative content using the character's voice configuration"""
         if context is None:
             context = {}
@@ -361,8 +404,9 @@ class DynamicNarrativeToneEngine:
 
         return narrative
 
-    def _apply_tone_filtering(self, narrative: str, config: VoiceConfiguration,
-                            context: Dict[str, Any]) -> str:
+    def _apply_tone_filtering(
+        self, narrative: str, config: VoiceConfiguration, context: Dict[str, Any]
+    ) -> str:
         """Apply emotional tone filtering to the narrative"""
         if not config.emotional_tones:
             return narrative
@@ -381,15 +425,19 @@ class DynamicNarrativeToneEngine:
             # Use tone template
             template = random.choice(templates)
             # Fill template with context or keep original
-            if any(placeholder in template for placeholder in ["{action}", "{object}", "{observation}"]):
+            if any(
+                placeholder in template
+                for placeholder in ["{action}", "{object}", "{observation}"]
+            ):
                 # Try to extract meaningful elements from original narrative
                 enhanced = self._fill_tone_template(template, narrative, context)
                 return enhanced if enhanced else narrative
 
         return narrative
 
-    def _incorporate_player_influences(self, narrative: str, config: VoiceConfiguration,
-                                     context: Dict[str, Any]) -> str:
+    def _incorporate_player_influences(
+        self, narrative: str, config: VoiceConfiguration, context: Dict[str, Any]
+    ) -> str:
         """Incorporate patterns and styles from player-authored lines"""
         if not config.player_authored_lines:
             return narrative
@@ -410,20 +458,22 @@ class DynamicNarrativeToneEngine:
         reference_line = random.choice(effective_lines)
 
         # Apply line's style patterns
-        enhanced_narrative = self._mirror_line_patterns(narrative, reference_line, context)
+        enhanced_narrative = self._mirror_line_patterns(
+            narrative, reference_line, context
+        )
 
         # Update usage tracking
         reference_line.usage_count += 1
 
         return enhanced_narrative
 
-    def _mirror_line_patterns(self, narrative: str, reference_line: PlayerAuthoredLine,
-                            context: Dict[str, Any]) -> str:
+    def _mirror_line_patterns(
+        self,
+        narrative: str,
+        reference_line: PlayerAuthoredLine,
+        context: Dict[str, Any],
+    ) -> str:
         """Mirror the patterns found in a player-authored line"""
-
-        # Extract structural patterns from reference line
-        ref_sentences = reference_line.content.split('.')
-        ref_sentence_count = len([s for s in ref_sentences if s.strip()])
 
         # Apply sentence structure patterns
         if NarrativeStyle.SHORT_SENTENCES in reference_line.style_markers:
@@ -446,8 +496,9 @@ class DynamicNarrativeToneEngine:
 
         return narrative
 
-    def _add_symbolic_elements(self, narrative: str, config: VoiceConfiguration,
-                             context: Dict[str, Any]) -> str:
+    def _add_symbolic_elements(
+        self, narrative: str, config: VoiceConfiguration, context: Dict[str, Any]
+    ) -> str:
         """Add symbolic elements based on character preferences"""
         if not config.symbolic_preferences:
             return narrative
@@ -470,15 +521,22 @@ class DynamicNarrativeToneEngine:
         template = random.choice(templates)
 
         # Simple template filling for symbols
-        symbol_line = template.replace("{small_object}", random.choice(["coin", "key", "button"]))
-        symbol_line = symbol_line.replace("{space}", random.choice(["room", "street", "building"]))
-        symbol_line = symbol_line.replace("{message}", random.choice(["'RESIST'", "'HOPE'", "'REMEMBER'"]))
+        symbol_line = template.replace(
+            "{small_object}", random.choice(["coin", "key", "button"])
+        )
+        symbol_line = symbol_line.replace(
+            "{space}", random.choice(["room", "street", "building"])
+        )
+        symbol_line = symbol_line.replace(
+            "{message}", random.choice(["'RESIST'", "'HOPE'", "'REMEMBER'"])
+        )
 
         # Append to narrative
         return f"{narrative} {symbol_line}"
 
-    def _apply_style_modifications(self, narrative: str, config: VoiceConfiguration,
-                                 context: Dict[str, Any]) -> str:
+    def _apply_style_modifications(
+        self, narrative: str, config: VoiceConfiguration, context: Dict[str, Any]
+    ) -> str:
         """Apply style modifications based on configuration"""
         for style in config.style_notes:
             if style == NarrativeStyle.SHORT_SENTENCES:
@@ -493,7 +551,7 @@ class DynamicNarrativeToneEngine:
     def _break_into_short_sentences(self, narrative: str) -> str:
         """Break narrative into shorter, punchier sentences"""
         # Simple implementation - break long sentences
-        sentences = narrative.split('.')
+        sentences = narrative.split(".")
         result = []
 
         for sentence in sentences:
@@ -504,7 +562,7 @@ class DynamicNarrativeToneEngine:
             # If sentence is long, try to break it
             if len(sentence) > 60:
                 # Look for conjunctions to break on
-                for conjunction in [', and ', ', but ', ', so ', ' because ']:
+                for conjunction in [", and ", ", but ", ", so ", " because "]:
                     if conjunction in sentence:
                         parts = sentence.split(conjunction, 1)
                         result.append(parts[0].strip())
@@ -515,18 +573,18 @@ class DynamicNarrativeToneEngine:
             else:
                 result.append(sentence)
 
-        return '. '.join(result) + '.'
+        return ". ".join(result) + "."
 
     def _condense_to_one_liner(self, narrative: str) -> str:
         """Condense narrative to a single impactful line"""
         # Extract the most important sentence
-        sentences = [s.strip() for s in narrative.split('.') if s.strip()]
+        sentences = [s.strip() for s in narrative.split(".") if s.strip()]
         if not sentences:
             return narrative
 
         # Prefer shorter, more impactful sentences
         best_sentence = min(sentences, key=len)
-        return best_sentence + '.'
+        return best_sentence + "."
 
     def _add_dry_humor(self, narrative: str) -> str:
         """Add elements of dry humor to the narrative"""
@@ -535,7 +593,7 @@ class DynamicNarrativeToneEngine:
             " Of course.",
             " How typical.",
             " Perfect.",
-            " Wonderful."
+            " Wonderful.",
         ]
 
         if random.random() < 0.3:
@@ -550,7 +608,7 @@ class DynamicNarrativeToneEngine:
             EmotionalTone.SARDONIC: ["perfect", "wonderful", "delightful", "charming"],
             EmotionalTone.MELANCHOLIC: ["faded", "distant", "echoes", "shadows"],
             EmotionalTone.REBELLIOUS: ["despite", "anyway", "still", "nevertheless"],
-            EmotionalTone.TRAGIC: ["lost", "broken", "memory", "weight"]
+            EmotionalTone.TRAGIC: ["lost", "broken", "memory", "weight"],
         }
         return vocabulary.get(tone, [])
 
@@ -562,12 +620,14 @@ class DynamicNarrativeToneEngine:
         tone_word = random.choice(tone_words)
 
         # Simple insertion at the end
-        if narrative.endswith('.'):
+        if narrative.endswith("."):
             return f"{narrative[:-1]}, {tone_word}."
         else:
             return f"{narrative} {tone_word}."
 
-    def _fill_tone_template(self, template: str, original: str, context: Dict[str, Any]) -> Optional[str]:
+    def _fill_tone_template(
+        self, template: str, original: str, context: Dict[str, Any]
+    ) -> Optional[str]:
         """Fill a tone template with context information"""
         # Simple template filling - in a full implementation, this would be more sophisticated
         filled = template
@@ -584,7 +644,7 @@ class DynamicNarrativeToneEngine:
             "{threat}": "stop you",
             "{memory}": "the past",
             "{emotion}": "everything",
-            "{past}": "better times"
+            "{past}": "better times",
         }
 
         for placeholder, default in replacements.items():
@@ -592,19 +652,24 @@ class DynamicNarrativeToneEngine:
 
         return filled if filled != template else None
 
-    def _update_learning_patterns(self, config: VoiceConfiguration, generated: str,
-                                context: Dict[str, Any]):
+    def _update_learning_patterns(
+        self, config: VoiceConfiguration, generated: str, context: Dict[str, Any]
+    ):
         """Update learning patterns based on successful generation"""
         # Extract patterns from successful generation
-        if len(generated.split('.')) <= 2:
-            config.successful_patterns["short_sentences"] = config.successful_patterns.get("short_sentences", 0) + 1
+        if len(generated.split(".")) <= 2:
+            config.successful_patterns["short_sentences"] = (
+                config.successful_patterns.get("short_sentences", 0) + 1
+            )
 
         # Track symbolic element usage
         for symbol in config.symbolic_preferences:
             if symbol.value.lower() in generated.lower():
-                config.successful_patterns[f"symbol_{symbol.value}"] = config.successful_patterns.get(f"symbol_{symbol.value}", 0) + 1
+                config.successful_patterns[f"symbol_{symbol.value}"] = (
+                    config.successful_patterns.get(f"symbol_{symbol.value}", 0) + 1
+                )
 
-    def create_voice_command_handler(self) -> 'VoiceCommandHandler':
+    def create_voice_command_handler(self) -> "VoiceCommandHandler":
         """Create a command handler for managing voice configurations"""
         return VoiceCommandHandler(self)
 
@@ -615,8 +680,9 @@ class VoiceCommandHandler:
     def __init__(self, engine: DynamicNarrativeToneEngine):
         self.engine = engine
 
-    def handle_voice_config_command(self, character_id: str, command: str,
-                                  args: List[str]) -> str:
+    def handle_voice_config_command(
+        self, character_id: str, command: str, args: List[str]
+    ) -> str:
         """Handle voice configuration commands"""
         config = self.engine.get_voice_configuration(character_id)
         if not config:
@@ -671,7 +737,9 @@ class VoiceCommandHandler:
     def _format_voice_config(self, config: VoiceConfiguration) -> str:
         """Format voice configuration for display"""
         result = f"Voice Configuration for {config.character_id}:\n"
-        result += f"Emotional Tones: {', '.join(t.value for t in config.emotional_tones)}\n"
+        result += (
+            f"Emotional Tones: {', '.join(t.value for t in config.emotional_tones)}\n"
+        )
         result += f"Symbolic Preferences: {', '.join(s.value for s in config.symbolic_preferences)}\n"
         result += f"Style Notes: {', '.join(s.value for s in config.style_notes)}\n"
         result += f"Player Lines ({len(config.player_authored_lines)}):\n"
@@ -707,18 +775,37 @@ def create_default_voice_configurations() -> Dict[str, VoiceConfiguration]:
     # Cynical resistance fighter
     cynical_config = VoiceConfiguration("cynical_fighter")
     cynical_config.emotional_tones = [EmotionalTone.WRY, EmotionalTone.SARDONIC]
-    cynical_config.symbolic_preferences = [SymbolicElement.CIGARETTES, SymbolicElement.BROKEN_GLASS]
-    cynical_config.style_notes = [NarrativeStyle.SARCASM_COPING, NarrativeStyle.SHORT_SENTENCES]
+    cynical_config.symbolic_preferences = [
+        SymbolicElement.CIGARETTES,
+        SymbolicElement.BROKEN_GLASS,
+    ]
+    cynical_config.style_notes = [
+        NarrativeStyle.SARCASM_COPING,
+        NarrativeStyle.SHORT_SENTENCES,
+    ]
     cynical_config.add_player_line("You mistake gunfire for fireworks. Again.")
-    cynical_config.add_player_line("There's beauty in broken glass if you squint just right.")
+    cynical_config.add_player_line(
+        "There's beauty in broken glass if you squint just right."
+    )
     configs["cynical_fighter"] = cynical_config
 
     # Idealistic student
     idealistic_config = VoiceConfiguration("idealistic_student")
-    idealistic_config.emotional_tones = [EmotionalTone.HOPEFUL, EmotionalTone.REBELLIOUS]
-    idealistic_config.symbolic_preferences = [SymbolicElement.GRAFFITI, SymbolicElement.FLOWERS]
-    idealistic_config.style_notes = [NarrativeStyle.POETIC_LANGUAGE, NarrativeStyle.METAPHORICAL]
-    idealistic_config.add_player_line("The regime sends flowers now. Carnations. Red, of course.")
+    idealistic_config.emotional_tones = [
+        EmotionalTone.HOPEFUL,
+        EmotionalTone.REBELLIOUS,
+    ]
+    idealistic_config.symbolic_preferences = [
+        SymbolicElement.GRAFFITI,
+        SymbolicElement.FLOWERS,
+    ]
+    idealistic_config.style_notes = [
+        NarrativeStyle.POETIC_LANGUAGE,
+        NarrativeStyle.METAPHORICAL,
+    ]
+    idealistic_config.add_player_line(
+        "The regime sends flowers now. Carnations. Red, of course."
+    )
     configs["idealistic_student"] = idealistic_config
 
     return configs

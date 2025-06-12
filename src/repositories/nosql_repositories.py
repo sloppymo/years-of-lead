@@ -3,13 +3,12 @@ MongoDB repositories for Years of Lead NoSQL data models
 """
 
 from typing import Dict, List, Optional, Any, Union, TypeVar, Generic
-from datetime import datetime
 import json
 from pydantic import BaseModel
 from pymongo.database import Database
 from pymongo.results import InsertOneResult, UpdateResult, DeleteResult
 from bson import ObjectId
-from bson.json_util import dumps, loads
+from bson.json_util import dumps
 
 from models.nosql_models import (
     GameStateSnapshot,
@@ -19,7 +18,7 @@ from models.nosql_models import (
     WorldState,
     AITrainingData,
     SylvaIntegrationData,
-    WrenIntegrationData
+    WrenIntegrationData,
 )
 
 # Type variable for Pydantic models
@@ -48,9 +47,14 @@ class NoSQLBaseRepository(Generic[ModelType]):
             return None
         return self.model_class(**self._process_mongodb_doc(result))
 
-    async def list(self, filter_dict: Dict[str, Any] = None,
-                  skip: int = 0, limit: int = 100,
-                  sort_by: str = None, sort_desc: bool = False) -> List[ModelType]:
+    async def list(
+        self,
+        filter_dict: Dict[str, Any] = None,
+        skip: int = 0,
+        limit: int = 100,
+        sort_by: str = None,
+        sort_desc: bool = False,
+    ) -> List[ModelType]:
         """List documents with optional filtering and sorting"""
         filter_dict = filter_dict or {}
         cursor = self.collection.find(filter_dict).skip(skip).limit(limit)
@@ -92,8 +96,8 @@ class NoSQLBaseRepository(Generic[ModelType]):
     def _process_mongodb_doc(self, doc: Dict[str, Any]) -> Dict[str, Any]:
         """Process MongoDB document by converting ObjectId to string"""
         # Convert ObjectId to string
-        if '_id' in doc and isinstance(doc['_id'], ObjectId):
-            doc['_id'] = str(doc['_id'])
+        if "_id" in doc and isinstance(doc["_id"], ObjectId):
+            doc["_id"] = str(doc["_id"])
 
         # Handle ISODate and other BSON types with json serialization/deserialization
         return json.loads(dumps(doc))
@@ -108,19 +112,17 @@ class GameStateSnapshotRepository(NoSQLBaseRepository[GameStateSnapshot]):
     async def get_latest_snapshot(self, game_id: str) -> Optional[GameStateSnapshot]:
         """Get the latest game state snapshot for a game"""
         result = await self.collection.find_one(
-            {"game_id": game_id},
-            sort=[("timestamp", -1)]
+            {"game_id": game_id}, sort=[("timestamp", -1)]
         )
         if not result:
             return None
         return GameStateSnapshot(**self._process_mongodb_doc(result))
 
-    async def get_snapshot_at_turn(self, game_id: str, turn: int) -> Optional[GameStateSnapshot]:
+    async def get_snapshot_at_turn(
+        self, game_id: str, turn: int
+    ) -> Optional[GameStateSnapshot]:
         """Get game state snapshot for a specific turn"""
-        result = await self.collection.find_one({
-            "game_id": game_id,
-            "turn": turn
-        })
+        result = await self.collection.find_one({"game_id": game_id, "turn": turn})
         if not result:
             return None
         return GameStateSnapshot(**self._process_mongodb_doc(result))
@@ -129,9 +131,11 @@ class GameStateSnapshotRepository(NoSQLBaseRepository[GameStateSnapshot]):
         self, game_id: str, limit: int = 10
     ) -> List[GameStateSnapshot]:
         """Get recent snapshots for a game"""
-        cursor = self.collection.find(
-            {"game_id": game_id}
-        ).sort("timestamp", -1).limit(limit)
+        cursor = (
+            self.collection.find({"game_id": game_id})
+            .sort("timestamp", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [GameStateSnapshot(**self._process_mongodb_doc(doc)) for doc in results]
@@ -143,14 +147,11 @@ class GameEventLogRepository(NoSQLBaseRepository[GameEventLog]):
     def __init__(self, db: Database):
         super().__init__(db, "game_event_logs", GameEventLog)
 
-    async def get_events_by_turn(
-        self, game_id: str, turn: int
-    ) -> List[GameEventLog]:
+    async def get_events_by_turn(self, game_id: str, turn: int) -> List[GameEventLog]:
         """Get all events for a specific turn"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            "turn": turn
-        }).sort("timestamp", 1)
+        cursor = self.collection.find({"game_id": game_id, "turn": turn}).sort(
+            "timestamp", 1
+        )
 
         results = await cursor.to_list(length=100)
         return [GameEventLog(**self._process_mongodb_doc(doc)) for doc in results]
@@ -159,10 +160,11 @@ class GameEventLogRepository(NoSQLBaseRepository[GameEventLog]):
         self, game_id: str, event_type: str, limit: int = 50
     ) -> List[GameEventLog]:
         """Get events of a specific type"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            "event_type": event_type
-        }).sort("timestamp", -1).limit(limit)
+        cursor = (
+            self.collection.find({"game_id": game_id, "event_type": event_type})
+            .sort("timestamp", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [GameEventLog(**self._process_mongodb_doc(doc)) for doc in results]
@@ -171,10 +173,13 @@ class GameEventLogRepository(NoSQLBaseRepository[GameEventLog]):
         self, game_id: str, entity_type: str, entity_id: str, limit: int = 50
     ) -> List[GameEventLog]:
         """Get events affecting a specific entity"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            f"affected_entities.{entity_type}": entity_id
-        }).sort("timestamp", -1).limit(limit)
+        cursor = (
+            self.collection.find(
+                {"game_id": game_id, f"affected_entities.{entity_type}": entity_id}
+            )
+            .sort("timestamp", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [GameEventLog(**self._process_mongodb_doc(doc)) for doc in results]
@@ -190,10 +195,11 @@ class PlayerJournalRepository(NoSQLBaseRepository[PlayerJournal]):
         self, game_id: str, character_id: str, limit: int = 20
     ) -> List[PlayerJournal]:
         """Get journal entries for a specific character"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            "character_id": character_id
-        }).sort("timestamp", -1).limit(limit)
+        cursor = (
+            self.collection.find({"game_id": game_id, "character_id": character_id})
+            .sort("timestamp", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [PlayerJournal(**self._process_mongodb_doc(doc)) for doc in results]
@@ -202,10 +208,11 @@ class PlayerJournalRepository(NoSQLBaseRepository[PlayerJournal]):
         self, game_id: str, tag: str, limit: int = 20
     ) -> List[PlayerJournal]:
         """Get journal entries with a specific emotional tag"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            "emotional_tags.name": tag
-        }).sort("timestamp", -1).limit(limit)
+        cursor = (
+            self.collection.find({"game_id": game_id, "emotional_tags.name": tag})
+            .sort("timestamp", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [PlayerJournal(**self._process_mongodb_doc(doc)) for doc in results]
@@ -221,10 +228,11 @@ class FactionAnalyticsRepository(NoSQLBaseRepository[FactionAnalytics]):
         self, game_id: str, faction_id: str, limit: int = 10
     ) -> List[FactionAnalytics]:
         """Get historical analytics for a faction"""
-        cursor = self.collection.find({
-            "game_id": game_id,
-            "faction_id": faction_id
-        }).sort("turn", -1).limit(limit)
+        cursor = (
+            self.collection.find({"game_id": game_id, "faction_id": faction_id})
+            .sort("turn", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [FactionAnalytics(**self._process_mongodb_doc(doc)) for doc in results]
@@ -238,9 +246,9 @@ class WorldStateRepository(NoSQLBaseRepository[WorldState]):
 
     async def get_current_world_state(self, game_id: str) -> Optional[WorldState]:
         """Get the current world state for a game"""
-        result = await self.collection.find_one({
-            "game_id": game_id
-        }, sort=[("turn", -1)])
+        result = await self.collection.find_one(
+            {"game_id": game_id}, sort=[("turn", -1)]
+        )
 
         if not result:
             return None
@@ -257,9 +265,11 @@ class AITrainingDataRepository(NoSQLBaseRepository[AITrainingData]):
         self, data_type: str, limit: int = 100
     ) -> List[AITrainingData]:
         """Get training data of a specific type"""
-        cursor = self.collection.find({
-            "data_type": data_type
-        }).sort("collection_time", -1).limit(limit)
+        cursor = (
+            self.collection.find({"data_type": data_type})
+            .sort("collection_time", -1)
+            .limit(limit)
+        )
 
         results = await cursor.to_list(length=limit)
         return [AITrainingData(**self._process_mongodb_doc(doc)) for doc in results]
@@ -275,10 +285,9 @@ class SylvaIntegrationDataRepository(NoSQLBaseRepository[SylvaIntegrationData]):
         self, game_id: str, character_id: str
     ) -> Optional[SylvaIntegrationData]:
         """Get current emotional state for a character"""
-        result = await self.collection.find_one({
-            "game_id": game_id,
-            "character_id": character_id
-        }, sort=[("timestamp", -1)])
+        result = await self.collection.find_one(
+            {"game_id": game_id, "character_id": character_id}, sort=[("timestamp", -1)]
+        )
 
         if not result:
             return None
@@ -295,21 +304,21 @@ class WrenIntegrationDataRepository(NoSQLBaseRepository[WrenIntegrationData]):
         self, game_id: str, character_id: str
     ) -> Optional[WrenIntegrationData]:
         """Get current narrative context for a character"""
-        result = await self.collection.find_one({
-            "game_id": game_id,
-            "character_id": character_id
-        }, sort=[("timestamp", -1)])
+        result = await self.collection.find_one(
+            {"game_id": game_id, "character_id": character_id}, sort=[("timestamp", -1)]
+        )
 
         if not result:
             return None
         return WrenIntegrationData(**self._process_mongodb_doc(result))
 
-    async def get_game_narrative_context(self, game_id: str) -> Optional[WrenIntegrationData]:
+    async def get_game_narrative_context(
+        self, game_id: str
+    ) -> Optional[WrenIntegrationData]:
         """Get current narrative context for a game (world-level narrative)"""
-        result = await self.collection.find_one({
-            "game_id": game_id,
-            "character_id": None
-        }, sort=[("timestamp", -1)])
+        result = await self.collection.find_one(
+            {"game_id": game_id, "character_id": None}, sort=[("timestamp", -1)]
+        )
 
         if not result:
             return None

@@ -5,22 +5,22 @@ This module provides integration between the relationship system and SYLVA/WREN
 for enhanced narrative generation and emotional storytelling.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 import random
-import json
-from .relationships import Relationship, BondType, EventType, SocialNetwork
+from .relationships import Relationship, BondType, EventType
 from .core import Agent, GameState
-from .advanced_relationships import Secret, MemoryEntry, BetrayalPlan, SecretType
+from .advanced_relationships import Secret, MemoryEntry, SecretType
 from .dynamic_narrative_tone import (
-    DynamicNarrativeToneEngine, VoiceConfiguration, EmotionalTone,
-    SymbolicElement, NarrativeStyle, VoiceCommandHandler
+    DynamicNarrativeToneEngine,
+    VoiceConfiguration,
 )
 
 
 @dataclass
 class NarrativeTemplate:
     """Template for generating relationship-based narratives"""
+
     id: str
     title: str
     template: str
@@ -74,9 +74,8 @@ class NarrativeEngine:
                 min_trust=0.4,
                 emotional_tone="shocked",
                 complexity=4,
-                rarity=0.3
+                rarity=0.3,
             ),
-
             NarrativeTemplate(
                 id="blackmail_attempt",
                 title="Blackmail Attempt",
@@ -85,9 +84,8 @@ class NarrativeEngine:
                 secret_type=SecretType.PERSONAL,
                 emotional_tone="tense",
                 complexity=4,
-                rarity=0.2
+                rarity=0.2,
             ),
-
             NarrativeTemplate(
                 id="rumor_spread",
                 title="Rumor Spread",
@@ -95,9 +93,8 @@ class NarrativeEngine:
                 requires_secret=True,
                 emotional_tone="paranoid",
                 complexity=3,
-                rarity=0.4
+                rarity=0.4,
             ),
-
             # Memory Journal templates
             NarrativeTemplate(
                 id="memory_haunts_present",
@@ -106,9 +103,8 @@ class NarrativeEngine:
                 requires_memory=True,
                 emotional_tone="haunted",
                 complexity=3,
-                rarity=0.4
+                rarity=0.4,
             ),
-
             NarrativeTemplate(
                 id="shared_trauma_bond",
                 title="Shared Trauma Bond",
@@ -117,9 +113,8 @@ class NarrativeEngine:
                 memory_tone="traumatic",
                 emotional_tone="bonded",
                 complexity=4,
-                rarity=0.3
+                rarity=0.3,
             ),
-
             # Persona Mask templates
             NarrativeTemplate(
                 id="mask_slippage",
@@ -128,9 +123,8 @@ class NarrativeEngine:
                 requires_persona=True,
                 emotional_tone="suspicious",
                 complexity=3,
-                rarity=0.4
+                rarity=0.4,
             ),
-
             NarrativeTemplate(
                 id="mask_revealed",
                 title="Mask Revealed",
@@ -138,9 +132,8 @@ class NarrativeEngine:
                 requires_persona=True,
                 emotional_tone="betrayed",
                 complexity=4,
-                rarity=0.2
+                rarity=0.2,
             ),
-
             # Ideological Conflict templates
             NarrativeTemplate(
                 id="ideological_break",
@@ -149,9 +142,8 @@ class NarrativeEngine:
                 requires_ideology_conflict=True,
                 emotional_tone="conflicted",
                 complexity=3,
-                rarity=0.5
+                rarity=0.5,
             ),
-
             NarrativeTemplate(
                 id="ideological_conversion",
                 title="Ideological Conversion",
@@ -159,9 +151,8 @@ class NarrativeEngine:
                 requires_ideology_conflict=True,
                 emotional_tone="questioning",
                 complexity=4,
-                rarity=0.3
+                rarity=0.3,
             ),
-
             # Betrayal Planning templates
             NarrativeTemplate(
                 id="betrayal_planning",
@@ -169,18 +160,16 @@ class NarrativeEngine:
                 template="{agent_a.name} secretly begins planning to betray {agent_b.name}, carefully considering timing and potential co-conspirators.",
                 emotional_tone="calculating",
                 complexity=4,
-                rarity=0.2
+                rarity=0.2,
             ),
-
             NarrativeTemplate(
                 id="betrayal_executed",
                 title="Betrayal Executed",
                 template="{agent_a.name} executes their planned betrayal of {agent_b.name}, the carefully orchestrated deception finally revealed.",
                 emotional_tone="devastating",
                 complexity=5,
-                rarity=0.1
+                rarity=0.1,
             ),
-
             # Emotion Propagation templates
             NarrativeTemplate(
                 id="emotional_contagion",
@@ -188,9 +177,8 @@ class NarrativeEngine:
                 template="{agent_a.name}'s {dominant_emotion_a} begins to affect {agent_b.name}, who starts feeling {dominant_emotion_b} as well.",
                 emotional_tone="contagious",
                 complexity=2,
-                rarity=0.6
+                rarity=0.6,
             ),
-
             # Faction Fracture templates
             NarrativeTemplate(
                 id="faction_fracture",
@@ -198,9 +186,8 @@ class NarrativeEngine:
                 template="The ideological rift between {agent_a.name} and {agent_b.name} leads to a faction fracture, with {defector_names} forming a splinter group.",
                 emotional_tone="divisive",
                 complexity=4,
-                rarity=0.2
+                rarity=0.2,
             ),
-
             # Legacy templates (keeping existing ones)
             NarrativeTemplate(
                 id="sibling_betrayal",
@@ -211,9 +198,8 @@ class NarrativeEngine:
                 min_trust=0.6,
                 emotional_tone="devastating",
                 complexity=4,
-                rarity=0.3
+                rarity=0.3,
             ),
-
             NarrativeTemplate(
                 id="ex_lover_sabotage",
                 title="Ex-Lover Sabotage",
@@ -222,9 +208,8 @@ class NarrativeEngine:
                 max_affinity=-10,
                 emotional_tone="bitter",
                 complexity=3,
-                rarity=0.4
+                rarity=0.4,
             ),
-
             # Mentorship narratives
             NarrativeTemplate(
                 id="mentor_disillusionment",
@@ -235,9 +220,8 @@ class NarrativeEngine:
                 min_trust=0.5,
                 emotional_tone="disappointed",
                 complexity=3,
-                rarity=0.5
+                rarity=0.5,
             ),
-
             NarrativeTemplate(
                 id="student_exceeds_mentor",
                 title="Student Exceeds Mentor",
@@ -247,9 +231,8 @@ class NarrativeEngine:
                 min_trust=0.6,
                 emotional_tone="proud",
                 complexity=2,
-                rarity=0.6
+                rarity=0.6,
             ),
-
             # Rescue narratives
             NarrativeTemplate(
                 id="unexpected_ally_rescue",
@@ -260,9 +243,8 @@ class NarrativeEngine:
                 min_trust=0.3,
                 emotional_tone="surprised",
                 complexity=2,
-                rarity=0.7
+                rarity=0.7,
             ),
-
             # Grief narratives
             NarrativeTemplate(
                 id="grief_spiral_friend_arrest",
@@ -273,9 +255,8 @@ class NarrativeEngine:
                 min_trust=0.5,
                 emotional_tone="grieving",
                 complexity=4,
-                rarity=0.4
+                rarity=0.4,
             ),
-
             # Loyalty narratives
             NarrativeTemplate(
                 id="loyalty_proven_under_fire",
@@ -285,9 +266,8 @@ class NarrativeEngine:
                 min_trust=0.4,
                 emotional_tone="grateful",
                 complexity=2,
-                rarity=0.8
+                rarity=0.8,
             ),
-
             # Conflict narratives
             NarrativeTemplate(
                 id="ideological_conflict",
@@ -296,9 +276,8 @@ class NarrativeEngine:
                 required_tags=["idealistic", "practical"],
                 emotional_tone="tense",
                 complexity=3,
-                rarity=0.6
+                rarity=0.6,
             ),
-
             # Cooperation narratives
             NarrativeTemplate(
                 id="unlikely_cooperation",
@@ -307,9 +286,8 @@ class NarrativeEngine:
                 max_affinity=0,
                 emotional_tone="hopeful",
                 complexity=2,
-                rarity=0.7
+                rarity=0.7,
             ),
-
             # Sacrifice narratives
             NarrativeTemplate(
                 id="sacrifice_for_comrade",
@@ -319,9 +297,8 @@ class NarrativeEngine:
                 min_affinity=20,
                 emotional_tone="heroic",
                 complexity=4,
-                rarity=0.3
+                rarity=0.3,
             ),
-
             # Daily life narratives
             NarrativeTemplate(
                 id="shared_moment_of_normalcy",
@@ -330,9 +307,8 @@ class NarrativeEngine:
                 min_affinity=10,
                 emotional_tone="nostalgic",
                 complexity=1,
-                rarity=0.9
+                rarity=0.9,
             ),
-
             NarrativeTemplate(
                 id="stress_relief_together",
                 title="Stress Relief Together",
@@ -341,9 +317,8 @@ class NarrativeEngine:
                 min_affinity=15,
                 emotional_tone="relaxed",
                 complexity=1,
-                rarity=0.8
+                rarity=0.8,
             ),
-
             # Professional narratives
             NarrativeTemplate(
                 id="professional_respect_grows",
@@ -352,59 +327,78 @@ class NarrativeEngine:
                 min_affinity=5,
                 emotional_tone="respectful",
                 complexity=1,
-                rarity=0.8
+                rarity=0.8,
             ),
         ]
 
         return templates
 
-    def apply_relationship_effects(self, agent_a: Agent, agent_b: Agent, event_context: Dict[str, Any]) -> str:
+    def apply_relationship_effects(
+        self, agent_a: Agent, agent_b: Agent, event_context: Dict[str, Any]
+    ) -> str:
         """Apply relationship effects and generate narrative"""
-        from .relationships import EventType
 
-        # Determine event type from context
+        # Determine event type from context (may be None)
         event_type = self._determine_event_type(event_context)
 
-        # Apply relationship updates
-        if event_type:
-            self.game_state.update_relationship(
-                agent_a.id, agent_b.id, event_type=event_type
-            )
+        # Apply relationship updates if we recognized an event type
+        if event_type is not None:
+            try:
+                self.game_state.update_relationship(
+                    agent_a.id, agent_b.id, event_type=event_type
+                )
+            except Exception:
+                # Relationship update is non-critical for narrative; log and proceed
+                import logging
+
+                logging.getLogger(__name__).warning(
+                    "Failed to update relationship for %s/%s with event %s",
+                    agent_a.id,
+                    agent_b.id,
+                    event_type,
+                )
 
         # Generate narrative
-        narrative = self._generate_relationship_narrative(agent_a, agent_b, event_context)
+        narrative = self._generate_relationship_narrative(
+            agent_a, agent_b, event_context
+        )
 
         # Integrate with SYLVA/WREN if available
         if self.sylva_enabled or self.wren_enabled:
-            narrative = self._enhance_with_sylva_wren(narrative, agent_a, agent_b, event_context)
+            narrative = self._enhance_with_sylva_wren(
+                narrative, agent_a, agent_b, event_context
+            )
 
         return narrative
 
     def _determine_event_type(self, context: Dict[str, Any]) -> Optional[EventType]:
         """Determine event type from context"""
-        context_type = context.get('type', '').lower()
+        context_type = context.get("type", "").lower()
 
         event_mapping = {
-            'shared_risk': EventType.SHARED_RISK,
-            'abandonment': EventType.ABANDONMENT,
-            'betrayal': EventType.BETRAYAL,
-            'rescue': EventType.RESCUE,
-            'mentorship': EventType.MENTORSHIP,
-            'conflict': EventType.CONFLICT,
-            'sacrifice': EventType.SACRIFICE,
-            'cooperation': EventType.COOPERATION,
-            'competition': EventType.COMPETITION,
-            'loyalty_test': EventType.LOYALTY_TEST
+            "shared_risk": EventType.SHARED_RISK,
+            "abandonment": EventType.ABANDONMENT,
+            "betrayal": EventType.BETRAYAL,
+            "rescue": EventType.RESCUE,
+            "mentorship": EventType.MENTORSHIP,
+            "conflict": EventType.CONFLICT,
+            "sacrifice": EventType.SACRIFICE,
+            "cooperation": EventType.COOPERATION,
+            "competition": EventType.COMPETITION,
+            "loyalty_test": EventType.LOYALTY_TEST,
         }
 
         return event_mapping.get(context_type)
 
-    def _generate_relationship_narrative(self, agent_a: Agent, agent_b: Agent,
-                                       context: Dict[str, Any]) -> str:
+    def _generate_relationship_narrative(
+        self, agent_a: Agent, agent_b: Agent, context: Dict[str, Any]
+    ) -> str:
         """Generate narrative for relationship interaction"""
 
         # Get relationship between agents
-        relationship = self.game_state.social_network.get_relationship(agent_a.id, agent_b.id)
+        relationship = self.game_state.social_network.get_relationship(
+            agent_a.id, agent_b.id
+        )
 
         if not relationship:
             # Create basic narrative for agents without relationship
@@ -415,12 +409,19 @@ class NarrativeEngine:
 
         if template:
             # Apply template
-            narrative = template.template.format(
-                agent_a=agent_a,
-                agent_b=agent_b,
-                relationship=relationship,
-                context=context
-            )
+            try:
+                narrative = template.template.format(
+                    agent_a=agent_a,
+                    agent_b=agent_b,
+                    relationship=relationship,
+                    context=context,
+                )
+            except KeyError:
+                # Template expected a value we didn't supply; fallback to simpler narrative.
+                narrative = (
+                    f"{agent_a.name} and {agent_b.name} share an experience that "
+                    f"deepens their relationship (context: {context.get('type', 'unknown')})."
+                )
 
             # Track usage
             self._track_template_usage(template.id)
@@ -428,10 +429,17 @@ class NarrativeEngine:
             return narrative
         else:
             # Fallback narrative
-            return self._generate_fallback_narrative(agent_a, agent_b, relationship, context)
+            return self._generate_fallback_narrative(
+                agent_a, agent_b, relationship, context
+            )
 
-    def _find_matching_template(self, agent_a: Agent, agent_b: Agent,
-                               relationship: Relationship, context: Dict[str, Any]) -> Optional[NarrativeTemplate]:
+    def _find_matching_template(
+        self,
+        agent_a: Agent,
+        agent_b: Agent,
+        relationship: Relationship,
+        context: Dict[str, Any],
+    ) -> Optional[NarrativeTemplate]:
         """Find a template that matches the current situation"""
 
         # Filter templates by basic criteria
@@ -443,25 +451,46 @@ class NarrativeEngine:
                 continue
 
             # Check bond type requirement
-            if template.required_bond_type and relationship.bond_type != template.required_bond_type:
+            if (
+                template.required_bond_type
+                and relationship.bond_type != template.required_bond_type
+            ):
                 continue
 
             # Check affinity requirements
-            if template.min_affinity is not None and relationship.affinity < template.min_affinity:
+            if (
+                template.min_affinity is not None
+                and relationship.affinity < template.min_affinity
+            ):
                 continue
-            if template.max_affinity is not None and relationship.affinity > template.max_affinity:
+            if (
+                template.max_affinity is not None
+                and relationship.affinity > template.max_affinity
+            ):
                 continue
 
             # Check trust requirements
-            if template.min_trust is not None and relationship.trust < template.min_trust:
+            if (
+                template.min_trust is not None
+                and relationship.trust < template.min_trust
+            ):
                 continue
-            if template.max_trust is not None and relationship.trust > template.max_trust:
+            if (
+                template.max_trust is not None
+                and relationship.trust > template.max_trust
+            ):
                 continue
 
             # Check loyalty requirements
-            if template.min_loyalty is not None and relationship.loyalty < template.min_loyalty:
+            if (
+                template.min_loyalty is not None
+                and relationship.loyalty < template.min_loyalty
+            ):
                 continue
-            if template.max_loyalty is not None and relationship.loyalty > template.max_loyalty:
+            if (
+                template.max_loyalty is not None
+                and relationship.loyalty > template.max_loyalty
+            ):
                 continue
 
             # Check tag requirements
@@ -483,7 +512,9 @@ class NarrativeEngine:
         # Weight by rarity and complexity
         weighted_candidates = []
         for template in candidates:
-            weight = template.rarity * (6 - template.complexity)  # Higher complexity = lower weight
+            weight = template.rarity * (
+                6 - template.complexity
+            )  # Higher complexity = lower weight
             weighted_candidates.extend([template] * int(weight * 10))
 
         if weighted_candidates:
@@ -491,8 +522,13 @@ class NarrativeEngine:
 
         return None
 
-    def _generate_fallback_narrative(self, agent_a: Agent, agent_b: Agent,
-                                   relationship: Relationship, context: Dict[str, Any]) -> str:
+    def _generate_fallback_narrative(
+        self,
+        agent_a: Agent,
+        agent_b: Agent,
+        relationship: Relationship,
+        context: Dict[str, Any],
+    ) -> str:
         """Generate fallback narrative when no template matches"""
 
         # Simple narratives based on relationship type
@@ -506,25 +542,33 @@ class NarrativeEngine:
             BondType.FAMILY: f"{agent_a.name} and {agent_b.name} support each other as family.",
             BondType.COMRADE: f"{agent_a.name} and {agent_b.name} fight together as comrades.",
             BondType.TRAITOR: f"{agent_a.name} and {agent_b.name} deal with betrayal.",
-            BondType.NEUTRAL: f"{agent_a.name} and {agent_b.name} interact neutrally."
+            BondType.NEUTRAL: f"{agent_a.name} and {agent_b.name} interact neutrally.",
         }
 
-        return fallback_narratives.get(relationship.bond_type,
-                                     f"{agent_a.name} and {agent_b.name} interact.")
+        return fallback_narratives.get(
+            relationship.bond_type, f"{agent_a.name} and {agent_b.name} interact."
+        )
 
     def _track_template_usage(self, template_id: str):
         """Track recently used templates to avoid repetition"""
         self.recently_used.append(template_id)
 
         if len(self.recently_used) > self.max_recent:
-            self.recently_used = self.recently_used[-self.max_recent:]
+            self.recently_used = self.recently_used[-self.max_recent :]
 
-    def _enhance_with_sylva_wren(self, base_narrative: str, agent_a: Agent, agent_b: Agent,
-                                context: Dict[str, Any]) -> str:
+    def _enhance_with_sylva_wren(
+        self,
+        base_narrative: str,
+        agent_a: Agent,
+        agent_b: Agent,
+        context: Dict[str, Any],
+    ) -> str:
         """Enhance narrative with SYLVA/WREN integration"""
 
         # Prepare data for SYLVA/WREN
-        relationship = self.game_state.social_network.get_relationship(agent_a.id, agent_b.id)
+        relationship = self.game_state.social_network.get_relationship(
+            agent_a.id, agent_b.id
+        )
 
         sylva_data = {
             "agent_a": {
@@ -532,18 +576,18 @@ class NarrativeEngine:
                 "background": agent_a.background,
                 "faction": agent_a.faction_id,
                 "emotional_state": agent_a.emotional_state.serialize(),
-                "social_tags": list(agent_a.social_tags)
+                "social_tags": list(agent_a.social_tags),
             },
             "agent_b": {
                 "name": agent_b.name,
                 "background": agent_b.background,
                 "faction": agent_b.faction_id,
                 "emotional_state": agent_b.emotional_state.serialize(),
-                "social_tags": list(agent_b.social_tags)
+                "social_tags": list(agent_b.social_tags),
             },
             "relationship_context": relationship.as_dict() if relationship else {},
             "event_context": context,
-            "base_narrative": base_narrative
+            "base_narrative": base_narrative,
         }
 
         # SYLVA integration (placeholder)
@@ -572,8 +616,9 @@ class NarrativeEngine:
         # For now, return None to indicate no enhancement
         return None
 
-    def generate_relationship_templates(self, bond_type: Optional[BondType] = None,
-                                      emotional_tone: Optional[str] = None) -> List[NarrativeTemplate]:
+    def generate_relationship_templates(
+        self, bond_type: Optional[BondType] = None, emotional_tone: Optional[str] = None
+    ) -> List[NarrativeTemplate]:
         """Generate relationship-based narrative templates"""
         templates = []
 
@@ -598,7 +643,7 @@ class NarrativeEngine:
             "recently_used": len(self.recently_used),
             "templates_by_complexity": self._count_by_complexity(),
             "templates_by_emotional_tone": self._count_by_emotional_tone(),
-            "templates_by_bond_type": self._count_by_bond_type()
+            "templates_by_bond_type": self._count_by_bond_type(),
         }
 
     def _count_by_complexity(self) -> Dict[int, int]:
@@ -619,12 +664,17 @@ class NarrativeEngine:
         """Count templates by required bond type"""
         counts = {}
         for template in self.templates:
-            bond_type = template.required_bond_type.value if template.required_bond_type else "any"
+            bond_type = (
+                template.required_bond_type.value
+                if template.required_bond_type
+                else "any"
+            )
             counts[bond_type] = counts.get(bond_type, 0) + 1
         return counts
 
-    def generate_advanced_narrative(self, agent_a: Agent, agent_b: Agent,
-                                  context: Dict[str, Any] = None) -> str:
+    def generate_advanced_narrative(
+        self, agent_a: Agent, agent_b: Agent, context: Dict[str, Any] = None
+    ) -> str:
         """Generate narrative using advanced relationship mechanics"""
         if context is None:
             context = {}
@@ -638,8 +688,9 @@ class NarrativeEngine:
         # Fallback to regular narrative generation
         return self._generate_relationship_narrative(agent_a, agent_b, context)
 
-    def _find_advanced_template(self, agent_a: Agent, agent_b: Agent,
-                              context: Dict[str, Any]) -> Optional[NarrativeTemplate]:
+    def _find_advanced_template(
+        self, agent_a: Agent, agent_b: Agent, context: Dict[str, Any]
+    ) -> Optional[NarrativeTemplate]:
         """Find template matching advanced relationship conditions"""
         relationship = agent_a.get_relationship(agent_b.id)
         if not relationship:
@@ -653,20 +704,31 @@ class NarrativeEngine:
                 continue
 
             # Check basic requirements
-            if not self._check_basic_requirements(template, agent_a, agent_b, relationship):
+            if not self._check_basic_requirements(
+                template, agent_a, agent_b, relationship
+            ):
                 continue
 
             # Check advanced requirements
-            if template.requires_secret and not self._check_secret_requirement(template, agent_a, agent_b):
+            if template.requires_secret and not self._check_secret_requirement(
+                template, agent_a, agent_b
+            ):
                 continue
 
-            if template.requires_memory and not self._check_memory_requirement(template, agent_a, agent_b):
+            if template.requires_memory and not self._check_memory_requirement(
+                template, agent_a, agent_b
+            ):
                 continue
 
-            if template.requires_persona and not self._check_persona_requirement(agent_a, agent_b):
+            if template.requires_persona and not self._check_persona_requirement(
+                agent_a, agent_b
+            ):
                 continue
 
-            if template.requires_ideology_conflict and not self._check_ideology_conflict(agent_a, agent_b):
+            if (
+                template.requires_ideology_conflict
+                and not self._check_ideology_conflict(agent_a, agent_b)
+            ):
                 continue
 
             candidates.append(template)
@@ -677,7 +739,9 @@ class NarrativeEngine:
         # Weight by rarity and complexity
         weighted_candidates = []
         for template in candidates:
-            weight = template.rarity * (6 - template.complexity)  # Higher complexity = lower weight
+            weight = template.rarity * (
+                6 - template.complexity
+            )  # Higher complexity = lower weight
             weighted_candidates.extend([template] * int(weight * 10))
 
         if not weighted_candidates:
@@ -685,22 +749,95 @@ class NarrativeEngine:
 
         return random.choice(weighted_candidates)
 
-    def _check_secret_requirement(self, template: NarrativeTemplate, agent_a: Agent, agent_b: Agent) -> bool:
+    def _check_basic_requirements(
+        self,
+        template: NarrativeTemplate,
+        agent_a: Agent,
+        agent_b: Agent,
+        relationship: Relationship,
+    ) -> bool:
+        """Check if basic template requirements are met"""
+        # Check bond type requirement
+        if (
+            template.required_bond_type
+            and relationship.bond_type != template.required_bond_type
+        ):
+            return False
+
+        # Check affinity range
+        if (
+            template.min_affinity is not None
+            and relationship.affinity < template.min_affinity
+        ):
+            return False
+        if (
+            template.max_affinity is not None
+            and relationship.affinity > template.max_affinity
+        ):
+            return False
+
+        # Check trust range
+        if template.min_trust is not None and relationship.trust < template.min_trust:
+            return False
+        if template.max_trust is not None and relationship.trust > template.max_trust:
+            return False
+
+        # Check loyalty range
+        if (
+            template.min_loyalty is not None
+            and relationship.loyalty < template.min_loyalty
+        ):
+            return False
+        if (
+            template.max_loyalty is not None
+            and relationship.loyalty > template.max_loyalty
+        ):
+            return False
+
+        # Check required tags
+        for tag in template.required_tags:
+            if tag not in agent_a.social_tags and tag not in agent_b.social_tags:
+                return False
+
+        # Check excluded tags
+        for tag in template.excluded_tags:
+            if tag in agent_a.social_tags or tag in agent_b.social_tags:
+                return False
+
+        return True
+
+    def _check_secret_requirement(
+        self, template: NarrativeTemplate, agent_a: Agent, agent_b: Agent
+    ) -> bool:
         """Check if secret requirement is met"""
         # Check if either agent has secrets
-        secrets_a = [s for s in agent_a.secrets if not template.secret_type or s.secret_type == template.secret_type]
-        secrets_b = [s for s in agent_b.secrets if not template.secret_type or s.secret_type == template.secret_type]
+        secrets_a = [
+            s
+            for s in agent_a.secrets
+            if not template.secret_type or s.secret_type == template.secret_type
+        ]
+        secrets_b = [
+            s
+            for s in agent_b.secrets
+            if not template.secret_type or s.secret_type == template.secret_type
+        ]
 
         return len(secrets_a) > 0 or len(secrets_b) > 0
 
-    def _check_memory_requirement(self, template: NarrativeTemplate, agent_a: Agent, agent_b: Agent) -> bool:
+    def _check_memory_requirement(
+        self, template: NarrativeTemplate, agent_a: Agent, agent_b: Agent
+    ) -> bool:
         """Check if memory requirement is met"""
         memories_a = agent_a.get_memories_by_agent(agent_b.id)
         memories_b = agent_b.get_memories_by_agent(agent_a.id)
 
         if template.memory_tone:
-            memories_a = [m for m in memories_a if m.emotional_tone == template.memory_tone]
-            memories_b = [m for m in memories_b if m.emotional_tone == template.memory_tone]
+            memories_a = [
+                m for m in memories_a if m.emotional_tone == template.memory_tone
+            ]
+            memories_b = [
+                m for m in memories_b if m.emotional_tone == template.memory_tone
+            ]
 
         return len(memories_a) > 0 or len(memories_b) > 0
 
@@ -710,21 +847,31 @@ class NarrativeEngine:
 
     def _check_ideology_conflict(self, agent_a: Agent, agent_b: Agent) -> bool:
         """Check if ideological conflict requirement is met"""
-        if not hasattr(agent_a, 'ideology_vector') or not hasattr(agent_b, 'ideology_vector'):
+        if not hasattr(agent_a, "ideology_vector") or not hasattr(
+            agent_b, "ideology_vector"
+        ):
             return False
 
         # Calculate ideological distance
         total_distance = 0.0
         for ideology in agent_a.ideology_vector:
             if ideology in agent_b.ideology_vector:
-                distance = abs(agent_a.ideology_vector[ideology] - agent_b.ideology_vector[ideology])
+                distance = abs(
+                    agent_a.ideology_vector[ideology]
+                    - agent_b.ideology_vector[ideology]
+                )
                 total_distance += distance
 
         avg_distance = total_distance / len(agent_a.ideology_vector)
         return avg_distance > 0.3  # Significant ideological difference
 
-    def _fill_advanced_template(self, template: NarrativeTemplate, agent_a: Agent, agent_b: Agent,
-                              context: Dict[str, Any]) -> str:
+    def _fill_advanced_template(
+        self,
+        template: NarrativeTemplate,
+        agent_a: Agent,
+        agent_b: Agent,
+        context: Dict[str, Any],
+    ) -> str:
         """Fill an advanced template with dynamic content"""
         narrative = template.template
 
@@ -736,7 +883,9 @@ class NarrativeEngine:
         if "{secret_description}" in narrative:
             secret = self._get_relevant_secret(agent_a, agent_b, template.secret_type)
             if secret:
-                narrative = narrative.replace("{secret_description}", secret.description)
+                narrative = narrative.replace(
+                    "{secret_description}", secret.description
+                )
 
         if "{memory_summary}" in narrative:
             memory = self._get_relevant_memory(agent_a, agent_b, template.memory_tone)
@@ -762,10 +911,15 @@ class NarrativeEngine:
         if "{defector_names}" in narrative:
             # Get faction defectors
             faction_id = agent_a.faction_id
-            defectors = [a.name for a in self.game_state.agents.values()
-                        if a.faction_id == faction_id and "defector" in a.social_tags]
+            defectors = [
+                a.name
+                for a in self.game_state.agents.values()
+                if a.faction_id == faction_id and "defector" in a.social_tags
+            ]
             if defectors:
-                narrative = narrative.replace("{defector_names}", ", ".join(defectors[:3]))
+                narrative = narrative.replace(
+                    "{defector_names}", ", ".join(defectors[:3])
+                )
             else:
                 narrative = narrative.replace("{defector_names}", "several members")
 
@@ -774,10 +928,20 @@ class NarrativeEngine:
 
         return narrative
 
-    def _get_relevant_secret(self, agent_a: Agent, agent_b: Agent, secret_type: Optional[SecretType]) -> Optional[Secret]:
+    def _get_relevant_secret(
+        self, agent_a: Agent, agent_b: Agent, secret_type: Optional[SecretType]
+    ) -> Optional[Secret]:
         """Get a relevant secret for narrative generation"""
-        secrets_a = [s for s in agent_a.secrets if not secret_type or s.secret_type == secret_type]
-        secrets_b = [s for s in agent_b.secrets if not secret_type or s.secret_type == secret_type]
+        secrets_a = [
+            s
+            for s in agent_a.secrets
+            if not secret_type or s.secret_type == secret_type
+        ]
+        secrets_b = [
+            s
+            for s in agent_b.secrets
+            if not secret_type or s.secret_type == secret_type
+        ]
 
         all_secrets = secrets_a + secrets_b
         if not all_secrets:
@@ -790,7 +954,9 @@ class NarrativeEngine:
 
         return random.choice(all_secrets)
 
-    def _get_relevant_memory(self, agent_a: Agent, agent_b: Agent, memory_tone: Optional[str]) -> Optional[MemoryEntry]:
+    def _get_relevant_memory(
+        self, agent_a: Agent, agent_b: Agent, memory_tone: Optional[str]
+    ) -> Optional[MemoryEntry]:
         """Get a relevant memory for narrative generation"""
         memories_a = agent_a.get_memories_by_agent(agent_b.id)
         memories_b = agent_b.get_memories_by_agent(agent_a.id)
@@ -804,13 +970,17 @@ class NarrativeEngine:
             return None
 
         # Prefer recent memories
-        recent_memories = [m for m in all_memories if m.get_age(self.game_state.turn_number) <= 5]
+        recent_memories = [
+            m for m in all_memories if m.get_age(self.game_state.turn_number) <= 5
+        ]
         if recent_memories:
             return random.choice(recent_memories)
 
         return random.choice(all_memories)
 
-    def register_character_voice(self, character_id: str, voice_config: VoiceConfiguration):
+    def register_character_voice(
+        self, character_id: str, voice_config: VoiceConfiguration
+    ):
         """Register a character's voice configuration with the tone engine"""
         self.tone_engine.register_voice_configuration(voice_config)
 
@@ -824,10 +994,13 @@ class NarrativeEngine:
         command = parts[0]
         args = parts[1:] if len(parts) > 1 else []
 
-        return self.voice_handler.handle_voice_config_command(character_id, command, args)
+        return self.voice_handler.handle_voice_config_command(
+            character_id, command, args
+        )
 
-    def generate_enhanced_narrative(self, character_id: str, base_event: str,
-                                  context: Dict[str, Any] = None) -> str:
+    def generate_enhanced_narrative(
+        self, character_id: str, base_event: str, context: Dict[str, Any] = None
+    ) -> str:
         """Generate narrative enhanced with character voice configuration"""
         if context is None:
             context = {}
@@ -836,8 +1009,8 @@ class NarrativeEngine:
         enhanced_narrative = base_event
 
         # If we have character relationships, enhance with relationship context
-        if 'target_character_id' in context:
-            target_id = context['target_character_id']
+        if "target_character_id" in context:
+            target_id = context["target_character_id"]
             relationship_narrative = self._generate_relationship_narrative_context(
                 character_id, target_id, context
             )
@@ -857,14 +1030,16 @@ class NarrativeEngine:
 
         return tone_enhanced
 
-    def _generate_relationship_narrative_context(self, character_a_id: str,
-                                               character_b_id: str,
-                                               context: Dict[str, Any]) -> Optional[str]:
+    def _generate_relationship_narrative_context(
+        self, character_a_id: str, character_b_id: str, context: Dict[str, Any]
+    ) -> Optional[str]:
         """Generate narrative based on relationship context between characters"""
-        if not hasattr(self.game_state, 'social_network'):
+        if not hasattr(self.game_state, "social_network"):
             return None
 
-        relationship = self.game_state.social_network.get_relationship(character_a_id, character_b_id)
+        relationship = self.game_state.social_network.get_relationship(
+            character_a_id, character_b_id
+        )
         if not relationship:
             return None
 
@@ -876,12 +1051,15 @@ class NarrativeEngine:
             agent_b = self._create_agent_proxy(character_b_id)
 
             if agent_a and agent_b:
-                return self._fill_narrative_template(template, agent_a, agent_b, relationship, context)
+                return self._fill_narrative_template(
+                    template, agent_a, agent_b, relationship, context
+                )
 
         return None
 
     def _create_agent_proxy(self, character_id: str) -> Optional[Any]:
         """Create an agent proxy for narrative generation"""
+
         # In a full implementation, this would get the actual character/agent
         # For now, create a simple proxy with the character ID
         class AgentProxy:
@@ -891,42 +1069,50 @@ class NarrativeEngine:
 
         return AgentProxy(character_id)
 
-    def _find_relationship_template_for_context(self, relationship: Relationship,
-                                              context: Dict[str, Any]) -> Optional[Any]:
+    def _find_relationship_template_for_context(
+        self, relationship: Relationship, context: Dict[str, Any]
+    ) -> Optional[Any]:
         """Find a narrative template that matches the relationship and context"""
         # Filter templates based on context
-        event_type = context.get('event_type', 'general')
-        emotional_context = context.get('emotional_context', 'neutral')
+        context.get("event_type", "general")
+        emotional_context = context.get("emotional_context", "neutral")
 
         suitable_templates = []
 
         for template in self.templates:
             # Check if template matches the relationship type
-            if (template.required_bond_type and
-                template.required_bond_type != relationship.bond_type):
+            if (
+                template.required_bond_type
+                and template.required_bond_type != relationship.bond_type
+            ):
                 continue
 
             # Check affinity ranges
-            if (template.min_affinity and relationship.affinity < template.min_affinity):
+            if template.min_affinity and relationship.affinity < template.min_affinity:
                 continue
-            if (template.max_affinity and relationship.affinity > template.max_affinity):
+            if template.max_affinity and relationship.affinity > template.max_affinity:
                 continue
 
             # Check trust ranges
-            if (template.min_trust and relationship.trust < template.min_trust):
+            if template.min_trust and relationship.trust < template.min_trust:
                 continue
-            if (template.max_trust and relationship.trust > template.max_trust):
+            if template.max_trust and relationship.trust > template.max_trust:
                 continue
 
             # Check emotional tone match
-            if emotional_context != 'neutral' and template.emotional_tone != emotional_context:
+            if (
+                emotional_context != "neutral"
+                and template.emotional_tone != emotional_context
+            ):
                 continue
 
             suitable_templates.append(template)
 
         if suitable_templates:
             # Prefer templates that haven't been used recently
-            unused_templates = [t for t in suitable_templates if t.id not in self.recently_used]
+            unused_templates = [
+                t for t in suitable_templates if t.id not in self.recently_used
+            ]
             if unused_templates:
                 return random.choice(unused_templates)
             else:
@@ -934,8 +1120,9 @@ class NarrativeEngine:
 
         return None
 
-    def _enhance_with_sylva_wren_extended(self, base_narrative: str, character_id: str,
-                                        context: Dict[str, Any]) -> str:
+    def _enhance_with_sylva_wren_extended(
+        self, base_narrative: str, character_id: str, context: Dict[str, Any]
+    ) -> str:
         """Extended SYLVA/WREN enhancement that includes voice configuration"""
 
         # Get character voice configuration
@@ -970,16 +1157,20 @@ class NarrativeEngine:
         # This would integrate with the actual SYLVA API, sending voice config data
         # For now, simulate some voice-aware emotional analysis
 
-        voice_config = data.get('voice_configuration')
-        if voice_config and voice_config.get('emotional_tones'):
+        voice_config = data.get("voice_configuration")
+        if voice_config and voice_config.get("emotional_tones"):
             # Simulate SYLVA enhancing based on emotional tones
-            dominant_tone = voice_config['emotional_tones'][0] if voice_config['emotional_tones'] else None
+            dominant_tone = (
+                voice_config["emotional_tones"][0]
+                if voice_config["emotional_tones"]
+                else None
+            )
 
-            if dominant_tone == 'wry':
+            if dominant_tone == "wry":
                 return "The irony wasn't lost on them."
-            elif dominant_tone == 'melancholic':
+            elif dominant_tone == "melancholic":
                 return "The memory lingered like morning fog."
-            elif dominant_tone == 'rebellious':
+            elif dominant_tone == "rebellious":
                 return "Defiance burned in their chest."
 
         return None
@@ -989,16 +1180,16 @@ class NarrativeEngine:
         # This would integrate with the actual WREN API, sending voice config data
         # For now, simulate some voice-aware narrative enhancement
 
-        voice_config = data.get('voice_configuration')
-        if voice_config and voice_config.get('symbolic_preferences'):
+        voice_config = data.get("voice_configuration")
+        if voice_config and voice_config.get("symbolic_preferences"):
             # Simulate WREN adding symbolic elements
-            symbols = voice_config['symbolic_preferences']
+            symbols = voice_config["symbolic_preferences"]
 
-            if 'cigarettes' in symbols:
+            if "cigarettes" in symbols:
                 return "Smoke curled upward, carrying unspoken thoughts."
-            elif 'coffee' in symbols:
+            elif "coffee" in symbols:
                 return "The aroma brought fleeting comfort in uncertain times."
-            elif 'broken_glass' in symbols:
+            elif "broken_glass" in symbols:
                 return "Fragments caught the light, beautiful in their destruction."
 
         return None

@@ -15,8 +15,8 @@ Usage:
     python run_maintenance.py --export-metrics  # Export metrics to file
 """
 
-import argparse
 import sys
+import argparse
 from pathlib import Path
 from datetime import datetime
 
@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from maintenance.maintenance_mode import MaintenanceMode
 from maintenance.metrics import GameHealthMetrics
+
 
 def parse_arguments():
     """Parse command line arguments"""
@@ -37,42 +38,38 @@ Examples:
   python run_maintenance.py -i 3              # Run 3 iterations
   python run_maintenance.py --health-check    # Check system health only
   python run_maintenance.py --export-metrics  # Export metrics to file
-        """
+        """,
     )
 
     parser.add_argument(
-        "-i", "--iterations",
+        "-i",
+        "--iterations",
         type=int,
         default=1,
-        help="Number of maintenance iterations to run (default: 1)"
+        help="Number of maintenance iterations to run (default: 1)",
     )
 
     parser.add_argument(
         "--health-check",
         action="store_true",
-        help="Only perform health check without making changes"
+        help="Only perform health check without making changes",
     )
 
     parser.add_argument(
-        "--export-metrics",
-        action="store_true",
-        help="Export current metrics to file"
+        "--export-metrics", action="store_true", help="Export current metrics to file"
     )
 
     parser.add_argument(
         "--complexity-budget",
         type=int,
         default=10,
-        help="Complexity budget for improvements (default: 10)"
+        help="Complexity budget for improvements (default: 10)",
     )
 
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose output"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
 
     return parser.parse_args()
+
 
 def print_banner():
     """Print the maintenance mode banner"""
@@ -83,6 +80,7 @@ def print_banner():
     print("║  Automated system health monitoring and improvement           ║")
     print("╚═══════════════════════════════════════════════════════════════╝")
     print()
+
 
 def run_health_check(project_root: Path):
     """Run a comprehensive health check"""
@@ -122,7 +120,11 @@ def run_health_check(project_root: Path):
         ("Test Coverage", current_metrics.get("test_coverage", 0), "📋"),
         ("Performance", current_metrics.get("performance", 0), "⚡"),
         ("Narrative Quality", current_metrics.get("narrative_coherence", 0), "📚"),
-        ("Emotional Consistency", current_metrics.get("emotional_consistency", 0), "❤️")
+        (
+            "Emotional Consistency",
+            current_metrics.get("emotional_consistency", 0),
+            "❤️",
+        ),
     ]
 
     for name, value, icon in metrics_display:
@@ -137,18 +139,19 @@ def run_health_check(project_root: Path):
     # Get health summary with recommendations
     summary = metrics.get_health_summary()
     if summary.get("recommendations"):
-        print(f"\n💡 Recommendations:")
+        print("\n💡 Recommendations:")
         for rec in summary["recommendations"]:
             print(f"   • {rec}")
 
     return current_metrics
+
 
 def export_metrics(project_root: Path):
     """Export metrics to file"""
     print("📤 Exporting metrics...")
 
     metrics = GameHealthMetrics()
-    current_metrics = metrics.collect_comprehensive_metrics(project_root)
+    metrics.collect_comprehensive_metrics(project_root)
 
     # Create export filename with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -157,6 +160,7 @@ def export_metrics(project_root: Path):
     metrics.export_metrics(export_path)
 
     print(f"✅ Metrics exported to: {export_path}")
+
 
 def main():
     """Main maintenance runner function"""
@@ -175,11 +179,11 @@ def main():
         return
 
     # Regular maintenance mode
-    print(f"🔧 Starting maintenance mode...")
+    print("🔧 Starting maintenance mode...")
     print(f"   Iterations: {args.iterations}")
     print(f"   Complexity Budget: {args.complexity_budget}")
     if args.verbose:
-        print(f"   Verbose: Enabled")
+        print("   Verbose: Enabled")
     print()
 
     # Initialize maintenance mode
@@ -197,11 +201,11 @@ def main():
         maintenance.run_maintenance_cycle(iterations=args.iterations)
 
         # Final health check
-        print(f"\n📋 Final Health Assessment:")
+        print("\n📋 Final Health Assessment:")
         final_metrics = run_health_check(project_root)
 
         # Show summary
-        print(f"\n📈 Maintenance Summary:")
+        print("\n📈 Maintenance Summary:")
         print("=" * 40)
         print(f"   Iterations completed: {maintenance.iteration}")
         print(f"   Remaining complexity budget: {maintenance.complexity_budget}")
@@ -220,9 +224,9 @@ def main():
             print(f"   Health change: ➡️  {health_change:.3f} (STABLE)")
 
         if maintenance.improvements_log:
-            print(f"\n🔧 Improvements Applied:")
+            print("\n🔧 Improvements Applied:")
             for imp in maintenance.improvements_log:
-                if "REVERTED" in imp['improvement']:
+                if "REVERTED" in imp["improvement"]:
                     print(f"   ↩️  {imp['improvement']}")
                 else:
                     print(f"   ✅ {imp['improvement']} (cost: {imp['complexity_cost']})")
@@ -230,14 +234,16 @@ def main():
         print(f"\n✨ Maintenance complete! System health: {final_health:.2f}")
 
     except KeyboardInterrupt:
-        print(f"\n⚠️  Maintenance interrupted by user")
-        print(f"   Progress saved to logs")
+        print("\n⚠️  Maintenance interrupted by user")
+        print("   Progress saved to logs")
     except Exception as e:
         print(f"\n❌ Error during maintenance: {e}")
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

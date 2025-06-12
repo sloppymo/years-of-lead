@@ -454,7 +454,7 @@ class AdvancedRelationshipManager:
 
     def check_faction_fractures(self):
         """Check for faction fractures due to low cohesion"""
-        for faction_id, faction in self.game_state.factions.items():
+        for faction_id, faction in list(self.game_state.factions.items()):
             cohesion = self.game_state.get_faction_cohesion(faction_id)
 
             if cohesion < self.faction_fracture_threshold:

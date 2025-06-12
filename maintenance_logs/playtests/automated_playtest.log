@@ -1,0 +1,2 @@
+2025-06-12 00:16:03,010 | INFO     | Starting automated play-test: 200 turns (seed=955461)
+2025-06-12 00:16:03,122 | INFO     | Play-test complete: 0 bugs found. Report saved to maintenance_logs/playtests/playtest_report.json

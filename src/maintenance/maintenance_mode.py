@@ -13,29 +13,34 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from dataclasses import dataclass
 from enum import Enum
 import shutil
 
+
 class ImprovementType(Enum):
     """Categories of improvements, ordered by priority"""
-    CRITICAL_BUG = 1      # Game crashes or corrupts data
-    MAJOR_BUG = 2         # Features don't work as intended
-    PERFORMANCE = 3       # Slow or inefficient code
-    NARRATIVE = 4         # Repetitive or incoherent story
-    EMOTIONAL = 5         # Emotional states behaving oddly
-    VARIETY = 6           # Adding more content variety
-    POLISH = 7            # Small quality improvements
+
+    CRITICAL_BUG = 1  # Game crashes or corrupts data
+    MAJOR_BUG = 2  # Features don't work as intended
+    PERFORMANCE = 3  # Slow or inefficient code
+    NARRATIVE = 4  # Repetitive or incoherent story
+    EMOTIONAL = 5  # Emotional states behaving oddly
+    VARIETY = 6  # Adding more content variety
+    POLISH = 7  # Small quality improvements
+
 
 @dataclass
 class Improvement:
     """Represents a single improvement to make"""
+
     type: ImprovementType
     description: str
     complexity_cost: int  # How much of our budget this uses
     file_to_modify: str
-    test_to_verify: str   # Which test verifies this works
+    test_to_verify: str  # Which test verifies this works
+
 
 class MaintenanceMode:
     """The main maintenance system that runs automated improvement cycles."""
@@ -71,13 +76,15 @@ class MaintenanceMode:
                     "all_tests_pass": True,
                     "narrative_coherence": 0.7,
                     "emotional_consistency": 0.8,
-                    "performance_baseline": 1.0
-                }
+                    "performance_baseline": 1.0,
+                },
             }
 
     def run_maintenance_cycle(self, iterations: int = 1):
         """Run the main maintenance cycle for specified iterations."""
-        print(f"Starting maintenance cycle with complexity budget: {self.complexity_budget}")
+        print(
+            f"Starting maintenance cycle with complexity budget: {self.complexity_budget}"
+        )
 
         for i in range(iterations):
             if self.complexity_budget <= 0:
@@ -130,14 +137,18 @@ class MaintenanceMode:
         try:
             result = subprocess.run(
                 ["python3", "-m", "pytest", "--cov=src", "--cov-report=json", "-q"],
-                capture_output=True, text=True, cwd=self.project_root
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
             )
             if result.returncode == 0:
                 coverage_file = self.project_root / "coverage.json"
                 if coverage_file.exists():
                     with open(coverage_file) as f:
                         data = json.load(f)
-                        metrics["test_coverage"] = data.get("totals", {}).get("percent_covered", 0) / 100
+                        metrics["test_coverage"] = (
+                            data.get("totals", {}).get("percent_covered", 0) / 100
+                        )
         except Exception as e:
             print(f"Warning: Could not measure test coverage: {e}")
             metrics["test_coverage"] = 0.0
@@ -161,7 +172,7 @@ class MaintenanceMode:
             scenario_runner = ScenarioRunner()
             scenario_results = scenario_runner.run_all_scenarios()
 
-            scenario_passed = scenario_results.get('overall_passed', False)
+            scenario_passed = scenario_results.get("overall_passed", False)
             if scenario_passed:
                 print(" ✓ Passed")
             else:
@@ -174,12 +185,29 @@ class MaintenanceMode:
 
         test_commands = [
             ("Unit tests", ["python3", "-m", "pytest", "tests/unit", "-v"]),
-            ("Integration tests", ["python3", "-m", "pytest", "tests/integration", "-v"]),
+            (
+                "Integration tests",
+                ["python3", "-m", "pytest", "tests/integration", "-v"],
+            ),
             ("E2E tests", ["python3", "-m", "pytest", "tests/e2e", "-v"]),
-            ("Maintenance basic", ["python3", "-m", "pytest", "tests/maintenance/test_maintenance_basic.py", "-v"])
+            (
+                "Maintenance basic",
+                [
+                    "python3",
+                    "-m",
+                    "pytest",
+                    "tests/maintenance/test_maintenance_basic.py",
+                    "-v",
+                ],
+            ),
         ]
 
-        results = {"all_pass": scenario_passed, "failures": [], "suite_results": {}, "scenario_results": scenario_results}
+        results = {
+            "all_pass": scenario_passed,
+            "failures": [],
+            "suite_results": {},
+            "scenario_results": scenario_results,
+        }
 
         if not scenario_passed:
             results["failures"].append("Maintenance scenarios")
@@ -187,11 +215,13 @@ class MaintenanceMode:
         for suite_name, command in test_commands:
             print(f"  Running {suite_name}...", end="", flush=True)
             try:
-                result = subprocess.run(command, capture_output=True, text=True, cwd=self.project_root)
+                result = subprocess.run(
+                    command, capture_output=True, text=True, cwd=self.project_root
+                )
                 passed = result.returncode == 0
                 results["suite_results"][suite_name] = {
                     "passed": passed,
-                    "output": result.stdout + result.stderr
+                    "output": result.stdout + result.stderr,
                 }
 
                 if not passed:
@@ -212,108 +242,136 @@ class MaintenanceMode:
         candidates = []
 
         # Get scenario results if available
-        scenario_results = getattr(self, 'last_scenario_results', {})
-        detailed_results = scenario_results.get('detailed_results', {})
+        scenario_results = getattr(self, "last_scenario_results", {})
+        detailed_results = scenario_results.get("detailed_results", {})
 
         # Performance improvements
-        perf_results = detailed_results.get('step_performance', {})
-        if not perf_results.get('performance_acceptable', True) or self.baseline_metrics.get("performance", 1.0) < 0.8:
-            candidates.append(Improvement(
-                type=ImprovementType.PERFORMANCE,
-                description="Optimize game step performance and memory usage",
-                complexity_cost=2,
-                file_to_modify="src/game/core.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_game_step_performance"
-            ))
+        perf_results = detailed_results.get("step_performance", {})
+        if (
+            not perf_results.get("performance_acceptable", True)
+            or self.baseline_metrics.get("performance", 1.0) < 0.8
+        ):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.PERFORMANCE,
+                    description="Optimize game step performance and memory usage",
+                    complexity_cost=2,
+                    file_to_modify="src/game/core.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_game_step_performance",
+                )
+            )
 
         # Memory stability
-        memory_results = detailed_results.get('memory_stability', {})
-        if not memory_results.get('stable_memory', True):
-            candidates.append(Improvement(
-                type=ImprovementType.CRITICAL_BUG,
-                description="Fix memory leak in game state management",
-                complexity_cost=3,
-                file_to_modify="src/game/core.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_memory_stability"
-            ))
+        memory_results = detailed_results.get("memory_stability", {})
+        if not memory_results.get("stable_memory", True):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.CRITICAL_BUG,
+                    description="Fix memory leak in game state management",
+                    complexity_cost=3,
+                    file_to_modify="src/game/core.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_memory_stability",
+                )
+            )
 
         # Emotional consistency issues
-        emotional_results = detailed_results.get('emotional_bounds', {})
-        drift_results = detailed_results.get('emotional_drift', {})
-        if not emotional_results.get('all_in_bounds', True) or not drift_results.get('passed', True):
-            candidates.append(Improvement(
-                type=ImprovementType.EMOTIONAL,
-                description="Fix emotional state bounds and drift rate calculations",
-                complexity_cost=2,
-                file_to_modify="src/game/emotional_state.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_emotional_bounds_consistency"
-            ))
+        emotional_results = detailed_results.get("emotional_bounds", {})
+        drift_results = detailed_results.get("emotional_drift", {})
+        if not emotional_results.get("all_in_bounds", True) or not drift_results.get(
+            "passed", True
+        ):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.EMOTIONAL,
+                    description="Fix emotional state bounds and drift rate calculations",
+                    complexity_cost=2,
+                    file_to_modify="src/game/emotional_state.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_emotional_bounds_consistency",
+                )
+            )
 
         # Trauma persistence
-        trauma_results = detailed_results.get('trauma_persistence', {})
-        if not trauma_results.get('trauma_processed', True):
-            candidates.append(Improvement(
-                type=ImprovementType.EMOTIONAL,
-                description="Improve trauma event processing and persistence",
-                complexity_cost=2,
-                file_to_modify="src/game/emotional_state.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_trauma_persistence"
-            ))
+        trauma_results = detailed_results.get("trauma_persistence", {})
+        if not trauma_results.get("trauma_processed", True):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.EMOTIONAL,
+                    description="Improve trauma event processing and persistence",
+                    complexity_cost=2,
+                    file_to_modify="src/game/emotional_state.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_trauma_persistence",
+                )
+            )
 
         # Narrative variety and coherence
-        variety_results = detailed_results.get('narrative_variety', {})
-        coherence_results = detailed_results.get('narrative_coherence', {})
-        if not variety_results.get('sufficient_variety', True) or not coherence_results.get('coherent_sequence', True):
-            candidates.append(Improvement(
-                type=ImprovementType.NARRATIVE,
-                description="Improve narrative variety and coherence algorithms",
-                complexity_cost=3,
-                file_to_modify="src/game/events.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_narrative_variety"
-            ))
+        variety_results = detailed_results.get("narrative_variety", {})
+        coherence_results = detailed_results.get("narrative_coherence", {})
+        if not variety_results.get(
+            "sufficient_variety", True
+        ) or not coherence_results.get("coherent_sequence", True):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.NARRATIVE,
+                    description="Improve narrative variety and coherence algorithms",
+                    complexity_cost=3,
+                    file_to_modify="src/game/events.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_narrative_variety",
+                )
+            )
 
         # High load stability
-        stability_results = detailed_results.get('high_load_stability', {})
-        if not stability_results.get('stable_under_load', True):
-            candidates.append(Improvement(
-                type=ImprovementType.MAJOR_BUG,
-                description="Fix concurrency issues in multi-agent scenarios",
-                complexity_cost=3,
-                file_to_modify="src/game/core.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_high_load_stability"
-            ))
+        stability_results = detailed_results.get("high_load_stability", {})
+        if not stability_results.get("stable_under_load", True):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.MAJOR_BUG,
+                    description="Fix concurrency issues in multi-agent scenarios",
+                    complexity_cost=3,
+                    file_to_modify="src/game/core.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_high_load_stability",
+                )
+            )
 
         # Agent interaction problems
-        interaction_results = detailed_results.get('multi_agent_interactions', {})
-        if interaction_results.get('total_interactions', 0) == 0:
-            candidates.append(Improvement(
-                type=ImprovementType.MAJOR_BUG,
-                description="Fix agent interaction system",
-                complexity_cost=2,
-                file_to_modify="src/game/agent.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_multi_agent_interactions"
-            ))
+        interaction_results = detailed_results.get("multi_agent_interactions")
+        if (
+            interaction_results
+            and interaction_results.get("total_interactions", 0) == 0
+        ):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.MAJOR_BUG,
+                    description="Fix agent interaction system",
+                    complexity_cost=2,
+                    file_to_modify="src/game/agent.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_multi_agent_interactions",
+                )
+            )
 
         # State persistence
-        persistence_results = detailed_results.get('state_persistence', {})
-        if not persistence_results.get('state_preserved', True):
-            candidates.append(Improvement(
-                type=ImprovementType.MAJOR_BUG,
-                description="Fix agent state serialization/deserialization",
-                complexity_cost=2,
-                file_to_modify="src/game/agent.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_agent_state_persistence"
-            ))
+        persistence_results = detailed_results.get("state_persistence", {})
+        if not persistence_results.get("state_preserved", True):
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.MAJOR_BUG,
+                    description="Fix agent state serialization/deserialization",
+                    complexity_cost=2,
+                    file_to_modify="src/game/agent.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_agent_state_persistence",
+                )
+            )
 
         # If no specific issues, add variety/polish improvements
         if not candidates and self.complexity_budget >= 3:
-            candidates.append(Improvement(
-                type=ImprovementType.VARIETY,
-                description="Add new event templates and narrative variety",
-                complexity_cost=3,
-                file_to_modify="src/game/events.py",
-                test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_narrative_variety"
-            ))
+            candidates.append(
+                Improvement(
+                    type=ImprovementType.VARIETY,
+                    description="Add new event templates and narrative variety",
+                    complexity_cost=3,
+                    file_to_modify="src/game/events.py",
+                    test_to_verify="tests/maintenance/test_scenarios.py::MaintenanceTestScenarios::test_narrative_variety",
+                )
+            )
 
         # Sort by priority (lower enum value = higher priority)
         candidates.sort(key=lambda x: x.type.value)
@@ -334,7 +392,7 @@ class MaintenanceMode:
             description=f"Fix failing tests: {', '.join(test_results['failures'])}",
             complexity_cost=1,
             file_to_modify="src/game/core.py",
-            test_to_verify="tests/unit"
+            test_to_verify="tests/unit",
         )
 
     def _implement_improvement(self, improvement: Improvement) -> bool:
@@ -353,18 +411,22 @@ class MaintenanceMode:
                 print(f"  Verifying with {improvement.test_to_verify}...")
                 test_result = subprocess.run(
                     ["python3", "-m", "pytest", improvement.test_to_verify, "-v"],
-                    capture_output=True, text=True, cwd=self.project_root
+                    capture_output=True,
+                    text=True,
+                    cwd=self.project_root,
                 )
 
                 if test_result.returncode == 0:
                     print("  ✓ Improvement verified!")
                     self.complexity_budget -= improvement.complexity_cost
-                    self.improvements_log.append({
-                        "iteration": self.iteration,
-                        "improvement": improvement.description,
-                        "complexity_cost": improvement.complexity_cost,
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    self.improvements_log.append(
+                        {
+                            "iteration": self.iteration,
+                            "improvement": improvement.description,
+                            "complexity_cost": improvement.complexity_cost,
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
                     return True
                 else:
                     print("  ✗ Verification failed!")
@@ -387,12 +449,14 @@ class MaintenanceMode:
     def _revert_changes(self):
         """Revert recent changes if they caused problems"""
         print("  Reverting recent changes...")
-        self.improvements_log.append({
-            "iteration": self.iteration,
-            "improvement": "REVERTED - System health degraded",
-            "complexity_cost": 0,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.improvements_log.append(
+            {
+                "iteration": self.iteration,
+                "improvement": "REVERTED - System health degraded",
+                "complexity_cost": 0,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
     def _is_system_healthier(self, new_metrics: Dict) -> bool:
         """Check if the system is healthier after changes"""
@@ -400,10 +464,14 @@ class MaintenanceMode:
             return True
 
         health_checks = [
-            new_metrics.get("test_coverage", 0) >= self.baseline_metrics.get("test_coverage", 0),
-            new_metrics.get("performance", 0) >= self.baseline_metrics.get("performance", 0) * 0.95,
-            new_metrics.get("narrative_quality", 0) >= self.baseline_metrics.get("narrative_quality", 0),
-            new_metrics.get("emotional_consistency", 0) >= self.baseline_metrics.get("emotional_consistency", 0)
+            new_metrics.get("test_coverage", 0)
+            >= self.baseline_metrics.get("test_coverage", 0),
+            new_metrics.get("performance", 0)
+            >= self.baseline_metrics.get("performance", 0) * 0.95,
+            new_metrics.get("narrative_quality", 0)
+            >= self.baseline_metrics.get("narrative_quality", 0),
+            new_metrics.get("emotional_consistency", 0)
+            >= self.baseline_metrics.get("emotional_consistency", 0),
         ]
 
         return sum(health_checks) >= len(health_checks) * 0.75
@@ -413,9 +481,10 @@ class MaintenanceMode:
         try:
             start_time = time.time()
             import sys
+
             sys.path.append(str(self.project_root / "src"))
-            from game.core import GameState
-            game_state = GameState()
+
+            # game_state = GameState()  # Unused variable removed
             end_time = time.time()
             init_time = end_time - start_time
             performance_score = max(0, min(1, (1.0 - init_time) / 0.9))
@@ -432,6 +501,7 @@ class MaintenanceMode:
                 with open(events_file) as f:
                     content = f.read()
                 import re
+
                 descriptions = re.findall(r'"([^"]{50,})"', content)
                 unique_words = set()
                 for desc in descriptions:
@@ -466,7 +536,7 @@ class MaintenanceMode:
             "timestamp": datetime.now().isoformat(),
             "iteration": self.iteration,
             "phase": phase,
-            "metrics": metrics
+            "metrics": metrics,
         }
 
         log_file = self.logs_dir / f"metrics_{datetime.now().strftime('%Y%m%d')}.json"
@@ -475,7 +545,7 @@ class MaintenanceMode:
             with open(log_file) as f:
                 logs = json.load(f)
         logs.append(log_entry)
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             json.dump(logs, f, indent=2)
 
     def _document_iteration(self):
@@ -485,8 +555,8 @@ class MaintenanceMode:
             "timestamp": datetime.now().isoformat(),
             "baseline_metrics": self.baseline_metrics,
             "improvements_made": len(self.improvements_log),
-            "remaining_budget": self.complexity_budget
+            "remaining_budget": self.complexity_budget,
         }
         log_file = self.logs_dir / f"iteration_{self.iteration:03d}.json"
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             json.dump(iteration_log, f, indent=2)

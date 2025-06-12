@@ -2,8 +2,7 @@
 API Routes for Years of Lead
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from loguru import logger
+from fastapi import APIRouter
 
 api_router = APIRouter()
 
@@ -18,6 +17,7 @@ api_router.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 api_router.include_router(factions_router, prefix="/factions", tags=["Factions"])
 api_router.include_router(game_router, prefix="/game", tags=["Game"])
 api_router.include_router(players_router, prefix="/players", tags=["Players"])
+
 
 @api_router.get("/")
 async def root():

@@ -8,7 +8,6 @@ Implements agent-level therapy sessions and outcome logic.
 
 from __future__ import annotations
 import uuid
-import random
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, Any, Optional
@@ -18,6 +17,7 @@ from .support_networks import SupportNetwork
 
 class TherapyType(Enum):
     """Enumerates available therapy modalities."""
+
     INDIVIDUAL = "individual"
     GROUP = "group"
     MEDICATION = "medication"
@@ -27,6 +27,7 @@ class TherapyType(Enum):
 @dataclass
 class TherapyOutcome:
     """Container for session results."""
+
     success: bool
     relapse: bool
     recovery_score: float
@@ -44,7 +45,9 @@ class TherapySession:
     base_effectiveness: float = 0.2  # Baseline recovery score (0–1)
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
-    def _calculate_recovery(self, emotional_state: EmotionalState, support: Optional[SupportNetwork]) -> float:
+    def _calculate_recovery(
+        self, emotional_state: EmotionalState, support: Optional[SupportNetwork]
+    ) -> float:
         """Compute recovery score based on therapy type and modifiers."""
         effectiveness = self.base_effectiveness
 
@@ -65,13 +68,18 @@ class TherapySession:
         # Clamp
         return max(0.0, min(1.0, effectiveness))
 
-    def conduct(self, emotional_state: EmotionalState, support: Optional[SupportNetwork] = None) -> TherapyOutcome:
+    def conduct(
+        self, emotional_state: EmotionalState, support: Optional[SupportNetwork] = None
+    ) -> TherapyOutcome:
         """Run the therapy session, mutating the emotional state and returning outcome."""
         recovery_score = self._calculate_recovery(emotional_state, support)
         emotional_state.apply_therapy_effect(recovery_score)
 
         # Relapse check (lower base chance right after therapy)
-        relapse = emotional_state.check_relapse(base_chance=0.05, resilience_modifier=support.get_resilience_modifier() if support else 0.0)
+        relapse = emotional_state.check_relapse(
+            base_chance=0.05,
+            resilience_modifier=support.get_resilience_modifier() if support else 0.0,
+        )
 
         narrative = ""
         if relapse:
@@ -87,5 +95,5 @@ class TherapySession:
             details={
                 "therapy_type": self.therapy_type.value,
                 "support_bonus": support.get_resilience_modifier() if support else 0.0,
-            }
+            },
         )

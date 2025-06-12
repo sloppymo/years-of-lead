@@ -5,7 +5,7 @@ District repository for database operations
 from typing import Optional, List, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import and_, or_, func, text
+from sqlalchemy import and_, or_
 
 from models.sql_models import District, GameDistrict, faction_district_control
 from models.schemas import DistrictBase, DistrictCreate
@@ -25,7 +25,9 @@ class DistrictRepository(BaseRepository[District, DistrictCreate, DistrictBase])
         return result.scalars().first()
 
 
-class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[str, Any]]):
+class GameDistrictRepository(
+    BaseRepository[GameDistrict, Dict[str, Any], Dict[str, Any]]
+):
     """Game district repository for database operations"""
 
     def __init__(self):
@@ -37,12 +39,14 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_by_template(self, db: AsyncSession, game_id: str, template_id: str) -> Optional[GameDistrict]:
+    async def get_by_template(
+        self, db: AsyncSession, game_id: str, template_id: str
+    ) -> Optional[GameDistrict]:
         """Get a game district by game ID and template ID"""
         query = select(GameDistrict).where(
             and_(
                 GameDistrict.game_id == game_id,
-                GameDistrict.district_template_id == template_id
+                GameDistrict.district_template_id == template_id,
             )
         )
         result = await db.execute(query)
@@ -55,7 +59,7 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
         security_level: Optional[int] = None,
         unrest_level: Optional[int] = None,
         prosperity_level: Optional[int] = None,
-        heat: Optional[int] = None
+        heat: Optional[int] = None,
     ) -> Optional[GameDistrict]:
         """Update district metrics"""
         district = await self.get(db, district_id)
@@ -86,7 +90,7 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
         """Get faction control percentages for a district"""
         query = select(
             faction_district_control.c.faction_id,
-            faction_district_control.c.control_percentage
+            faction_district_control.c.control_percentage,
         ).where(faction_district_control.c.district_id == district_id)
 
         result = await db.execute(query)
@@ -105,14 +109,14 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
         faction_id: str,
         control_percentage: float,
         influence: Optional[float] = None,
-        heat: Optional[float] = None
+        heat: Optional[float] = None,
     ) -> bool:
         """Update or create faction control in a district"""
         # Check if control record already exists
         query = select(faction_district_control).where(
             and_(
                 faction_district_control.c.district_id == district_id,
-                faction_district_control.c.faction_id == faction_id
+                faction_district_control.c.faction_id == faction_id,
             )
         )
         result = await db.execute(query)
@@ -131,7 +135,7 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
                 .where(
                     and_(
                         faction_district_control.c.district_id == district_id,
-                        faction_district_control.c.faction_id == faction_id
+                        faction_district_control.c.faction_id == faction_id,
                     )
                 )
                 .values(**update_values)
@@ -143,9 +147,7 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
             default_values.update(update_values)
 
             stmt = faction_district_control.insert().values(
-                district_id=district_id,
-                faction_id=faction_id,
-                **default_values
+                district_id=district_id, faction_id=faction_id, **default_values
             )
             await db.execute(stmt)
 
@@ -161,8 +163,8 @@ class GameDistrictRepository(BaseRepository[GameDistrict, Dict[str, Any], Dict[s
                 GameDistrict.game_id == game_id,
                 or_(
                     GameDistrict.unrest_level >= threshold,
-                    GameDistrict.heat >= threshold
-                )
+                    GameDistrict.heat >= threshold,
+                ),
             )
         )
         result = await db.execute(query)

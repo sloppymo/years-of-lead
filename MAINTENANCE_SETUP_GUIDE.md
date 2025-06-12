@@ -317,4 +317,4 @@ The maintenance system is designed to be conservative and safe, but if you encou
 3. Start with smaller complexity budgets
 4. Use dry-run mode to test changes
 
-Remember: The system is designed to make your game better gradually and safely. Trust the process, monitor the results, and enjoy watching your game improve while you sleep! 🌙✨ 
+Remember: The system is designed to make your game better gradually and safely. Trust the process, monitor the results, and enjoy watching your game improve while you sleep! 🌙✨

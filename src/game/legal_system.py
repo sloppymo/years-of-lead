@@ -5,17 +5,17 @@ Comprehensive legal system that tracks crimes, witnesses, evidence,
 and manages arrests, trials, and imprisonment.
 """
 
-from enum import Enum, auto
+from enum import Enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Set, Tuple, Any
-from datetime import datetime
+from typing import Dict, List, Optional, Set, Tuple
 import random
 
-from .core import Agent, AgentStatus, Location
+from .core import Agent, AgentStatus, Location, SkillType
 
 
 class CrimeType(Enum):
     """Classification of crimes by severity"""
+
     # Legal Activities
     PEACEFUL_PROTEST = "peaceful_protest"
     LEGAL_ADVOCACY = "legal_advocacy"
@@ -46,6 +46,7 @@ class CrimeType(Enum):
 
 class WitnessType(Enum):
     """Types of witnesses"""
+
     NONE = "none"
     CIVILIAN = "civilian"
     POLICE = "police"
@@ -57,6 +58,7 @@ class WitnessType(Enum):
 
 class IdentificationLevel(Enum):
     """Level of agent identification"""
+
     UNKNOWN = "unknown"
     PARTIAL = "partial"  # Height, build, general description
     DETAILED = "detailed"  # Face seen, distinguishing features
@@ -65,6 +67,7 @@ class IdentificationLevel(Enum):
 
 class EvidenceType(Enum):
     """Types of evidence"""
+
     NONE = "none"
     CIRCUMSTANTIAL = "circumstantial"
     PHYSICAL = "physical"
@@ -77,6 +80,7 @@ class EvidenceType(Enum):
 
 class LegalStatus(Enum):
     """Legal status of an agent"""
+
     CLEAN = "clean"
     SUSPECTED = "suspected"
     WANTED = "wanted"
@@ -90,6 +94,7 @@ class LegalStatus(Enum):
 
 class PrisonSecurity(Enum):
     """Prison security levels"""
+
     MINIMUM = "minimum"
     MEDIUM = "medium"
     MAXIMUM = "maximum"
@@ -99,6 +104,7 @@ class PrisonSecurity(Enum):
 @dataclass
 class CrimeRecord:
     """Record of a committed crime"""
+
     id: str
     crime_type: CrimeType
     date_committed: int  # Turn number
@@ -123,7 +129,7 @@ class CrimeRecord:
             CrimeType.ASSAULT: 0.6,
             CrimeType.BURGLARY: 0.7,
             CrimeType.MURDER: 1.0,
-            CrimeType.TERRORISM: 1.0
+            CrimeType.TERRORISM: 1.0,
         }
 
         base_score = severity_scores.get(self.crime_type, 0.5)
@@ -144,6 +150,7 @@ class CrimeRecord:
 @dataclass
 class ArrestRecord:
     """Record of an arrest"""
+
     id: str
     agent_id: str
     crime_record_id: str
@@ -157,6 +164,7 @@ class ArrestRecord:
 @dataclass
 class TrialRecord:
     """Record of a legal trial"""
+
     id: str
     agent_id: str
     crime_records: List[str]  # Crime record IDs
@@ -172,6 +180,7 @@ class TrialRecord:
 @dataclass
 class PrisonRecord:
     """Record of imprisonment"""
+
     id: str
     agent_id: str
     facility_name: str
@@ -189,6 +198,7 @@ class PrisonRecord:
 @dataclass
 class LegalProfile:
     """Complete legal profile for an agent"""
+
     agent_id: str
     legal_status: LegalStatus = LegalStatus.CLEAN
     crime_records: List[CrimeRecord] = field(default_factory=list)
@@ -208,7 +218,9 @@ class LegalProfile:
         if not self.trial_records:
             return 0.0
 
-        convictions = sum(1 for trial in self.trial_records if trial.verdict == "guilty")
+        convictions = sum(
+            1 for trial in self.trial_records if trial.verdict == "guilty"
+        )
         return convictions / len(self.trial_records)
 
     def is_wanted(self) -> bool:
@@ -237,16 +249,21 @@ class LegalSystem:
             WitnessType.SECURITY: 0.8,
             WitnessType.GOVERNMENT: 0.95,
             WitnessType.MEDIA: 0.7,
-            WitnessType.INFORMANT: 0.85
+            WitnessType.INFORMANT: 0.85,
         }
 
         self.identification_degradation = 0.1  # Per turn
         self.surveillance_decay = 0.05  # Per turn
 
-    def record_crime(self, agents: List[Agent], crime_type: CrimeType,
-                    location: Location, witnesses: int = 0,
-                    witness_type: WitnessType = WitnessType.NONE,
-                    evidence: Set[EvidenceType] = None) -> CrimeRecord:
+    def record_crime(
+        self,
+        agents: List[Agent],
+        crime_type: CrimeType,
+        location: Location,
+        witnesses: int = 0,
+        witness_type: WitnessType = WitnessType.NONE,
+        evidence: Set[EvidenceType] = None,
+    ) -> CrimeRecord:
         """Record a crime committed by agents"""
 
         self.crime_counter += 1
@@ -267,7 +284,7 @@ class LegalSystem:
             witness_type=witness_type,
             witness_count=witnesses,
             identification_level=identification,
-            evidence_types=evidence or set()
+            evidence_types=evidence or set(),
         )
 
         # Update agent profiles
@@ -276,7 +293,11 @@ class LegalSystem:
             profile.crime_records.append(crime)
 
             # Update legal status
-            if crime_type in [CrimeType.MURDER, CrimeType.TERRORISM, CrimeType.ASSASSINATION]:
+            if crime_type in [
+                CrimeType.MURDER,
+                CrimeType.TERRORISM,
+                CrimeType.ASSASSINATION,
+            ]:
                 profile.legal_status = LegalStatus.WANTED
                 profile.surveillance_level = min(10, profile.surveillance_level + 3)
             elif crime_type in [CrimeType.ASSAULT, CrimeType.BURGLARY, CrimeType.ARSON]:
@@ -292,14 +313,19 @@ class LegalSystem:
             crime.report_turn = 0  # Should be current turn
 
             # Check for media coverage
-            if crime_type in [CrimeType.MURDER, CrimeType.TERRORISM, CrimeType.ASSASSINATION]:
+            if crime_type in [
+                CrimeType.MURDER,
+                CrimeType.TERRORISM,
+                CrimeType.ASSASSINATION,
+            ]:
                 crime.media_coverage = True
                 crime.government_attention = True
 
         return crime
 
-    def attempt_arrest(self, agent: Agent, location: Location,
-                      force_level: str = "normal") -> Tuple[bool, Optional[ArrestRecord]]:
+    def attempt_arrest(
+        self, agent: Agent, location: Location, force_level: str = "normal"
+    ) -> Tuple[bool, Optional[ArrestRecord]]:
         """Attempt to arrest an agent"""
 
         profile = self._get_or_create_profile(agent.id)
@@ -316,8 +342,8 @@ class LegalSystem:
 
         # Agent skill modifier (stealth and combat)
         agent_evasion = (
-            agent.skills.get(SkillType.STEALTH, 1).level +
-            agent.skills.get(SkillType.COMBAT, 1).level
+            agent.skills.get(SkillType.STEALTH, 1).level
+            + agent.skills.get(SkillType.COMBAT, 1).level
         ) / 20.0
 
         # Force level modifier
@@ -325,7 +351,7 @@ class LegalSystem:
             "minimal": -0.1,
             "normal": 0.0,
             "heavy": 0.2,
-            "overwhelming": 0.4
+            "overwhelming": 0.4,
         }
         force_modifier = force_modifiers.get(force_level, 0.0)
 
@@ -340,10 +366,11 @@ class LegalSystem:
             arrest_id = f"arrest_{self.arrest_counter}"
 
             # Find most recent crime
-            recent_crime = max(
-                profile.crime_records,
-                key=lambda c: c.date_committed
-            ) if profile.crime_records else None
+            recent_crime = (
+                max(profile.crime_records, key=lambda c: c.date_committed)
+                if profile.crime_records
+                else None
+            )
 
             arrest = ArrestRecord(
                 id=arrest_id,
@@ -351,7 +378,7 @@ class LegalSystem:
                 crime_record_id=recent_crime.id if recent_crime else "unknown",
                 arrest_turn=0,  # Should be current turn
                 arresting_authority="police",
-                violence_used=force_level in ["heavy", "overwhelming"]
+                violence_used=force_level in ["heavy", "overwhelming"],
             )
 
             # Update agent status
@@ -369,8 +396,9 @@ class LegalSystem:
 
             return False, None
 
-    def conduct_trial(self, agent: Agent, crimes: List[CrimeRecord],
-                     defense_quality: float = 0.5) -> TrialRecord:
+    def conduct_trial(
+        self, agent: Agent, crimes: List[CrimeRecord], defense_quality: float = 0.5
+    ) -> TrialRecord:
         """Conduct a trial for an agent"""
 
         self.trial_counter += 1
@@ -384,13 +412,11 @@ class LegalSystem:
             agent_id=agent.id,
             crime_records=[crime.id for crime in crimes],
             trial_start_turn=0,  # Should be current turn
-            defense_quality=defense_quality
+            defense_quality=defense_quality,
         )
 
         # Calculate verdict probability
-        conviction_chance = self._calculate_conviction_chance(
-            crimes, defense_quality
-        )
+        conviction_chance = self._calculate_conviction_chance(crimes, defense_quality)
 
         # Determine verdict
         if random.random() < conviction_chance:
@@ -416,8 +442,9 @@ class LegalSystem:
         profile.trial_records.append(trial)
         return trial
 
-    def imprison_agent(self, agent: Agent, sentence_length: int,
-                       facility: str = "State Prison") -> PrisonRecord:
+    def imprison_agent(
+        self, agent: Agent, sentence_length: int, facility: str = "State Prison"
+    ) -> PrisonRecord:
         """Imprison a convicted agent"""
 
         self.prison_counter += 1
@@ -435,7 +462,7 @@ class LegalSystem:
             facility_name=facility,
             security_level=security_level,
             sentence_start=0,  # Should be current turn
-            sentence_length=sentence_length
+            sentence_length=sentence_length,
         )
 
         # Update agent status
@@ -452,9 +479,12 @@ class LegalSystem:
             if profile.legal_status == LegalStatus.IMPRISONED:
                 # Find active prison record
                 active_prison = next(
-                    (p for p in profile.prison_records
-                     if p.time_served < p.sentence_length),
-                    None
+                    (
+                        p
+                        for p in profile.prison_records
+                        if p.time_served < p.sentence_length
+                    ),
+                    None,
                 )
 
                 if active_prison:
@@ -465,7 +495,9 @@ class LegalSystem:
                         self._release_prisoner(profile.agent_id, active_prison)
 
                     # Check for parole eligibility
-                    elif active_prison.time_served >= active_prison.sentence_length * 0.5:
+                    elif (
+                        active_prison.time_served >= active_prison.sentence_length * 0.5
+                    ):
                         active_prison.parole_eligible = True
 
     def _get_or_create_profile(self, agent_id: str) -> LegalProfile:
@@ -474,8 +506,13 @@ class LegalSystem:
             self.legal_profiles[agent_id] = LegalProfile(agent_id=agent_id)
         return self.legal_profiles[agent_id]
 
-    def _determine_identification(self, agents: List[Agent], location: Location,
-                                 witnesses: int, witness_type: WitnessType) -> IdentificationLevel:
+    def _determine_identification(
+        self,
+        agents: List[Agent],
+        location: Location,
+        witnesses: int,
+        witness_type: WitnessType,
+    ) -> IdentificationLevel:
         """Determine how well agents were identified"""
 
         if witness_type == WitnessType.NONE or witnesses == 0:
@@ -488,7 +525,7 @@ class LegalSystem:
             WitnessType.SECURITY: 0.6,
             WitnessType.GOVERNMENT: 0.8,
             WitnessType.MEDIA: 0.5,
-            WitnessType.INFORMANT: 0.9
+            WitnessType.INFORMANT: 0.9,
         }
 
         base_chance = id_chances.get(witness_type, 0.5)
@@ -519,9 +556,7 @@ class LegalSystem:
         if crime.witness_type == WitnessType.NONE:
             return False
 
-        report_chance = self.witness_report_chance.get(
-            crime.witness_type, 0.5
-        )
+        report_chance = self.witness_report_chance.get(crime.witness_type, 0.5)
 
         # Modify by crime severity
         if crime.crime_type in [CrimeType.MURDER, CrimeType.TERRORISM]:
@@ -529,8 +564,9 @@ class LegalSystem:
 
         return random.random() < report_chance
 
-    def _calculate_conviction_chance(self, crimes: List[CrimeRecord],
-                                   defense_quality: float) -> float:
+    def _calculate_conviction_chance(
+        self, crimes: List[CrimeRecord], defense_quality: float
+    ) -> float:
         """Calculate chance of conviction in trial"""
 
         base_chance = 0.5
@@ -544,21 +580,29 @@ class LegalSystem:
 
         # Witness testimony
         witness_modifier = sum(
-            0.1 if crime.witness_type != WitnessType.NONE else 0
-            for crime in crimes
+            0.1 if crime.witness_type != WitnessType.NONE else 0 for crime in crimes
         )
 
         # Identification quality
         id_modifier = sum(
-            0.2 if crime.identification_level == IdentificationLevel.FULL else
-            0.1 if crime.identification_level == IdentificationLevel.DETAILED else 0
+            0.2
+            if crime.identification_level == IdentificationLevel.FULL
+            else 0.1
+            if crime.identification_level == IdentificationLevel.DETAILED
+            else 0
             for crime in crimes
         ) / len(crimes)
 
         # Defense quality reduction
         defense_reduction = defense_quality * 0.4
 
-        conviction_chance = base_chance + evidence_modifier + witness_modifier + id_modifier - defense_reduction
+        conviction_chance = (
+            base_chance
+            + evidence_modifier
+            + witness_modifier
+            + id_modifier
+            - defense_reduction
+        )
 
         return max(0.1, min(0.9, conviction_chance))
 
@@ -567,21 +611,33 @@ class LegalSystem:
 
         # Check for capital crimes
         capital_crimes = [
-            crime for crime in profile.crime_records
-            if crime.crime_type in [CrimeType.MURDER, CrimeType.TERRORISM, CrimeType.ASSASSINATION]
+            crime
+            for crime in profile.crime_records
+            if crime.crime_type
+            in [CrimeType.MURDER, CrimeType.TERRORISM, CrimeType.ASSASSINATION]
         ]
 
         if capital_crimes:
-            return PrisonSecurity.SUPERMAX if len(capital_crimes) > 1 else PrisonSecurity.MAXIMUM
+            return (
+                PrisonSecurity.SUPERMAX
+                if len(capital_crimes) > 1
+                else PrisonSecurity.MAXIMUM
+            )
 
         # Check for violent crimes
         violent_crimes = [
-            crime for crime in profile.crime_records
-            if crime.crime_type in [CrimeType.ASSAULT, CrimeType.KIDNAPPING, CrimeType.ARSON]
+            crime
+            for crime in profile.crime_records
+            if crime.crime_type
+            in [CrimeType.ASSAULT, CrimeType.KIDNAPPING, CrimeType.ARSON]
         ]
 
         if violent_crimes:
-            return PrisonSecurity.MAXIMUM if len(violent_crimes) > 2 else PrisonSecurity.MEDIUM
+            return (
+                PrisonSecurity.MAXIMUM
+                if len(violent_crimes) > 2
+                else PrisonSecurity.MEDIUM
+            )
 
         # Default to minimum for non-violent crimes
         return PrisonSecurity.MINIMUM

@@ -12,6 +12,7 @@ from loguru import logger
 
 class Phase(Enum):
     """Game phases within each day"""
+
     MORNING = "morning"
     AFTERNOON = "afternoon"
     EVENING = "evening"
@@ -20,6 +21,7 @@ class Phase(Enum):
 
 class TaskType(Enum):
     """Types of tasks agents can perform"""
+
     MOVE = "move"
     GATHER_INFO = "gather_info"
     RECRUIT = "recruit"
@@ -33,6 +35,7 @@ class TaskType(Enum):
 
 class SkillType(Enum):
     """Types of skills agents can develop"""
+
     COMBAT = "combat"
     STEALTH = "stealth"
     PERSUASION = "persuasion"
@@ -45,6 +48,7 @@ class SkillType(Enum):
 
 class EquipmentType(Enum):
     """Types of equipment agents can use"""
+
     WEAPON = "weapon"
     ARMOR = "armor"
     VEHICLE = "vehicle"
@@ -55,6 +59,7 @@ class EquipmentType(Enum):
 
 class MissionType(Enum):
     """Types of multi-agent missions"""
+
     ASSAULT = "assault"  # Direct attack on a target
     INFILTRATION = "infiltration"  # Stealth infiltration with multiple roles
     RESCUE_OPERATION = "rescue_operation"  # Complex rescue with support
@@ -65,6 +70,7 @@ class MissionType(Enum):
 
 class AgentRole(Enum):
     """Roles agents can take in multi-agent missions"""
+
     LEADER = "leader"  # Mission commander, coordinates others
     INFILTRATOR = "infiltrator"  # Stealth specialist
     SUPPORT = "support"  # Provides backup and resources
@@ -77,6 +83,7 @@ class AgentRole(Enum):
 
 class EventType(Enum):
     """Types of random events that can occur"""
+
     SECURITY_CRACKDOWN = "security_crackdown"
     CIVIL_UNREST = "civil_unrest"
     INFORMANT_BETRAYAL = "informant_betrayal"
@@ -92,6 +99,7 @@ class EventType(Enum):
 @dataclass
 class GameEvent:
     """A random event that affects the game world"""
+
     event_type: EventType
     location_id: Optional[str] = None
     affected_faction: Optional[str] = None
@@ -103,6 +111,7 @@ class GameEvent:
 @dataclass
 class MissionParticipant:
     """An agent participating in a multi-agent mission"""
+
     agent_id: str
     role: AgentRole
     assigned_task: Optional[str] = None  # Specific task within the mission
@@ -113,6 +122,7 @@ class MissionParticipant:
 @dataclass
 class Mission:
     """A multi-agent mission with coordination mechanics"""
+
     id: str
     mission_type: MissionType
     target_location_id: str
@@ -129,9 +139,7 @@ class Mission:
     def add_participant(self, agent_id: str, role: AgentRole, risk_level: int = 1):
         """Add an agent to the mission"""
         participant = MissionParticipant(
-            agent_id=agent_id,
-            role=role,
-            risk_level=risk_level
+            agent_id=agent_id, role=role, risk_level=risk_level
         )
         self.participants.append(participant)
         self._update_coordination()
@@ -174,13 +182,15 @@ class Mission:
 
         self.coordination_level = min(base_coordination + role_bonus, 100)
 
-    def get_mission_success_chance(self, agents: Dict[str, 'Agent']) -> int:
+    def get_mission_success_chance(self, agents: Dict[str, "Agent"]) -> int:
         """Calculate overall mission success chance"""
         if not self.participants:
             return 0
 
         # Base success from agent skills
-        total_skill = sum(agents[p.agent_id].get_skill_level(p.role) for p in self.participants)
+        total_skill = sum(
+            agents[p.agent_id].get_skill_level(p.role) for p in self.participants
+        )
         avg_skill = total_skill / len(self.participants)
 
         # Coordination bonus
@@ -200,15 +210,20 @@ class Mission:
         location = None  # Will be set by game state
         location_modifier = 0
         if location:
-            location_modifier = location.get_task_modifier(TaskType.SABOTAGE)  # Use sabotage as base
+            location_modifier = location.get_task_modifier(
+                TaskType.SABOTAGE
+            )  # Use sabotage as base
 
-        success_chance = int(avg_skill * 5 + coordination_bonus + role_bonus - location_modifier)
+        success_chance = int(
+            avg_skill * 5 + coordination_bonus + role_bonus - location_modifier
+        )
         return max(0, min(100, success_chance))
 
 
 @dataclass
 class Skill:
     """A skill that an agent can develop"""
+
     skill_type: SkillType
     level: int = 1  # 1-10 scale
     experience: int = 0  # Current experience points
@@ -228,6 +243,7 @@ class Skill:
 @dataclass
 class Task:
     """A task that an agent can perform"""
+
     task_type: TaskType
     target_location_id: Optional[str] = None
     difficulty: int = 5  # 1-10 scale
@@ -240,6 +256,7 @@ class Task:
 @dataclass
 class Equipment:
     """Equipment that agents can use"""
+
     id: str
     name: str
     equipment_type: EquipmentType
@@ -265,6 +282,7 @@ class Equipment:
 @dataclass
 class Agent:
     """An agent operating in the game world"""
+
     id: str
     name: str
     faction_id: str
@@ -309,7 +327,9 @@ class Agent:
         equipment_bonus = 0
         for equipment in self.equipment:
             if skill_type in equipment.skill_bonus:
-                equipment_bonus += int(equipment.skill_bonus[skill_type] * equipment.get_effectiveness())
+                equipment_bonus += int(
+                    equipment.skill_bonus[skill_type] * equipment.get_effectiveness()
+                )
 
         return min(10, base_level + equipment_bonus)
 
@@ -318,7 +338,9 @@ class Agent:
         if skill_type in self.skills:
             leveled_up = self.skills[skill_type].gain_experience(amount)
             if leveled_up:
-                logger.info(f"{self.name} improved {skill_type.value} to level {self.skills[skill_type].level}")
+                logger.info(
+                    f"{self.name} improved {skill_type.value} to level {self.skills[skill_type].level}"
+                )
 
     def add_equipment(self, equipment: Equipment):
         """Add equipment to the agent"""
@@ -357,17 +379,21 @@ class Agent:
 @dataclass
 class Faction:
     """A faction in the game world"""
+
     id: str
     name: str
-    resources: Dict[str, int] = field(default_factory=lambda: {
-        "money": 100,
-        "influence": 50,
-        "personnel": 10
-    })
-    goals: List[str] = field(default_factory=lambda: [
-        "expand_influence", "recruit_members", "gather_intelligence",
-        "disrupt_government", "protect_territory"
-    ])
+    resources: Dict[str, int] = field(
+        default_factory=lambda: {"money": 100, "influence": 50, "personnel": 10}
+    )
+    goals: List[str] = field(
+        default_factory=lambda: [
+            "expand_influence",
+            "recruit_members",
+            "gather_intelligence",
+            "disrupt_government",
+            "protect_territory",
+        ]
+    )
     current_goal: str = "expand_influence"
 
     def can_afford(self, cost: Dict[str, int]) -> bool:
@@ -405,10 +431,11 @@ class Faction:
 @dataclass
 class Location:
     """A location in the game world"""
+
     id: str
     name: str
     security_level: int = 5  # 1-10 scale (higher = more secure)
-    unrest_level: int = 5   # 1-10 scale (higher = more unrest)
+    unrest_level: int = 5  # 1-10 scale (higher = more unrest)
     active_events: List[GameEvent] = field(default_factory=list)
 
     def get_task_modifier(self, task_type: TaskType) -> int:
@@ -416,7 +443,7 @@ class Location:
         if task_type == TaskType.SABOTAGE:
             return self.security_level - 5  # High security makes sabotage harder
         elif task_type == TaskType.PROPAGANDA:
-            return 5 - self.unrest_level   # High unrest makes propaganda easier
+            return 5 - self.unrest_level  # High unrest makes propaganda easier
         elif task_type == TaskType.GATHER_INFO:
             return (self.security_level - 3) // 2  # Moderate security impact
         return 0
@@ -447,13 +474,17 @@ class GameState:
         self.narrative_log: List[str] = []
         self.phase_actions: List[Dict[str, Any]] = []
         self.active_events: List[GameEvent] = []
-        self.active_missions: Dict[str, Mission] = {}  # New: active multi-agent missions
+        self.active_missions: Dict[
+            str, Mission
+        ] = {}  # New: active multi-agent missions
         self.mission_counter: int = 0  # For generating unique mission IDs
         self.task_generation_cooldown: int = 0  # Prevent too frequent task generation
 
         # New LCS/Dwarf Fortress inspired systems
         self.public_opinion: PublicOpinion = PublicOpinion()
-        self.equipment_database: Dict[str, Equipment] = {}  # Available equipment templates
+        self.equipment_database: Dict[
+            str, Equipment
+        ] = {}  # Available equipment templates
         self.weather_conditions: Dict[str, str] = {}  # Weather by location
         self.supply_chains: Dict[str, List[str]] = {}  # Resource flow tracking
 
@@ -474,8 +505,14 @@ class GameState:
         self.locations[location.id] = location
         logger.info(f"Added location {location.name}")
 
-    def create_mission(self, mission_type: MissionType, target_location_id: str,
-                      faction_id: str, difficulty: int = 5, description: str = "") -> Mission:
+    def create_mission(
+        self,
+        mission_type: MissionType,
+        target_location_id: str,
+        faction_id: str,
+        difficulty: int = 5,
+        description: str = "",
+    ) -> Mission:
         """Create a new multi-agent mission"""
         self.mission_counter += 1
         mission_id = f"mission_{self.mission_counter}"
@@ -487,14 +524,18 @@ class GameState:
             faction_id=faction_id,
             difficulty=difficulty,
             description=description,
-            phase_created=self.turn_number
+            phase_created=self.turn_number,
         )
 
         self.active_missions[mission_id] = mission
-        logger.info(f"Created mission {mission_id}: {mission_type.value} at {target_location_id}")
+        logger.info(
+            f"Created mission {mission_id}: {mission_type.value} at {target_location_id}"
+        )
         return mission
 
-    def add_agent_to_mission(self, mission_id: str, agent_id: str, role: AgentRole, risk_level: int = 1) -> bool:
+    def add_agent_to_mission(
+        self, mission_id: str, agent_id: str, role: AgentRole, risk_level: int = 1
+    ) -> bool:
         """Add an agent to a mission with a specific role"""
         if mission_id not in self.active_missions:
             logger.warning(f"Mission {mission_id} not found")
@@ -513,11 +554,15 @@ class GameState:
             return False
 
         if agent.faction_id != mission.faction_id:
-            logger.warning(f"Agent {agent.name} is not from the same faction as mission")
+            logger.warning(
+                f"Agent {agent.name} is not from the same faction as mission"
+            )
             return False
 
         # Check if agent is already in this mission
-        existing_participant = next((p for p in mission.participants if p.agent_id == agent_id), None)
+        existing_participant = next(
+            (p for p in mission.participants if p.agent_id == agent_id), None
+        )
         if existing_participant:
             logger.warning(f"Agent {agent.name} is already in mission {mission_id}")
             return False
@@ -550,7 +595,9 @@ class GameState:
         success = roll <= success_chance
 
         # Generate mission narrative
-        narrative = self._generate_mission_narrative(mission, success, roll, success_chance)
+        narrative = self._generate_mission_narrative(
+            mission, success, roll, success_chance
+        )
         self._log_narrative(narrative)
 
         # Apply mission outcomes
@@ -561,7 +608,9 @@ class GameState:
 
         return results
 
-    def _generate_mission_narrative(self, mission: Mission, success: bool, roll: int, success_chance: int) -> str:
+    def _generate_mission_narrative(
+        self, mission: Mission, success: bool, roll: int, success_chance: int
+    ) -> str:
         """Generate narrative for mission execution"""
         location_name = self.locations[mission.target_location_id].name
         participant_names = [self.agents[p.agent_id].name for p in mission.participants]
@@ -573,9 +622,12 @@ class GameState:
                 MissionType.RESCUE_OPERATION: f"🚨 {', '.join(participant_names)} conduct a daring rescue operation in {location_name}",
                 MissionType.SABOTAGE_RAID: f"💥 {', '.join(participant_names)} carry out coordinated sabotage in {location_name}",
                 MissionType.INTELLIGENCE_GATHERING: f"📊 {', '.join(participant_names)} gather intelligence from {location_name}",
-                MissionType.PROPAGANDA_CAMPAIGN: f"📢 {', '.join(participant_names)} launch a propaganda campaign in {location_name}"
+                MissionType.PROPAGANDA_CAMPAIGN: f"📢 {', '.join(participant_names)} launch a propaganda campaign in {location_name}",
             }
-            base_narrative = narratives.get(mission.mission_type, f"{', '.join(participant_names)} complete their mission in {location_name}")
+            base_narrative = narratives.get(
+                mission.mission_type,
+                f"{', '.join(participant_names)} complete their mission in {location_name}",
+            )
 
             # Add coordination details
             if mission.coordination_level > 70:
@@ -592,13 +644,18 @@ class GameState:
                 MissionType.RESCUE_OPERATION: f"❌ {', '.join(participant_names)}'s rescue operation in {location_name} fails",
                 MissionType.SABOTAGE_RAID: f"💥 {', '.join(participant_names)}'s sabotage raid on {location_name} is foiled",
                 MissionType.INTELLIGENCE_GATHERING: f"📊 {', '.join(participant_names)}'s intelligence gathering in {location_name} yields nothing",
-                MissionType.PROPAGANDA_CAMPAIGN: f"📢 {', '.join(participant_names)}'s propaganda campaign in {location_name} backfires"
+                MissionType.PROPAGANDA_CAMPAIGN: f"📢 {', '.join(participant_names)}'s propaganda campaign in {location_name} backfires",
             }
-            base_narrative = narratives.get(mission.mission_type, f"{', '.join(participant_names)}'s mission in {location_name} fails")
+            base_narrative = narratives.get(
+                mission.mission_type,
+                f"{', '.join(participant_names)}'s mission in {location_name} fails",
+            )
 
         return f"{base_narrative} (Roll: {roll}/{success_chance})"
 
-    def _apply_mission_outcomes(self, mission: Mission, success: bool, roll: int, success_chance: int) -> Dict[str, Any]:
+    def _apply_mission_outcomes(
+        self, mission: Mission, success: bool, roll: int, success_chance: int
+    ) -> Dict[str, Any]:
         """Apply the outcomes of a mission to game state"""
         results = {
             "mission_id": mission.id,
@@ -606,7 +663,7 @@ class GameState:
             "roll": roll,
             "success_chance": success_chance,
             "participants": [p.agent_id for p in mission.participants],
-            "coordination_level": mission.coordination_level
+            "coordination_level": mission.coordination_level,
         }
 
         if success:
@@ -619,7 +676,7 @@ class GameState:
                 MissionType.RESCUE_OPERATION: {"influence": 20, "money": 10},
                 MissionType.SABOTAGE_RAID: {"influence": 12, "money": 18},
                 MissionType.INTELLIGENCE_GATHERING: {"influence": 8, "money": 25},
-                MissionType.PROPAGANDA_CAMPAIGN: {"influence": 18, "money": 8}
+                MissionType.PROPAGANDA_CAMPAIGN: {"influence": 18, "money": 8},
             }
 
             reward = rewards.get(mission.mission_type, {"influence": 10, "money": 10})
@@ -629,7 +686,10 @@ class GameState:
             # Location effects
             if mission.target_location_id in self.locations:
                 location = self.locations[mission.target_location_id]
-                if mission.mission_type in [MissionType.ASSAULT, MissionType.SABOTAGE_RAID]:
+                if mission.mission_type in [
+                    MissionType.ASSAULT,
+                    MissionType.SABOTAGE_RAID,
+                ]:
                     location.security_level = max(1, location.security_level - 1)
                     location.unrest_level = min(10, location.unrest_level + 2)
                 elif mission.mission_type == MissionType.PROPAGANDA_CAMPAIGN:
@@ -638,9 +698,13 @@ class GameState:
             # Participant experience gains
             for participant in mission.participants:
                 agent = self.agents[participant.agent_id]
-                if agent.skill_level < 10 and random.randint(1, 100) <= 30:  # 30% chance to gain skill
+                if (
+                    agent.skill_level < 10 and random.randint(1, 100) <= 30
+                ):  # 30% chance to gain skill
                     agent.skill_level += 1
-                    self._log_narrative(f"🎯 {agent.name} gains experience from the mission!")
+                    self._log_narrative(
+                        f"🎯 {agent.name} gains experience from the mission!"
+                    )
 
         else:
             # Mission failure consequences
@@ -652,15 +716,21 @@ class GameState:
             for participant in mission.participants:
                 agent = self.agents[participant.agent_id]
                 risk_roll = random.randint(1, 100)
-                risk_threshold = participant.risk_level * 15  # Higher risk roles = higher chance of consequences
+                risk_threshold = (
+                    participant.risk_level * 15
+                )  # Higher risk roles = higher chance of consequences
 
                 if risk_roll <= risk_threshold:
                     if random.choice([True, False]):
                         agent.status = "injured"
-                        self._log_narrative(f"💥 {agent.name} is injured during the failed mission!")
+                        self._log_narrative(
+                            f"💥 {agent.name} is injured during the failed mission!"
+                        )
                     else:
                         agent.status = "captured"
-                        self._log_narrative(f"🚨 {agent.name} is captured during the failed mission!")
+                        self._log_narrative(
+                            f"🚨 {agent.name} is captured during the failed mission!"
+                        )
 
         return results
 
@@ -727,13 +797,15 @@ class GameState:
         self._log_narrative(narrative)
 
         # Record action for faction resource updates
-        self.phase_actions.append({
-            "agent_id": agent.id,
-            "faction_id": agent.faction_id,
-            "task_type": task.task_type,
-            "success": success,
-            "location_id": agent.location_id
-        })
+        self.phase_actions.append(
+            {
+                "agent_id": agent.id,
+                "faction_id": agent.faction_id,
+                "task_type": task.task_type,
+                "success": success,
+                "location_id": agent.location_id,
+            }
+        )
 
         # Apply task outcomes
         self._apply_task_outcomes(agent, task, success)
@@ -757,7 +829,9 @@ class GameState:
         stress_penalty = agent.stress // 20  # High stress reduces effectiveness
 
         # Calculate final success chance
-        effective_skill = base_skill + equipment_bonus - location_modifier - stress_penalty
+        effective_skill = (
+            base_skill + equipment_bonus - location_modifier - stress_penalty
+        )
         success_chance = max(0, min(100, effective_skill * 10 - task.difficulty * 5))
 
         # Roll for success
@@ -765,7 +839,9 @@ class GameState:
         success = roll <= success_chance
 
         # Log the resolution
-        logger.debug(f"Task resolution: {agent.name} - {task.task_type.value} - Chance: {success_chance}%, Roll: {roll}, Success: {success}")
+        logger.debug(
+            f"Task resolution: {agent.name} - {task.task_type.value} - Chance: {success_chance}%, Roll: {roll}, Success: {success}"
+        )
 
         # Generate narrative
         narrative = self._generate_task_narrative(agent, task, success)
@@ -793,7 +869,7 @@ class GameState:
             TaskType.RESCUE: SkillType.COMBAT,
             TaskType.INFILTRATE: SkillType.STEALTH,
             TaskType.EXFILTRATE: SkillType.SURVIVAL,
-            TaskType.REST: SkillType.SURVIVAL
+            TaskType.REST: SkillType.SURVIVAL,
         }
         return skill_mapping.get(task_type, SkillType.SURVIVAL)
 
@@ -809,26 +885,34 @@ class GameState:
 
         return bonus
 
-    def _update_agent_progression(self, agent: Agent, task: Task, success: bool, skill_type: SkillType):
+    def _update_agent_progression(
+        self, agent: Agent, task: Task, success: bool, skill_type: SkillType
+    ):
         """Update agent skills, equipment, and stress based on task outcome"""
         # Gain skill experience
         base_experience = 10 if success else 5
         agent.gain_skill_experience(skill_type, base_experience)
 
         # Update stress
-        stress_change = -5 if success else 10  # Success reduces stress, failure increases it
+        stress_change = (
+            -5 if success else 10
+        )  # Success reduces stress, failure increases it
         agent.update_stress(stress_change)
 
         # Use equipment (degrade condition)
         for equipment in agent.equipment:
             if skill_type in equipment.skill_bonus:
-                intensity = 2 if not success else 1  # Failed tasks use equipment more intensely
+                intensity = (
+                    2 if not success else 1
+                )  # Failed tasks use equipment more intensely
                 agent.use_equipment(equipment.id, intensity)
 
         # Update loyalty based on task type
         if task.task_type == TaskType.RESCUE and success:
             agent.update_loyalty(5)  # Successful rescues increase loyalty
-        elif not success and random.randint(1, 100) <= 20:  # 20% chance of loyalty loss on failure
+        elif (
+            not success and random.randint(1, 100) <= 20
+        ):  # 20% chance of loyalty loss on failure
             agent.update_loyalty(-5)
 
     def _update_public_opinion(self, task: Task, faction_id: str, success: bool):
@@ -836,125 +920,135 @@ class GameState:
         action_type = task.task_type.value
         casualties = 0  # Could be calculated based on task type and outcome
 
-        self.public_opinion.update_from_action(action_type, faction_id, success, casualties)
+        self.public_opinion.update_from_action(
+            action_type, faction_id, success, casualties
+        )
 
     def _generate_task_narrative(self, agent: Agent, task: Task, success: bool) -> str:
         """Generate narrative description for the task"""
-        location_name = self.locations.get(agent.location_id, type('obj', (object,), {'name': 'unknown location'})).name
+        location_name = self.locations.get(
+            agent.location_id, type("obj", (object,), {"name": "unknown location"})
+        ).name
 
         narratives = {
             TaskType.MOVE: {
                 True: [
                     f"{agent.name} slips through the shadows, reaching the target area undetected",
                     f"{agent.name} navigates the checkpoints with false papers, blending into the crowd",
-                    f"{agent.name} takes the long route through backstreets, avoiding the patrols"
+                    f"{agent.name} takes the long route through backstreets, avoiding the patrols",
                 ],
                 False: [
                     f"{agent.name} is stopped at a checkpoint and forced to turn back",
                     f"{agent.name} loses their way in the maze of side streets",
-                    f"{agent.name} draws unwanted attention and must abort the mission"
-                ]
+                    f"{agent.name} draws unwanted attention and must abort the mission",
+                ],
             },
             TaskType.GATHER_INFO: {
                 True: [
                     f"{agent.name} overhears crucial intelligence at a café in {location_name}",
                     f"{agent.name} befriends a talkative guard, learning about security protocols",
-                    f"{agent.name} finds discarded documents that reveal enemy plans"
+                    f"{agent.name} finds discarded documents that reveal enemy plans",
                 ],
                 False: [
                     f"{agent.name} asks too many questions and arouses suspicion in {location_name}",
                     f"{agent.name} gets nothing but rumors and misinformation",
-                    f"{agent.name} is nearly caught eavesdropping and must flee"
-                ]
+                    f"{agent.name} is nearly caught eavesdropping and must flee",
+                ],
             },
             TaskType.SABOTAGE: {
                 True: [
                     f"{agent.name} plants explosives in a key facility in {location_name}",
                     f"{agent.name} cuts power lines, plunging the district into darkness",
-                    f"{agent.name} derails a supply train, disrupting enemy logistics"
+                    f"{agent.name} derails a supply train, disrupting enemy logistics",
                 ],
                 False: [
                     f"{agent.name} triggers an alarm while attempting sabotage in {location_name}",
                     f"{agent.name}'s bomb fails to detonate properly",
-                    f"{agent.name} is spotted by security and must abandon the mission"
-                ]
+                    f"{agent.name} is spotted by security and must abandon the mission",
+                ],
             },
             TaskType.PROPAGANDA: {
                 True: [
                     f"{agent.name} distributes leaflets that inspire the people of {location_name}",
                     f"{agent.name} gives a rousing speech that wins new supporters",
-                    f"{agent.name} spreads word of recent victories, boosting morale"
+                    f"{agent.name} spreads word of recent victories, boosting morale",
                 ],
                 False: [
                     f"{agent.name}'s propaganda is dismissed as extremist nonsense",
                     f"{agent.name} is shouted down by hostile crowds in {location_name}",
-                    f"{agent.name}'s leaflets are confiscated before distribution"
-                ]
+                    f"{agent.name}'s leaflets are confiscated before distribution",
+                ],
             },
             TaskType.RECRUIT: {
                 True: [
                     f"{agent.name} convinces a sympathetic civilian to join the cause",
                     f"{agent.name} recruits a disillusioned government worker",
-                    f"{agent.name} finds volunteers among the unemployed youth"
+                    f"{agent.name} finds volunteers among the unemployed youth",
                 ],
                 False: [
                     f"{agent.name}'s recruitment attempt backfires, alerting authorities",
                     f"{agent.name} misjudges their contact, who reports them",
-                    f"{agent.name} finds only fear and apathy among potential recruits"
-                ]
+                    f"{agent.name} finds only fear and apathy among potential recruits",
+                ],
             },
             TaskType.RESCUE: {
                 True: [
                     f"{agent.name} successfully breaks a captured comrade out of custody",
                     f"{agent.name} orchestrates a daring prison break under cover of darkness",
-                    f"{agent.name} bribes guards to secure a comrade's release"
+                    f"{agent.name} bribes guards to secure a comrade's release",
                 ],
                 False: [
                     f"{agent.name}'s rescue attempt is discovered and foiled",
                     f"{agent.name} arrives too late - the prisoner has been moved",
-                    f"{agent.name} is captured during the rescue operation"
-                ]
+                    f"{agent.name} is captured during the rescue operation",
+                ],
             },
             TaskType.INFILTRATE: {
                 True: [
                     f"{agent.name} successfully infiltrates the target facility",
                     f"{agent.name} assumes a false identity and gains access",
-                    f"{agent.name} uses forged credentials to enter restricted areas"
+                    f"{agent.name} uses forged credentials to enter restricted areas",
                 ],
                 False: [
                     f"{agent.name}'s cover is blown during infiltration",
                     f"{agent.name} is denied access at the security checkpoint",
-                    f"{agent.name} is recognized and forced to flee"
-                ]
+                    f"{agent.name} is recognized and forced to flee",
+                ],
             },
             TaskType.EXFILTRATE: {
                 True: [
                     f"{agent.name} successfully extracts sensitive information",
                     f"{agent.name} escapes with valuable intelligence",
-                    f"{agent.name} completes the mission and evades pursuit"
+                    f"{agent.name} completes the mission and evades pursuit",
                 ],
                 False: [
                     f"{agent.name} is caught while trying to escape",
                     f"{agent.name} loses the intelligence during the escape",
-                    f"{agent.name} is pursued and must abandon the mission"
-                ]
+                    f"{agent.name} is pursued and must abandon the mission",
+                ],
             },
             TaskType.REST: {
                 True: [
                     f"{agent.name} finds a safe house to recover and plan",
                     f"{agent.name} tends to their wounds and regains strength",
-                    f"{agent.name} uses the quiet time to study enemy patterns"
+                    f"{agent.name} uses the quiet time to study enemy patterns",
                 ],
                 False: [
                     f"{agent.name} is pursued even while trying to rest",
                     f"{agent.name}'s safe house has been compromised",
-                    f"{agent.name} remains on edge, unable to truly rest"
-                ]
-            }
+                    f"{agent.name} remains on edge, unable to truly rest",
+                ],
+            },
         }
 
-        options = narratives.get(task.task_type, {}).get(success, [f"{agent.name} attempts {task.task_type.value}"])
-        return random.choice(options) if options else f"{agent.name} attempts {task.task_type.value}"
+        options = narratives.get(task.task_type, {}).get(
+            success, [f"{agent.name} attempts {task.task_type.value}"]
+        )
+        return (
+            random.choice(options)
+            if options
+            else f"{agent.name} attempts {task.task_type.value}"
+        )
 
     def _apply_task_outcomes(self, agent: Agent, task: Task, success: bool):
         """Apply the outcomes of a task to game state"""
@@ -968,13 +1062,22 @@ class GameState:
             target_agent = None
             if task.description and task.description.startswith("Rescue "):
                 target_name = task.description[7:]  # Remove "Rescue " prefix
-                target_agent = next((a for a in self.agents.values()
-                                   if a.name == target_name and a.status == "captured"), None)
+                target_agent = next(
+                    (
+                        a
+                        for a in self.agents.values()
+                        if a.name == target_name and a.status == "captured"
+                    ),
+                    None,
+                )
 
             # If no specific target or target not found, find any captured agent from same faction
             if not target_agent:
-                captured_agents = [a for a in self.agents.values()
-                                 if a.faction_id == agent.faction_id and a.status == "captured"]
+                captured_agents = [
+                    a
+                    for a in self.agents.values()
+                    if a.faction_id == agent.faction_id and a.status == "captured"
+                ]
                 if captured_agents:
                     target_agent = random.choice(captured_agents)
 
@@ -982,10 +1085,16 @@ class GameState:
                 target_agent.status = "active"
                 # Move rescued agent to the rescuer's location
                 target_agent.location_id = agent.location_id
-                self._log_narrative(f"🎉 {target_agent.name} has been rescued by {agent.name} and is now in {self.locations[agent.location_id].name}!")
-                logger.debug(f"Rescue successful: {target_agent.name} status changed from captured to active")
+                self._log_narrative(
+                    f"🎉 {target_agent.name} has been rescued by {agent.name} and is now in {self.locations[agent.location_id].name}!"
+                )
+                logger.debug(
+                    f"Rescue successful: {target_agent.name} status changed from captured to active"
+                )
             else:
-                self._log_narrative(f"{agent.name} searches for captured comrades but finds none to rescue")
+                self._log_narrative(
+                    f"{agent.name} searches for captured comrades but finds none to rescue"
+                )
 
         # Failure consequences
         if not success:
@@ -1000,15 +1109,19 @@ class GameState:
 
     def _rest_agent(self, agent: Agent):
         """Agent rests when no tasks available"""
-        rest_narrative = random.choice([
-            f"{agent.name} keeps a low profile, watching and waiting",
-            f"{agent.name} uses the quiet time to maintain equipment",
-            f"{agent.name} studies local patterns and routines"
-        ])
+        rest_narrative = random.choice(
+            [
+                f"{agent.name} keeps a low profile, watching and waiting",
+                f"{agent.name} uses the quiet time to maintain equipment",
+                f"{agent.name} studies local patterns and routines",
+            ]
+        )
         self._log_narrative(rest_narrative)
 
         # Resting heals injured agents
-        if agent.status == "injured" and random.randint(1, 100) <= 50:  # 50% chance to heal
+        if (
+            agent.status == "injured" and random.randint(1, 100) <= 50
+        ):  # 50% chance to heal
             agent.status = "active"
             self._log_narrative(f"{agent.name} has recovered from their injuries")
 
@@ -1016,7 +1129,9 @@ class GameState:
         """Update faction resources based on phase actions"""
         for faction in self.factions.values():
             # Count successful actions by faction
-            faction_actions = [a for a in self.phase_actions if a["faction_id"] == faction.id]
+            faction_actions = [
+                a for a in self.phase_actions if a["faction_id"] == faction.id
+            ]
             successful_actions = [a for a in faction_actions if a["success"]]
 
             # Gain resources from successful actions
@@ -1044,19 +1159,25 @@ class GameState:
 
     def get_status_summary(self) -> Dict[str, Any]:
         """Get current game status summary"""
-        active_agents = sum(1 for agent in self.agents.values() if agent.status == "active")
+        active_agents = sum(
+            1 for agent in self.agents.values() if agent.status == "active"
+        )
 
         # Get active events
         active_events = []
         for event in self.active_events:
             if event.duration > 0:
-                active_events.append(f"{event.description} ({event.duration} phases left)")
+                active_events.append(
+                    f"{event.description} ({event.duration} phases left)"
+                )
 
         # Get location events
         location_events = {}
         for location in self.locations.values():
             if location.active_events:
-                location_events[location.id] = [e.description for e in location.active_events if e.duration > 0]
+                location_events[location.id] = [
+                    e.description for e in location.active_events if e.duration > 0
+                ]
 
         return {
             "turn": self.turn_number,
@@ -1066,7 +1187,7 @@ class GameState:
             "factions": {fid: f.resources for fid, f in self.factions.items()},
             "recent_narrative": self.narrative_log[-5:] if self.narrative_log else [],
             "active_events": active_events,
-            "location_events": location_events
+            "location_events": location_events,
         }
 
     def get_agent_locations(self) -> Dict[str, List[str]]:
@@ -1096,44 +1217,44 @@ class GameState:
         events = {
             EventType.SECURITY_CRACKDOWN: {
                 "description": f"Security forces launch a crackdown in {location.name}",
-                "effects": {"security_increase": 2, "unrest_increase": 1}
+                "effects": {"security_increase": 2, "unrest_increase": 1},
             },
             EventType.CIVIL_UNREST: {
                 "description": f"Civil unrest erupts in {location.name}",
-                "effects": {"unrest_increase": 3, "security_increase": 1}
+                "effects": {"unrest_increase": 3, "security_increase": 1},
             },
             EventType.INFORMANT_BETRAYAL: {
                 "description": f"An informant betrays the resistance in {location.name}",
-                "effects": {"security_increase": 1, "agent_risk": True}
+                "effects": {"security_increase": 1, "agent_risk": True},
             },
             EventType.SUPPLY_DROP: {
                 "description": f"Allied forces drop supplies in {location.name}",
-                "effects": {"faction_resources": {"money": 20, "influence": 5}}
+                "effects": {"faction_resources": {"money": 20, "influence": 5}},
             },
             EventType.AGENT_ESCAPE: {
-                "description": f"A captured agent escapes from custody",
-                "effects": {"free_captured_agent": True}
+                "description": "A captured agent escapes from custody",
+                "effects": {"free_captured_agent": True},
             },
             EventType.GOVERNMENT_ANNOUNCEMENT: {
                 "description": "Government announces new security measures",
-                "effects": {"global_security_increase": 1}
+                "effects": {"global_security_increase": 1},
             },
             EventType.WEATHER_EVENT: {
                 "description": f"Severe weather affects operations in {location.name}",
-                "effects": {"task_difficulty_increase": 2}
+                "effects": {"task_difficulty_increase": 2},
             },
             EventType.BLACKOUT: {
                 "description": f"Power blackout plunges {location.name} into darkness",
-                "effects": {"security_decrease": 1, "sabotage_bonus": True}
+                "effects": {"security_decrease": 1, "sabotage_bonus": True},
             },
             EventType.MASS_ARREST: {
                 "description": f"Mass arrests sweep through {location.name}",
-                "effects": {"agent_risk": True, "unrest_increase": 2}
+                "effects": {"agent_risk": True, "unrest_increase": 2},
             },
             EventType.PROTEST_ERUPTS: {
                 "description": f"Spontaneous protests erupt in {location.name}",
-                "effects": {"unrest_increase": 2, "propaganda_bonus": True}
-            }
+                "effects": {"unrest_increase": 2, "propaganda_bonus": True},
+            },
         }
 
         event_data = events.get(event_type, {})
@@ -1143,7 +1264,7 @@ class GameState:
                 location_id=location.id,
                 description=event_data["description"],
                 effects=event_data.get("effects", {}),
-                duration=random.randint(1, 3)  # Events last 1-3 phases
+                duration=random.randint(1, 3),  # Events last 1-3 phases
             )
         return None
 
@@ -1156,18 +1277,26 @@ class GameState:
             location = self.locations[event.location_id]
 
             if "security_increase" in effects:
-                location.security_level = min(10, location.security_level + effects["security_increase"])
+                location.security_level = min(
+                    10, location.security_level + effects["security_increase"]
+                )
             if "security_decrease" in effects:
-                location.security_level = max(1, location.security_level - effects["security_decrease"])
+                location.security_level = max(
+                    1, location.security_level - effects["security_decrease"]
+                )
             if "unrest_increase" in effects:
-                location.unrest_level = min(10, location.unrest_level + effects["unrest_increase"])
+                location.unrest_level = min(
+                    10, location.unrest_level + effects["unrest_increase"]
+                )
 
             location.add_event(event)
 
         # Apply global effects
         if "global_security_increase" in effects:
             for loc in self.locations.values():
-                loc.security_level = min(10, loc.security_level + effects["global_security_increase"])
+                loc.security_level = min(
+                    10, loc.security_level + effects["global_security_increase"]
+                )
 
         # Apply faction resource effects
         if "faction_resources" in effects:
@@ -1176,7 +1305,9 @@ class GameState:
 
         # Handle agent escape
         if "free_captured_agent" in effects:
-            captured_agents = [a for a in self.agents.values() if a.status == "captured"]
+            captured_agents = [
+                a for a in self.agents.values() if a.status == "captured"
+            ]
             if captured_agents:
                 agent = random.choice(captured_agents)
                 agent.status = "active"
@@ -1193,15 +1324,23 @@ class GameState:
 
         for faction in self.factions.values():
             faction.update_goal()
-            faction_agents = [a for a in self.agents.values() if a.faction_id == faction.id and a.status == "active"]
+            faction_agents = [
+                a
+                for a in self.agents.values()
+                if a.faction_id == faction.id and a.status == "active"
+            ]
 
             # Generate tasks based on faction goal
             for agent in faction_agents:
-                if not agent.has_tasks() and random.random() < 0.7:  # 70% chance to get new task
+                if (
+                    not agent.has_tasks() and random.random() < 0.7
+                ):  # 70% chance to get new task
                     task = self._create_task_for_goal(faction.current_goal, agent)
                     if task:
                         agent.add_task(task)
-                        self._log_narrative(f"📋 {agent.name} receives new mission: {task.description}")
+                        self._log_narrative(
+                            f"📋 {agent.name} receives new mission: {task.description}"
+                        )
 
     def _create_task_for_goal(self, goal: str, agent: Agent) -> Optional[Task]:
         """Create a task based on faction goal and agent capabilities"""
@@ -1209,28 +1348,28 @@ class GameState:
             "expand_influence": [
                 (TaskType.PROPAGANDA, "Spread revolutionary ideas", 4),
                 (TaskType.RECRUIT, "Recruit new supporters", 5),
-                (TaskType.GATHER_INFO, "Learn about local sentiment", 3)
+                (TaskType.GATHER_INFO, "Learn about local sentiment", 3),
             ],
             "recruit_members": [
                 (TaskType.RECRUIT, "Recruit from local population", 5),
                 (TaskType.PROPAGANDA, "Inspire potential recruits", 4),
-                (TaskType.GATHER_INFO, "Identify recruitment targets", 4)
+                (TaskType.GATHER_INFO, "Identify recruitment targets", 4),
             ],
             "gather_intelligence": [
                 (TaskType.GATHER_INFO, "Monitor government activities", 5),
                 (TaskType.INFILTRATE, "Infiltrate government facility", 7),
-                (TaskType.MOVE, "Reconnaissance mission", 4)
+                (TaskType.MOVE, "Reconnaissance mission", 4),
             ],
             "disrupt_government": [
                 (TaskType.SABOTAGE, "Sabotage government operations", 7),
                 (TaskType.INFILTRATE, "Infiltrate secure facility", 8),
-                (TaskType.EXFILTRATE, "Extract sensitive information", 6)
+                (TaskType.EXFILTRATE, "Extract sensitive information", 6),
             ],
             "protect_territory": [
                 (TaskType.GATHER_INFO, "Monitor security threats", 4),
                 (TaskType.PROPAGANDA, "Maintain local support", 3),
-                (TaskType.RECRUIT, "Strengthen local network", 4)
-            ]
+                (TaskType.RECRUIT, "Strengthen local network", 4),
+            ],
         }
 
         if goal in tasks_by_goal:
@@ -1246,7 +1385,11 @@ class GameState:
             # For movement tasks, pick a target location
             target_location = None
             if task_type == TaskType.MOVE:
-                available_locations = [loc for loc in self.locations.values() if loc.id != agent.location_id]
+                available_locations = [
+                    loc
+                    for loc in self.locations.values()
+                    if loc.id != agent.location_id
+                ]
                 if available_locations:
                     target_location = random.choice(available_locations).id
 
@@ -1256,7 +1399,7 @@ class GameState:
                 difficulty=difficulty,
                 description=description,
                 priority=random.randint(1, 3),
-                faction_goal=goal
+                faction_goal=goal,
             )
 
         return None
@@ -1265,11 +1408,21 @@ class GameState:
         """Update faction goals based on current situation"""
         for faction in self.factions.values():
             # Check if faction needs to rescue captured agents
-            captured_agents = [a for a in self.agents.values() if a.faction_id == faction.id and a.status == "captured"]
-            if captured_agents and random.random() < 0.3:  # 30% chance to prioritize rescue
+            captured_agents = [
+                a
+                for a in self.agents.values()
+                if a.faction_id == faction.id and a.status == "captured"
+            ]
+            if (
+                captured_agents and random.random() < 0.3
+            ):  # 30% chance to prioritize rescue
                 faction.current_goal = "protect_territory"
                 # Add rescue tasks
-                active_agents = [a for a in self.agents.values() if a.faction_id == faction.id and a.status == "active"]
+                active_agents = [
+                    a
+                    for a in self.agents.values()
+                    if a.faction_id == faction.id and a.status == "active"
+                ]
                 for agent in active_agents[:2]:  # Limit to 2 rescue attempts
                     if not agent.has_tasks():
                         rescue_task = Task(
@@ -1277,10 +1430,12 @@ class GameState:
                             difficulty=6,
                             description="Rescue captured comrade",
                             priority=5,
-                            faction_goal="protect_territory"
+                            faction_goal="protect_territory",
                         )
                         agent.add_task(rescue_task)
-                        self._log_narrative(f"🆘 {agent.name} is assigned a rescue mission")
+                        self._log_narrative(
+                            f"🆘 {agent.name} is assigned a rescue mission"
+                        )
 
     def _update_events(self):
         """Update and clean up expired events"""
@@ -1294,16 +1449,24 @@ class GameState:
             location.update_events()
             location.remove_expired_events()
 
+
 @dataclass
 class PublicOpinion:
     """Public opinion tracking system"""
+
     general_support: int = 50  # 0-100, general public support
-    faction_support: Dict[str, int] = field(default_factory=lambda: {"resistance": 50, "students": 50, "workers": 50})
+    faction_support: Dict[str, int] = field(
+        default_factory=lambda: {"resistance": 50, "students": 50, "workers": 50}
+    )
     media_coverage: List[str] = field(default_factory=list)  # Recent news events
     political_influence: int = 0  # -100 to 100, influence with government
-    community_relations: Dict[str, int] = field(default_factory=dict)  # Support from different communities
+    community_relations: Dict[str, int] = field(
+        default_factory=dict
+    )  # Support from different communities
 
-    def update_from_action(self, action_type: str, faction_id: str, success: bool, casualties: int = 0):
+    def update_from_action(
+        self, action_type: str, faction_id: str, success: bool, casualties: int = 0
+    ):
         """Update public opinion based on an action"""
         base_change = 5 if success else -10
 
@@ -1320,14 +1483,17 @@ class PublicOpinion:
 
         # Update faction support
         if faction_id in self.faction_support:
-            self.faction_support[faction_id] = max(0, min(100,
-                self.faction_support[faction_id] + base_change))
+            self.faction_support[faction_id] = max(
+                0, min(100, self.faction_support[faction_id] + base_change)
+            )
 
         # Update general support
         self.general_support = max(0, min(100, self.general_support + base_change // 2))
 
         # Generate media coverage
         if abs(base_change) > 10:
-            self.media_coverage.append(f"{'Positive' if base_change > 0 else 'Negative'} coverage of {action_type} operation")
+            self.media_coverage.append(
+                f"{'Positive' if base_change > 0 else 'Negative'} coverage of {action_type} operation"
+            )
             if len(self.media_coverage) > 5:
                 self.media_coverage.pop(0)  # Keep only recent events

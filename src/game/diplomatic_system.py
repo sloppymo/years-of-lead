@@ -7,17 +7,18 @@ covert operations, dynamic trust, and scandal-driven narratives.
 
 import uuid
 import random
-from datetime import datetime, timedelta
-from enum import Enum, auto
+from datetime import datetime
+from enum import Enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Tuple, Set
+from typing import Dict, List, Optional, Any, Set
 from loguru import logger
 
-from .diplomatic_config import DIPLOMATIC_CONFIG, OPERATIONAL_CONFIG
+from .diplomatic_config import DIPLOMATIC_CONFIG
 
 
 class AllianceType(Enum):
     """Types of faction alliances"""
+
     PUBLIC = "public"
     SECRET = "secret"
     COERCED = "coerced"
@@ -25,6 +26,7 @@ class AllianceType(Enum):
 
 class CovertOperationType(Enum):
     """Types of covert operations"""
+
     INTELLIGENCE_SHARING = "intelligence_sharing"
     JOINT_SABOTAGE = "joint_sabotage"
     COORDINATED_PROPAGANDA = "coordinated_propaganda"
@@ -37,6 +39,7 @@ class CovertOperationType(Enum):
 
 class DiplomaticEventType(Enum):
     """Types of diplomatic events for narrative tracking"""
+
     ALLIANCE_FORMED = "alliance_formed"
     ALLIANCE_BROKEN = "alliance_broken"
     BETRAYAL_DISCOVERED = "betrayal_discovered"
@@ -50,6 +53,7 @@ class DiplomaticEventType(Enum):
 
 class AgentStatus(Enum):
     """Status types for double agents"""
+
     LOYAL = "loyal"
     DOUBLE_AGENT = "double_agent"
     EXPOSED = "exposed"
@@ -59,6 +63,7 @@ class AgentStatus(Enum):
 @dataclass
 class SecretDiplomaticChannel:  # ITERATION_031
     """Secure communication channel between factions"""
+
     id: str
     faction_a: str
     faction_b: str
@@ -84,15 +89,25 @@ class SecretDiplomaticChannel:  # ITERATION_031
         trust_modifier = self.trust_level * DIPLOMATIC_CONFIG.TRUST_LEAK_MODIFIER
 
         # Encryption modifier (better encryption = lower risk)
-        encryption_modifier = self.encryption_strength * DIPLOMATIC_CONFIG.ENCRYPTION_LEAK_MODIFIER
+        encryption_modifier = (
+            self.encryption_strength * DIPLOMATIC_CONFIG.ENCRYPTION_LEAK_MODIFIER
+        )
 
         # Heat modifier (higher surveillance = higher risk)
-        heat_modifier = (current_heat / 100.0) * DIPLOMATIC_CONFIG.SURVEILLANCE_HEAT_MODIFIER
+        heat_modifier = (
+            current_heat / 100.0
+        ) * DIPLOMATIC_CONFIG.SURVEILLANCE_HEAT_MODIFIER
 
         # Historical incidents increase risk
         incident_modifier = self.leak_incidents * 0.02
 
-        total_risk = base_risk + trust_modifier + encryption_modifier + heat_modifier + incident_modifier
+        total_risk = (
+            base_risk
+            + trust_modifier
+            + encryption_modifier
+            + heat_modifier
+            + incident_modifier
+        )
 
         # Apply minimum risk only for active channels
         if self.last_used_turn > 0:
@@ -105,17 +120,20 @@ class SecretDiplomaticChannel:  # ITERATION_031
         old_trust = self.trust_level
         self.trust_level = max(
             DIPLOMATIC_CONFIG.MIN_TRUST_LEVEL,
-            min(DIPLOMATIC_CONFIG.MAX_TRUST_LEVEL, self.trust_level + change)
+            min(DIPLOMATIC_CONFIG.MAX_TRUST_LEVEL, self.trust_level + change),
         )
 
         if abs(change) > 0.05:  # Log significant changes
-            logger.info(f"Diplomatic trust between {self.faction_a} and {self.faction_b} "
-                       f"changed from {old_trust:.2f} to {self.trust_level:.2f}. Reason: {reason}")
+            logger.info(
+                f"Diplomatic trust between {self.faction_a} and {self.faction_b} "
+                f"changed from {old_trust:.2f} to {self.trust_level:.2f}. Reason: {reason}"
+            )
 
     def degrade_encryption(self):
         """Natural encryption degradation over time"""
-        self.encryption_strength = max(0.1,
-            self.encryption_strength - DIPLOMATIC_CONFIG.ENCRYPTION_DECAY_RATE)
+        self.encryption_strength = max(
+            0.1, self.encryption_strength - DIPLOMATIC_CONFIG.ENCRYPTION_DECAY_RATE
+        )
 
     def upgrade_encryption(self, cost_paid: int) -> bool:
         """Upgrade encryption if cost is sufficient"""
@@ -124,7 +142,9 @@ class SecretDiplomaticChannel:  # ITERATION_031
             return True
         return False
 
-    def send_message(self, sender: str, content: str, operation_type: Optional[str] = None) -> bool:
+    def send_message(
+        self, sender: str, content: str, operation_type: Optional[str] = None
+    ) -> bool:
         """Send a message through the channel and check for leaks"""
         leak_risk = self.calculate_leak_risk()
         leaked = random.random() < leak_risk
@@ -136,7 +156,7 @@ class SecretDiplomaticChannel:  # ITERATION_031
             "operation_type": operation_type,
             "timestamp": datetime.now(),
             "leaked": leaked,
-            "leak_risk": leak_risk
+            "leak_risk": leak_risk,
         }
 
         self.message_history.append(message)
@@ -146,7 +166,9 @@ class SecretDiplomaticChannel:  # ITERATION_031
             self.leak_incidents += 1
             self.failed_communications += 1
             self.update_trust(-0.1, f"Communication leaked: {content[:50]}...")
-            logger.warning(f"LEAK: Communication between {self.faction_a} and {self.faction_b} leaked!")
+            logger.warning(
+                f"LEAK: Communication between {self.faction_a} and {self.faction_b} leaked!"
+            )
             return False
         else:
             self.successful_communications += 1
@@ -156,6 +178,7 @@ class SecretDiplomaticChannel:  # ITERATION_031
 @dataclass
 class FactionAlliance:
     """Alliance between two or more factions"""
+
     id: str
     name: str
     alliance_type: AllianceType
@@ -170,7 +193,9 @@ class FactionAlliance:
     # Operational capabilities
     shared_resources: Dict[str, int] = field(default_factory=dict)
     joint_operations: List[str] = field(default_factory=list)
-    active_channels: Dict[str, str] = field(default_factory=dict)  # faction_pair -> channel_id
+    active_channels: Dict[str, str] = field(
+        default_factory=dict
+    )  # faction_pair -> channel_id
 
     # History and narrative
     betrayal_history: List[Dict[str, Any]] = field(default_factory=list)
@@ -188,12 +213,14 @@ class FactionAlliance:
         """Remove a faction from the alliance"""
         if faction_id in self.member_factions:
             self.member_factions.remove(faction_id)
-            self.betrayal_history.append({
-                "faction": faction_id,
-                "reason": reason,
-                "turn": 0,  # Will be set by caller
-                "stability_impact": -0.3
-            })
+            self.betrayal_history.append(
+                {
+                    "faction": faction_id,
+                    "reason": reason,
+                    "turn": 0,  # Will be set by caller
+                    "stability_impact": -0.3,
+                }
+            )
             self._update_stability(-0.3)
             return True
         return False
@@ -218,7 +245,9 @@ class FactionAlliance:
         # Recent operations increase visibility
         activity_modifier = min(len(self.joint_operations), 5) * 0.01
 
-        return min(1.0, base_chance + member_modifier + stability_modifier + activity_modifier)
+        return min(
+            1.0, base_chance + member_modifier + stability_modifier + activity_modifier
+        )
 
     def get_operational_bonus(self) -> float:
         """Get bonus for joint operations based on alliance type and stability"""
@@ -227,7 +256,7 @@ class FactionAlliance:
         type_modifier = {
             AllianceType.PUBLIC: 1.0,
             AllianceType.SECRET: 0.8,  # Secret alliances are less efficient
-            AllianceType.COERCED: 0.6  # Coerced alliances are least efficient
+            AllianceType.COERCED: 0.6,  # Coerced alliances are least efficient
         }
 
         return base_bonus * type_modifier[self.alliance_type] * self.stability
@@ -236,6 +265,7 @@ class FactionAlliance:
 @dataclass
 class DoubleAgent:  # ITERATION_031
     """Agent working for multiple factions"""
+
     agent_id: str
     primary_faction: str
     secondary_factions: Set[str] = field(default_factory=set)
@@ -273,6 +303,7 @@ class DoubleAgent:  # ITERATION_031
 @dataclass
 class DiplomaticEvent:
     """Diplomatic event for history and narrative tracking"""
+
     id: str
     event_type: DiplomaticEventType
     factions_involved: List[str]
@@ -304,7 +335,9 @@ class DiplomaticSystem:
 
         # Faction relationship matrix
         self.faction_relationships: Dict[str, Dict[str, float]] = {}
-        self.betrayal_memory: Dict[str, Dict[str, int]] = {}  # faction -> betrayer -> turns_remembered
+        self.betrayal_memory: Dict[
+            str, Dict[str, int]
+        ] = {}  # faction -> betrayer -> turns_remembered
 
         logger.info("Diplomatic system initialized")
 
@@ -316,7 +349,7 @@ class DiplomaticSystem:
             id=channel_id,
             faction_a=faction_a,
             faction_b=faction_b,
-            established_turn=self.current_turn
+            established_turn=self.current_turn,
         )
 
         self.channels[channel_id] = channel
@@ -329,15 +362,22 @@ class DiplomaticSystem:
             factions_involved=[faction_a, faction_b],
             turn_occurred=self.current_turn,
             description=f"Secret diplomatic channel established between {faction_a} and {faction_b}",
-            heat_generated=DIPLOMATIC_CONFIG.DIPLOMATIC_ACTIVITY_HEAT_GAIN
+            heat_generated=DIPLOMATIC_CONFIG.DIPLOMATIC_ACTIVITY_HEAT_GAIN,
         )
         self.diplomatic_events.append(event)
 
-        logger.info(f"Established diplomatic channel between {faction_a} and {faction_b}")
+        logger.info(
+            f"Established diplomatic channel between {faction_a} and {faction_b}"
+        )
         return channel_id
 
-    def form_alliance(self, factions: List[str], alliance_type: AllianceType,
-                     name: str, leader: Optional[str] = None) -> str:
+    def form_alliance(
+        self,
+        factions: List[str],
+        alliance_type: AllianceType,
+        name: str,
+        leader: Optional[str] = None,
+    ) -> str:
         """Form an alliance between multiple factions"""
         alliance_id = f"alliance_{name.lower().replace(' ', '_')}_{self.current_turn}"
 
@@ -347,7 +387,7 @@ class DiplomaticSystem:
             alliance_type=alliance_type,
             member_factions=set(factions),
             leader_faction=leader,
-            formed_turn=self.current_turn
+            formed_turn=self.current_turn,
         )
 
         self.alliances[alliance_id] = alliance
@@ -355,7 +395,7 @@ class DiplomaticSystem:
         # Establish channels between all members if secret alliance
         if alliance_type == AllianceType.SECRET:
             for i, faction_a in enumerate(factions):
-                for faction_b in factions[i+1:]:
+                for faction_b in factions[i + 1 :]:
                     channel_id = self.establish_channel(faction_a, faction_b)
                     alliance.active_channels[f"{faction_a}_{faction_b}"] = channel_id
 
@@ -363,7 +403,7 @@ class DiplomaticSystem:
         heat_gain = {
             AllianceType.PUBLIC: 5,
             AllianceType.SECRET: 2,
-            AllianceType.COERCED: 10
+            AllianceType.COERCED: 10,
         }
         self.global_heat += heat_gain[alliance_type]
 
@@ -374,17 +414,23 @@ class DiplomaticSystem:
             factions_involved=factions,
             turn_occurred=self.current_turn,
             description=f"{alliance_type.value.title()} alliance '{name}' formed between {', '.join(factions)}",
-            heat_generated=heat_gain[alliance_type]
+            heat_generated=heat_gain[alliance_type],
         )
         self.diplomatic_events.append(event)
 
-        logger.info(f"Formed {alliance_type.value} alliance '{name}' with factions: {factions}")
+        logger.info(
+            f"Formed {alliance_type.value} alliance '{name}' with factions: {factions}"
+        )
         return alliance_id
 
-    def execute_covert_operation(self, operation_type: CovertOperationType,
-                                executing_faction: str, target_faction: Optional[str] = None,
-                                allied_factions: Optional[List[str]] = None,
-                                operation_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def execute_covert_operation(
+        self,
+        operation_type: CovertOperationType,
+        executing_faction: str,
+        target_faction: Optional[str] = None,
+        allied_factions: Optional[List[str]] = None,
+        operation_data: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Execute a covert operation with full consequences"""
         operation_id = str(uuid.uuid4())
         results = {
@@ -396,36 +442,41 @@ class DiplomaticSystem:
             "heat_gain": 0,
             "trust_changes": {},
             "resource_changes": {},
-            "scandal_generated": False
+            "scandal_generated": False,
         }
-
-        # Get operation configuration
-        operation_config = OPERATIONAL_CONFIG.OPERATION_TYPES.get(operation_type.value, {})
-        base_success_rate = operation_config.get("success_rate", 0.7)
-        base_heat_gain = operation_config.get("heat_gain", 5)
 
         # Calculate success based on various factors
         success_chance = self._calculate_operation_success(
-            operation_type, executing_faction, allied_factions, operation_config
+            operation_type, executing_faction, allied_factions, operation_data
         )
 
         results["success"] = random.random() < success_chance
 
         # Handle specific operation types
         if operation_type == CovertOperationType.FALSE_FLAG:
-            return self._execute_false_flag(executing_faction, target_faction, results, operation_data)
+            return self._execute_false_flag(
+                executing_faction, target_faction, results, operation_data
+            )
         elif operation_type == CovertOperationType.DOUBLE_AGENT_DEPLOYMENT:
-            return self._execute_double_agent_deployment(executing_faction, target_faction, results, operation_data)
+            return self._execute_double_agent_deployment(
+                executing_faction, target_faction, results, operation_data
+            )
         elif operation_type == CovertOperationType.COVERT_SUPPORT:
-            return self._execute_covert_support(executing_faction, target_faction, results, operation_data)
+            return self._execute_covert_support(
+                executing_faction, target_faction, results, operation_data
+            )
         elif operation_type == CovertOperationType.COUNTER_INTELLIGENCE:
-            return self._execute_counter_intelligence(executing_faction, target_faction, results, operation_data)
+            return self._execute_counter_intelligence(
+                executing_faction, target_faction, results, operation_data
+            )
         else:
             # Handle other operation types
             results["success"] = False
             results["leaked"] = True
             results["discovered"] = False
-            results["narrative"] = f"Operation type '{operation_type.value}' not implemented."
+            results[
+                "narrative"
+            ] = f"Operation type '{operation_type.value}' not implemented."
             results["heat_gain"] = 0
             results["trust_changes"] = {}
             results["resource_changes"] = {}
@@ -433,11 +484,17 @@ class DiplomaticSystem:
 
         return results
 
-    def _calculate_operation_success(self, operation_type: CovertOperationType,  # ITERATION_031
-                                   executing_faction: str, allied_factions: Optional[List[str]] = None,
-                                   operation_config: Optional[Dict[str, Any]] = None) -> float:
+    def _calculate_operation_success(
+        self,
+        operation_type: CovertOperationType,  # ITERATION_031
+        executing_faction: str,
+        allied_factions: Optional[List[str]] = None,
+        operation_config: Optional[Dict[str, Any]] = None,
+    ) -> float:
         """Calculate success chance for a covert operation"""
-        base_success = operation_config.get("success_rate", 0.7) if operation_config else 0.7
+        base_success = (
+            operation_config.get("success_rate", 0.7) if operation_config else 0.7
+        )
 
         # Alliance bonuses
         alliance_bonus = 0.0
@@ -458,32 +515,46 @@ class DiplomaticSystem:
         success_chance = base_success + alliance_bonus + trust_bonus - heat_penalty
         return max(0.1, min(0.95, success_chance))
 
-    def _execute_false_flag(self, executing_faction: str, target_faction: str,
-                           results: Dict[str, Any], operation_data: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _execute_false_flag(
+        self,
+        executing_faction: str,
+        target_faction: str,
+        results: Dict[str, Any],
+        operation_data: Optional[Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Execute a false flag operation"""
         detection_chance = DIPLOMATIC_CONFIG.FALSE_FLAG_DETECTION_CHANCE
 
         if random.random() < detection_chance:
             results["discovered"] = True
-            results["narrative"] = f"False flag operation by {executing_faction} against {target_faction} was discovered!"
+            results[
+                "narrative"
+            ] = f"False flag operation by {executing_faction} against {target_faction} was discovered!"
             results["heat_gain"] = DIPLOMATIC_CONFIG.LEAKED_OPERATION_HEAT_GAIN
             results["scandal_generated"] = True
         else:
             results["success"] = True
-            results["narrative"] = f"False flag operation successfully framed {target_faction}"
+            results[
+                "narrative"
+            ] = f"False flag operation successfully framed {target_faction}"
             results["heat_gain"] = 5
 
         return results
 
-    def _execute_double_agent_deployment(self, executing_faction: str, target_faction: str,
-                                        results: Dict[str, Any], operation_data: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _execute_double_agent_deployment(
+        self,
+        executing_faction: str,
+        target_faction: str,
+        results: Dict[str, Any],
+        operation_data: Optional[Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Execute a double agent deployment"""
         agent_id = operation_data.get("agent_id", f"agent_{random.randint(1000, 9999)}")
 
         double_agent = DoubleAgent(
             agent_id=agent_id,
             primary_faction=executing_faction,
-            secondary_factions={target_faction}
+            secondary_factions={target_faction},
         )
 
         self.double_agents[agent_id] = double_agent
@@ -493,33 +564,49 @@ class DiplomaticSystem:
 
         return results
 
-    def _execute_covert_support(self, executing_faction: str, target_faction: str,
-                               results: Dict[str, Any], operation_data: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _execute_covert_support(
+        self,
+        executing_faction: str,
+        target_faction: str,
+        results: Dict[str, Any],
+        operation_data: Optional[Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Execute covert support operation"""
         results["success"] = True
-        results["narrative"] = f"{executing_faction} provided covert support to {target_faction}"
+        results[
+            "narrative"
+        ] = f"{executing_faction} provided covert support to {target_faction}"
         results["heat_gain"] = 2
         results["resource_changes"] = {target_faction: {"support": 10}}
 
         return results
 
-    def _execute_counter_intelligence(self, executing_faction: str, target_faction: str,
-                                     results: Dict[str, Any], operation_data: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _execute_counter_intelligence(
+        self,
+        executing_faction: str,
+        target_faction: str,
+        results: Dict[str, Any],
+        operation_data: Optional[Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Execute counter-intelligence operation"""
         results["success"] = True
-        results["narrative"] = f"{executing_faction} conducted counter-intelligence against {target_faction}"
+        results[
+            "narrative"
+        ] = f"{executing_faction} conducted counter-intelligence against {target_faction}"
         results["heat_gain"] = 4
 
         return results
 
-    def process_turn(self, turn_number: int, faction_states: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:  # ITERATION_031
+    def process_turn(
+        self, turn_number: int, faction_states: Dict[str, Dict[str, Any]]
+    ) -> Dict[str, Any]:  # ITERATION_031
         """Process diplomatic events for a turn"""
         self.current_turn = turn_number
         results = {
             "events": [],
             "heat_changes": 0,
             "alliance_changes": [],
-            "betrayals": []
+            "betrayals": [],
         }
 
         # Process alliance discoveries
@@ -527,13 +614,19 @@ class DiplomaticSystem:
             if alliance.alliance_type == AllianceType.SECRET:
                 discovery_chance = alliance.calculate_discovery_chance()
                 if random.random() < discovery_chance:
-                    results["events"].append(f"Secret alliance '{alliance.name}' discovered!")
-                    results["heat_changes"] += DIPLOMATIC_CONFIG.EXPOSED_ALLIANCE_HEAT_GAIN
-                    results["alliance_changes"].append({
-                        "alliance_id": alliance.id,
-                        "type": "discovered",
-                        "heat_gain": DIPLOMATIC_CONFIG.EXPOSED_ALLIANCE_HEAT_GAIN
-                    })
+                    results["events"].append(
+                        f"Secret alliance '{alliance.name}' discovered!"
+                    )
+                    results[
+                        "heat_changes"
+                    ] += DIPLOMATIC_CONFIG.EXPOSED_ALLIANCE_HEAT_GAIN
+                    results["alliance_changes"].append(
+                        {
+                            "alliance_id": alliance.id,
+                            "type": "discovered",
+                            "heat_gain": DIPLOMATIC_CONFIG.EXPOSED_ALLIANCE_HEAT_GAIN,
+                        }
+                    )
 
         # Process double agent exposures
         exposed_agents = []
@@ -552,15 +645,19 @@ class DiplomaticSystem:
 
         return results
 
-    def _execute_betrayal(self, betraying_faction: str, alliance: FactionAlliance,  # ITERATION_031
-                         faction_states: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def _execute_betrayal(
+        self,
+        betraying_faction: str,
+        alliance: FactionAlliance,  # ITERATION_031
+        faction_states: Dict[str, Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Execute a betrayal within an alliance"""
         results = {
             "betraying_faction": betraying_faction,
             "alliance_id": alliance.id,
             "success": False,
             "narrative": "",
-            "consequences": {}
+            "consequences": {},
         }
 
         # Check if betrayal is successful
@@ -569,11 +666,15 @@ class DiplomaticSystem:
         # Desperation increases betrayal chance
         if betraying_faction in faction_states:
             desperation = faction_states[betraying_faction].get("desperation", 0)
-            betrayal_chance += desperation * DIPLOMATIC_CONFIG.BETRAYAL_DESPERATION_MODIFIER
+            betrayal_chance += (
+                desperation * DIPLOMATIC_CONFIG.BETRAYAL_DESPERATION_MODIFIER
+            )
 
         if random.random() < betrayal_chance:
             results["success"] = True
-            results["narrative"] = f"{betraying_faction} betrayed alliance '{alliance.name}'"
+            results[
+                "narrative"
+            ] = f"{betraying_faction} betrayed alliance '{alliance.name}'"
 
             # Record betrayal in memory
             if betraying_faction not in self.betrayal_memory:
@@ -581,14 +682,18 @@ class DiplomaticSystem:
 
             for faction in alliance.member_factions:
                 if faction != betraying_faction:
-                    self.betrayal_memory[betraying_faction][faction] = DIPLOMATIC_CONFIG.BETRAYAL_MEMORY_DURATION
+                    self.betrayal_memory[betraying_faction][
+                        faction
+                    ] = DIPLOMATIC_CONFIG.BETRAYAL_MEMORY_DURATION
 
             # Remove from alliance
             alliance.remove_member(betraying_faction, "betrayal")
 
             # Generate scandal
             results["consequences"]["scandal"] = True
-            results["consequences"]["heat_gain"] = DIPLOMATIC_CONFIG.BETRAYAL_MOMENTUM_LOSS
+            results["consequences"][
+                "heat_gain"
+            ] = DIPLOMATIC_CONFIG.BETRAYAL_MOMENTUM_LOSS
 
         return results
 
@@ -598,8 +703,10 @@ class DiplomaticSystem:
         cutoff_turn = self.current_turn - turns_back
 
         for event in self.diplomatic_events:
-            if (event.event_type == DiplomaticEventType.SCANDAL_ERUPTED and
-                event.turn_occurred >= cutoff_turn):
+            if (
+                event.event_type == DiplomaticEventType.SCANDAL_ERUPTED
+                and event.turn_occurred >= cutoff_turn
+            ):
                 recent_scandals.append(event)
 
         return recent_scandals

@@ -6,21 +6,18 @@ Visualizes betrayal plans, trigger conditions, cascading effects, and trust netw
 for development and debugging purposes.
 """
 
-import sys
 import os
+import sys
 import json
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any
 import networkx as nx
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 from datetime import datetime
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from game.core import GameState
-from game.entities import Agent
-from game.advanced_relationships import AdvancedRelationshipManager, BetrayalPlan
 
 
 class BetrayalTreeVisualizer:
@@ -28,7 +25,7 @@ class BetrayalTreeVisualizer:
 
     def __init__(self, game_state: GameState):
         self.game_state = game_state
-        self.relationship_manager = getattr(game_state, 'relationship_manager', None)
+        self.relationship_manager = getattr(game_state, "relationship_manager", None)
 
     def analyze_betrayal_network(self) -> Dict[str, Any]:
         """Analyze the current betrayal network and potential cascades"""
@@ -37,12 +34,12 @@ class BetrayalTreeVisualizer:
             "trust_vulnerabilities": [],
             "cascade_potential": {},
             "loyalty_distribution": {},
-            "co_conspirator_networks": {}
+            "co_conspirator_networks": {},
         }
 
         # Collect betrayal plans
         for agent_id, agent in self.game_state.agents.items():
-            if hasattr(agent, 'planned_betrayal') and agent.planned_betrayal:
+            if hasattr(agent, "planned_betrayal") and agent.planned_betrayal:
                 plan_data = {
                     "betrayer": agent_id,
                     "betrayer_name": agent.name,
@@ -50,21 +47,23 @@ class BetrayalTreeVisualizer:
                     "trigger_conditions": agent.planned_betrayal.trigger_conditions,
                     "timing": agent.planned_betrayal.preferred_timing,
                     "co_conspirators": agent.planned_betrayal.potential_co_conspirators,
-                    "confidence": agent.planned_betrayal.plan_confidence
+                    "confidence": agent.planned_betrayal.plan_confidence,
                 }
                 analysis["active_betrayal_plans"].append(plan_data)
 
         # Analyze trust vulnerabilities
-        if hasattr(self.game_state, 'get_all_relationships'):
+        if hasattr(self.game_state, "get_all_relationships"):
             for relationship in self.game_state.get_all_relationships():
                 if relationship.trust < 0.3:  # Low trust threshold
-                    analysis["trust_vulnerabilities"].append({
-                        "agent_a": relationship.agent_a,
-                        "agent_b": relationship.agent_b,
-                        "trust": relationship.trust,
-                        "loyalty": relationship.loyalty,
-                        "affinity": relationship.affinity
-                    })
+                    analysis["trust_vulnerabilities"].append(
+                        {
+                            "agent_a": relationship.agent_a,
+                            "agent_b": relationship.agent_b,
+                            "trust": relationship.trust,
+                            "loyalty": relationship.loyalty,
+                            "affinity": relationship.affinity,
+                        }
+                    )
 
         # Calculate cascade potential
         for plan in analysis["active_betrayal_plans"]:
@@ -73,18 +72,18 @@ class BetrayalTreeVisualizer:
 
         # Analyze loyalty distribution
         for agent_id, agent in self.game_state.agents.items():
-            faction_loyalty = getattr(agent, 'loyalty', 50) / 100.0
+            faction_loyalty = getattr(agent, "loyalty", 50) / 100.0
             analysis["loyalty_distribution"][agent_id] = {
                 "name": agent.name,
                 "faction": agent.faction_id,
-                "loyalty": faction_loyalty
+                "loyalty": faction_loyalty,
             }
 
         return analysis
 
     def _calculate_cascade_potential(self, betrayal_plan: Dict[str, Any]) -> float:
         """Calculate the potential for a betrayal to trigger cascading effects"""
-        betrayer = betrayal_plan["betrayer"]
+        betrayal_plan["betrayer"]
         target = betrayal_plan["target"]
         co_conspirators = betrayal_plan.get("co_conspirators", [])
 
@@ -92,18 +91,24 @@ class BetrayalTreeVisualizer:
         cascade_score = len(co_conspirators) * 0.2
 
         # Add potential from target's relationships
-        if hasattr(self.game_state, 'get_agent_relationships'):
+        if hasattr(self.game_state, "get_agent_relationships"):
             target_relationships = self.game_state.get_agent_relationships(target)
             for rel_agent, relationship in target_relationships:
-                if relationship.trust > 0.7:  # High trust relationships are more vulnerable
+                if (
+                    relationship.trust > 0.7
+                ):  # High trust relationships are more vulnerable
                     cascade_score += 0.1
 
         # Factor in faction cohesion
-        if hasattr(self.game_state, 'get_faction_cohesion'):
+        if hasattr(self.game_state, "get_faction_cohesion"):
             target_agent = self.game_state.agents.get(target)
             if target_agent:
-                faction_cohesion = self.game_state.get_faction_cohesion(target_agent.faction_id)
-                cascade_score *= (1.0 - faction_cohesion)  # Lower cohesion = higher cascade
+                faction_cohesion = self.game_state.get_faction_cohesion(
+                    target_agent.faction_id
+                )
+                cascade_score *= (
+                    1.0 - faction_cohesion
+                )  # Lower cohesion = higher cascade
 
         return min(cascade_score, 1.0)
 
@@ -114,7 +119,9 @@ class BetrayalTreeVisualizer:
 
         # Add agent nodes
         for agent_id, agent in self.game_state.agents.items():
-            loyalty = analysis["loyalty_distribution"].get(agent_id, {}).get("loyalty", 0.5)
+            loyalty = (
+                analysis["loyalty_distribution"].get(agent_id, {}).get("loyalty", 0.5)
+            )
 
             # Color based on loyalty
             if loyalty > 0.7:
@@ -124,11 +131,13 @@ class BetrayalTreeVisualizer:
             else:
                 color = "lightcoral"
 
-            G.add_node(agent_id,
-                      node_type="agent",
-                      color=color,
-                      label=agent.name,
-                      loyalty=loyalty)
+            G.add_node(
+                agent_id,
+                node_type="agent",
+                color=color,
+                label=agent.name,
+                loyalty=loyalty,
+            )
 
         # Add betrayal plan nodes and edges
         betrayal_count = 0
@@ -145,11 +154,13 @@ class BetrayalTreeVisualizer:
             else:
                 betrayal_color = "pink"
 
-            G.add_node(betrayal_node,
-                      node_type="betrayal",
-                      color=betrayal_color,
-                      label=f"Betrayal\n{plan['timing']}",
-                      confidence=plan["confidence"])
+            G.add_node(
+                betrayal_node,
+                node_type="betrayal",
+                color=betrayal_color,
+                label=f"Betrayal\n{plan['timing']}",
+                confidence=plan["confidence"],
+            )
 
             # Add edges
             G.add_edge(plan["betrayer"], betrayal_node, relation="plans")
@@ -165,19 +176,33 @@ class BetrayalTreeVisualizer:
         pos = nx.spring_layout(G, k=3, iterations=50)
 
         # Draw nodes by type
-        agent_nodes = [n for n in G.nodes() if G.nodes[n].get('node_type') == 'agent']
-        betrayal_nodes = [n for n in G.nodes() if G.nodes[n].get('node_type') == 'betrayal']
+        agent_nodes = [n for n in G.nodes() if G.nodes[n].get("node_type") == "agent"]
+        betrayal_nodes = [
+            n for n in G.nodes() if G.nodes[n].get("node_type") == "betrayal"
+        ]
 
         # Draw agent nodes
-        agent_colors = [G.nodes[n]['color'] for n in agent_nodes]
-        nx.draw_networkx_nodes(G, pos, nodelist=agent_nodes,
-                              node_color=agent_colors, node_size=1000, alpha=0.8)
+        agent_colors = [G.nodes[n]["color"] for n in agent_nodes]
+        nx.draw_networkx_nodes(
+            G,
+            pos,
+            nodelist=agent_nodes,
+            node_color=agent_colors,
+            node_size=1000,
+            alpha=0.8,
+        )
 
         # Draw betrayal nodes
-        betrayal_colors = [G.nodes[n]['color'] for n in betrayal_nodes]
-        nx.draw_networkx_nodes(G, pos, nodelist=betrayal_nodes,
-                              node_color=betrayal_colors, node_size=600,
-                              node_shape='s', alpha=0.8)
+        betrayal_colors = [G.nodes[n]["color"] for n in betrayal_nodes]
+        nx.draw_networkx_nodes(
+            G,
+            pos,
+            nodelist=betrayal_nodes,
+            node_color=betrayal_colors,
+            node_size=600,
+            node_shape="s",
+            alpha=0.8,
+        )
 
         # Draw edges
         nx.draw_networkx_edges(G, pos, alpha=0.6, arrows=True)
@@ -185,14 +210,14 @@ class BetrayalTreeVisualizer:
         # Add labels
         labels = {}
         for node in G.nodes():
-            labels[node] = G.nodes[node].get('label', node)
+            labels[node] = G.nodes[node].get("label", node)
 
         nx.draw_networkx_labels(G, pos, labels, font_size=8)
 
         plt.title("Years of Lead - Betrayal Network Analysis")
-        plt.axis('off')
+        plt.axis("off")
         plt.tight_layout()
-        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
 
         return output_path
@@ -211,7 +236,7 @@ class BetrayalTreeVisualizer:
                     row.append(1.0)  # Self-trust
                 else:
                     # Get relationship trust
-                    if hasattr(self.game_state, 'get_relationship'):
+                    if hasattr(self.game_state, "get_relationship"):
                         rel = self.game_state.get_relationship(agent_a, agent_b)
                         if rel:
                             row.append(rel.trust)
@@ -223,22 +248,29 @@ class BetrayalTreeVisualizer:
 
         # Create heatmap
         plt.figure(figsize=(12, 10))
-        im = plt.imshow(trust_matrix, cmap='RdYlGn', vmin=0, vmax=1, alpha=0.8)
+        im = plt.imshow(trust_matrix, cmap="RdYlGn", vmin=0, vmax=1, alpha=0.8)
 
         # Add labels
-        plt.xticks(range(len(agent_names)), agent_names, rotation=45, ha='right')
+        plt.xticks(range(len(agent_names)), agent_names, rotation=45, ha="right")
         plt.yticks(range(len(agent_names)), agent_names)
 
         # Add text annotations
         for i in range(len(agent_ids)):
             for j in range(len(agent_ids)):
-                text = plt.text(j, i, f'{trust_matrix[i][j]:.2f}',
-                               ha="center", va="center", color="black", fontsize=8)
+                plt.text(
+                    j,
+                    i,
+                    f"{trust_matrix[i][j]:.2f}",
+                    ha="center",
+                    va="center",
+                    color="black",
+                    fontsize=8,
+                )
 
-        plt.colorbar(im, label='Trust Level')
+        plt.colorbar(im, label="Trust Level")
         plt.title("Agent Trust Heatmap")
         plt.tight_layout()
-        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
 
         return output_path
@@ -256,12 +288,25 @@ class BetrayalTreeVisualizer:
         analysis["summary"] = {
             "total_betrayal_plans": len(analysis["active_betrayal_plans"]),
             "total_trust_vulnerabilities": len(analysis["trust_vulnerabilities"]),
-            "average_loyalty": sum(a["loyalty"] for a in analysis["loyalty_distribution"].values()) / len(analysis["loyalty_distribution"]) if analysis["loyalty_distribution"] else 0,
-            "high_cascade_risk_count": sum(1 for score in analysis["cascade_potential"].values() if score > 0.6),
-            "network_stability": 1.0 - (len(analysis["trust_vulnerabilities"]) / (len(self.game_state.agents) * (len(self.game_state.agents) - 1) / 2)) if len(self.game_state.agents) > 1 else 1.0
+            "average_loyalty": sum(
+                a["loyalty"] for a in analysis["loyalty_distribution"].values()
+            )
+            / len(analysis["loyalty_distribution"])
+            if analysis["loyalty_distribution"]
+            else 0,
+            "high_cascade_risk_count": sum(
+                1 for score in analysis["cascade_potential"].values() if score > 0.6
+            ),
+            "network_stability": 1.0
+            - (
+                len(analysis["trust_vulnerabilities"])
+                / (len(self.game_state.agents) * (len(self.game_state.agents) - 1) / 2)
+            )
+            if len(self.game_state.agents) > 1
+            else 1.0,
         }
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(analysis, f, indent=2)
 
         return analysis
@@ -275,32 +320,43 @@ class BetrayalTreeVisualizer:
 
         # Start with initial betrayal
         initial_agent = self.game_state.agents[initial_betrayer]
-        if hasattr(initial_agent, 'planned_betrayal') and initial_agent.planned_betrayal:
+        if (
+            hasattr(initial_agent, "planned_betrayal")
+            and initial_agent.planned_betrayal
+        ):
             target = initial_agent.planned_betrayal.target_agent
 
-            cascade_events.append({
-                "event_type": "initial_betrayal",
-                "betrayer": initial_betrayer,
-                "target": target,
-                "turn": self.game_state.turn_number,
-                "probability": initial_agent.planned_betrayal.plan_confidence
-            })
+            cascade_events.append(
+                {
+                    "event_type": "initial_betrayal",
+                    "betrayer": initial_betrayer,
+                    "target": target,
+                    "turn": self.game_state.turn_number,
+                    "probability": initial_agent.planned_betrayal.plan_confidence,
+                }
+            )
 
             # Predict secondary betrayals
-            secondary_betrayers = self._find_secondary_betrayers(initial_betrayer, target)
+            secondary_betrayers = self._find_secondary_betrayers(
+                initial_betrayer, target
+            )
             for secondary in secondary_betrayers:
-                cascade_events.append({
-                    "event_type": "secondary_betrayal",
-                    "betrayer": secondary["agent"],
-                    "target": secondary["target"],
-                    "turn": self.game_state.turn_number + secondary["delay"],
-                    "probability": secondary["probability"],
-                    "trigger": f"Response to {initial_betrayer}'s betrayal"
-                })
+                cascade_events.append(
+                    {
+                        "event_type": "secondary_betrayal",
+                        "betrayer": secondary["agent"],
+                        "target": secondary["target"],
+                        "turn": self.game_state.turn_number + secondary["delay"],
+                        "probability": secondary["probability"],
+                        "trigger": f"Response to {initial_betrayer}'s betrayal",
+                    }
+                )
 
         return cascade_events
 
-    def _find_secondary_betrayers(self, initial_betrayer: str, initial_target: str) -> List[Dict[str, Any]]:
+    def _find_secondary_betrayers(
+        self, initial_betrayer: str, initial_target: str
+    ) -> List[Dict[str, Any]]:
         """Find agents likely to betray in response to an initial betrayal"""
         secondary_betrayers = []
 
@@ -312,9 +368,13 @@ class BetrayalTreeVisualizer:
             betrayer_relationship = None
             target_relationship = None
 
-            if hasattr(self.game_state, 'get_relationship'):
-                betrayer_relationship = self.game_state.get_relationship(agent_id, initial_betrayer)
-                target_relationship = self.game_state.get_relationship(agent_id, initial_target)
+            if hasattr(self.game_state, "get_relationship"):
+                betrayer_relationship = self.game_state.get_relationship(
+                    agent_id, initial_betrayer
+                )
+                target_relationship = self.game_state.get_relationship(
+                    agent_id, initial_target
+                )
 
             # Calculate betrayal probability based on relationships
             betrayal_probability = 0.0
@@ -322,33 +382,45 @@ class BetrayalTreeVisualizer:
             delay = 1
 
             # If agent trusts the target more than the betrayer, might betray the betrayer
-            if (target_relationship and betrayer_relationship and
-                target_relationship.trust > betrayer_relationship.trust + 0.3):
-                betrayal_probability = (target_relationship.trust - betrayer_relationship.trust) * 0.5
+            if (
+                target_relationship
+                and betrayer_relationship
+                and target_relationship.trust > betrayer_relationship.trust + 0.3
+            ):
+                betrayal_probability = (
+                    target_relationship.trust - betrayer_relationship.trust
+                ) * 0.5
                 potential_target = initial_betrayer
                 delay = 1
 
             # If agent has low loyalty, might betray their faction
-            faction_loyalty = getattr(agent, 'loyalty', 50) / 100.0
+            faction_loyalty = getattr(agent, "loyalty", 50) / 100.0
             if faction_loyalty < 0.3:
                 betrayal_probability = max(betrayal_probability, 1.0 - faction_loyalty)
                 if not potential_target:
                     # Find highest trust agent in same faction to betray
-                    same_faction_agents = [a for a in self.game_state.agents.values()
-                                         if a.faction_id == agent.faction_id and a.id != agent_id]
+                    same_faction_agents = [
+                        a
+                        for a in self.game_state.agents.values()
+                        if a.faction_id == agent.faction_id and a.id != agent_id
+                    ]
                     if same_faction_agents:
                         potential_target = same_faction_agents[0].id
                         delay = 2
 
             if betrayal_probability > 0.2 and potential_target:
-                secondary_betrayers.append({
-                    "agent": agent_id,
-                    "target": potential_target,
-                    "probability": betrayal_probability,
-                    "delay": delay
-                })
+                secondary_betrayers.append(
+                    {
+                        "agent": agent_id,
+                        "target": potential_target,
+                        "probability": betrayal_probability,
+                        "delay": delay,
+                    }
+                )
 
-        return sorted(secondary_betrayers, key=lambda x: x["probability"], reverse=True)[:3]
+        return sorted(
+            secondary_betrayers, key=lambda x: x["probability"], reverse=True
+        )[:3]
 
 
 def simulate_tick():
@@ -357,7 +429,7 @@ def simulate_tick():
     game_state.initialize_game()
 
     # Advance one turn to generate some data
-    if hasattr(game_state, 'advance_turn'):
+    if hasattr(game_state, "advance_turn"):
         game_state.advance_turn()
 
     return game_state
@@ -394,6 +466,8 @@ if __name__ == "__main__":
         print(f"Predicting cascade for betrayer: {first_betrayer}")
         cascade = visualizer.predict_betrayal_cascade(first_betrayer)
         for event in cascade:
-            print(f"  {event['event_type']}: {event['betrayer']} -> {event['target']} (p={event['probability']:.2f})")
+            print(
+                f"  {event['event_type']}: {event['betrayer']} -> {event['target']} (p={event['probability']:.2f})"
+            )
     else:
         print("No active betrayal plans to analyze")

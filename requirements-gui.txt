@@ -1,0 +1,23 @@
+# GUI Dependencies for Years of Lead
+# Core GUI framework (included with Python)
+# tkinter - comes with Python standard library
+
+briefcase>=0.3.0    # For cross-platform packaging
+kivy>=2.1.0         # Alternative GUI framework (optional)
+# Optional GUI enhancements
+matplotlib>=3.5.0  # For advanced charts and visualizations
+numpy>=1.21.0      # For numerical operations in visualizations
+pillow>=8.3.0      # For image handling and icons
+
+# Optional: Advanced visualizations
+plotly>=5.0.0       # For interactive charts
+
+# Development and packaging
+pyinstaller>=5.0.0  # For creating standalone executables
+
+# Testing
+pytest>=7.0.0       # For GUI testing
+pytest-tk>=0.3.0    # Tkinter testing utilities
+
+# Optional: Voice synthesis (for narrator lines)
+pyttsx3>=2.90       # Text-to-speech for narrative

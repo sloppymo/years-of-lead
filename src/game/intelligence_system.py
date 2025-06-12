@@ -9,15 +9,17 @@ import random
 import uuid
 import logging
 from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
 # Set up logging
 logger = logging.getLogger(__name__)
 
+
 class IntelligenceType(Enum):
     """Types of intelligence events"""
+
     GOVERNMENT_MOVEMENT = "government_movement"
     SECURITY_CHANGES = "security_changes"
     ECONOMIC_DATA = "economic_data"
@@ -32,6 +34,7 @@ class IntelligenceType(Enum):
 
 class IntelligencePriority(Enum):
     """Priority levels for intelligence"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -40,6 +43,7 @@ class IntelligencePriority(Enum):
 
 class IntelligenceSource(Enum):
     """Sources of intelligence"""
+
     INFILTRATOR = "infiltrator"
     INFORMANT = "informant"
     SURVEILLANCE = "surveillance"
@@ -53,6 +57,7 @@ class IntelligenceSource(Enum):
 @dataclass
 class IntelligenceEvent:
     """Individual intelligence event"""
+
     id: str
     type: IntelligenceType
     priority: IntelligencePriority
@@ -104,7 +109,7 @@ MECHANICAL EFFECTS:
         for effect, value in self.mechanical_effects.items():
             report += f"  • {effect.replace('_', ' ').title()}: {value}\n"
 
-        report += f"""
+        report += """
 NARRATIVE CONSEQUENCES:
 """
 
@@ -112,14 +117,14 @@ NARRATIVE CONSEQUENCES:
             report += f"  • {consequence}\n"
 
         if self.action_opportunities:
-            report += f"""
+            report += """
 ACTION OPPORTUNITIES:
 """
             for opportunity in self.action_opportunities:
                 report += f"  • {opportunity}\n"
 
         if self.related_events:
-            report += f"""
+            report += """
 RELATED EVENTS:
 """
             for event in self.related_events:
@@ -155,8 +160,12 @@ class IntelligenceDatabase:
                 logger.warning("Overwriting existing event with ID: %s", event.id)
 
             self.events[event.id] = event
-            logger.info("Added intelligence event: %s (Type: %s, Priority: %s)",
-                       event.title, event.type.value, event.priority.value)
+            logger.info(
+                "Added intelligence event: %s (Type: %s, Priority: %s)",
+                event.title,
+                event.type.value,
+                event.priority.value,
+            )
 
             self._update_analysis()
 
@@ -164,7 +173,9 @@ class IntelligenceDatabase:
             logger.error("Failed to add intelligence event: %s", str(e))
             raise
 
-    def get_events_by_type(self, event_type: IntelligenceType) -> List[IntelligenceEvent]:
+    def get_events_by_type(
+        self, event_type: IntelligenceType
+    ) -> List[IntelligenceEvent]:
         """Get all events of a specific type with validation"""
         try:
             if not isinstance(event_type, IntelligenceType):
@@ -174,17 +185,25 @@ class IntelligenceDatabase:
                     except ValueError:
                         raise ValueError(f"Invalid event type: {event_type}")
                 else:
-                    raise TypeError(f"Event type must be IntelligenceType enum, got {type(event_type)}")
+                    raise TypeError(
+                        f"Event type must be IntelligenceType enum, got {type(event_type)}"
+                    )
 
-            events = [event for event in self.events.values() if event.type == event_type]
-            logger.debug("Retrieved %d events of type: %s", len(events), event_type.value)
+            events = [
+                event for event in self.events.values() if event.type == event_type
+            ]
+            logger.debug(
+                "Retrieved %d events of type: %s", len(events), event_type.value
+            )
             return events
 
         except Exception as e:
             logger.error("Failed to get events by type %s: %s", event_type, str(e))
             return []
 
-    def get_events_by_priority(self, priority: IntelligencePriority) -> List[IntelligenceEvent]:
+    def get_events_by_priority(
+        self, priority: IntelligencePriority
+    ) -> List[IntelligenceEvent]:
         """Get all events of a specific priority with validation"""
         try:
             if not isinstance(priority, IntelligencePriority):
@@ -194,10 +213,16 @@ class IntelligenceDatabase:
                     except ValueError:
                         raise ValueError(f"Invalid priority: {priority}")
                 else:
-                    raise TypeError(f"Priority must be IntelligencePriority enum, got {type(priority)}")
+                    raise TypeError(
+                        f"Priority must be IntelligencePriority enum, got {type(priority)}"
+                    )
 
-            events = [event for event in self.events.values() if event.priority == priority]
-            logger.debug("Retrieved %d events with priority: %s", len(events), priority.value)
+            events = [
+                event for event in self.events.values() if event.priority == priority
+            ]
+            logger.debug(
+                "Retrieved %d events with priority: %s", len(events), priority.value
+            )
             return events
 
         except Exception as e:
@@ -212,10 +237,14 @@ class IntelligenceDatabase:
             if hours < 0:
                 raise ValueError(f"Hours cannot be negative: {hours}")
             if hours > 168:  # Max 1 week
-                logger.warning("Requesting events from more than 1 week ago: %d hours", hours)
+                logger.warning(
+                    "Requesting events from more than 1 week ago: %d hours", hours
+                )
 
             cutoff_time = datetime.now() - timedelta(hours=hours)
-            events = [event for event in self.events.values() if event.timestamp > cutoff_time]
+            events = [
+                event for event in self.events.values() if event.timestamp > cutoff_time
+            ]
             logger.debug("Retrieved %d events from last %d hours", len(events), hours)
             return events
 
@@ -230,7 +259,9 @@ class IntelligenceDatabase:
     def _update_analysis(self):
         """Update intelligence analysis and patterns with error handling"""
         try:
-            logger.debug("Updating intelligence analysis with %d events", len(self.events))
+            logger.debug(
+                "Updating intelligence analysis with %d events", len(self.events)
+            )
             self._analyze_patterns()
             self._update_threat_assessments()
             self._generate_analysis_reports()
@@ -247,39 +278,64 @@ class IntelligenceDatabase:
             # Analyze government movements
             gov_events = self.get_events_by_type(IntelligenceType.GOVERNMENT_MOVEMENT)
             if len(gov_events) >= 3:
-                self.patterns.append({
-                    "type": "government_activity",
-                    "description": "Increased government activity detected",
-                    "confidence": min(0.8, len(gov_events) * 0.2),
-                    "implications": ["Possible crackdown", "Increased surveillance", "Policy changes"],
-                    "event_count": len(gov_events)
-                })
-                logger.info("Detected government activity pattern: %d events", len(gov_events))
+                self.patterns.append(
+                    {
+                        "type": "government_activity",
+                        "description": "Increased government activity detected",
+                        "confidence": min(0.8, len(gov_events) * 0.2),
+                        "implications": [
+                            "Possible crackdown",
+                            "Increased surveillance",
+                            "Policy changes",
+                        ],
+                        "event_count": len(gov_events),
+                    }
+                )
+                logger.info(
+                    "Detected government activity pattern: %d events", len(gov_events)
+                )
 
             # Analyze security changes
             security_events = self.get_events_by_type(IntelligenceType.SECURITY_CHANGES)
             if len(security_events) >= 2:
-                self.patterns.append({
-                    "type": "security_escalation",
-                    "description": "Security measures being enhanced",
-                    "confidence": min(0.7, len(security_events) * 0.3),
-                    "implications": ["Harder to operate", "Need for new tactics", "Increased risk"],
-                    "event_count": len(security_events)
-                })
-                logger.info("Detected security escalation pattern: %d events", len(security_events))
+                self.patterns.append(
+                    {
+                        "type": "security_escalation",
+                        "description": "Security measures being enhanced",
+                        "confidence": min(0.7, len(security_events) * 0.3),
+                        "implications": [
+                            "Harder to operate",
+                            "Need for new tactics",
+                            "Increased risk",
+                        ],
+                        "event_count": len(security_events),
+                    }
+                )
+                logger.info(
+                    "Detected security escalation pattern: %d events",
+                    len(security_events),
+                )
 
             # Analyze economic data
             economic_events = self.get_events_by_type(IntelligenceType.ECONOMIC_DATA)
             if len(economic_events) >= 2:
-                self.patterns.append({
-                    "type": "economic_manipulation",
-                    "description": "Economic manipulation detected",
-                    "confidence": min(0.6, len(economic_events) * 0.25),
-                    "implications": ["Financial pressure", "Resource scarcity", "Economic warfare"],
-                    "event_count": len(economic_events)
-                })
+                self.patterns.append(
+                    {
+                        "type": "economic_manipulation",
+                        "description": "Economic manipulation detected",
+                        "confidence": min(0.6, len(economic_events) * 0.25),
+                        "implications": [
+                            "Financial pressure",
+                            "Resource scarcity",
+                            "Economic warfare",
+                        ],
+                        "event_count": len(economic_events),
+                    }
+                )
 
-            logger.debug("Pattern analysis complete: %d patterns detected", len(self.patterns))
+            logger.debug(
+                "Pattern analysis complete: %d patterns detected", len(self.patterns)
+            )
 
         except Exception as e:
             logger.error("Failed to analyze patterns: %s", str(e))
@@ -290,8 +346,12 @@ class IntelligenceDatabase:
         try:
             # Calculate overall threat level
             critical_events = len(self.get_critical_events())
-            high_priority_events = len(self.get_events_by_priority(IntelligencePriority.HIGH))
-            medium_priority_events = len(self.get_events_by_priority(IntelligencePriority.MEDIUM))
+            high_priority_events = len(
+                self.get_events_by_priority(IntelligencePriority.HIGH)
+            )
+            medium_priority_events = len(
+                self.get_events_by_priority(IntelligencePriority.MEDIUM)
+            )
 
             # Determine threat level
             if critical_events >= 2:
@@ -315,17 +375,21 @@ class IntelligenceDatabase:
                 "high_priority_events": high_priority_events,
                 "medium_priority_events": medium_priority_events,
                 "total_events": len(self.events),
-                "last_updated": datetime.now().isoformat()
+                "last_updated": datetime.now().isoformat(),
             }
 
-            logger.info("Threat assessment updated: %s (Score: %.1f)", threat_level, threat_score)
+            logger.info(
+                "Threat assessment updated: %s (Score: %.1f)",
+                threat_level,
+                threat_score,
+            )
 
         except Exception as e:
             logger.error("Failed to update threat assessments: %s", str(e))
             self.threat_assessments["overall"] = {
                 "level": "UNKNOWN",
                 "score": 0.0,
-                "error": str(e)
+                "error": str(e),
             }
 
     def _generate_analysis_reports(self):
@@ -367,16 +431,16 @@ OVERALL ASSESSMENT:
         # Recent activity
         recent_events = self.get_recent_events(24)
         if recent_events:
-            report += f"\nRECENT ACTIVITY (Last 24 Hours):\n"
+            report += "\nRECENT ACTIVITY (Last 24 Hours):\n"
             for event in recent_events[:5]:  # Show top 5
                 report += f"  • {event.get_summary()}\n"
 
         # Patterns
         if self.patterns:
-            report += f"\nDETECTED PATTERNS:\n"
+            report += "\nDETECTED PATTERNS:\n"
             for pattern in self.patterns:
                 report += f"  • {pattern['description']} (Confidence: {pattern['confidence']:.1%})\n"
-                for implication in pattern['implications']:
+                for implication in pattern["implications"]:
                     report += f"    - {implication}\n"
 
         return report
@@ -398,7 +462,7 @@ High Priority Events: {threat_assessment.get('high_priority_events', 0)}
 RECOMMENDATIONS:
 """
 
-        threat_level = threat_assessment.get('level', 'LOW')
+        threat_level = threat_assessment.get("level", "LOW")
 
         if threat_level == "EXTREME":
             report += """
@@ -440,7 +504,10 @@ class IntelligenceGenerator:
     def __init__(self):
         """Initialize intelligence generator"""
         self.event_templates = self._create_event_templates()
-        logger.info("IntelligenceGenerator initialized with %d event types", len(self.event_templates))
+        logger.info(
+            "IntelligenceGenerator initialized with %d event types",
+            len(self.event_templates),
+        )
 
     def _create_event_templates(self) -> Dict[IntelligenceType, List[Dict[str, Any]]]:
         """Create templates for different intelligence event types"""
@@ -452,17 +519,20 @@ class IntelligenceGenerator:
                 "title": "High-Level Government Meeting",
                 "description": "Unusual activity detected at government headquarters",
                 "detailed_report": "Multiple high-ranking officials have been observed entering the main government building. The meeting appears to be unscheduled and involves officials from multiple departments including security, economic, and military sectors.",
-                "mechanical_effects": {"government_alertness": +2, "surveillance_level": +1},
+                "mechanical_effects": {
+                    "government_alertness": +2,
+                    "surveillance_level": +1,
+                },
                 "narrative_consequences": [
                     "Possible policy changes being discussed",
                     "Increased government coordination",
-                    "Potential crackdown on resistance activities"
+                    "Potential crackdown on resistance activities",
                 ],
                 "action_opportunities": [
                     "Attempt to infiltrate the meeting",
                     "Monitor communications during the meeting",
-                    "Prepare for potential policy changes"
-                ]
+                    "Prepare for potential policy changes",
+                ],
             },
             {
                 "title": "Security Force Mobilization",
@@ -472,14 +542,14 @@ class IntelligenceGenerator:
                 "narrative_consequences": [
                     "Possible large-scale operation planned",
                     "Increased risk for resistance activities",
-                    "Potential for civilian casualties"
+                    "Potential for civilian casualties",
                 ],
                 "action_opportunities": [
                     "Track the movement of forces",
                     "Warn resistance cells in affected areas",
-                    "Prepare defensive measures"
-                ]
-            }
+                    "Prepare defensive measures",
+                ],
+            },
         ]
 
         # Security Changes Events
@@ -488,17 +558,20 @@ class IntelligenceGenerator:
                 "title": "New Surveillance System Installation",
                 "description": "Advanced surveillance equipment being installed",
                 "detailed_report": "Work crews have been observed installing new surveillance equipment in key areas. The equipment appears to be advanced facial recognition and tracking systems, significantly increasing the government's monitoring capabilities.",
-                "mechanical_effects": {"surveillance_level": +2, "stealth_difficulty": +1},
+                "mechanical_effects": {
+                    "surveillance_level": +2,
+                    "stealth_difficulty": +1,
+                },
                 "narrative_consequences": [
                     "Increased difficulty in maintaining anonymity",
                     "More sophisticated tracking of resistance members",
-                    "Potential for mass surveillance abuse"
+                    "Potential for mass surveillance abuse",
                 ],
                 "action_opportunities": [
                     "Attempt to sabotage the installation",
                     "Develop counter-surveillance techniques",
-                    "Train operatives in new evasion methods"
-                ]
+                    "Train operatives in new evasion methods",
+                ],
             },
             {
                 "title": "Checkpoint System Expansion",
@@ -508,14 +581,14 @@ class IntelligenceGenerator:
                 "narrative_consequences": [
                     "Increased difficulty in moving operatives",
                     "More thorough searches of civilians",
-                    "Potential for mass arrests"
+                    "Potential for mass arrests",
                 ],
                 "action_opportunities": [
                     "Map the new checkpoint locations",
                     "Develop bypass routes",
-                    "Train operatives in checkpoint evasion"
-                ]
-            }
+                    "Train operatives in checkpoint evasion",
+                ],
+            },
         ]
 
         # Economic Data Events
@@ -524,17 +597,20 @@ class IntelligenceGenerator:
                 "title": "Currency Manipulation Detected",
                 "description": "Government manipulating currency exchange rates",
                 "detailed_report": "Analysis of financial data reveals systematic manipulation of currency exchange rates. The government appears to be artificially inflating the value of the national currency while suppressing alternative currencies.",
-                "mechanical_effects": {"funding_difficulty": +1, "black_market_value": +2},
+                "mechanical_effects": {
+                    "funding_difficulty": +1,
+                    "black_market_value": +2,
+                },
                 "narrative_consequences": [
                     "Increased economic pressure on civilians",
                     "Black market becoming more valuable",
-                    "Potential for economic collapse"
+                    "Potential for economic collapse",
                 ],
                 "action_opportunities": [
                     "Establish alternative currency networks",
                     "Exploit black market opportunities",
-                    "Use economic instability for recruitment"
-                ]
+                    "Use economic instability for recruitment",
+                ],
             }
         ]
 
@@ -544,17 +620,20 @@ class IntelligenceGenerator:
                 "title": "Protest Movement Growing",
                 "description": "Large-scale protests spreading across the city",
                 "detailed_report": "Civilian protests have been growing in size and frequency. The protests appear to be spontaneous and involve diverse groups including workers, students, and religious organizations. Government response has been increasingly violent.",
-                "mechanical_effects": {"public_support": +2, "government_repression": +1},
+                "mechanical_effects": {
+                    "public_support": +2,
+                    "government_repression": +1,
+                },
                 "narrative_consequences": [
                     "Increased public support for resistance",
                     "Government becoming more repressive",
-                    "Potential for mass uprising"
+                    "Potential for mass uprising",
                 ],
                 "action_opportunities": [
                     "Support and coordinate with protesters",
                     "Use protests as cover for operations",
-                    "Recruit from protest movements"
-                ]
+                    "Recruit from protest movements",
+                ],
             }
         ]
 
@@ -564,25 +643,32 @@ class IntelligenceGenerator:
                 "title": "Military Equipment Movement",
                 "description": "Heavy military equipment being transported",
                 "detailed_report": "Large convoys of military vehicles have been observed moving through the city. The convoys include armored vehicles, artillery pieces, and specialized equipment. The movement appears to be part of a larger military operation.",
-                "mechanical_effects": {"military_presence": +3, "combat_difficulty": +2},
+                "mechanical_effects": {
+                    "military_presence": +3,
+                    "combat_difficulty": +2,
+                },
                 "narrative_consequences": [
                     "Possible military crackdown planned",
                     "Increased firepower available to government",
-                    "Potential for urban warfare"
+                    "Potential for urban warfare",
                 ],
                 "action_opportunities": [
                     "Track military movements",
                     "Prepare for potential military action",
-                    "Develop anti-armor capabilities"
-                ]
+                    "Develop anti-armor capabilities",
+                ],
             }
         ]
 
         return templates
 
-    def generate_event(self, event_type: IntelligenceType, location: str,
-                      priority: IntelligencePriority = IntelligencePriority.MEDIUM,
-                      source: IntelligenceSource = IntelligenceSource.OBSERVATION) -> IntelligenceEvent:
+    def generate_event(
+        self,
+        event_type: IntelligenceType,
+        location: str,
+        priority: IntelligencePriority = IntelligencePriority.MEDIUM,
+        source: IntelligenceSource = IntelligenceSource.OBSERVATION,
+    ) -> IntelligenceEvent:
         """
         Generate an intelligence event with comprehensive validation
 
@@ -603,8 +689,13 @@ class IntelligenceGenerator:
             # Validate inputs
             self._validate_event_inputs(event_type, location, priority, source)
 
-            logger.info("Generating intelligence event: %s at %s (Priority: %s, Source: %s)",
-                       event_type.value, location, priority.value, source.value)
+            logger.info(
+                "Generating intelligence event: %s at %s (Priority: %s, Source: %s)",
+                event_type.value,
+                location,
+                priority.value,
+                source.value,
+            )
 
             # Get template for event type
             templates = self.event_templates.get(event_type, [])
@@ -631,11 +722,15 @@ class IntelligenceGenerator:
                 urgency=event_data["urgency"],
                 mechanical_effects=event_data["mechanical_effects"],
                 narrative_consequences=event_data["narrative_consequences"],
-                action_opportunities=event_data["action_opportunities"]
+                action_opportunities=event_data["action_opportunities"],
             )
 
-            logger.info("Generated intelligence event: %s (ID: %s, Reliability: %.1f%%)",
-                       event.title, event.id, event.reliability * 100)
+            logger.info(
+                "Generated intelligence event: %s (ID: %s, Reliability: %.1f%%)",
+                event.title,
+                event.id,
+                event.reliability * 100,
+            )
 
             return event
 
@@ -643,8 +738,13 @@ class IntelligenceGenerator:
             logger.error("Failed to generate intelligence event: %s", str(e))
             raise
 
-    def _validate_event_inputs(self, event_type: IntelligenceType, location: str,
-                             priority: IntelligencePriority, source: IntelligenceSource) -> None:
+    def _validate_event_inputs(
+        self,
+        event_type: IntelligenceType,
+        location: str,
+        priority: IntelligencePriority,
+        source: IntelligenceSource,
+    ) -> None:
         """Validate all event generation inputs"""
         # Validate event type
         if not isinstance(event_type, IntelligenceType):
@@ -654,7 +754,9 @@ class IntelligenceGenerator:
                 except ValueError:
                     raise ValueError(f"Invalid event type: {event_type}")
             else:
-                raise TypeError(f"Event type must be IntelligenceType enum, got {type(event_type)}")
+                raise TypeError(
+                    f"Event type must be IntelligenceType enum, got {type(event_type)}"
+                )
 
         # Validate location
         if not isinstance(location, str):
@@ -672,7 +774,9 @@ class IntelligenceGenerator:
                 except ValueError:
                     raise ValueError(f"Invalid priority: {priority}")
             else:
-                raise TypeError(f"Priority must be IntelligencePriority enum, got {type(priority)}")
+                raise TypeError(
+                    f"Priority must be IntelligencePriority enum, got {type(priority)}"
+                )
 
         # Validate source
         if not isinstance(source, IntelligenceSource):
@@ -682,12 +786,21 @@ class IntelligenceGenerator:
                 except ValueError:
                     raise ValueError(f"Invalid source: {source}")
             else:
-                raise TypeError(f"Source must be IntelligenceSource enum, got {type(source)}")
+                raise TypeError(
+                    f"Source must be IntelligenceSource enum, got {type(source)}"
+                )
 
-        logger.debug("Event input validation passed for: %s at %s", event_type.value, location)
+        logger.debug(
+            "Event input validation passed for: %s at %s", event_type.value, location
+        )
 
-    def _generate_event_data(self, template: Dict[str, Any], location: str,
-                           priority: IntelligencePriority, source: IntelligenceSource) -> Dict[str, Any]:
+    def _generate_event_data(
+        self,
+        template: Dict[str, Any],
+        location: str,
+        priority: IntelligencePriority,
+        source: IntelligenceSource,
+    ) -> Dict[str, Any]:
         """Generate event data from template with error handling"""
         try:
             # Calculate reliability based on source
@@ -699,7 +812,7 @@ class IntelligenceGenerator:
                 IntelligenceSource.INTERCEPTION: 0.7,
                 IntelligenceSource.OBSERVATION: 0.5,
                 IntelligenceSource.INTERROGATION: 0.8,
-                IntelligenceSource.DOCUMENT_THEFT: 0.9
+                IntelligenceSource.DOCUMENT_THEFT: 0.9,
             }
 
             base_reliability = source_reliability.get(source, 0.5)
@@ -711,7 +824,7 @@ class IntelligenceGenerator:
                 IntelligencePriority.LOW: (1, 3),
                 IntelligencePriority.MEDIUM: (4, 6),
                 IntelligencePriority.HIGH: (7, 8),
-                IntelligencePriority.CRITICAL: (9, 10)
+                IntelligencePriority.CRITICAL: (9, 10),
             }
 
             urgency_range = urgency_map.get(priority, (5, 5))
@@ -722,16 +835,22 @@ class IntelligenceGenerator:
             description = template["description"].format(location=location)
 
             # Generate detailed report
-            detailed_report = self._generate_detailed_report(template, location, priority)
+            detailed_report = self._generate_detailed_report(
+                template, location, priority
+            )
 
             # Generate mechanical effects
             mechanical_effects = self._generate_mechanical_effects(template, priority)
 
             # Generate narrative consequences
-            narrative_consequences = self._generate_narrative_consequences(template, location)
+            narrative_consequences = self._generate_narrative_consequences(
+                template, location
+            )
 
             # Generate action opportunities
-            action_opportunities = self._generate_action_opportunities(template, priority)
+            action_opportunities = self._generate_action_opportunities(
+                template, priority
+            )
 
             return {
                 "title": title,
@@ -741,7 +860,7 @@ class IntelligenceGenerator:
                 "urgency": urgency,
                 "mechanical_effects": mechanical_effects,
                 "narrative_consequences": narrative_consequences,
-                "action_opportunities": action_opportunities
+                "action_opportunities": action_opportunities,
             }
 
         except Exception as e:
@@ -755,21 +874,24 @@ class IntelligenceGenerator:
                 "urgency": 5,
                 "mechanical_effects": {},
                 "narrative_consequences": ["Event occurred"],
-                "action_opportunities": ["Monitor situation"]
+                "action_opportunities": ["Monitor situation"],
             }
 
-    def _generate_detailed_report(self, template: Dict[str, Any], location: str,
-                                priority: IntelligencePriority) -> str:
+    def _generate_detailed_report(
+        self, template: Dict[str, Any], location: str, priority: IntelligencePriority
+    ) -> str:
         """Generate detailed intelligence report"""
         try:
-            base_report = template.get("detailed_report", f"Intelligence report from {location}")
+            base_report = template.get(
+                "detailed_report", f"Intelligence report from {location}"
+            )
 
             # Add priority-specific details
             priority_details = {
                 IntelligencePriority.LOW: "Low priority information.",
                 IntelligencePriority.MEDIUM: "Moderate priority intelligence.",
                 IntelligencePriority.HIGH: "High priority intelligence requiring immediate attention.",
-                IntelligencePriority.CRITICAL: "CRITICAL intelligence requiring immediate action."
+                IntelligencePriority.CRITICAL: "CRITICAL intelligence requiring immediate action.",
             }
 
             priority_text = priority_details.get(priority, "Priority level unknown.")
@@ -783,8 +905,9 @@ class IntelligenceGenerator:
             logger.error("Failed to generate detailed report: %s", str(e))
             return f"Intelligence report from {location}. Priority: {priority.value}."
 
-    def _generate_mechanical_effects(self, template: Dict[str, Any],
-                                   priority: IntelligencePriority) -> Dict[str, Any]:
+    def _generate_mechanical_effects(
+        self, template: Dict[str, Any], priority: IntelligencePriority
+    ) -> Dict[str, Any]:
         """Generate mechanical effects for the intelligence event"""
         try:
             effects = template.get("mechanical_effects", {})
@@ -809,7 +932,9 @@ class IntelligenceGenerator:
             logger.error("Failed to generate mechanical effects: %s", str(e))
             return {"threat_level": "unknown"}
 
-    def _generate_narrative_consequences(self, template: Dict[str, Any], location: str) -> List[str]:
+    def _generate_narrative_consequences(
+        self, template: Dict[str, Any], location: str
+    ) -> List[str]:
         """Generate narrative consequences for the intelligence event"""
         try:
             consequences = template.get("narrative_consequences", [])
@@ -818,7 +943,7 @@ class IntelligenceGenerator:
             location_consequences = [
                 f"Activity detected in {location}",
                 f"Potential threat in {location}",
-                f"Surveillance increased in {location}"
+                f"Surveillance increased in {location}",
             ]
 
             consequences.extend(location_consequences)
@@ -828,36 +953,42 @@ class IntelligenceGenerator:
             logger.error("Failed to generate narrative consequences: %s", str(e))
             return [f"Event occurred in {location}"]
 
-    def _generate_action_opportunities(self, template: Dict[str, Any],
-                                     priority: IntelligencePriority) -> List[str]:
+    def _generate_action_opportunities(
+        self, template: Dict[str, Any], priority: IntelligencePriority
+    ) -> List[str]:
         """Generate action opportunities based on intelligence"""
         try:
             opportunities = template.get("action_opportunities", [])
 
             # Add priority-based opportunities
             if priority == IntelligencePriority.CRITICAL:
-                opportunities.extend([
-                    "Immediate response required",
-                    "Alert all operatives",
-                    "Prepare emergency protocols"
-                ])
+                opportunities.extend(
+                    [
+                        "Immediate response required",
+                        "Alert all operatives",
+                        "Prepare emergency protocols",
+                    ]
+                )
             elif priority == IntelligencePriority.HIGH:
-                opportunities.extend([
-                    "Increase surveillance",
-                    "Prepare countermeasures",
-                    "Alert leadership"
-                ])
+                opportunities.extend(
+                    [
+                        "Increase surveillance",
+                        "Prepare countermeasures",
+                        "Alert leadership",
+                    ]
+                )
             elif priority == IntelligencePriority.MEDIUM:
-                opportunities.extend([
-                    "Monitor situation",
-                    "Gather additional intelligence",
-                    "Prepare contingency plans"
-                ])
+                opportunities.extend(
+                    [
+                        "Monitor situation",
+                        "Gather additional intelligence",
+                        "Prepare contingency plans",
+                    ]
+                )
             else:  # LOW
-                opportunities.extend([
-                    "Continue monitoring",
-                    "Document for future reference"
-                ])
+                opportunities.extend(
+                    ["Continue monitoring", "Document for future reference"]
+                )
 
             return opportunities
 
@@ -924,7 +1055,9 @@ class IntelligenceUI:
 
         # Allow viewing detailed reports
         while True:
-            choice = input(f"\nEnter event number to view details (1-{len(recent_events)}) or 0 to return: ")
+            choice = input(
+                f"\nEnter event number to view details (1-{len(recent_events)}) or 0 to return: "
+            )
             try:
                 choice_num = int(choice)
                 if choice_num == 0:
@@ -956,7 +1089,9 @@ class IntelligenceUI:
 
         # Allow viewing detailed reports
         while True:
-            choice = input(f"\nEnter event number to view details (1-{len(critical_events)}) or 0 to return: ")
+            choice = input(
+                f"\nEnter event number to view details (1-{len(critical_events)}) or 0 to return: "
+            )
             try:
                 choice_num = int(choice)
                 if choice_num == 0:
@@ -996,7 +1131,9 @@ class IntelligenceUI:
 
                 # Allow viewing detailed reports
                 while True:
-                    detail_choice = input(f"\nEnter event number to view details (1-{len(events)}) or 0 to return: ")
+                    detail_choice = input(
+                        f"\nEnter event number to view details (1-{len(events)}) or 0 to return: "
+                    )
                     try:
                         detail_num = int(detail_choice)
                         if detail_num == 0:
@@ -1016,13 +1153,17 @@ class IntelligenceUI:
 
     def view_situation_report(self):
         """View situation report"""
-        report = self.database.analysis_reports.get("situation", "No situation report available.")
+        report = self.database.analysis_reports.get(
+            "situation", "No situation report available."
+        )
         print(report)
         input("\nPress Enter to continue...")
 
     def view_threat_assessment(self):
         """View threat assessment"""
-        report = self.database.analysis_reports.get("threat", "No threat assessment available.")
+        report = self.database.analysis_reports.get(
+            "threat", "No threat assessment available."
+        )
         print(report)
         input("\nPress Enter to continue...")
 
@@ -1045,8 +1186,14 @@ class IntelligenceUI:
             selected_type = list(IntelligenceType)[type_choice - 1]
 
             # Select location
-            locations = ["Government Quarter", "University District", "Industrial Zone",
-                        "Old Town Market", "Suburban Residential", "Downtown Commercial"]
+            locations = [
+                "Government Quarter",
+                "University District",
+                "Industrial Zone",
+                "Old Town Market",
+                "Suburban Residential",
+                "Downtown Commercial",
+            ]
             print("\nSelect location:")
             for i, location in enumerate(locations, 1):
                 print(f"{i}. {location}")
@@ -1063,7 +1210,9 @@ class IntelligenceUI:
             for i, priority in enumerate(IntelligencePriority, 1):
                 print(f"{i}. {priority.value.title()}")
 
-            priority_choice = int(input(f"\nEnter priority (1-{len(IntelligencePriority)}): "))
+            priority_choice = int(
+                input(f"\nEnter priority (1-{len(IntelligencePriority)}): ")
+            )
             if not (1 <= priority_choice <= len(IntelligencePriority)):
                 print("Invalid choice.")
                 return
@@ -1074,7 +1223,7 @@ class IntelligenceUI:
             event = self.generator.generate_event(
                 event_type=selected_type,
                 location=selected_location,
-                priority=selected_priority
+                priority=selected_priority,
             )
 
             # Add to database
@@ -1087,7 +1236,7 @@ class IntelligenceUI:
 
             # Show full report
             show_report = input("\nView full report? (y/n): ").strip().lower()
-            if show_report in ['y', 'yes']:
+            if show_report in ["y", "yes"]:
                 print(event.get_full_report())
 
             input("\nPress Enter to continue...")

@@ -23,13 +23,13 @@ class AuthService:
     def _create_access_token(self, data: Dict[str, Any]) -> str:
         """Create JWT access token"""
         to_encode = data.copy()
-        expire = datetime.utcnow() + timedelta(minutes=self.settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.utcnow() + timedelta(
+            minutes=self.settings.ACCESS_TOKEN_EXPIRE_MINUTES
+        )
         to_encode.update({"exp": expire})
 
         encoded_jwt = jwt.encode(
-            to_encode,
-            self.settings.SECRET_KEY,
-            algorithm=self.settings.ALGORITHM
+            to_encode, self.settings.SECRET_KEY, algorithm=self.settings.ALGORITHM
         )
         return encoded_jwt
 
@@ -59,7 +59,7 @@ class AuthService:
             full_name=user.full_name,
             is_active=user.is_active,
             is_superuser=user.is_superuser,
-            created_at=user.created_at
+            created_at=user.created_at,
         )
 
     async def create_user(
@@ -75,10 +75,13 @@ class AuthService:
 
         # Create user with hashed password
         hashed_password = self._get_password_hash(user_data.password)
-        user_in_db = await user_repository.create(db, obj_in={
-            **user_data.dict(exclude={"password"}),
-            "hashed_password": hashed_password
-        })
+        user_in_db = await user_repository.create(
+            db,
+            obj_in={
+                **user_data.dict(exclude={"password"}),
+                "hashed_password": hashed_password,
+            },
+        )
 
         return UserResponse(
             id=user_in_db.id,
@@ -87,7 +90,7 @@ class AuthService:
             full_name=user_in_db.full_name,
             is_active=user_in_db.is_active,
             is_superuser=user_in_db.is_superuser,
-            created_at=user_in_db.created_at
+            created_at=user_in_db.created_at,
         )
 
     async def login(
@@ -109,9 +112,7 @@ class AuthService:
         """Get current user from JWT token"""
         try:
             payload = jwt.decode(
-                token,
-                self.settings.SECRET_KEY,
-                algorithms=[self.settings.ALGORITHM]
+                token, self.settings.SECRET_KEY, algorithms=[self.settings.ALGORITHM]
             )
             user_id: str = payload.get("sub")
 
@@ -132,7 +133,7 @@ class AuthService:
             full_name=user.full_name,
             is_active=user.is_active,
             is_superuser=user.is_superuser,
-            created_at=user.created_at
+            created_at=user.created_at,
         )
 
     async def is_active(self, user: UserResponse) -> bool:

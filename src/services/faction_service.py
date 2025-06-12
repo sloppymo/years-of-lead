@@ -2,20 +2,23 @@
 Faction service for managing factions, relationships, and faction-specific operations
 """
 
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from models.sql_models import Game, GameFaction, Cell, Operation, faction_relationships
 from models.nosql_models import FactionAnalytics
 from models.schemas import (
-    GameFactionResponse, FactionResourcesUpdate,
-    CellCreate, CellResponse, OperationCreate, OperationResponse
+    GameFactionResponse,
+    FactionResourcesUpdate,
+    CellCreate,
+    CellResponse,
+    OperationCreate,
+    OperationResponse,
 )
 
-from repositories.factions import faction_repository, game_faction_repository
+from repositories.factions import game_faction_repository
 from repositories.operations import cell_repository, operation_repository
 from repositories.districts import game_district_repository
 from repositories.nosql_repositories import FactionAnalyticsRepository
@@ -52,7 +55,7 @@ class FactionService:
                 is_player_faction=faction.is_player_faction,
                 is_active=faction.is_active,
                 popularity=faction.popularity,
-                heat=faction.heat
+                heat=faction.heat,
             )
             for faction in factions
         ]
@@ -90,11 +93,14 @@ class FactionService:
             is_player_faction=faction.is_player_faction,
             is_active=faction.is_active,
             popularity=faction.popularity,
-            heat=faction.heat
+            heat=faction.heat,
         )
 
     async def update_faction_resources(
-        self, db: AsyncSession, faction_id: str, resources_update: FactionResourcesUpdate
+        self,
+        db: AsyncSession,
+        faction_id: str,
+        resources_update: FactionResourcesUpdate,
     ) -> Optional[GameFactionResponse]:
         """Update faction resources"""
         updated_faction = await game_faction_repository.update_resources(
@@ -116,7 +122,7 @@ class FactionService:
             is_player_faction=updated_faction.is_player_faction,
             is_active=updated_faction.is_active,
             popularity=updated_faction.popularity,
-            heat=updated_faction.heat
+            heat=updated_faction.heat,
         )
 
     async def get_faction_relationships(
@@ -135,17 +141,13 @@ class FactionService:
                     "name": other_faction.name,
                     "faction_type": other_faction.faction_type,
                     "ideology": other_faction.ideology,
-                    "value": value
+                    "value": value,
                 }
 
         return result
 
     async def update_relationship(
-        self,
-        db: AsyncSession,
-        faction_id: str,
-        other_faction_id: str,
-        value: int
+        self, db: AsyncSession, faction_id: str, other_faction_id: str, value: int
     ) -> bool:
         """Update relationship between two factions"""
         # Validate factions exist
@@ -200,7 +202,7 @@ class FactionService:
             heat=cell.heat,
             size=cell.size,
             specialization=cell.specialization,
-            equipment=cell.equipment
+            equipment=cell.equipment,
         )
 
     async def create_operation(
@@ -215,9 +217,15 @@ class FactionService:
         # Set default values
         operation_dict = operation_data.dict()
         operation_dict["id"] = str(uuid.uuid4())
-        if "current_stage" not in operation_dict or operation_dict["current_stage"] is None:
+        if (
+            "current_stage" not in operation_dict
+            or operation_dict["current_stage"] is None
+        ):
             operation_dict["current_stage"] = "planning"
-        if "success_probability" not in operation_dict or operation_dict["success_probability"] is None:
+        if (
+            "success_probability" not in operation_dict
+            or operation_dict["success_probability"] is None
+        ):
             operation_dict["success_probability"] = 0.5  # 50% default probability
 
         # Create operation
@@ -225,7 +233,9 @@ class FactionService:
 
         # Assign cells if provided
         if operation_data.cell_ids:
-            await operation_repository.assign_cells(db, operation.id, operation_data.cell_ids)
+            await operation_repository.assign_cells(
+                db, operation.id, operation_data.cell_ids
+            )
 
         return OperationResponse(
             id=operation.id,
@@ -241,7 +251,7 @@ class FactionService:
             cell_ids=await operation_repository.get_assigned_cells(db, operation.id),
             resource_cost=operation.resource_cost,
             expected_outcomes=operation.expected_outcomes,
-            actual_outcomes=operation.actual_outcomes
+            actual_outcomes=operation.actual_outcomes,
         )
 
     async def calculate_support_in_district(
@@ -262,7 +272,8 @@ class FactionService:
         # Calculate support based on cells' influence
         cell_influence = sum(
             [
-                (cell.size / 10) * (cell.morale / 100)  # Size and morale affect influence
+                (cell.size / 10)
+                * (cell.morale / 100)  # Size and morale affect influence
                 for cell in faction_cells
             ]
         )
@@ -270,16 +281,24 @@ class FactionService:
         # Calculate influence from operations
         operations = await operation_repository.get_by_district(db, district_id)
         faction_operations = [op for op in operations if op.faction_id == faction_id]
-        completed_ops = [op for op in faction_operations if op.current_stage == "completed"]
+        completed_ops = [
+            op for op in faction_operations if op.current_stage == "completed"
+        ]
 
-        operation_influence = len(completed_ops) * 5  # Each successful operation adds influence
+        operation_influence = (
+            len(completed_ops) * 5
+        )  # Each successful operation adds influence
 
         # Combined support calculation
         combined_support = {
             "control_percentage": faction_control,
             "cell_influence": min(30.0, cell_influence),  # Cap cell influence
-            "operation_influence": min(20.0, operation_influence),  # Cap operation influence
-            "total_support": min(100.0, faction_control + cell_influence/3 + operation_influence/5)
+            "operation_influence": min(
+                20.0, operation_influence
+            ),  # Cap operation influence
+            "total_support": min(
+                100.0, faction_control + cell_influence / 3 + operation_influence / 5
+            ),
         }
 
         return combined_support
@@ -316,9 +335,19 @@ class FactionService:
 
             # Get all operations for this faction
             operations = await operation_repository.get_by_faction(db, faction.id)
-            active_operations = len([op for op in operations if op.current_stage != "completed" and op.current_stage != "failed"])
-            completed_operations = len([op for op in operations if op.current_stage == "completed"])
-            failed_operations = len([op for op in operations if op.current_stage == "failed"])
+            active_operations = len(
+                [
+                    op
+                    for op in operations
+                    if op.current_stage != "completed" and op.current_stage != "failed"
+                ]
+            )
+            completed_operations = len(
+                [op for op in operations if op.current_stage == "completed"]
+            )
+            failed_operations = len(
+                [op for op in operations if op.current_stage == "failed"]
+            )
 
             # Create analytics entry
             analytics = FactionAnalytics(
@@ -332,14 +361,14 @@ class FactionService:
                 heat=faction.heat,
                 territory_control={
                     "average_control": avg_control,
-                    "district_breakdown": district_control
+                    "district_breakdown": district_control,
                 },
                 assets={
                     "cell_count": cell_count,
                     "active_operations": active_operations,
                     "completed_operations": completed_operations,
-                    "failed_operations": failed_operations
-                }
+                    "failed_operations": failed_operations,
+                },
             )
 
             # Save analytics

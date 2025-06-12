@@ -5,16 +5,16 @@ This module implements equipment profiles with concealment mechanics, legal stat
 and search encounter systems for realistic item detection gameplay.
 """
 
-from typing import Dict, List, Optional, Any, Set, Tuple
+from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, field
 from enum import Enum
 import random
-import json
 from loguru import logger
 
 
 class EquipmentCategory(Enum):
     """Categories of equipment with different rules"""
+
     WEAPON = "weapon"
     ARMOR = "armor"
     ELECTRONIC = "electronic"
@@ -29,6 +29,7 @@ class EquipmentCategory(Enum):
 
 class LegalStatus(Enum):
     """Legal status classifications for equipment"""
+
     LEGAL = "legal"
     RESTRICTED = "restricted"  # Legal with permit
     PROHIBITED = "prohibited"  # Illegal to possess
@@ -37,6 +38,7 @@ class LegalStatus(Enum):
 
 class ConsequenceType(Enum):
     """Types of consequences when equipment is discovered"""
+
     IGNORE = "ignore"
     CONFISCATE_AND_WARN = "confiscate_and_warn"
     CONFISCATE_AND_FINE = "confiscate_and_fine"
@@ -50,6 +52,7 @@ class ConsequenceType(Enum):
 
 class PlayerUniformType(Enum):
     """Types of uniforms that affect search outcomes"""
+
     CIVILIAN = "civilian"
     MEDICAL = "medical"
     MAINTENANCE = "maintenance"
@@ -62,17 +65,19 @@ class PlayerUniformType(Enum):
 @dataclass
 class EquipmentFlag:
     """Flags that modify equipment behavior and detection"""
+
     flag_id: str
     name: str
     description: str
     concealment_modifier: float = 0.0  # Positive makes harder to detect
-    suspicion_modifier: float = 0.0    # Positive increases suspicion
-    consequence_modifier: str = ""     # Changes consequence type
+    suspicion_modifier: float = 0.0  # Positive increases suspicion
+    consequence_modifier: str = ""  # Changes consequence type
 
 
 @dataclass
 class ConsequenceRule:
     """Rules for consequences based on conditions"""
+
     condition: str  # e.g., "no_permit", "has_permit", "player_uniformed"
     consequence: ConsequenceType
     description: str = ""
@@ -82,14 +87,17 @@ class ConsequenceRule:
 @dataclass
 class EquipmentProfile:
     """Complete equipment profile with concealment and legal mechanics"""
+
     item_id: str
     name: str
     category: EquipmentCategory
 
     # Concealment properties
     concealable: bool = True
-    concealment_rating: float = 0.5  # 0.0 = impossible to hide, 1.0 = perfect concealment
-    container_bonus: float = 0.0     # Additional concealment when in containers
+    concealment_rating: float = (
+        0.5  # 0.0 = impossible to hide, 1.0 = perfect concealment
+    )
+    container_bonus: float = 0.0  # Additional concealment when in containers
 
     # Legal properties
     legal_status: LegalStatus = LegalStatus.LEGAL
@@ -118,34 +126,35 @@ class EquipmentProfile:
             self.consequence_rules["default"] = ConsequenceRule(
                 condition="default",
                 consequence=ConsequenceType.MILD_SUSPICION_ONLY,
-                description="Legal item causes minimal concern"
+                description="Legal item causes minimal concern",
             )
         elif self.legal_status == LegalStatus.RESTRICTED:
             self.consequence_rules["default"] = ConsequenceRule(
                 condition="no_permit",
                 consequence=ConsequenceType.INTERROGATION_AND_CONFISCATION,
-                description="Restricted item without permit"
+                description="Restricted item without permit",
             )
             self.consequence_rules["has_permit"] = ConsequenceRule(
                 condition="has_permit",
                 consequence=ConsequenceType.ITEM_LOGGED_BUT_RELEASED,
-                description="Restricted item with valid permit"
+                description="Restricted item with valid permit",
             )
         elif self.legal_status == LegalStatus.PROHIBITED:
             self.consequence_rules["default"] = ConsequenceRule(
                 condition="default",
                 consequence=ConsequenceType.ARREST,
-                description="Prohibited item possession"
+                description="Prohibited item possession",
             )
         elif self.legal_status == LegalStatus.CONTRABAND:
             self.consequence_rules["default"] = ConsequenceRule(
                 condition="default",
                 consequence=ConsequenceType.ARREST_AND_FLAG,
-                description="Contraband possession - serious offense"
+                description="Contraband possession - serious offense",
             )
 
-    def get_effective_concealment(self, container_present: bool = False,
-                                 equipment_flags: Set[str] = None) -> float:
+    def get_effective_concealment(
+        self, container_present: bool = False, equipment_flags: Set[str] = None
+    ) -> float:
         """Calculate effective concealment rating with modifiers"""
         if not self.concealable:
             return 0.0
@@ -169,7 +178,9 @@ class EquipmentProfile:
 
         # Check for uniform-specific rules
         if player_context.get("uniformed", False):
-            uniform_type = player_context.get("uniform_type", PlayerUniformType.CIVILIAN)
+            uniform_type = player_context.get(
+                "uniform_type", PlayerUniformType.CIVILIAN
+            )
             uniform_rule_key = f"if_player_{uniform_type.value}"
             if uniform_rule_key in self.consequence_rules:
                 return self.consequence_rules[uniform_rule_key]
@@ -181,36 +192,42 @@ class EquipmentProfile:
                 return self.consequence_rules["has_permit"]
 
         # Default consequence
-        return self.consequence_rules.get("default", ConsequenceRule(
-            condition="default",
-            consequence=ConsequenceType.CONFISCATE_AND_WARN,
-            description="Standard procedure"
-        ))
+        return self.consequence_rules.get(
+            "default",
+            ConsequenceRule(
+                condition="default",
+                consequence=ConsequenceType.CONFISCATE_AND_WARN,
+                description="Standard procedure",
+            ),
+        )
 
 
 class SearchRigor(Enum):
     """Search thoroughness levels"""
-    CURSORY = 0.2      # Quick pat-down
-    STANDARD = 0.4     # Normal search
-    THOROUGH = 0.6     # Detailed search
-    INTENSIVE = 0.8    # Full strip search
-    FORENSIC = 1.0     # Complete forensic examination
+
+    CURSORY = 0.2  # Quick pat-down
+    STANDARD = 0.4  # Normal search
+    THOROUGH = 0.6  # Detailed search
+    INTENSIVE = 0.8  # Full strip search
+    FORENSIC = 1.0  # Complete forensic examination
 
 
 class NPCDisposition(Enum):
     """NPC attitudes affecting search behavior"""
-    RELAXED = "relaxed"       # -0.1 to search rigor
+
+    RELAXED = "relaxed"  # -0.1 to search rigor
     PROFESSIONAL = "professional"  # No modifier
     SUSPICIOUS = "suspicious"  # +0.1 to search rigor
-    PARANOID = "paranoid"     # +0.2 to search rigor
-    HOSTILE = "hostile"       # +0.3 to search rigor
+    PARANOID = "paranoid"  # +0.2 to search rigor
+    HOSTILE = "hostile"  # +0.3 to search rigor
 
 
 @dataclass
 class NPCProfile:
     """Profile for search NPCs"""
+
     search_rigor: float = 0.5
-    tech_bonus: float = 0.0    # Technology assistance bonus
+    tech_bonus: float = 0.0  # Technology assistance bonus
     disposition: NPCDisposition = NPCDisposition.PROFESSIONAL
     experience_level: float = 0.5  # 0.0 = rookie, 1.0 = expert
     corruption_level: float = 0.0  # 0.0 = incorruptible, 1.0 = easily bribed
@@ -225,7 +242,7 @@ class NPCProfile:
             NPCDisposition.PROFESSIONAL: 0.0,
             NPCDisposition.SUSPICIOUS: 0.1,
             NPCDisposition.PARANOID: 0.2,
-            NPCDisposition.HOSTILE: 0.3
+            NPCDisposition.HOSTILE: 0.3,
         }
 
         base_rating += disposition_modifiers.get(self.disposition, 0.0)
@@ -238,6 +255,7 @@ class NPCProfile:
 @dataclass
 class PlayerResponse:
     """Player response option during search encounter"""
+
     response_id: str
     text: str
     outcome: str
@@ -250,6 +268,7 @@ class PlayerResponse:
 @dataclass
 class SearchTrigger:
     """Conditions that trigger a search encounter"""
+
     zone: str = "any"
     curfew_active: bool = False
     player_flagged: bool = False
@@ -283,6 +302,7 @@ class SearchTrigger:
 @dataclass
 class SearchEncounter:
     """Complete search encounter definition"""
+
     encounter_id: str
     location: str
     description: str
@@ -306,7 +326,7 @@ class SearchEncounter:
                 response_id="comply",
                 text="You open your bag and remain silent.",
                 outcome="begin_item_reveal",
-                suspicion_modifier=0.0
+                suspicion_modifier=0.0,
             ),
             PlayerResponse(
                 response_id="deflect",
@@ -314,7 +334,7 @@ class SearchEncounter:
                 outcome="suspicion_roll",
                 suspicion_modifier=0.2,
                 skill_check="social",
-                difficulty=0.6
+                difficulty=0.6,
             ),
             PlayerResponse(
                 response_id="resist",
@@ -322,19 +342,20 @@ class SearchEncounter:
                 outcome="combat_or_pursuit_triggered",
                 suspicion_modifier=0.8,
                 skill_check="stealth",
-                difficulty=0.8
-            )
+                difficulty=0.8,
+            ),
         ]
 
-    def calculate_detection_probability(self, equipment: EquipmentProfile,
-                                     player_context: Dict[str, Any]) -> float:
+    def calculate_detection_probability(
+        self, equipment: EquipmentProfile, player_context: Dict[str, Any]
+    ) -> float:
         """Calculate probability of detecting specific equipment"""
 
         # Get effective ratings
         search_rating = self.npc_profile.get_effective_search_rating()
         concealment_rating = equipment.get_effective_concealment(
             container_present=player_context.get("has_container", False),
-            equipment_flags=player_context.get("equipment_flags", set())
+            equipment_flags=player_context.get("equipment_flags", set()),
         )
 
         # Player bonuses (skills, etc.)
@@ -342,16 +363,17 @@ class SearchEncounter:
 
         # Detection formula: search_rating + random - (concealment + player_bonus)
         detection_score = (
-            search_rating +
-            random.uniform(-self.random_variance, self.random_variance) -
-            (concealment_rating + player_bonus)
+            search_rating
+            + random.uniform(-self.random_variance, self.random_variance)
+            - (concealment_rating + player_bonus)
         )
 
         # Convert to probability (0.0 to 1.0)
         return min(1.0, max(0.0, detection_score))
 
-    def execute_search(self, player_inventory: List[EquipmentProfile],
-                      player_context: Dict[str, Any]) -> Dict[str, Any]:
+    def execute_search(
+        self, player_inventory: List[EquipmentProfile], player_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Execute complete search encounter"""
 
         results = {
@@ -361,38 +383,48 @@ class SearchEncounter:
             "missed_items": [],
             "consequences": [],
             "narrative": "",
-            "suspicion_level": 0.0
+            "suspicion_level": 0.0,
         }
 
-        logger.info(f"Executing search encounter {self.encounter_id} at {self.location}")
+        logger.info(
+            f"Executing search encounter {self.encounter_id} at {self.location}"
+        )
 
         # Process each item in inventory
         for equipment in player_inventory:
             if not equipment.detected_if_searched:
                 continue
 
-            detection_prob = self.calculate_detection_probability(equipment, player_context)
+            detection_prob = self.calculate_detection_probability(
+                equipment, player_context
+            )
 
             if random.random() < detection_prob:
                 # Item detected
                 results["detected_items"].append(equipment)
                 consequence_rule = equipment.get_consequence(player_context)
-                results["consequences"].append({
-                    "item": equipment.name,
-                    "consequence": consequence_rule.consequence.value,
-                    "description": consequence_rule.description
-                })
-                logger.info(f"Detected {equipment.name}: {consequence_rule.consequence.value}")
+                results["consequences"].append(
+                    {
+                        "item": equipment.name,
+                        "consequence": consequence_rule.consequence.value,
+                        "description": consequence_rule.description,
+                    }
+                )
+                logger.info(
+                    f"Detected {equipment.name}: {consequence_rule.consequence.value}"
+                )
             else:
                 # Item missed
                 results["missed_items"].append(equipment)
-                logger.debug(f"Missed {equipment.name} (concealment: {equipment.concealment_rating})")
+                logger.debug(
+                    f"Missed {equipment.name} (concealment: {equipment.concealment_rating})"
+                )
 
         # Calculate overall suspicion
         suspicion_factors = [
             len(results["detected_items"]) * 0.2,
             player_context.get("base_suspicion", 0.0),
-            self._get_disposition_suspicion_modifier()
+            self._get_disposition_suspicion_modifier(),
         ]
         results["suspicion_level"] = min(1.0, sum(suspicion_factors))
 
@@ -408,12 +440,13 @@ class SearchEncounter:
             NPCDisposition.PROFESSIONAL: 0.0,
             NPCDisposition.SUSPICIOUS: 0.1,
             NPCDisposition.PARANOID: 0.2,
-            NPCDisposition.HOSTILE: 0.3
+            NPCDisposition.HOSTILE: 0.3,
         }
         return modifiers.get(self.npc_profile.disposition, 0.0)
 
-    def _generate_search_narrative(self, results: Dict[str, Any],
-                                  player_context: Dict[str, Any]) -> str:
+    def _generate_search_narrative(
+        self, results: Dict[str, Any], player_context: Dict[str, Any]
+    ) -> str:
         """Generate narrative description of search encounter"""
 
         narrative_parts = []
@@ -424,10 +457,12 @@ class SearchEncounter:
             NPCDisposition.PROFESSIONAL: "The officer conducts a professional search",
             NPCDisposition.SUSPICIOUS: "The guard eyes you suspiciously",
             NPCDisposition.PARANOID: "The officer searches with intense scrutiny",
-            NPCDisposition.HOSTILE: "The guard searches aggressively"
+            NPCDisposition.HOSTILE: "The guard searches aggressively",
         }
 
-        opening = disposition_text.get(self.npc_profile.disposition, "The search begins")
+        opening = disposition_text.get(
+            self.npc_profile.disposition, "The search begins"
+        )
         narrative_parts.append(f"{opening} at {self.location}.")
 
         # Detection results
@@ -445,9 +480,13 @@ class SearchEncounter:
                 if cons["consequence"] == "arrest":
                     consequence_texts.append("You are placed under arrest.")
                 elif cons["consequence"] == "confiscate_and_warn":
-                    consequence_texts.append(f"Your {cons['item']} is confiscated with a warning.")
+                    consequence_texts.append(
+                        f"Your {cons['item']} is confiscated with a warning."
+                    )
                 elif cons["consequence"] == "interrogation_and_confiscation":
-                    consequence_texts.append(f"You are questioned about your {cons['item']}.")
+                    consequence_texts.append(
+                        f"You are questioned about your {cons['item']}."
+                    )
 
             narrative_parts.extend(consequence_texts)
 
@@ -458,9 +497,11 @@ class SearchEncounter:
                 NPCDisposition.PROFESSIONAL: "Move along. Have a safe day.",
                 NPCDisposition.SUSPICIOUS: "I've got my eye on you. Move along.",
                 NPCDisposition.PARANOID: "Don't test me next time. Keep moving.",
-                NPCDisposition.HOSTILE: "Get out of here before I change my mind."
+                NPCDisposition.HOSTILE: "Get out of here before I change my mind.",
             }
-            closing = closing_texts.get(self.npc_profile.disposition, "You may proceed.")
+            closing = closing_texts.get(
+                self.npc_profile.disposition, "You may proceed."
+            )
             narrative_parts.append(f'"{closing}"')
 
         return " ".join(narrative_parts)
@@ -495,7 +536,9 @@ class SearchEncounterManager:
         self.flag_registry[flag.flag_id] = flag
         logger.info(f"Registered equipment flag: {flag.name}")
 
-    def check_for_encounters(self, game_context: Dict[str, Any]) -> Optional[SearchEncounter]:
+    def check_for_encounters(
+        self, game_context: Dict[str, Any]
+    ) -> Optional[SearchEncounter]:
         """Check if any encounters should trigger"""
 
         for encounter in self.encounters.values():
@@ -505,8 +548,12 @@ class SearchEncounterManager:
 
         return None
 
-    def execute_encounter(self, encounter_id: str, player_inventory: List[str],
-                         player_context: Dict[str, Any]) -> Dict[str, Any]:
+    def execute_encounter(
+        self,
+        encounter_id: str,
+        player_inventory: List[str],
+        player_context: Dict[str, Any],
+    ) -> Dict[str, Any]:
         """Execute a search encounter with player inventory"""
 
         if encounter_id not in self.encounters:
@@ -522,8 +569,9 @@ class SearchEncounterManager:
 
         return encounter.execute_search(equipment_list, player_context)
 
-    def get_equipment_concealment_rating(self, item_id: str,
-                                        context: Dict[str, Any] = None) -> float:
+    def get_equipment_concealment_rating(
+        self, item_id: str, context: Dict[str, Any] = None
+    ) -> float:
         """Get effective concealment rating for an item"""
         if context is None:
             context = {}
@@ -534,7 +582,7 @@ class SearchEncounterManager:
         equipment = self.equipment_registry[item_id]
         return equipment.get_effective_concealment(
             container_present=context.get("has_container", False),
-            equipment_flags=context.get("equipment_flags", set())
+            equipment_flags=context.get("equipment_flags", set()),
         )
 
     def _initialize_default_equipment(self):
@@ -553,14 +601,14 @@ class SearchEncounterManager:
             associated_flags={"unregistered_serial", "smuggled"},
             description="Small, easily concealed handgun",
             weight=1.2,
-            bulk=0.8
+            bulk=0.8,
         )
 
         # Add uniform-specific consequence
         compact_pistol.consequence_rules["if_player_uniformed"] = ConsequenceRule(
             condition="if_player_uniformed",
             consequence=ConsequenceType.CONFISCATE_AND_WARN,
-            description="Weapon confiscated from uniformed personnel"
+            description="Weapon confiscated from uniformed personnel",
         )
 
         self.register_equipment(compact_pistol)
@@ -575,7 +623,7 @@ class SearchEncounterManager:
             container_bonus=0.2,
             legal_status=LegalStatus.PROHIBITED,
             associated_flags={"military_encryption", "foreign_made"},
-            description="Military-grade encrypted communicator"
+            description="Military-grade encrypted communicator",
         )
 
         self.register_equipment(encrypted_phone)
@@ -590,7 +638,7 @@ class SearchEncounterManager:
             container_bonus=0.05,
             legal_status=LegalStatus.CONTRABAND,
             associated_flags={"professional_forgery", "government_seal"},
-            description="High-quality forged identification documents"
+            description="High-quality forged identification documents",
         )
 
         self.register_equipment(fake_id)
@@ -603,7 +651,7 @@ class SearchEncounterManager:
             concealable=False,
             concealment_rating=0.2,
             legal_status=LegalStatus.LEGAL,
-            description="Professional medical supplies"
+            description="Professional medical supplies",
         )
 
         self.register_equipment(medical_kit)
@@ -620,14 +668,14 @@ class SearchEncounterManager:
                 zone="occupied",
                 curfew_active=True,
                 player_flagged=True,
-                check_probability=0.55
+                check_probability=0.55,
             ),
             npc_profile=NPCProfile(
                 search_rigor=0.6,
                 tech_bonus=0.3,
                 disposition=NPCDisposition.PARANOID,
-                experience_level=0.8
-            )
+                experience_level=0.8,
+            ),
         )
 
         self.register_encounter(checkpoint_alpha)
@@ -637,16 +685,13 @@ class SearchEncounterManager:
             encounter_id="search_street_patrol",
             location="Street Patrol",
             description="Routine police patrol stop",
-            trigger=SearchTrigger(
-                zone="any",
-                check_probability=0.2
-            ),
+            trigger=SearchTrigger(zone="any", check_probability=0.2),
             npc_profile=NPCProfile(
                 search_rigor=0.4,
                 tech_bonus=0.1,
                 disposition=NPCDisposition.PROFESSIONAL,
-                experience_level=0.5
-            )
+                experience_level=0.5,
+            ),
         )
 
         self.register_encounter(street_patrol)
@@ -657,16 +702,14 @@ class SearchEncounterManager:
             location="Metro Security Checkpoint",
             description="Transit authority security screening",
             trigger=SearchTrigger(
-                zone="transit",
-                check_probability=0.8,
-                location_specific=True
+                zone="transit", check_probability=0.8, location_specific=True
             ),
             npc_profile=NPCProfile(
                 search_rigor=0.7,
                 tech_bonus=0.4,
                 disposition=NPCDisposition.SUSPICIOUS,
-                experience_level=0.6
-            )
+                experience_level=0.6,
+            ),
         )
 
         self.register_encounter(metro_security)
@@ -680,29 +723,29 @@ class SearchEncounterManager:
                 name="Unregistered Serial Number",
                 description="Item has filed-off or altered serial number",
                 concealment_modifier=0.0,
-                suspicion_modifier=0.3
+                suspicion_modifier=0.3,
             ),
             EquipmentFlag(
                 flag_id="smuggled",
                 name="Smuggled Item",
                 description="Item was illegally imported",
                 concealment_modifier=-0.1,
-                suspicion_modifier=0.2
+                suspicion_modifier=0.2,
             ),
             EquipmentFlag(
                 flag_id="military_encryption",
                 name="Military Encryption",
                 description="Uses military-grade encryption protocols",
                 concealment_modifier=0.1,
-                suspicion_modifier=0.4
+                suspicion_modifier=0.4,
             ),
             EquipmentFlag(
                 flag_id="professional_forgery",
                 name="Professional Forgery",
                 description="High-quality forged document",
                 concealment_modifier=0.2,
-                suspicion_modifier=-0.1
-            )
+                suspicion_modifier=-0.1,
+            ),
         ]
 
         for flag in flags:
@@ -716,10 +759,15 @@ class SearchEncounterManager:
             "total_flags": len(self.flag_registry),
             "encounter_ids": list(self.encounters.keys()),
             "equipment_categories": {
-                category.value: len([e for e in self.equipment_registry.values()
-                                   if e.category == category])
+                category.value: len(
+                    [
+                        e
+                        for e in self.equipment_registry.values()
+                        if e.category == category
+                    ]
+                )
                 for category in EquipmentCategory
-            }
+            },
         }
 
 
@@ -746,7 +794,7 @@ def create_custom_equipment(item_data: Dict[str, Any]) -> EquipmentProfile:
         description=item_data.get("description", ""),
         weight=item_data.get("weight", 1.0),
         bulk=item_data.get("bulk", 1.0),
-        value=item_data.get("value", 0)
+        value=item_data.get("value", 0),
     )
 
 
@@ -761,7 +809,7 @@ def create_custom_encounter(encounter_data: Dict[str, Any]) -> SearchEncounter:
         player_flagged=trigger_data.get("player_flagged", False),
         check_probability=trigger_data.get("check_probability", 0.3),
         time_of_day=trigger_data.get("time_of_day"),
-        location_specific=trigger_data.get("location_specific", False)
+        location_specific=trigger_data.get("location_specific", False),
     )
 
     npc_profile = NPCProfile(
@@ -769,20 +817,22 @@ def create_custom_encounter(encounter_data: Dict[str, Any]) -> SearchEncounter:
         tech_bonus=npc_data.get("tech_bonus", 0.0),
         disposition=NPCDisposition(npc_data.get("disposition", "professional")),
         experience_level=npc_data.get("experience_level", 0.5),
-        corruption_level=npc_data.get("corruption_level", 0.0)
+        corruption_level=npc_data.get("corruption_level", 0.0),
     )
 
     # Create player responses if provided
     responses = []
     for resp_data in encounter_data.get("player_response_options", []):
-        responses.append(PlayerResponse(
-            response_id=resp_data["id"],
-            text=resp_data["text"],
-            outcome=resp_data["outcome"],
-            suspicion_modifier=resp_data.get("suspicion_modifier", 0.0),
-            skill_check=resp_data.get("skill_check"),
-            difficulty=resp_data.get("difficulty", 0.5)
-        ))
+        responses.append(
+            PlayerResponse(
+                response_id=resp_data["id"],
+                text=resp_data["text"],
+                outcome=resp_data["outcome"],
+                suspicion_modifier=resp_data.get("suspicion_modifier", 0.0),
+                skill_check=resp_data.get("skill_check"),
+                difficulty=resp_data.get("difficulty", 0.5),
+            )
+        )
 
     return SearchEncounter(
         encounter_id=encounter_data["encounter_id"],
@@ -790,5 +840,5 @@ def create_custom_encounter(encounter_data: Dict[str, Any]) -> SearchEncounter:
         description=encounter_data.get("description", ""),
         trigger=trigger,
         npc_profile=npc_profile,
-        player_response_options=responses
+        player_response_options=responses,
     )

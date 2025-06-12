@@ -39,7 +39,7 @@ export const authService = {
     const formData = new URLSearchParams();
     formData.append('username', email);
     formData.append('password', password);
-    
+
     const response = await api.post('/v1/auth/login', formData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -47,7 +47,7 @@ export const authService = {
     });
     return response.data;
   },
-  
+
   register: async (email: string, password: string, username: string) => {
     const response = await api.post('/v1/auth/register', {
       email,
@@ -56,7 +56,7 @@ export const authService = {
     });
     return response.data;
   },
-  
+
   getCurrentUser: async () => {
     const response = await api.get('/v1/auth/me');
     return response.data;
@@ -72,27 +72,27 @@ export const gameService = {
     });
     return response.data;
   },
-  
+
   getGames: async () => {
     const response = await api.get('/v1/games');
     return response.data;
   },
-  
+
   getGameById: async (gameId: string) => {
     const response = await api.get(`/v1/games/${gameId}`);
     return response.data;
   },
-  
+
   advanceTurn: async (gameId: string) => {
     const response = await api.post(`/v1/games/${gameId}/turns`);
     return response.data;
   },
-  
+
   performAction: async (gameId: string, action: any) => {
     const response = await api.post(`/v1/games/${gameId}/actions`, action);
     return response.data;
   },
-  
+
   getGameEvents: async (gameId: string) => {
     const response = await api.get(`/v1/games/${gameId}/events`);
     return response.data;
@@ -105,17 +105,17 @@ export const factionService = {
     const response = await api.get('/v1/factions', { params: filters });
     return response.data;
   },
-  
+
   getFactionById: async (factionId: string) => {
     const response = await api.get(`/v1/factions/${factionId}`);
     return response.data;
   },
-  
+
   getFactionByGame: async (gameId: string) => {
     const response = await api.get(`/v1/games/${gameId}/factions`);
     return response.data;
   },
-  
+
   getFactionRelationships: async (factionId: string, gameId?: string) => {
     const params = gameId ? { game_id: gameId } : {};
     const response = await api.get(`/v1/factions/${factionId}/relationships`, { params });
@@ -129,27 +129,27 @@ export const playerService = {
     const response = await api.get(`/v1/games/${gameId}/characters`);
     return response.data;
   },
-  
+
   createPlayerCharacter: async (gameId: string, data: any) => {
     const response = await api.post(`/v1/games/${gameId}/characters`, data);
     return response.data;
   },
-  
+
   getPlayerCharacter: async (gameId: string, characterId: string) => {
     const response = await api.get(`/v1/games/${gameId}/characters/${characterId}`);
     return response.data;
   },
-  
+
   createCell: async (gameId: string, characterId: string, data: any) => {
     const response = await api.post(`/v1/games/${gameId}/characters/${characterId}/cells`, data);
     return response.data;
   },
-  
+
   getJournalEntries: async (gameId: string, characterId: string) => {
     const response = await api.get(`/v1/games/${gameId}/characters/${characterId}/journal`);
     return response.data;
   },
-  
+
   createJournalEntry: async (gameId: string, characterId: string, data: any) => {
     const response = await api.post(`/v1/games/${gameId}/characters/${characterId}/journal`, data);
     return response.data;

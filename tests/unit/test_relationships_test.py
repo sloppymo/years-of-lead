@@ -3,19 +3,14 @@ Unit tests for the dynamic relationships and social network system
 """
 
 import unittest
-import random
-from unittest.mock import Mock, patch
-from typing import Dict, List
 import sys
 import os
 
 # Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from game.relationships import (
-    Relationship, BondType, EventType, SocialNetwork
-)
-from game.core import Agent, AgentStatus, GameState
+from game.relationships import Relationship, BondType, EventType, SocialNetwork
+from game.core import Agent, GameState
 from game.narrative_engine import NarrativeEngine, NarrativeTemplate
 
 
@@ -29,7 +24,7 @@ class TestRelationship(unittest.TestCase):
             bond_type=BondType.NEUTRAL,  # Use neutral to avoid random initialization
             affinity=50.0,
             trust=0.8,
-            loyalty=0.9
+            loyalty=0.9,
         )
 
     def test_relationship_initialization(self):
@@ -118,11 +113,11 @@ class TestRelationship(unittest.TestCase):
         data = self.relationship.as_dict()
 
         # Check all fields are present
-        self.assertIn('agent_id', data)
-        self.assertIn('bond_type', data)
-        self.assertIn('affinity', data)
-        self.assertIn('trust', data)
-        self.assertIn('loyalty', data)
+        self.assertIn("agent_id", data)
+        self.assertIn("bond_type", data)
+        self.assertIn("affinity", data)
+        self.assertIn("trust", data)
+        self.assertIn("loyalty", data)
 
         # Deserialize
         restored_rel = Relationship.from_dict(data)
@@ -130,9 +125,13 @@ class TestRelationship(unittest.TestCase):
         # Check values match (using approximate equality for floating point)
         self.assertEqual(restored_rel.agent_id, self.relationship.agent_id)
         self.assertEqual(restored_rel.bond_type, self.relationship.bond_type)
-        self.assertAlmostEqual(restored_rel.affinity, self.relationship.affinity, places=5)
+        self.assertAlmostEqual(
+            restored_rel.affinity, self.relationship.affinity, places=5
+        )
         self.assertAlmostEqual(restored_rel.trust, self.relationship.trust, places=5)
-        self.assertAlmostEqual(restored_rel.loyalty, self.relationship.loyalty, places=5)
+        self.assertAlmostEqual(
+            restored_rel.loyalty, self.relationship.loyalty, places=5
+        )
 
 
 class TestSocialNetwork(unittest.TestCase):
@@ -143,8 +142,12 @@ class TestSocialNetwork(unittest.TestCase):
         self.network = SocialNetwork()
 
         # Create test relationships
-        self.rel1 = Relationship(agent_id="agent_b", bond_type=BondType.ALLY, affinity=50)
-        self.rel2 = Relationship(agent_id="agent_c", bond_type=BondType.RIVAL, affinity=-30)
+        self.rel1 = Relationship(
+            agent_id="agent_b", bond_type=BondType.ALLY, affinity=50
+        )
+        self.rel2 = Relationship(
+            agent_id="agent_c", bond_type=BondType.RIVAL, affinity=-30
+        )
 
     def test_add_relationship(self):
         """Test adding relationships to the network"""
@@ -181,8 +184,9 @@ class TestSocialNetwork(unittest.TestCase):
         initial_trust = initial_rel.trust
 
         # Update relationship
-        self.network.update_relationship("agent_a", "agent_b",
-                                       delta_affinity=10, delta_trust=0.1)
+        self.network.update_relationship(
+            "agent_a", "agent_b", delta_affinity=10, delta_trust=0.1
+        )
 
         # Check updates were applied
         rel = self.network.get_relationship("agent_a", "agent_b")
@@ -204,7 +208,9 @@ class TestSocialNetwork(unittest.TestCase):
         self.assertEqual(positive_circle[0][0], "agent_b")
 
         # Get only allies
-        ally_circle = self.network.get_social_circle("agent_a", bond_filter=BondType.ALLY)
+        ally_circle = self.network.get_social_circle(
+            "agent_a", bond_filter=BondType.ALLY
+        )
         self.assertEqual(len(ally_circle), 1)
         self.assertEqual(ally_circle[0][0], "agent_b")
 
@@ -308,9 +314,9 @@ class TestSocialNetwork(unittest.TestCase):
         data = self.network.serialize()
 
         # Check data structure
-        self.assertIn('relationships', data)
-        self.assertIn('social_clusters', data)
-        self.assertIn('influence_cache', data)
+        self.assertIn("relationships", data)
+        self.assertIn("social_clusters", data)
+        self.assertIn("influence_cache", data)
 
         # Deserialize
         restored_network = SocialNetwork.deserialize(data)
@@ -331,7 +337,7 @@ class TestAgentRelationships(unittest.TestCase):
             name="Test Agent",
             faction_id="resistance",
             location_id="safehouse",
-            background="veteran"
+            background="veteran",
         )
 
         self.other_agent = Agent(
@@ -339,7 +345,7 @@ class TestAgentRelationships(unittest.TestCase):
             name="Other Agent",
             faction_id="resistance",
             location_id="safehouse",
-            background="student"
+            background="student",
         )
 
     def test_agent_initialization_with_relationships(self):
@@ -368,8 +374,12 @@ class TestAgentRelationships(unittest.TestCase):
     def test_get_closest_allies(self):
         """Test finding closest allies"""
         # Add some relationships
-        ally_rel = Relationship(agent_id="agent_b", bond_type=BondType.ALLY, affinity=50)
-        enemy_rel = Relationship(agent_id="agent_c", bond_type=BondType.ENEMY, affinity=-30)
+        ally_rel = Relationship(
+            agent_id="agent_b", bond_type=BondType.ALLY, affinity=50
+        )
+        enemy_rel = Relationship(
+            agent_id="agent_c", bond_type=BondType.ENEMY, affinity=-30
+        )
 
         self.agent.update_relationship("agent_b", ally_rel)
         self.agent.update_relationship("agent_c", enemy_rel)
@@ -384,8 +394,12 @@ class TestAgentRelationships(unittest.TestCase):
     def test_get_enemies(self):
         """Test finding enemies"""
         # Add some relationships
-        ally_rel = Relationship(agent_id="agent_b", bond_type=BondType.ALLY, affinity=50)
-        enemy_rel = Relationship(agent_id="agent_c", bond_type=BondType.ENEMY, affinity=-30)
+        ally_rel = Relationship(
+            agent_id="agent_b", bond_type=BondType.ALLY, affinity=50
+        )
+        enemy_rel = Relationship(
+            agent_id="agent_c", bond_type=BondType.ENEMY, affinity=-30
+        )
 
         self.agent.update_relationship("agent_b", ally_rel)
         self.agent.update_relationship("agent_c", enemy_rel)
@@ -406,15 +420,15 @@ class TestAgentRelationships(unittest.TestCase):
         data = self.agent.serialize()
 
         # Check relationships are included
-        self.assertIn('relationships', data)
-        self.assertIn('social_tags', data)
+        self.assertIn("relationships", data)
+        self.assertIn("social_tags", data)
 
         # Deserialize
         restored_agent = Agent.deserialize(data)
 
         # Check relationships were restored
-        self.assertIn('agent_b', restored_agent.relationships)
-        self.assertEqual(restored_agent.relationships['agent_b'].agent_id, 'agent_b')
+        self.assertIn("agent_b", restored_agent.relationships)
+        self.assertEqual(restored_agent.relationships["agent_b"].agent_id, "agent_b")
 
 
 class TestGameStateRelationships(unittest.TestCase):
@@ -436,23 +450,30 @@ class TestGameStateRelationships(unittest.TestCase):
         self.assertGreater(len(self.game_state.social_network.relationships), 0)
 
         # Check specific relationships were created
-        maria_sofia = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        maria_sofia = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
         self.assertIsNotNone(maria_sofia)
         self.assertEqual(maria_sofia.bond_type, BondType.ALLY)
 
     def test_relationship_updates(self):
         """Test relationship updates through game state"""
         # Get initial relationship values
-        initial_rel = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        initial_rel = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
         initial_affinity = initial_rel.affinity
         initial_trust = initial_rel.trust
 
         # Update relationship
-        self.game_state.update_relationship("agent_maria", "agent_sofia",
-                                          delta_affinity=10, delta_trust=0.1)
+        self.game_state.update_relationship(
+            "agent_maria", "agent_sofia", delta_affinity=10, delta_trust=0.1
+        )
 
         # Check update was applied
-        rel = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        rel = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
         self.assertAlmostEqual(rel.affinity, initial_affinity + 10, places=5)
         self.assertAlmostEqual(rel.trust, initial_trust + 0.1, places=5)
 
@@ -463,7 +484,9 @@ class TestGameStateRelationships(unittest.TestCase):
         self.assertGreater(len(circle), 0)
 
         # Get only allies
-        allies = self.game_state.get_social_circle("agent_maria", bond_filter=BondType.ALLY)
+        allies = self.game_state.get_social_circle(
+            "agent_maria", bond_filter=BondType.ALLY
+        )
         for agent_id, rel in allies:
             self.assertEqual(rel.bond_type, BondType.ALLY)
 
@@ -484,12 +507,16 @@ class TestGameStateRelationships(unittest.TestCase):
         self.game_state.advance_turn()
 
         # Should have new narrative entries
-        self.assertGreater(len(self.game_state.recent_narrative), initial_narrative_length)
+        self.assertGreater(
+            len(self.game_state.recent_narrative), initial_narrative_length
+        )
 
     def test_relationship_decay_during_turn(self):
         """Test relationships decay during resolution phase"""
         # Get initial relationship values
-        rel = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        rel = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
         initial_affinity = rel.affinity
         initial_trust = rel.trust
 
@@ -498,12 +525,14 @@ class TestGameStateRelationships(unittest.TestCase):
         self.game_state.advance_turn()  # Action -> Resolution (decay happens)
 
         # Check relationship values changed (either through decay or other events)
-        rel = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        rel = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
         # Values should have changed due to game events, even if decay is small
         self.assertTrue(
-            abs(rel.affinity - initial_affinity) > 0.001 or
-            abs(rel.trust - initial_trust) > 0.001,
-            "Relationship values should change during game turns"
+            abs(rel.affinity - initial_affinity) > 0.001
+            or abs(rel.trust - initial_trust) > 0.001,
+            "Relationship values should change during game turns",
         )
 
 
@@ -525,7 +554,9 @@ class TestNarrativeEngine(unittest.TestCase):
         """Test template matching logic"""
         agent_a = self.game_state.agents["agent_maria"]
         agent_b = self.game_state.agents["agent_sofia"]
-        relationship = self.game_state.social_network.get_relationship("agent_maria", "agent_sofia")
+        relationship = self.game_state.social_network.get_relationship(
+            "agent_maria", "agent_sofia"
+        )
 
         # Find matching template
         template = self.narrative_engine._find_matching_template(
@@ -554,14 +585,14 @@ class TestNarrativeEngine(unittest.TestCase):
         stats = self.narrative_engine.get_template_statistics()
 
         # Check statistics structure
-        self.assertIn('total_templates', stats)
-        self.assertIn('templates_by_complexity', stats)
-        self.assertIn('templates_by_emotional_tone', stats)
-        self.assertIn('templates_by_bond_type', stats)
+        self.assertIn("total_templates", stats)
+        self.assertIn("templates_by_complexity", stats)
+        self.assertIn("templates_by_emotional_tone", stats)
+        self.assertIn("templates_by_bond_type", stats)
 
         # Check values are reasonable
-        self.assertGreater(stats['total_templates'], 0)
-        self.assertGreater(len(stats['templates_by_complexity']), 0)
+        self.assertGreater(stats["total_templates"], 0)
+        self.assertGreater(len(stats["templates_by_complexity"]), 0)
 
     def test_custom_template_addition(self):
         """Test adding custom templates"""
@@ -572,7 +603,7 @@ class TestNarrativeEngine(unittest.TestCase):
             id="custom_test",
             title="Custom Test",
             template="Custom narrative for {agent_a.name} and {agent_b.name}",
-            emotional_tone="test"
+            emotional_tone="test",
         )
 
         self.narrative_engine.add_custom_template(custom_template)
@@ -581,11 +612,13 @@ class TestNarrativeEngine(unittest.TestCase):
         self.assertEqual(len(self.narrative_engine.templates), initial_count + 1)
 
         # Check template can be found
-        templates = self.narrative_engine.generate_relationship_templates(emotional_tone="test")
+        templates = self.narrative_engine.generate_relationship_templates(
+            emotional_tone="test"
+        )
         self.assertEqual(len(templates), 1)
         self.assertEqual(templates[0].id, "custom_test")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run the tests
     unittest.main()

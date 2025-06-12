@@ -66,18 +66,14 @@ class EventManager:
         event_time = time.time()
 
         # Create event record
-        event = {
-            "type": event_type,
-            "timestamp": event_time,
-            "data": event_data
-        }
+        event = {"type": event_type, "timestamp": event_time, "data": event_data}
 
         # Add to history
         self.event_history.append(event)
 
         # Trim history if necessary
         if len(self.event_history) > self.max_history:
-            self.event_history = self.event_history[-self.max_history:]
+            self.event_history = self.event_history[-self.max_history :]
 
         # Notify listeners
         if event_type in self.listeners:
@@ -93,11 +89,15 @@ class EventManager:
                 try:
                     listener({"type": event_type, **event_data})
                 except Exception as e:
-                    logger.error(f"Error in wildcard event listener for {event_type}: {e}")
+                    logger.error(
+                        f"Error in wildcard event listener for {event_type}: {e}"
+                    )
 
         logger.debug(f"Triggered event: {event_type}")
 
-    def get_events(self, event_type: str = None, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_events(
+        self, event_type: str = None, limit: int = 100
+    ) -> List[Dict[str, Any]]:
         """
         Get events from history, optionally filtered by type
 
@@ -137,11 +137,7 @@ class GameEvent:
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert event to dictionary representation"""
-        return {
-            "type": self.type,
-            "timestamp": self.timestamp,
-            "data": self.data
-        }
+        return {"type": self.type, "timestamp": self.timestamp, "data": self.data}
 
 
 # Predefined event types

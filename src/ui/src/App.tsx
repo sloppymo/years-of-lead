@@ -55,7 +55,7 @@ const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) =>
           setLoading(false);
           return;
         }
-        
+
         // Verify token by getting current user
         await authService.getCurrentUser();
         setAuthenticated(true);
@@ -67,10 +67,10 @@ const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) =>
         setLoading(false);
       }
     };
-    
+
     checkAuth();
   }, []);
-  
+
   if (loading) {
     return (
       <Box
@@ -83,7 +83,7 @@ const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) =>
       </Box>
     );
   }
-  
+
   return authenticated ? element : <Navigate to="/login" replace />;
 };
 
@@ -96,7 +96,7 @@ function App() {
           {/* Public routes */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          
+
           {/* Protected routes with MainLayout */}
           <Route path="/" element={<PrivateRoute element={<MainLayout />} />}>
             <Route index element={<Navigate to="/dashboard" replace />} />

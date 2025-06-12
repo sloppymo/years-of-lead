@@ -5,8 +5,14 @@ This module provides functions to initialize the game with default content.
 """
 
 from .core import (
-    GameState, Agent, Faction, Location,
-    SkillType, Skill, Equipment, EquipmentType
+    GameState,
+    Agent,
+    Faction,
+    Location,
+    SkillType,
+    Skill,
+    Equipment,
+    EquipmentType,
 )
 
 
@@ -20,32 +26,16 @@ def create_default_game() -> GameState:
             id="university",
             name="University District",
             security_level=3,
-            unrest_level=7
+            unrest_level=7,
         ),
+        Location(id="downtown", name="Downtown", security_level=6, unrest_level=4),
         Location(
-            id="downtown",
-            name="Downtown",
-            security_level=6,
-            unrest_level=4
+            id="industrial", name="Industrial Zone", security_level=4, unrest_level=6
         ),
+        Location(id="suburbs", name="Suburban Area", security_level=2, unrest_level=3),
         Location(
-            id="industrial",
-            name="Industrial Zone",
-            security_level=4,
-            unrest_level=6
+            id="government", name="Government Quarter", security_level=9, unrest_level=2
         ),
-        Location(
-            id="suburbs",
-            name="Suburban Area",
-            security_level=2,
-            unrest_level=3
-        ),
-        Location(
-            id="government",
-            name="Government Quarter",
-            security_level=9,
-            unrest_level=2
-        )
     ]
 
     for location in locations:
@@ -56,18 +46,18 @@ def create_default_game() -> GameState:
         Faction(
             id="resistance",
             name="The Resistance",
-            resources={"money": 150, "influence": 60, "personnel": 12}
+            resources={"money": 150, "influence": 60, "personnel": 12},
         ),
         Faction(
             id="students",
             name="Student Movement",
-            resources={"money": 80, "influence": 70, "personnel": 15}
+            resources={"money": 80, "influence": 70, "personnel": 15},
         ),
         Faction(
             id="workers",
             name="Workers Union",
-            resources={"money": 120, "influence": 55, "personnel": 10}
-        )
+            resources={"money": 120, "influence": 55, "personnel": 10},
+        ),
     ]
 
     for faction in factions:
@@ -81,54 +71,52 @@ def create_default_game() -> GameState:
             name="Maria Santos",
             faction_id="resistance",
             location_id="university",
-            background="student"
+            background="student",
         ),
         Agent(
             id="carlos",
             name="Carlos Rivera",
             faction_id="resistance",
             location_id="downtown",
-            background="military"
+            background="military",
         ),
         Agent(
             id="elena",
             name="Elena Vasquez",
             faction_id="resistance",
             location_id="industrial",
-            background="civilian"
+            background="civilian",
         ),
-
         # Student movement agents
         Agent(
             id="david",
             name="David Chen",
             faction_id="students",
             location_id="university",
-            background="student"
+            background="student",
         ),
         Agent(
             id="sofia",
             name="Sofia Martinez",
             faction_id="students",
             location_id="university",
-            background="student"
+            background="student",
         ),
-
         # Workers union agents
         Agent(
             id="miguel",
             name="Miguel Torres",
             faction_id="workers",
             location_id="industrial",
-            background="civilian"
+            background="civilian",
         ),
         Agent(
             id="ana",
             name="Ana Rodriguez",
             faction_id="workers",
             location_id="suburbs",
-            background="civilian"
-        )
+            background="civilian",
+        ),
     ]
 
     # Set up agent skills based on background
@@ -156,7 +144,7 @@ def create_default_game() -> GameState:
             equipment_type=EquipmentType.ELECTRONIC,
             quality=6,
             skill_bonus={SkillType.LEADERSHIP: 1},
-            description="Encrypted communication device"
+            description="Encrypted communication device",
         ),
         Equipment(
             id="medkit",
@@ -164,7 +152,7 @@ def create_default_game() -> GameState:
             equipment_type=EquipmentType.MEDICAL,
             quality=5,
             skill_bonus={SkillType.MEDICAL: 2},
-            description="Basic medical supplies"
+            description="Basic medical supplies",
         ),
         Equipment(
             id="toolkit",
@@ -172,8 +160,8 @@ def create_default_game() -> GameState:
             equipment_type=EquipmentType.TOOL,
             quality=5,
             skill_bonus={SkillType.TECHNICAL: 2},
-            description="Electronics and mechanical tools"
-        )
+            description="Electronics and mechanical tools",
+        ),
     ]
 
     # Give some agents equipment
@@ -192,26 +180,27 @@ def create_sandbox_game() -> GameState:
     gs = GameState()
 
     # Single location
-    gs.add_location(Location(
-        id="test_city",
-        name="Test City",
-        security_level=5,
-        unrest_level=5
-    ))
+    gs.add_location(
+        Location(id="test_city", name="Test City", security_level=5, unrest_level=5)
+    )
 
     # Single faction
-    gs.add_faction(Faction(
-        id="test_faction",
-        name="Test Faction",
-        resources={"money": 100, "influence": 50, "personnel": 5}
-    ))
+    gs.add_faction(
+        Faction(
+            id="test_faction",
+            name="Test Faction",
+            resources={"money": 100, "influence": 50, "personnel": 5},
+        )
+    )
 
     # Single agent
-    gs.add_agent(Agent(
-        id="test_agent",
-        name="Test Agent",
-        faction_id="test_faction",
-        location_id="test_city"
-    ))
+    gs.add_agent(
+        Agent(
+            id="test_agent",
+            name="Test Agent",
+            faction_id="test_faction",
+            location_id="test_city",
+        )
+    )
 
     return gs

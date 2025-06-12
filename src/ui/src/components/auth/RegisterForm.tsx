@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const RegisterForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -45,13 +45,13 @@ const RegisterForm: React.FC = () => {
       <Typography variant="h5" component="h1" align="center" gutterBottom>
         Register for Years of Lead
       </Typography>
-      
+
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
-      
+
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -65,7 +65,7 @@ const RegisterForm: React.FC = () => {
           helperText={formik.touched.username && formik.errors.username}
           margin="normal"
         />
-        
+
         <TextField
           fullWidth
           id="email"
@@ -78,7 +78,7 @@ const RegisterForm: React.FC = () => {
           helperText={formik.touched.email && formik.errors.email}
           margin="normal"
         />
-        
+
         <TextField
           fullWidth
           id="password"
@@ -92,7 +92,7 @@ const RegisterForm: React.FC = () => {
           helperText={formik.touched.password && formik.errors.password}
           margin="normal"
         />
-        
+
         <TextField
           fullWidth
           id="confirmPassword"
@@ -106,7 +106,7 @@ const RegisterForm: React.FC = () => {
           helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
           margin="normal"
         />
-        
+
         <Box mt={3}>
           <Button
             color="primary"
@@ -118,12 +118,12 @@ const RegisterForm: React.FC = () => {
             {formik.isSubmitting ? 'Registering...' : 'Register'}
           </Button>
         </Box>
-        
+
         <Box mt={2} textAlign="center">
           <Typography variant="body2">
             Already have an account?{' '}
-            <Button 
-              color="primary" 
+            <Button
+              color="primary"
               onClick={() => navigate('/login')}
               sx={{ p: 0, minWidth: 'auto', verticalAlign: 'baseline' }}
             >

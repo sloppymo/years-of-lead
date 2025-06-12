@@ -107,26 +107,26 @@ DEFAULT_TIMEOUT = 30
 @dataclass
 class ExampleClass:
     """Class docstring explaining the purpose of this class."""
-    
+
     name: str
     value: int
-    
+
     def example_method(self, param: str) -> bool:
         """
         Method docstring explaining what this method does.
-        
+
         Args:
             param: Description of the parameter
-            
+
         Returns:
             Description of the return value
-            
+
         Raises:
             ValueError: When something goes wrong
         """
         if not param:
             raise ValueError("Parameter cannot be empty")
-        
+
         return len(param) > 0
 ```
 
@@ -175,7 +175,7 @@ def test_character_creation_success():
         primary_trait=PersonalityTrait.LOYAL,
         secondary_trait=PersonalityTrait.PRAGMATIC
     )
-    
+
     assert character.name == "Test Character"
     assert character.background.type == BackgroundType.MILITARY
     assert character.traits.primary_trait == PersonalityTrait.LOYAL
@@ -183,7 +183,7 @@ def test_character_creation_success():
 def test_character_creation_invalid_background():
     """Test character creation with invalid background."""
     creator = CharacterCreator()
-    
+
     with pytest.raises(ValueError, match="Invalid background type"):
         creator.create_character(
             name="Test",
@@ -379,4 +379,4 @@ By contributing to Years of Lead, you agree that your contributions will be lice
 
 ---
 
-Thank you for contributing to Years of Lead! Your help makes this project better for everyone. 
+Thank you for contributing to Years of Lead! Your help makes this project better for everyone.

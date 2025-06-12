@@ -2,12 +2,12 @@
 Game repository for database operations
 """
 
-from typing import Optional, List, Dict, Any
+from typing import Optional, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import desc, and_
 
-from models.sql_models import Game, GameFaction, GameDistrict
+from models.sql_models import Game
 from models.schemas import NewGameRequest, GameStateResponse
 from repositories.base import BaseRepository
 
@@ -32,14 +32,16 @@ class GameRepository(BaseRepository[Game, NewGameRequest, GameStateResponse]):
         """Get active (not completed) games by user ID"""
         query = (
             select(Game)
-            .where(and_(Game.user_id == user_id, Game.is_completed == False))
+            .where(and_(Game.user_id == user_id, not Game.is_completed))
             .offset(skip)
             .limit(limit)
         )
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_latest_game_by_user(self, db: AsyncSession, user_id: str) -> Optional[Game]:
+    async def get_latest_game_by_user(
+        self, db: AsyncSession, user_id: str
+    ) -> Optional[Game]:
         """Get the latest game by user ID"""
         query = (
             select(Game)
@@ -62,13 +64,16 @@ class GameRepository(BaseRepository[Game, NewGameRequest, GameStateResponse]):
         await db.refresh(game)
         return game
 
-    async def update_last_played(self, db: AsyncSession, game_id: str) -> Optional[Game]:
+    async def update_last_played(
+        self, db: AsyncSession, game_id: str
+    ) -> Optional[Game]:
         """Update the last_played_at timestamp for a game"""
         game = await self.get(db, game_id)
         if not game:
             return None
 
         from datetime import datetime
+
         game.last_played_at = datetime.now()
         db.add(game)
         await db.commit()

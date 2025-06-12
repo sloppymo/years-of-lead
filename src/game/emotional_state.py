@@ -6,10 +6,9 @@ tracking how traumatic events and experiences affect their psychological well-be
 Based on Plutchik's Wheel of Emotions with trauma persistence modeling.
 """
 
-import math
 import random
-from typing import Dict, Any, Optional
-from dataclasses import dataclass, field
+from typing import Dict, Any
+from dataclasses import dataclass
 from copy import deepcopy
 
 
@@ -19,19 +18,20 @@ class EmotionalState:
     Represents an agent's emotional state using Plutchik's 8 basic emotions.
     All values are normalized between -1.0 and 1.0.
     """
-    fear: float = 0.0           # Fear of danger, government, discovery
-    anger: float = 0.0          # Anger at injustice, system, betrayal
-    sadness: float = 0.0        # Grief, loss, despair
-    joy: float = 0.0            # Hope, satisfaction, triumph
-    trust: float = 0.0          # Faith in cause, comrades, leadership
-    anticipation: float = 0.0   # Expectation, planning, future focus
-    surprise: float = 0.0       # Shock, unexpected events
-    disgust: float = 0.0        # Revulsion at system, betrayal, corruption
+
+    fear: float = 0.0  # Fear of danger, government, discovery
+    anger: float = 0.0  # Anger at injustice, system, betrayal
+    sadness: float = 0.0  # Grief, loss, despair
+    joy: float = 0.0  # Hope, satisfaction, triumph
+    trust: float = 0.0  # Faith in cause, comrades, leadership
+    anticipation: float = 0.0  # Expectation, planning, future focus
+    surprise: float = 0.0  # Shock, unexpected events
+    disgust: float = 0.0  # Revulsion at system, betrayal, corruption
 
     # Trauma tracking
-    trauma_level: float = 0.0   # Overall accumulated trauma (0.0 to 1.0)
+    trauma_level: float = 0.0  # Overall accumulated trauma (0.0 to 1.0)
     last_trauma_intensity: float = 0.0  # Intensity of most recent trauma
-    trauma_decay_rate: float = 0.02     # How quickly trauma fades
+    trauma_decay_rate: float = 0.02  # How quickly trauma fades
 
     def __post_init__(self):
         """Ensure all emotional values are within bounds after initialization"""
@@ -39,7 +39,16 @@ class EmotionalState:
 
     def _clamp_values(self):
         """Ensure all emotional values stay within -1.0 to 1.0 bounds"""
-        emotions = ['fear', 'anger', 'sadness', 'joy', 'trust', 'anticipation', 'surprise', 'disgust']
+        emotions = [
+            "fear",
+            "anger",
+            "sadness",
+            "joy",
+            "trust",
+            "anticipation",
+            "surprise",
+            "disgust",
+        ]
         for emotion in emotions:
             value = getattr(self, emotion)
             setattr(self, emotion, max(-1.0, min(1.0, float(value))))
@@ -57,12 +66,25 @@ class EmotionalState:
         Apply natural emotional drift over time.
         Emotions gradually return toward neutral unless reinforced.
         """
-        drift_rate = 0.01 * time_delta  # Further reduced from 0.02 to 0.01 for very gradual drift
+        drift_rate = (
+            0.01 * time_delta
+        )  # Further reduced from 0.02 to 0.01 for very gradual drift
 
         # Emotions drift toward zero (neutral) unless trauma is high
-        trauma_resistance = 1.0 - (self.trauma_level * 0.5)  # High trauma slows positive drift
+        trauma_resistance = 1.0 - (
+            self.trauma_level * 0.5
+        )  # High trauma slows positive drift
 
-        emotions = ['fear', 'anger', 'sadness', 'joy', 'trust', 'anticipation', 'surprise', 'disgust']
+        emotions = [
+            "fear",
+            "anger",
+            "sadness",
+            "joy",
+            "trust",
+            "anticipation",
+            "surprise",
+            "disgust",
+        ]
 
         for emotion in emotions:
             current_value = getattr(self, emotion)
@@ -73,9 +95,11 @@ class EmotionalState:
                 new_value = current_value - drift_amount
             elif current_value < 0:
                 # Negative emotions also drift toward neutral, but slower if trauma is high
-                if emotion in ['fear', 'sadness'] and self.trauma_level > 0.3:
+                if emotion in ["fear", "sadness"] and self.trauma_level > 0.3:
                     # Fear and sadness persist longer when traumatized
-                    effective_drift = drift_rate * trauma_resistance * 0.3  # Reduced from 0.5 to 0.3
+                    effective_drift = (
+                        drift_rate * trauma_resistance * 0.3
+                    )  # Reduced from 0.5 to 0.3
                 else:
                     effective_drift = drift_rate * trauma_resistance
 
@@ -88,7 +112,9 @@ class EmotionalState:
 
         # Gradually reduce trauma over time, but more slowly
         if self.trauma_level > 0:
-            self.trauma_level = max(0.0, self.trauma_level - self.trauma_decay_rate * time_delta * 0.5)  # Reduced decay rate
+            self.trauma_level = max(
+                0.0, self.trauma_level - self.trauma_decay_rate * time_delta * 0.5
+            )  # Reduced decay rate
 
         self._clamp_values()
 
@@ -128,40 +154,42 @@ class EmotionalState:
 
         # Update trauma tracking - increased accumulation
         self.last_trauma_intensity = trauma_intensity
-        self.trauma_level = min(1.0, self.trauma_level + trauma_intensity * 0.5)  # Increased from 0.3 to 0.5
+        self.trauma_level = min(
+            1.0, self.trauma_level + trauma_intensity * 0.5
+        )  # Increased from 0.3 to 0.5
 
         # Base trauma impacts - increased intensity
         trauma_impact = {
-            'fear': trauma_intensity * 1.0,  # Increased from 0.8
-            'sadness': trauma_intensity * 0.8,  # Increased from 0.6
-            'anger': trauma_intensity * 0.6,  # Increased from 0.4
-            'trust': -trauma_intensity * 0.7  # Increased from 0.5
+            "fear": trauma_intensity * 1.0,  # Increased from 0.8
+            "sadness": trauma_intensity * 0.8,  # Increased from 0.6
+            "anger": trauma_intensity * 0.6,  # Increased from 0.4
+            "trust": -trauma_intensity * 0.7,  # Increased from 0.5
         }
 
         # Event-specific trauma modifications
         if event_type == "violence_witnessed":
-            trauma_impact['fear'] += trauma_intensity * 0.6  # Increased from 0.4
-            trauma_impact['disgust'] = trauma_intensity * 0.5  # Increased from 0.3
+            trauma_impact["fear"] += trauma_intensity * 0.6  # Increased from 0.4
+            trauma_impact["disgust"] = trauma_intensity * 0.5  # Increased from 0.3
         elif event_type == "betrayal":
-            trauma_impact['trust'] -= trauma_intensity * 1.0  # Increased from 0.8
-            trauma_impact['anger'] += trauma_intensity * 0.8  # Increased from 0.6
+            trauma_impact["trust"] -= trauma_intensity * 1.0  # Increased from 0.8
+            trauma_impact["anger"] += trauma_intensity * 0.8  # Increased from 0.6
         elif event_type == "loss_of_comrade":
-            trauma_impact['sadness'] += trauma_intensity * 0.9  # Increased from 0.7
-            trauma_impact['anger'] += trauma_intensity * 0.5  # Increased from 0.3
+            trauma_impact["sadness"] += trauma_intensity * 0.9  # Increased from 0.7
+            trauma_impact["anger"] += trauma_intensity * 0.5  # Increased from 0.3
 
         self.apply_emotional_impact(trauma_impact, intensity=1.0)
 
     def get_dominant_emotion(self) -> tuple[str, float]:
         """Get the currently dominant emotion and its intensity"""
         emotions = {
-            'fear': self.fear,
-            'anger': self.anger,
-            'sadness': self.sadness,
-            'joy': self.joy,
-            'trust': self.trust,
-            'anticipation': self.anticipation,
-            'surprise': self.surprise,
-            'disgust': self.disgust
+            "fear": self.fear,
+            "anger": self.anger,
+            "sadness": self.sadness,
+            "joy": self.joy,
+            "trust": self.trust,
+            "anticipation": self.anticipation,
+            "surprise": self.surprise,
+            "disgust": self.disgust,
         }
 
         # Find emotion with highest absolute value
@@ -173,8 +201,16 @@ class EmotionalState:
         Calculate emotional stability (0.0 = very unstable, 1.0 = very stable).
         Based on how extreme the emotions are and trauma level.
         """
-        emotions = [self.fear, self.anger, self.sadness, self.joy,
-                   self.trust, self.anticipation, self.surprise, self.disgust]
+        emotions = [
+            self.fear,
+            self.anger,
+            self.sadness,
+            self.joy,
+            self.trust,
+            self.anticipation,
+            self.surprise,
+            self.disgust,
+        ]
 
         # Calculate volatility (how extreme emotions are)
         volatility = sum(abs(emotion) for emotion in emotions) / len(emotions)
@@ -211,7 +247,9 @@ class EmotionalState:
         helpful = self.trust * 0.4 + self.joy * 0.3 + self.anticipation * 0.2
 
         # Hindering emotions
-        hindering = self.fear * 0.2 + self.anger * 0.3 + self.sadness * 0.3 + self.disgust * 0.2
+        hindering = (
+            self.fear * 0.2 + self.anger * 0.3 + self.sadness * 0.3 + self.disgust * 0.2
+        )
 
         # High trauma makes social interaction difficult
         trauma_penalty = self.trauma_level * 0.4
@@ -222,9 +260,16 @@ class EmotionalState:
     def is_psychologically_stable(self) -> bool:
         """Check if the agent is psychologically stable enough to operate"""
         # Check for extreme emotional states
-        emotions = [abs(self.fear), abs(self.anger), abs(self.sadness),
-                   abs(self.joy), abs(self.trust), abs(self.anticipation),
-                   abs(self.surprise), abs(self.disgust)]
+        emotions = [
+            abs(self.fear),
+            abs(self.anger),
+            abs(self.sadness),
+            abs(self.joy),
+            abs(self.trust),
+            abs(self.anticipation),
+            abs(self.surprise),
+            abs(self.disgust),
+        ]
 
         max_emotion = max(emotions)
 
@@ -233,29 +278,32 @@ class EmotionalState:
             return False
 
         # Unstable if too many emotions are highly negative
-        negative_count = sum(1 for emotion in [self.fear, self.anger, self.sadness, self.disgust]
-                           if emotion > 0.6)
+        negative_count = sum(
+            1
+            for emotion in [self.fear, self.anger, self.sadness, self.disgust]
+            if emotion > 0.6
+        )
 
         return negative_count < 3
 
     def serialize(self) -> Dict[str, Any]:
         """Serialize emotional state to dictionary"""
         return {
-            'fear': self.fear,
-            'anger': self.anger,
-            'sadness': self.sadness,
-            'joy': self.joy,
-            'trust': self.trust,
-            'anticipation': self.anticipation,
-            'surprise': self.surprise,
-            'disgust': self.disgust,
-            'trauma_level': self.trauma_level,
-            'last_trauma_intensity': self.last_trauma_intensity,
-            'trauma_decay_rate': self.trauma_decay_rate
+            "fear": self.fear,
+            "anger": self.anger,
+            "sadness": self.sadness,
+            "joy": self.joy,
+            "trust": self.trust,
+            "anticipation": self.anticipation,
+            "surprise": self.surprise,
+            "disgust": self.disgust,
+            "trauma_level": self.trauma_level,
+            "last_trauma_intensity": self.last_trauma_intensity,
+            "trauma_decay_rate": self.trauma_decay_rate,
         }
 
     @classmethod
-    def deserialize(cls, data: Dict[str, Any]) -> 'EmotionalState':
+    def deserialize(cls, data: Dict[str, Any]) -> "EmotionalState":
         """Deserialize emotional state from dictionary"""
         return cls(**data)
 
@@ -264,11 +312,15 @@ class EmotionalState:
         dominant, intensity = self.get_dominant_emotion()
         stability = self.get_emotional_stability()
 
-        return (f"EmotionalState(dominant={dominant}:{intensity:.2f}, "
-                f"stability={stability:.2f}, trauma={self.trauma_level:.2f})")
+        return (
+            f"EmotionalState(dominant={dominant}:{intensity:.2f}, "
+            f"stability={stability:.2f}, trauma={self.trauma_level:.2f})"
+        )
 
 
-def create_random_emotional_state(trauma_range: tuple[float, float] = (0.0, 0.3)) -> EmotionalState:
+def create_random_emotional_state(
+    trauma_range: tuple[float, float] = (0.0, 0.3)
+) -> EmotionalState:
     """
     Create a random emotional state within reasonable bounds.
     Useful for generating initial agent states.
@@ -276,7 +328,16 @@ def create_random_emotional_state(trauma_range: tuple[float, float] = (0.0, 0.3)
     state = EmotionalState()
 
     # Generate random but balanced emotions
-    emotions = ['fear', 'anger', 'sadness', 'joy', 'trust', 'anticipation', 'surprise', 'disgust']
+    emotions = [
+        "fear",
+        "anger",
+        "sadness",
+        "joy",
+        "trust",
+        "anticipation",
+        "surprise",
+        "disgust",
+    ]
 
     for emotion in emotions:
         # Most emotions start near neutral with some variation

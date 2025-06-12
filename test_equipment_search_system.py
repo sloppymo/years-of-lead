@@ -7,17 +7,20 @@ using the exact specifications provided by the user for equipment profiles and
 search encounters.
 """
 
-import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 
 from game.equipment_system import (
-    EquipmentProfile, EquipmentCategory, LegalStatus, ConsequenceType, ConsequenceRule,
-    SearchEncounter, SearchTrigger, NPCProfile, NPCDisposition, PlayerResponse,
-    SearchEncounterManager, EquipmentFlag, PlayerUniformType,
-    create_custom_equipment, create_custom_encounter
+    ConsequenceType,
+    ConsequenceRule,
+    SearchEncounterManager,
+    PlayerUniformType,
+    create_custom_equipment,
+    create_custom_encounter,
 )
-from game.dynamic_narrative_tone import DynamicNarrativeToneEngine, VoiceConfiguration
+from game.dynamic_narrative_tone import DynamicNarrativeToneEngine
 from game.character_creation import CharacterCreator, BackgroundType, PersonalityTrait
 
 
@@ -39,7 +42,7 @@ def demonstrate_equipment_profile_system():
         "associated_flags": ["unregistered_serial", "smuggled"],
         "description": "Small, easily concealed handgun",
         "weight": 1.2,
-        "bulk": 0.8
+        "bulk": 0.8,
     }
 
     # Create equipment using the custom creation function
@@ -49,7 +52,7 @@ def demonstrate_equipment_profile_system():
     compact_pistol.consequence_rules["if_player_uniformed"] = ConsequenceRule(
         condition="if_player_uniformed",
         consequence=ConsequenceType.CONFISCATE_AND_WARN,
-        description="Weapon confiscated from uniformed personnel"
+        description="Weapon confiscated from uniformed personnel",
     )
 
     print(f"📋 Equipment Profile: {compact_pistol.name}")
@@ -66,14 +69,20 @@ def demonstrate_equipment_profile_system():
         {"has_container": True, "equipment_flags": {"unregistered_serial"}},
     ]
 
-    print(f"\n🎯 Concealment Ratings:")
+    print("\n🎯 Concealment Ratings:")
     for i, context in enumerate(contexts, 1):
         concealment = compact_pistol.get_effective_concealment(
             container_present=context["has_container"],
-            equipment_flags=context["equipment_flags"]
+            equipment_flags=context["equipment_flags"],
         )
-        container_text = "with container" if context["has_container"] else "no container"
-        flags_text = f"flags: {context['equipment_flags']}" if context["equipment_flags"] else "no flags"
+        container_text = (
+            "with container" if context["has_container"] else "no container"
+        )
+        flags_text = (
+            f"flags: {context['equipment_flags']}"
+            if context["equipment_flags"]
+            else "no flags"
+        )
         print(f"   {i}. {concealment:.2f} ({container_text}, {flags_text})")
 
     # Test consequence determination
@@ -83,12 +92,18 @@ def demonstrate_equipment_profile_system():
         {"uniformed": True, "uniform_type": PlayerUniformType.MEDICAL},
     ]
 
-    print(f"\n⚖️  Consequences by Context:")
+    print("\n⚖️  Consequences by Context:")
     for i, context in enumerate(player_contexts, 1):
         consequence_rule = compact_pistol.get_consequence(context)
-        uniform_text = f"uniformed ({context.get('uniform_type', 'N/A')})" if context.get("uniformed") else "civilian"
+        uniform_text = (
+            f"uniformed ({context.get('uniform_type', 'N/A')})"
+            if context.get("uniformed")
+            else "civilian"
+        )
         permit_text = "with permit" if context.get("has_permit") else "no permit"
-        print(f"   {i}. {consequence_rule.consequence.value} ({uniform_text}, {permit_text})")
+        print(
+            f"   {i}. {consequence_rule.consequence.value} ({uniform_text}, {permit_text})"
+        )
         print(f"      Description: {consequence_rule.description}")
 
     return compact_pistol
@@ -108,34 +123,34 @@ def demonstrate_search_encounter_system():
             "zone": "occupied",
             "curfew_active": True,
             "player_flagged": True,
-            "check_probability": 0.55
+            "check_probability": 0.55,
         },
         "npc_profile": {
             "search_rigor": 0.6,
             "tech_bonus": 0.3,
             "disposition": "paranoid",
-            "experience_level": 0.8
+            "experience_level": 0.8,
         },
         "player_response_options": [
             {
                 "id": "comply",
                 "text": "You open your bag and remain silent.",
                 "outcome": "begin_item_reveal",
-                "suspicion_modifier": 0.0
+                "suspicion_modifier": 0.0,
             },
             {
                 "id": "deflect",
                 "text": "Do you really need to do this? I'm just trying to get home.",
                 "outcome": "suspicion_roll_plus_0.2",
-                "suspicion_modifier": 0.2
+                "suspicion_modifier": 0.2,
             },
             {
                 "id": "resist",
                 "text": "You step back and prepare to run.",
                 "outcome": "combat_or_pursuit_triggered",
-                "suspicion_modifier": 0.8
-            }
-        ]
+                "suspicion_modifier": 0.8,
+            },
+        ],
     }
 
     # Create encounter using custom creation function
@@ -145,20 +160,22 @@ def demonstrate_search_encounter_system():
     print(f"   Location: {checkpoint_alpha.location}")
     print(f"   Description: {checkpoint_alpha.description}")
 
-    print(f"\n🎯 Trigger Conditions:")
+    print("\n🎯 Trigger Conditions:")
     print(f"   Zone: {checkpoint_alpha.trigger.zone}")
     print(f"   Curfew Required: {checkpoint_alpha.trigger.curfew_active}")
     print(f"   Player Flagged: {checkpoint_alpha.trigger.player_flagged}")
     print(f"   Check Probability: {checkpoint_alpha.trigger.check_probability}")
 
-    print(f"\n👮 NPC Profile:")
+    print("\n👮 NPC Profile:")
     print(f"   Search Rigor: {checkpoint_alpha.npc_profile.search_rigor}")
     print(f"   Tech Bonus: {checkpoint_alpha.npc_profile.tech_bonus}")
     print(f"   Disposition: {checkpoint_alpha.npc_profile.disposition.value}")
     print(f"   Experience Level: {checkpoint_alpha.npc_profile.experience_level}")
-    print(f"   Effective Search Rating: {checkpoint_alpha.npc_profile.get_effective_search_rating():.2f}")
+    print(
+        f"   Effective Search Rating: {checkpoint_alpha.npc_profile.get_effective_search_rating():.2f}"
+    )
 
-    print(f"\n💬 Player Response Options:")
+    print("\n💬 Player Response Options:")
     for i, response in enumerate(checkpoint_alpha.player_response_options, 1):
         print(f"   {i}. [{response.response_id}] {response.text}")
         print(f"      Outcome: {response.outcome}")
@@ -171,7 +188,7 @@ def demonstrate_search_encounter_system():
         {"current_zone": "free", "curfew_active": True, "player_flagged": True},
     ]
 
-    print(f"\n🎲 Trigger Testing:")
+    print("\n🎲 Trigger Testing:")
     for i, context in enumerate(test_contexts, 1):
         should_trigger = checkpoint_alpha.trigger.should_trigger(context)
         zone = context["current_zone"]
@@ -195,7 +212,7 @@ def demonstrate_detection_formula():
         "category": "weapon",
         "concealment_rating": 0.7,
         "container_bonus": 0.1,
-        "legal_status": "restricted"
+        "legal_status": "restricted",
     }
 
     compact_pistol = create_custom_equipment(compact_pistol_data)
@@ -208,17 +225,21 @@ def demonstrate_detection_formula():
         "npc_profile": {
             "search_rigor": 0.6,
             "tech_bonus": 0.3,
-            "disposition": "paranoid"
-        }
+            "disposition": "paranoid",
+        },
     }
 
     encounter = create_custom_encounter(encounter_data)
 
-    print("📊 Detection Formula: search_rigor + tech_bonus + rng - (concealment_rating + player_bonus)")
+    print(
+        "📊 Detection Formula: search_rigor + tech_bonus + rng - (concealment_rating + player_bonus)"
+    )
     print(f"   Search Rigor: {encounter.npc_profile.search_rigor}")
     print(f"   Tech Bonus: {encounter.npc_profile.tech_bonus}")
-    print(f"   Disposition Modifier: +0.2 (paranoid)")
-    print(f"   Effective Search Rating: {encounter.npc_profile.get_effective_search_rating():.2f}")
+    print("   Disposition Modifier: +0.2 (paranoid)")
+    print(
+        f"   Effective Search Rating: {encounter.npc_profile.get_effective_search_rating():.2f}"
+    )
 
     print(f"\n🎯 Item: {compact_pistol.name}")
     print(f"   Base Concealment: {compact_pistol.concealment_rating}")
@@ -226,12 +247,20 @@ def demonstrate_detection_formula():
     # Test different player contexts
     player_contexts = [
         {"concealment_bonus": 0.0, "has_container": False, "description": "No bonuses"},
-        {"concealment_bonus": 0.2, "has_container": False, "description": "Skill bonus (+0.2)"},
-        {"concealment_bonus": 0.0, "has_container": True, "description": "Container bonus"},
+        {
+            "concealment_bonus": 0.2,
+            "has_container": False,
+            "description": "Skill bonus (+0.2)",
+        },
+        {
+            "concealment_bonus": 0.0,
+            "has_container": True,
+            "description": "Container bonus",
+        },
         {"concealment_bonus": 0.2, "has_container": True, "description": "All bonuses"},
     ]
 
-    print(f"\n🎲 Detection Probabilities (10 rolls each):")
+    print("\n🎲 Detection Probabilities (10 rolls each):")
     for context in player_contexts:
         print(f"\n   {context['description']}:")
 
@@ -274,22 +303,22 @@ def demonstrate_full_search_execution():
             "category": "weapon",
             "concealment_rating": 0.7,
             "legal_status": "restricted",
-            "associated_flags": ["unregistered_serial"]
+            "associated_flags": ["unregistered_serial"],
         },
         {
             "item_id": "doc_001",
             "name": "forged papers",
             "category": "document",
             "concealment_rating": 0.9,
-            "legal_status": "contraband"
+            "legal_status": "contraband",
         },
         {
             "item_id": "med_001",
             "name": "medical supplies",
             "category": "medical",
             "concealment_rating": 0.2,
-            "legal_status": "legal"
-        }
+            "legal_status": "legal",
+        },
     ]
 
     # Register equipment
@@ -298,7 +327,9 @@ def demonstrate_full_search_execution():
         equipment = create_custom_equipment(item_data)
         search_manager.register_equipment(equipment)
         inventory_profiles.append(equipment)
-        print(f"📦 Registered: {equipment.name} (concealment: {equipment.concealment_rating}, legal: {equipment.legal_status.value})")
+        print(
+            f"📦 Registered: {equipment.name} (concealment: {equipment.concealment_rating}, legal: {equipment.legal_status.value})"
+        )
 
     # Execute search with different player contexts
     player_contexts = [
@@ -307,7 +338,7 @@ def demonstrate_full_search_execution():
             "uniformed": False,
             "has_permit": False,
             "concealment_bonus": 0.0,
-            "has_container": False
+            "has_container": False,
         },
         {
             "description": "Medical uniform, with permits, skill bonus",
@@ -315,8 +346,8 @@ def demonstrate_full_search_execution():
             "uniform_type": PlayerUniformType.MEDICAL,
             "has_permit": True,
             "concealment_bonus": 0.3,
-            "has_container": True
-        }
+            "has_container": True,
+        },
     ]
 
     for i, context in enumerate(player_contexts, 1):
@@ -325,9 +356,7 @@ def demonstrate_full_search_execution():
 
         # Execute search using the checkpoint encounter
         results = search_manager.execute_encounter(
-            "search_chkpt_alpha",
-            [item["item_id"] for item in inventory_items],
-            context
+            "search_chkpt_alpha", [item["item_id"] for item in inventory_items], context
         )
 
         print(f"📍 Location: {results['location']}")
@@ -342,7 +371,7 @@ def demonstrate_full_search_execution():
             for item in results["missed_items"]:
                 print(f"   ✅ {item.name} (concealment: {item.concealment_rating})")
 
-        print(f"⚖️  Consequences:")
+        print("⚖️  Consequences:")
         if results["consequences"]:
             for cons in results["consequences"]:
                 print(f"   • {cons['item']}: {cons['consequence']}")
@@ -352,7 +381,7 @@ def demonstrate_full_search_execution():
 
         print(f"🚨 Suspicion Level: {results['suspicion_level']:.2f}")
 
-        print(f"\n📖 Narrative:")
+        print("\n📖 Narrative:")
         print(f"   {results['narrative']}")
 
 
@@ -367,7 +396,7 @@ def demonstrate_narrative_integration():
         name="Marcus Chen",
         background_type=BackgroundType.CRIMINAL,
         primary_trait=PersonalityTrait.CAUTIOUS,
-        secondary_trait=PersonalityTrait.OPPORTUNISTIC
+        secondary_trait=PersonalityTrait.OPPORTUNISTIC,
     )
 
     # Set up narrative tone engine
@@ -375,17 +404,27 @@ def demonstrate_narrative_integration():
     tone_engine.register_voice_configuration(character.voice_config)
 
     # Add some search-specific voice lines
-    character.voice_config.add_player_line("Another checkpoint. They're getting more thorough.")
-    character.voice_config.add_player_line("The guard's eyes linger too long on your bag.")
-    character.voice_config.add_player_line("You keep your breathing steady. Show no fear.")
+    character.voice_config.add_player_line(
+        "Another checkpoint. They're getting more thorough."
+    )
+    character.voice_config.add_player_line(
+        "The guard's eyes linger too long on your bag."
+    )
+    character.voice_config.add_player_line(
+        "You keep your breathing steady. Show no fear."
+    )
 
     print(f"👤 Character: {character.name}")
     print(f"   Background: {character.background.name}")
-    print(f"   Traits: {character.traits.primary_trait.value}, {character.traits.secondary_trait.value}")
-    print(f"   Voice Tones: {[tone.value for tone in character.voice_config.emotional_tones]}")
+    print(
+        f"   Traits: {character.traits.primary_trait.value}, {character.traits.secondary_trait.value}"
+    )
+    print(
+        f"   Voice Tones: {[tone.value for tone in character.voice_config.emotional_tones]}"
+    )
 
     # Create search scenario
-    search_manager = SearchEncounterManager()
+    # search_manager = SearchEncounterManager()
 
     # Base search events
     base_events = [
@@ -393,10 +432,10 @@ def demonstrate_narrative_integration():
         "The guard signals for you to open your bag.",
         "A thorough search reveals your hidden items.",
         "The officer examines your identification papers.",
-        "You're waved through after the inspection."
+        "You're waved through after the inspection.",
     ]
 
-    print(f"\n📝 Enhanced Search Narratives:")
+    print("\n📝 Enhanced Search Narratives:")
     for i, base_event in enumerate(base_events, 1):
         enhanced = tone_engine.generate_narrative_with_voice(
             character.id,
@@ -404,8 +443,8 @@ def demonstrate_narrative_integration():
             {
                 "event_type": "search_encounter",
                 "tension_level": 0.7,
-                "location": "checkpoint"
-            }
+                "location": "checkpoint",
+            },
         )
 
         print(f"\n{i}. Base: {base_event}")
@@ -434,7 +473,7 @@ def demonstrate_equipment_flags():
         "category": "weapon",
         "concealment_rating": 0.7,
         "legal_status": "restricted",
-        "associated_flags": ["unregistered_serial", "smuggled"]
+        "associated_flags": ["unregistered_serial", "smuggled"],
     }
 
     pistol = create_custom_equipment(pistol_data)
@@ -445,10 +484,10 @@ def demonstrate_equipment_flags():
 
     # Note: Flag effects would be calculated in the actual system
     # This is a simplified demonstration
-    print(f"\n⚠️  Flag Effects (simulated):")
-    print(f"   • Unregistered Serial: -0.0 concealment, +0.3 suspicion")
-    print(f"   • Smuggled: -0.1 concealment, +0.2 suspicion")
-    print(f"   • Combined Effect: Harder to hide, much more suspicious if found")
+    print("\n⚠️  Flag Effects (simulated):")
+    print("   • Unregistered Serial: -0.0 concealment, +0.3 suspicion")
+    print("   • Smuggled: -0.1 concealment, +0.2 suspicion")
+    print("   • Combined Effect: Harder to hide, much more suspicious if found")
 
 
 def run_comprehensive_demonstration():
@@ -459,8 +498,8 @@ def run_comprehensive_demonstration():
 
     try:
         # Run all demonstrations
-        compact_pistol = demonstrate_equipment_profile_system()
-        checkpoint_encounter = demonstrate_search_encounter_system()
+        demonstrate_equipment_profile_system()
+        demonstrate_search_encounter_system()
         demonstrate_detection_formula()
         demonstrate_full_search_execution()
         demonstrate_narrative_integration()
@@ -472,7 +511,9 @@ def run_comprehensive_demonstration():
         print("\n✅ Key Features Demonstrated:")
         print("  • Equipment profiles with concealment and legal status")
         print("  • Search encounters with trigger conditions")
-        print("  • Detection formula: search_rigor + tech_bonus + rng - (concealment + player_bonus)")
+        print(
+            "  • Detection formula: search_rigor + tech_bonus + rng - (concealment + player_bonus)"
+        )
         print("  • Consequence system based on legal status and context")
         print("  • Player response options with different outcomes")
         print("  • NPC disposition effects on search behavior")
@@ -480,8 +521,9 @@ def run_comprehensive_demonstration():
         print("  • Integration with dynamic narrative tone system")
 
         print("\n📊 System Statistics:")
-        search_manager = SearchEncounterManager()
-        summary = search_manager.get_encounter_summary()
+        # Create a search manager to get statistics
+        stats_manager = SearchEncounterManager()
+        summary = stats_manager.get_encounter_summary()
         print(f"  • Total Encounters: {summary['total_encounters']}")
         print(f"  • Total Equipment: {summary['total_equipment']}")
         print(f"  • Total Flags: {summary['total_flags']}")
@@ -508,6 +550,7 @@ def run_comprehensive_demonstration():
     except Exception as e:
         print(f"\n❌ Error during demonstration: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 

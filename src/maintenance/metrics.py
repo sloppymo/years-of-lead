@@ -8,9 +8,10 @@ the game's narrative quality, performance, and emotional consistency.
 
 import time
 import statistics
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Tuple
+from datetime import datetime
+from typing import Dict
 from pathlib import Path
+
 
 class GameHealthMetrics:
     """Collects and analyzes game health metrics"""
@@ -39,12 +40,14 @@ class GameHealthMetrics:
                 return 0.7  # Default reasonable score
 
             # Analyze recent narrative events
-            recent_events = getattr(self.game, 'recent_events', [])
+            recent_events = getattr(self.game, "recent_events", [])
             if not recent_events:
                 return 0.8  # No events to analyze, assume good
 
             # Check for repetition
-            descriptions = [event.get('description', '') for event in recent_events[-10:]]
+            descriptions = [
+                event.get("description", "") for event in recent_events[-10:]
+            ]
             unique_descriptions = set(descriptions)
             repetition_score = len(unique_descriptions) / max(len(descriptions), 1)
 
@@ -54,7 +57,9 @@ class GameHealthMetrics:
                 all_words.extend(desc.lower().split())
 
             unique_words = set(all_words)
-            vocabulary_variety = min(1.0, len(unique_words) / max(len(all_words), 1) * 5)
+            vocabulary_variety = min(
+                1.0, len(unique_words) / max(len(all_words), 1) * 5
+            )
 
             # Combine scores
             coherence_score = (repetition_score + vocabulary_variety) / 2
@@ -81,14 +86,14 @@ class GameHealthMetrics:
                 return 0.8  # Default good score
 
             # Check emotional state changes
-            agents = getattr(self.game, 'agents', [])
+            agents = getattr(self.game, "agents", [])
             if not agents:
                 return 0.8
 
             consistency_scores = []
 
             for agent in agents:
-                emotional_state = getattr(agent, 'emotional_state', {})
+                emotional_state = getattr(agent, "emotional_state", {})
                 if not emotional_state:
                     continue
 
@@ -127,13 +132,13 @@ class GameHealthMetrics:
                 # Try to perform a typical game operation
                 test_operation_start = time.time()
                 # Simulate a game step or update
-                if hasattr(self.game, 'step'):
+                if hasattr(self.game, "step"):
                     self.game.step()
-                elif hasattr(self.game, 'update'):
+                elif hasattr(self.game, "update"):
                     self.game.update()
-                test_operation_time = time.time() - test_operation_start
+                time.time() - test_operation_start
             else:
-                test_operation_time = 0.01  # Simulate fast operation
+                pass  # Simulate fast operation
 
             total_time = time.time() - start_time
 
@@ -159,7 +164,11 @@ class GameHealthMetrics:
             return "insufficient_data"
 
         recent = self.performance_samples[-5:]
-        older = self.performance_samples[-10:-5] if len(self.performance_samples) >= 10 else []
+        older = (
+            self.performance_samples[-10:-5]
+            if len(self.performance_samples) >= 10
+            else []
+        )
 
         if not older:
             return "stable"
@@ -184,7 +193,7 @@ class GameHealthMetrics:
                 ["python3", "-m", "pytest", "--cov=src", "--cov-report=json", "-q"],
                 capture_output=True,
                 text=True,
-                cwd=project_root
+                cwd=project_root,
             )
 
             if result.returncode == 0:
@@ -192,7 +201,10 @@ class GameHealthMetrics:
                 if coverage_file.exists():
                     with open(coverage_file) as f:
                         coverage_data = json.load(f)
-                        return coverage_data.get("totals", {}).get("percent_covered", 0) / 100
+                        return (
+                            coverage_data.get("totals", {}).get("percent_covered", 0)
+                            / 100
+                        )
 
             return 0.0
 
@@ -207,7 +219,7 @@ class GameHealthMetrics:
             "narrative_coherence": self.measure_narrative_coherence(),
             "emotional_consistency": self.measure_emotional_consistency(),
             "performance": self.measure_performance(),
-            "performance_trend": self.get_performance_trend()
+            "performance_trend": self.get_performance_trend(),
         }
 
         if project_root:
@@ -217,7 +229,7 @@ class GameHealthMetrics:
         health_components = [
             metrics["narrative_coherence"],
             metrics["emotional_consistency"],
-            metrics["performance"]
+            metrics["performance"],
         ]
 
         if "test_coverage" in metrics:
@@ -239,7 +251,11 @@ class GameHealthMetrics:
         if not self.metrics_history:
             return {"status": "no_data", "recommendations": []}
 
-        recent_metrics = self.metrics_history[-10:] if len(self.metrics_history) >= 10 else self.metrics_history
+        recent_metrics = (
+            self.metrics_history[-10:]
+            if len(self.metrics_history) >= 10
+            else self.metrics_history
+        )
 
         if len(recent_metrics) < 2:
             return {"status": "insufficient_data", "recommendations": []}
@@ -247,7 +263,7 @@ class GameHealthMetrics:
         # Calculate trends
         health_scores = [m["overall_health"] for m in recent_metrics]
         performance_scores = [m["performance"] for m in recent_metrics]
-        narrative_scores = [m["narrative_coherence"] for m in recent_metrics]
+        narrative_scores = [m.get("narrative_coherence", 0.5) for m in recent_metrics]
 
         health_trend = "stable"
         if len(health_scores) >= 3:
@@ -269,14 +285,16 @@ class GameHealthMetrics:
             recommendations.append("Review narrative variety and coherence")
 
         if health_trend == "declining":
-            recommendations.append("System health is declining - investigate recent changes")
+            recommendations.append(
+                "System health is declining - investigate recent changes"
+            )
 
         return {
             "status": health_trend,
             "overall_health": statistics.mean(health_scores),
             "performance_avg": avg_performance,
             "narrative_avg": avg_narrative,
-            "recommendations": recommendations
+            "recommendations": recommendations,
         }
 
     def export_metrics(self, output_path: Path):
@@ -287,10 +305,10 @@ class GameHealthMetrics:
             "export_timestamp": datetime.now().isoformat(),
             "metrics_count": len(self.metrics_history),
             "health_summary": self.get_health_summary(),
-            "metrics_history": self.metrics_history
+            "metrics_history": self.metrics_history,
         }
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(export_data, f, indent=2)
 
         print(f"Metrics exported to {output_path}")

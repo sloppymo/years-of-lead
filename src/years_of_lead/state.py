@@ -3,8 +3,7 @@ Game state management for Years of Lead
 Handles the core state of the game world, districts, and factions
 """
 
-from typing import Dict, List, Any, Optional
-import json
+from typing import Dict, Any, Optional
 from loguru import logger
 
 
@@ -29,9 +28,13 @@ class GameState:
 
         logger.info(f"Game state initialized for game {game_id}")
 
-    async def initialize(self, scenario_config: Optional[Dict[str, Any]] = None) -> None:
+    async def initialize(
+        self, scenario_config: Optional[Dict[str, Any]] = None
+    ) -> None:
         """Initialize game state with scenario configuration"""
-        scenario_name = scenario_config.get("name", "default") if scenario_config else "default"
+        scenario_name = (
+            scenario_config.get("name", "default") if scenario_config else "default"
+        )
         logger.info(f"Initializing game state with scenario: {scenario_name}")
 
         # Initialize districts
@@ -46,18 +49,49 @@ class GameState:
         # Save initial state to history
         self._save_state_to_history(0, "game_initialized")
 
-    async def _initialize_districts(self, scenario_config: Optional[Dict[str, Any]] = None) -> None:
+    async def _initialize_districts(
+        self, scenario_config: Optional[Dict[str, Any]] = None
+    ) -> None:
         """Initialize game districts"""
         # Default districts if no scenario provided
         default_districts = [
-            {"id": "downtown", "name": "Downtown", "population": 250000, "security_level": 8},
-            {"id": "industrial", "name": "Industrial Zone", "population": 120000, "security_level": 5},
-            {"id": "suburbs", "name": "Suburbs", "population": 350000, "security_level": 6},
-            {"id": "university", "name": "University District", "population": 80000, "security_level": 4},
-            {"id": "government", "name": "Government Quarter", "population": 40000, "security_level": 10}
+            {
+                "id": "downtown",
+                "name": "Downtown",
+                "population": 250000,
+                "security_level": 8,
+            },
+            {
+                "id": "industrial",
+                "name": "Industrial Zone",
+                "population": 120000,
+                "security_level": 5,
+            },
+            {
+                "id": "suburbs",
+                "name": "Suburbs",
+                "population": 350000,
+                "security_level": 6,
+            },
+            {
+                "id": "university",
+                "name": "University District",
+                "population": 80000,
+                "security_level": 4,
+            },
+            {
+                "id": "government",
+                "name": "Government Quarter",
+                "population": 40000,
+                "security_level": 10,
+            },
         ]
 
-        districts_config = scenario_config.get("districts", default_districts) if scenario_config else default_districts
+        districts_config = (
+            scenario_config.get("districts", default_districts)
+            if scenario_config
+            else default_districts
+        )
 
         for district in districts_config:
             district_id = district["id"]
@@ -68,20 +102,22 @@ class GameState:
                 "security_level": district.get("security_level", 5),
                 "control": {},  # Faction control percentages
                 "facilities": district.get("facilities", []),
-                "events": []
+                "events": [],
             }
 
         logger.info(f"Initialized {len(self.districts)} districts")
 
-    async def _initialize_resources(self, scenario_config: Optional[Dict[str, Any]] = None) -> None:
+    async def _initialize_resources(
+        self, scenario_config: Optional[Dict[str, Any]] = None
+    ) -> None:
         """Initialize game resources"""
-        default_resources = {
-            "money": 1000,
-            "influence": 500,
-            "personnel": 10
-        }
+        default_resources = {"money": 1000, "influence": 500, "personnel": 10}
 
-        resources_config = scenario_config.get("initial_resources", default_resources) if scenario_config else default_resources
+        resources_config = (
+            scenario_config.get("initial_resources", default_resources)
+            if scenario_config
+            else default_resources
+        )
         self.resources = resources_config
 
         logger.info(f"Initialized resources: {self.resources}")
@@ -129,18 +165,20 @@ class GameState:
         logger.info(f"Processing action of type: {action_type}")
 
         # Add action to events
-        self.events.append({
-            "type": "player_action",
-            "action_type": action_type,
-            "data": action_data,
-            "timestamp": self._get_timestamp()
-        })
+        self.events.append(
+            {
+                "type": "player_action",
+                "action_type": action_type,
+                "data": action_data,
+                "timestamp": self._get_timestamp(),
+            }
+        )
 
         # Return placeholder result
         return {
             "success": True,
             "action_type": action_type,
-            "message": f"Action {action_type} processed successfully"
+            "message": f"Action {action_type} processed successfully",
         }
 
     def get_summary(self) -> Dict[str, Any]:
@@ -152,7 +190,7 @@ class GameState:
             "players_count": len(self.players),
             "event_count": len(self.events),
             "resources": self.resources,
-            "latest_events": self.events[-5:] if self.events else []
+            "latest_events": self.events[-5:] if self.events else [],
         }
 
     def _save_state_to_history(self, turn: int, reason: str) -> None:
@@ -165,10 +203,14 @@ class GameState:
             "resources": dict(self.resources),
             "heat_levels": dict(self.heat_levels),
             # Only save summaries of large data structures
-            "districts_summary": {d_id: {"name": d["name"], "control": d.get("control", {})}
-                               for d_id, d in self.districts.items()},
-            "factions_summary": {f_id: {"name": f.get("name", f_id), "strength": f.get("strength", 0)}
-                              for f_id, f in self.factions.items()}
+            "districts_summary": {
+                d_id: {"name": d["name"], "control": d.get("control", {})}
+                for d_id, d in self.districts.items()
+            },
+            "factions_summary": {
+                f_id: {"name": f.get("name", f_id), "strength": f.get("strength", 0)}
+                for f_id, f in self.factions.items()
+            },
         }
 
         self.turn_history.append(state_snapshot)
@@ -182,4 +224,5 @@ class GameState:
     def _get_timestamp(self) -> int:
         """Get current timestamp"""
         import time
+
         return int(time.time())

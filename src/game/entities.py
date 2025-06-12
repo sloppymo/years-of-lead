@@ -6,13 +6,14 @@ All shared types that multiple modules depend on are defined here.
 """
 
 from enum import Enum
-from typing import Dict, List, Any, Optional, Set, Tuple
+from typing import Dict, List, Any, Set
 from dataclasses import dataclass, field
 import random
 
 
 class GamePhase(Enum):
     """Game turn phases"""
+
     PLANNING = "planning"
     ACTION = "action"
     RESOLUTION = "resolution"
@@ -20,6 +21,7 @@ class GamePhase(Enum):
 
 class AgentStatus(Enum):
     """Agent status types"""
+
     ACTIVE = "active"
     INJURED = "injured"
     ARRESTED = "arrested"
@@ -28,6 +30,7 @@ class AgentStatus(Enum):
 
 class SkillType(Enum):
     """Agent skill types"""
+
     COMBAT = "combat"
     STEALTH = "stealth"
     HACKING = "hacking"
@@ -38,6 +41,7 @@ class SkillType(Enum):
 
 class MissionType(Enum):
     """Mission types"""
+
     PROPAGANDA = "propaganda"
     SABOTAGE = "sabotage"
     RECRUITMENT = "recruitment"
@@ -48,6 +52,7 @@ class MissionType(Enum):
 @dataclass
 class Skill:
     """Agent skill with level"""
+
     level: int = 1
     experience: int = 0
 
@@ -55,6 +60,7 @@ class Skill:
 @dataclass
 class Equipment:
     """Equipment item"""
+
     name: str
     type: str
     effectiveness: int = 1
@@ -63,6 +69,7 @@ class Equipment:
 @dataclass
 class Agent:
     """Game agent/operative - Base definition without complex dependencies"""
+
     id: str
     name: str
     faction_id: str
@@ -82,30 +89,39 @@ class Agent:
     # Advanced relationship mechanics
     secrets: List[Any] = field(default_factory=list)
     memory_journal: List[Any] = field(default_factory=list)
-    memory_forks: List[Any] = field(default_factory=list)  # Emotional memory forking system
+    memory_forks: List[Any] = field(
+        default_factory=list
+    )  # Emotional memory forking system
     masked_relationships: Dict[str, Any] = field(default_factory=dict)
-    ideology_vector: Dict[str, float] = field(default_factory=lambda: {
-        "radical": 0.5,
-        "pacifist": 0.5,
-        "individualist": 0.5,
-        "traditional": 0.5,
-        "nationalist": 0.5,
-        "materialist": 0.5
-    })
-    emotion_state: Dict[str, float] = field(default_factory=lambda: {
-        "hope": 0.5,
-        "fear": 0.3,
-        "anger": 0.2,
-        "despair": 0.1
-    })
+    ideology_vector: Dict[str, float] = field(
+        default_factory=lambda: {
+            "radical": 0.5,
+            "pacifist": 0.5,
+            "individualist": 0.5,
+            "traditional": 0.5,
+            "nationalist": 0.5,
+            "materialist": 0.5,
+        }
+    )
+    emotion_state: Dict[str, float] = field(
+        default_factory=lambda: {"hope": 0.5, "fear": 0.3, "anger": 0.2, "despair": 0.1}
+    )
     planned_betrayal: Any = None
     persona_active: bool = False  # Whether persona mask is currently active
 
     # Symbolic systems integration
-    symbolic_resonance: Dict[str, float] = field(default_factory=dict)  # Connection to symbolic elements
-    narrative_threads: List[str] = field(default_factory=list)  # Active narrative threads
-    propaganda_exposure: Dict[str, float] = field(default_factory=dict)  # Exposure to propaganda themes
-    sleeper_activation_conditions: List[str] = field(default_factory=list)  # Sleeper agent triggers
+    symbolic_resonance: Dict[str, float] = field(
+        default_factory=dict
+    )  # Connection to symbolic elements
+    narrative_threads: List[str] = field(
+        default_factory=list
+    )  # Active narrative threads
+    propaganda_exposure: Dict[str, float] = field(
+        default_factory=dict
+    )  # Exposure to propaganda themes
+    sleeper_activation_conditions: List[str] = field(
+        default_factory=list
+    )  # Sleeper agent triggers
 
     def __post_init__(self):
         """Initialize default skills"""
@@ -117,19 +133,19 @@ class Agent:
 @dataclass
 class Faction:
     """Political faction"""
+
     id: str
     name: str
     current_goal: str = "recruitment"
-    resources: Dict[str, int] = field(default_factory=lambda: {
-        "money": 100,
-        "influence": 10,
-        "personnel": 5
-    })
+    resources: Dict[str, int] = field(
+        default_factory=lambda: {"money": 100, "influence": 10, "personnel": 5}
+    )
 
 
 @dataclass
 class Location:
     """Game location"""
+
     id: str
     name: str
     security_level: int = 5
@@ -140,6 +156,7 @@ class Location:
 @dataclass
 class Mission:
     """Active mission"""
+
     id: str
     mission_type: MissionType
     faction_id: str

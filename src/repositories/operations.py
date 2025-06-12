@@ -2,10 +2,10 @@
 Operations and cells repository for database operations
 """
 
-from typing import Optional, List, Dict, Any
+from typing import Optional, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import and_, or_, text, desc
+from sqlalchemy import and_
 
 from models.sql_models import Operation, Cell, cell_operations
 from models.schemas import OperationCreate, OperationBase, CellCreate, CellBase
@@ -18,25 +18,31 @@ class OperationRepository(BaseRepository[Operation, OperationCreate, OperationBa
     def __init__(self):
         super().__init__(Operation)
 
-    async def get_by_faction(self, db: AsyncSession, faction_id: str) -> List[Operation]:
+    async def get_by_faction(
+        self, db: AsyncSession, faction_id: str
+    ) -> List[Operation]:
         """Get operations by faction ID"""
         query = select(Operation).where(Operation.faction_id == faction_id)
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_by_district(self, db: AsyncSession, district_id: str) -> List[Operation]:
+    async def get_by_district(
+        self, db: AsyncSession, district_id: str
+    ) -> List[Operation]:
         """Get operations in a district"""
         query = select(Operation).where(Operation.district_id == district_id)
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_active_operations(self, db: AsyncSession, faction_id: str) -> List[Operation]:
+    async def get_active_operations(
+        self, db: AsyncSession, faction_id: str
+    ) -> List[Operation]:
         """Get active (non-completed) operations for a faction"""
         query = select(Operation).where(
             and_(
                 Operation.faction_id == faction_id,
                 Operation.current_stage != "completed",
-                Operation.current_stage != "failed"
+                Operation.current_stage != "failed",
             )
         )
         result = await db.execute(query)
@@ -52,7 +58,9 @@ class OperationRepository(BaseRepository[Operation, OperationCreate, OperationBa
 
         valid_stages = ["planning", "executing", "completed", "failed"]
         if stage not in valid_stages:
-            raise ValueError(f"Invalid stage: {stage}. Must be one of: {', '.join(valid_stages)}")
+            raise ValueError(
+                f"Invalid stage: {stage}. Must be one of: {', '.join(valid_stages)}"
+            )
 
         operation.current_stage = stage
         db.add(operation)
@@ -90,8 +98,7 @@ class OperationRepository(BaseRepository[Operation, OperationCreate, OperationBa
         # Add new cell assignments
         for cell_id in cell_ids:
             insert_stmt = cell_operations.insert().values(
-                operation_id=operation_id,
-                cell_id=cell_id
+                operation_id=operation_id, cell_id=cell_id
             )
             await db.execute(insert_stmt)
 
@@ -133,9 +140,7 @@ class CellRepository(BaseRepository[Cell, CellCreate, CellBase]):
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_operations(
-        self, db: AsyncSession, cell_id: str
-    ) -> List[str]:
+    async def get_operations(self, db: AsyncSession, cell_id: str) -> List[str]:
         """Get operation IDs that a cell is assigned to"""
         query = select(cell_operations.c.operation_id).where(
             cell_operations.c.cell_id == cell_id

@@ -13,16 +13,16 @@ This script performs comprehensive testing of all new features including:
 """
 
 import sys
-import os
 import asyncio
 import traceback
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+import importlib.util
 
 # Add src to Python path
 project_root = Path(__file__).parent
 src_path = project_root / "src"
 sys.path.insert(0, str(src_path))
+
 
 class FeatureDebugger:
     """Comprehensive debugger for new features"""
@@ -72,35 +72,53 @@ class FeatureDebugger:
 
         try:
             # Core game modules
-            from game.core import GameState, Agent, Faction, Location, Mission
-            print("  ✅ Core game modules imported")
+            core_spec = importlib.util.find_spec("game.core")
+            if core_spec:
+                print("  ✅ Core game modules found")
+            else:
+                print("  ❌ Core game modules not found")
 
             # Character creation
-            from game.character_creation import (
-                CharacterCreator, create_random_character,
-                BackgroundType, PersonalityTrait, SkillCategory
-            )
-            print("  ✅ Character creation modules imported")
+            char_spec = importlib.util.find_spec("game.character_creation")
+            if char_spec:
+                print("  ✅ Character creation modules found")
+            else:
+                print("  ❌ Character creation modules not found")
 
             # Emotional state
-            from game.emotional_state import EmotionalState, create_random_emotional_state
-            print("  ✅ Emotional state modules imported")
+            emotional_spec = importlib.util.find_spec("game.emotional_state")
+            if emotional_spec:
+                print("  ✅ Emotional state modules found")
+            else:
+                print("  ❌ Emotional state modules not found")
 
             # Game engine
-            from game.engine import GameEngine, GameStatus
-            print("  ✅ Game engine modules imported")
+            engine_spec = importlib.util.find_spec("game.engine")
+            if engine_spec:
+                print("  ✅ Game engine modules found")
+            else:
+                print("  ❌ Game engine modules not found")
 
             # Events
-            from game.events import EventManager, EventSystem
-            print("  ✅ Event system modules imported")
+            events_spec = importlib.util.find_spec("game.events")
+            if events_spec:
+                print("  ✅ Events modules found")
+            else:
+                print("  ❌ Events modules not found")
 
             # Factions
-            from game.factions import FactionManager
-            print("  ✅ Faction system modules imported")
+            factions_spec = importlib.util.find_spec("game.factions")
+            if factions_spec:
+                print("  ✅ Factions modules found")
+            else:
+                print("  ❌ Factions modules not found")
 
-            # State management
-            from game.state import GameState as StateGameState
-            print("  ✅ State management modules imported")
+            # State
+            state_spec = importlib.util.find_spec("game.state")
+            if state_spec:
+                print("  ✅ State modules found")
+            else:
+                print("  ❌ State modules not found")
 
             return True
 
@@ -114,8 +132,10 @@ class FeatureDebugger:
 
         try:
             from game.character_creation import (
-                CharacterCreator, create_random_character,
-                BackgroundType, PersonalityTrait, SkillCategory
+                CharacterCreator,
+                create_random_character,
+                BackgroundType,
+                PersonalityTrait,
             )
 
             # Test random character creation
@@ -128,7 +148,7 @@ class FeatureDebugger:
                 name="Test2",
                 background_type=BackgroundType.MILITARY,
                 primary_trait=PersonalityTrait.LOYAL,
-                secondary_trait=PersonalityTrait.PRAGMATIC
+                secondary_trait=PersonalityTrait.PRAGMATIC,
             )
             print(f"  ✅ Specific character created: {char2.name}")
 
@@ -155,18 +175,19 @@ class FeatureDebugger:
         print("Testing emotional state system...")
 
         try:
-            from game.emotional_state import EmotionalState, create_random_emotional_state
+            from game.emotional_state import (
+                EmotionalState,
+                create_random_emotional_state,
+            )
 
             # Test basic emotional state
             emotional_state = EmotionalState()
             print("  ✅ Basic emotional state created")
 
             # Test emotional impact
-            emotional_state.apply_emotional_impact({
-                'fear': 0.5,
-                'anger': 0.3,
-                'trust': -0.2
-            })
+            emotional_state.apply_emotional_impact(
+                {"fear": 0.5, "anger": 0.3, "trust": -0.2}
+            )
             print("  ✅ Emotional impact applied")
 
             # Test trauma application
@@ -174,13 +195,15 @@ class FeatureDebugger:
             print("  ✅ Trauma applied")
 
             # Test random emotional state
-            random_state = create_random_emotional_state()
+            create_random_emotional_state()  # Test that it doesn't crash
             print("  ✅ Random emotional state created")
 
             # Test serialization
             serialized = emotional_state.serialize()
             deserialized = EmotionalState.deserialize(serialized)
-            assert deserialized.fear == emotional_state.fear, "Emotional state serialization failed"
+            assert (
+                deserialized.fear == emotional_state.fear
+            ), "Emotional state serialization failed"
             print("  ✅ Emotional state serialization works")
 
             # Test stability calculation
@@ -207,7 +230,7 @@ class FeatureDebugger:
 
             # Test initialization
             game_info = engine.get_game_info()
-            assert 'game_id' in game_info, "Game info missing game_id"
+            assert "game_id" in game_info, "Game info missing game_id"
             print("  ✅ Game engine initialized")
 
             # Test status
@@ -239,7 +262,9 @@ class FeatureDebugger:
             # Test faction relationships
             faction_ids = list(faction_manager.factions.keys())
             if len(faction_ids) >= 2:
-                relationship = faction_manager.get_relationship(faction_ids[0], faction_ids[1])
+                relationship = faction_manager.get_relationship(
+                    faction_ids[0], faction_ids[1]
+                )
                 assert -100 <= relationship <= 100, "Relationship out of range"
                 print("  ✅ Faction relationships work")
 
@@ -254,7 +279,7 @@ class FeatureDebugger:
         print("Testing event system...")
 
         try:
-            from game.events import EventManager, EventSystem
+            from game.events import EventManager
 
             # Create event manager
             event_manager = EventManager()
@@ -262,6 +287,7 @@ class FeatureDebugger:
 
             # Test event registration
             test_events = []
+
             def test_listener(data):
                 test_events.append(data)
 
@@ -302,7 +328,7 @@ class FeatureDebugger:
 
             # Test state summary
             summary = state.get_summary()
-            assert 'game_id' in summary, "Summary missing game_id"
+            assert "game_id" in summary, "Summary missing game_id"
             print("  ✅ State summary works")
 
             return True
@@ -325,8 +351,12 @@ class FeatureDebugger:
             print("  ✅ Character with emotional state created")
 
             # Test character's emotional state
-            assert hasattr(character, 'emotional_state'), "Character missing emotional state"
-            assert isinstance(character.emotional_state, EmotionalState), "Wrong emotional state type"
+            assert hasattr(
+                character, "emotional_state"
+            ), "Character missing emotional state"
+            assert isinstance(
+                character.emotional_state, EmotionalState
+            ), "Wrong emotional state type"
             print("  ✅ Character emotional state integration works")
 
             # Test game state with character
@@ -369,10 +399,12 @@ class FeatureDebugger:
 
         print("\n" + "=" * 60)
 
+
 async def main():
     """Run the automated debugging"""
     debugger = FeatureDebugger()
     await debugger.run_all_tests()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

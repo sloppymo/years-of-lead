@@ -8,8 +8,11 @@ that buffer agents against trauma and improve therapy outcomes.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Optional, TYPE_CHECKING
 import uuid
+
+if TYPE_CHECKING:
+    from .emotional_state import EmotionalState
 
 
 @dataclass
@@ -42,7 +45,7 @@ class SupportNetwork:
         """Return resilience bonus applied to relapse calculations"""
         return self.resilience_bonus
 
-    def apply_passive_support(self, emotional_state: 'EmotionalState') -> None:  # type: ignore
+    def apply_passive_support(self, emotional_state: "EmotionalState") -> None:  # type: ignore
         """Apply passive trauma recovery each turn."""
         emotional_state.apply_therapy_effect(self.passive_recovery)
 

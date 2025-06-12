@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -35,13 +35,13 @@ const LoginForm: React.FC = () => {
       <Typography variant="h5" component="h1" align="center" gutterBottom>
         Login to Years of Lead
       </Typography>
-      
+
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
-      
+
       <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
           helperText={formik.touched.email && formik.errors.email}
           margin="normal"
         />
-        
+
         <TextField
           fullWidth
           id="password"
@@ -69,7 +69,7 @@ const LoginForm: React.FC = () => {
           helperText={formik.touched.password && formik.errors.password}
           margin="normal"
         />
-        
+
         <Box mt={3}>
           <Button
             color="primary"
@@ -81,12 +81,12 @@ const LoginForm: React.FC = () => {
             {formik.isSubmitting ? 'Logging in...' : 'Login'}
           </Button>
         </Box>
-        
+
         <Box mt={2} textAlign="center">
           <Typography variant="body2">
             Don't have an account?{' '}
-            <Button 
-              color="primary" 
+            <Button
+              color="primary"
               onClick={() => navigate('/register')}
               sx={{ p: 0, minWidth: 'auto', verticalAlign: 'baseline' }}
             >

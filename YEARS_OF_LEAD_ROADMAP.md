@@ -3,8 +3,8 @@
 ## Project Overview
 **Years of Lead** - A complex turn-based insurgency simulator rooted in historical revolutionary tactics, faction dynamics, and symbolic-narrative interplay, integrated with SYLVA & WREN emotional wellness systems.
 
-**Status**: Planning Phase  
-**Last Updated**: 2025-01-27  
+**Status**: Planning Phase
+**Last Updated**: 2025-01-27
 **Estimated Timeline**: 18-24 months
 
 ---
@@ -417,11 +417,11 @@
 
 ---
 
-**Total Tasks: 200+**  
-**Completed: 0**  
-**In Progress: 0**  
+**Total Tasks: 200+**
+**Completed: 0**
+**In Progress: 0**
 **Percentage Complete: 0%**
 
 ---
 
-*This roadmap is a living document and will be updated regularly as development progresses and requirements evolve.* 
+*This roadmap is a living document and will be updated regularly as development progresses and requirements evolve.*

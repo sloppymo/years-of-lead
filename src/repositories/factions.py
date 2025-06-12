@@ -2,10 +2,10 @@
 Faction repository for database operations
 """
 
-from typing import Optional, List, Dict, Any, Tuple
+from typing import Optional, List, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import and_, or_, func, text
+from sqlalchemy import and_
 
 from models.sql_models import Faction, GameFaction, faction_relationships
 from models.schemas import FactionBase, FactionCreate
@@ -37,7 +37,9 @@ class FactionRepository(BaseRepository[Faction, FactionCreate, FactionBase]):
         return result.scalars().all()
 
 
-class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str, Any]]):
+class GameFactionRepository(
+    BaseRepository[GameFaction, Dict[str, Any], Dict[str, Any]]
+):
     """Game faction repository for database operations"""
 
     def __init__(self):
@@ -49,20 +51,24 @@ class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str
         result = await db.execute(query)
         return result.scalars().all()
 
-    async def get_player_faction(self, db: AsyncSession, game_id: str) -> Optional[GameFaction]:
+    async def get_player_faction(
+        self, db: AsyncSession, game_id: str
+    ) -> Optional[GameFaction]:
         """Get the player's faction in a game"""
         query = select(GameFaction).where(
-            and_(GameFaction.game_id == game_id, GameFaction.is_player_faction == True)
+            and_(GameFaction.game_id == game_id, GameFaction.is_player_faction)
         )
         result = await db.execute(query)
         return result.scalars().first()
 
-    async def get_by_template(self, db: AsyncSession, game_id: str, template_id: str) -> Optional[GameFaction]:
+    async def get_by_template(
+        self, db: AsyncSession, game_id: str, template_id: str
+    ) -> Optional[GameFaction]:
         """Get a game faction by game ID and template ID"""
         query = select(GameFaction).where(
             and_(
                 GameFaction.game_id == game_id,
-                GameFaction.faction_template_id == template_id
+                GameFaction.faction_template_id == template_id,
             )
         )
         result = await db.execute(query)
@@ -102,13 +108,13 @@ class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str
         # Query for relationships where this faction is the primary faction
         query1 = select(
             faction_relationships.c.other_faction_id,
-            faction_relationships.c.relationship_value
+            faction_relationships.c.relationship_value,
         ).where(faction_relationships.c.faction_id == faction_id)
 
         # Query for relationships where this faction is the other faction
         query2 = select(
             faction_relationships.c.faction_id,
-            faction_relationships.c.relationship_value
+            faction_relationships.c.relationship_value,
         ).where(faction_relationships.c.other_faction_id == faction_id)
 
         result1 = await db.execute(query1)
@@ -133,7 +139,7 @@ class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str
         query = select(faction_relationships).where(
             and_(
                 faction_relationships.c.faction_id == faction_id,
-                faction_relationships.c.other_faction_id == other_faction_id
+                faction_relationships.c.other_faction_id == other_faction_id,
             )
         )
         result = await db.execute(query)
@@ -146,7 +152,7 @@ class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str
                 .where(
                     and_(
                         faction_relationships.c.faction_id == faction_id,
-                        faction_relationships.c.other_faction_id == other_faction_id
+                        faction_relationships.c.other_faction_id == other_faction_id,
                     )
                 )
                 .values(relationship_value=value)
@@ -157,7 +163,7 @@ class GameFactionRepository(BaseRepository[GameFaction, Dict[str, Any], Dict[str
             stmt = faction_relationships.insert().values(
                 faction_id=faction_id,
                 other_faction_id=other_faction_id,
-                relationship_value=value
+                relationship_value=value,
             )
             await db.execute(stmt)
 

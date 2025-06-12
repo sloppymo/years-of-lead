@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Paper, 
-  Grid, 
-  Button, 
-  Chip, 
-  Tabs, 
-  Tab, 
-  Divider, 
-  List, 
-  ListItem, 
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  Chip,
+  Tabs,
+  Tab,
+  Divider,
+  List,
+  ListItem,
   ListItemText,
   ListItemIcon,
   Avatar,
@@ -76,28 +76,28 @@ const GameDetail: React.FC = () => {
 
   useEffect(() => {
     if (!id) return;
-    
+
     const fetchGameData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Get game details
         const gameData = await gameService.getGameById(id);
         setGame(gameData);
-        
+
         // Get factions in this game
         const factionsData = await factionService.getFactionByGame(id);
         setFactions(factionsData);
-        
+
         // Get player characters
         const charactersData = await playerService.getPlayerCharacters(id);
         setCharacters(charactersData);
-        
+
         // Get game events
         const eventsData = await gameService.getGameEvents(id);
         setEvents(eventsData);
-        
+
         setLoading(false);
       } catch (err: any) {
         console.error(err);
@@ -105,7 +105,7 @@ const GameDetail: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     fetchGameData();
   }, [id]);
 
@@ -115,19 +115,19 @@ const GameDetail: React.FC = () => {
 
   const handleAdvanceTurn = async () => {
     if (!id) return;
-    
+
     try {
       setAdvancingTurn(true);
       await gameService.advanceTurn(id);
-      
+
       // Refresh game data
       const gameData = await gameService.getGameById(id);
       setGame(gameData);
-      
+
       // Refresh events
       const eventsData = await gameService.getGameEvents(id);
       setEvents(eventsData);
-      
+
       setConfirmAdvanceTurn(false);
       setAdvancingTurn(false);
     } catch (err: any) {
@@ -161,9 +161,9 @@ const GameDetail: React.FC = () => {
       <Box my={3}>
         <Alert severity="error">
           {error}
-          <Button 
-            color="inherit" 
-            size="small" 
+          <Button
+            color="inherit"
+            size="small"
             onClick={() => navigate('/games')}
             sx={{ ml: 2 }}
           >
@@ -179,9 +179,9 @@ const GameDetail: React.FC = () => {
       <Box my={3}>
         <Alert severity="warning">
           Game not found
-          <Button 
-            color="inherit" 
-            size="small" 
+          <Button
+            color="inherit"
+            size="small"
             onClick={() => navigate('/games')}
             sx={{ ml: 2 }}
           >
@@ -204,18 +204,18 @@ const GameDetail: React.FC = () => {
               {game.scenario.name}
             </Typography>
             <Box display="flex" alignItems="center" mt={1}>
-              <Chip 
-                label={`Turn ${game.turn}`} 
-                color="primary" 
-                sx={{ mr: 1 }} 
+              <Chip
+                label={`Turn ${game.turn}`}
+                color="primary"
+                sx={{ mr: 1 }}
               />
-              <Chip 
-                label={game.state === 'active' ? 'Active' : 'Completed'} 
-                color={game.state === 'active' ? 'success' : 'default'} 
+              <Chip
+                label={game.state === 'active' ? 'Active' : 'Completed'}
+                color={game.state === 'active' ? 'success' : 'default'}
               />
             </Box>
           </Box>
-          
+
           <Button
             variant="contained"
             color="primary"
@@ -226,7 +226,7 @@ const GameDetail: React.FC = () => {
             {advancingTurn ? 'Processing...' : 'Advance Turn'}
           </Button>
         </Box>
-        
+
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Typography variant="body2">
@@ -246,7 +246,7 @@ const GameDetail: React.FC = () => {
           </Grid>
         </Grid>
       </Paper>
-      
+
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="game tabs">
@@ -256,7 +256,7 @@ const GameDetail: React.FC = () => {
             <Tab icon={<EventNoteIcon />} iconPosition="start" label="Events" />
           </Tabs>
         </Box>
-        
+
         <TabPanel value={tabValue} index={0}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={8}>
@@ -268,7 +268,7 @@ const GameDetail: React.FC = () => {
                   {game.scenario.description || "No description available."}
                 </Typography>
               </Paper>
-              
+
               <Paper elevation={1} sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>
                   Recent Events
@@ -284,8 +284,8 @@ const GameDetail: React.FC = () => {
                         <ListItemIcon>
                           <NotificationsIcon color="primary" />
                         </ListItemIcon>
-                        <ListItemText 
-                          primary={event.title} 
+                        <ListItemText
+                          primary={event.title}
                           secondary={`Turn ${event.turn} - ${formatDate(event.date)}`}
                         />
                       </ListItem>
@@ -294,8 +294,8 @@ const GameDetail: React.FC = () => {
                 )}
                 {events.length > 5 && (
                   <Box mt={2} textAlign="center">
-                    <Button 
-                      color="primary" 
+                    <Button
+                      color="primary"
                       onClick={() => setTabValue(3)}
                     >
                       View All Events
@@ -304,7 +304,7 @@ const GameDetail: React.FC = () => {
                 )}
               </Paper>
             </Grid>
-            
+
             <Grid item xs={12} md={4}>
               <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
                 <Typography variant="h6" gutterBottom>
@@ -323,9 +323,9 @@ const GameDetail: React.FC = () => {
                     </Typography>
                   </Box>
                 </Box>
-                
+
                 <Divider sx={{ my: 2 }} />
-                
+
                 <Typography variant="body2">
                   <strong>Influence:</strong> {game.player_faction.influence || 0}
                 </Typography>
@@ -336,7 +336,7 @@ const GameDetail: React.FC = () => {
                   <strong>Supporters:</strong> {game.player_faction.supporters || 0}
                 </Typography>
               </Paper>
-              
+
               <Paper elevation={1} sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>
                   Actions
@@ -359,12 +359,12 @@ const GameDetail: React.FC = () => {
             </Grid>
           </Grid>
         </TabPanel>
-        
+
         <TabPanel value={tabValue} index={1}>
           <Typography variant="h5" gutterBottom>
             Factions
           </Typography>
-          
+
           <Grid container spacing={3}>
             {factions.length === 0 ? (
               <Grid item xs={12}>
@@ -385,13 +385,13 @@ const GameDetail: React.FC = () => {
                           {faction.name}
                         </Typography>
                       </Box>
-                      
+
                       <Typography variant="body2" color="text.secondary" gutterBottom>
                         {faction.type} • {faction.ideology}
                       </Typography>
-                      
+
                       <Divider sx={{ my: 1 }} />
-                      
+
                       <Typography variant="body2">
                         <strong>Influence:</strong> {faction.game_data?.influence || 0}
                       </Typography>
@@ -408,13 +408,13 @@ const GameDetail: React.FC = () => {
             )}
           </Grid>
         </TabPanel>
-        
+
         <TabPanel value={tabValue} index={2}>
           <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
             <Typography variant="h5">
               Characters
             </Typography>
-            <Button 
+            <Button
               variant="outlined"
               color="primary"
               onClick={() => navigate(`/games/${id}/characters/new`)}
@@ -422,7 +422,7 @@ const GameDetail: React.FC = () => {
               Create Character
             </Button>
           </Box>
-          
+
           <Grid container spacing={3}>
             {characters.length === 0 ? (
               <Grid item xs={12}>
@@ -448,9 +448,9 @@ const GameDetail: React.FC = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      
+
                       <Divider sx={{ my: 1 }} />
-                      
+
                       <Typography variant="body2">
                         <strong>Skills:</strong> {character.skills?.join(', ') || 'None'}
                       </Typography>
@@ -464,12 +464,12 @@ const GameDetail: React.FC = () => {
             )}
           </Grid>
         </TabPanel>
-        
+
         <TabPanel value={tabValue} index={3}>
           <Typography variant="h5" gutterBottom>
             Game Events
           </Typography>
-          
+
           {events.length === 0 ? (
             <Alert severity="info">
               No events have occurred yet. Events will appear here as the game progresses.
@@ -481,7 +481,7 @@ const GameDetail: React.FC = () => {
                   <ListItemIcon>
                     <NotificationsIcon color="primary" />
                   </ListItemIcon>
-                  <ListItemText 
+                  <ListItemText
                     primary={
                       <Typography variant="subtitle1">
                         {event.title}
@@ -504,7 +504,7 @@ const GameDetail: React.FC = () => {
           )}
         </TabPanel>
       </Box>
-      
+
       {/* Confirm Turn Advancement Dialog */}
       <Dialog
         open={confirmAdvanceTurn}
@@ -513,14 +513,14 @@ const GameDetail: React.FC = () => {
         <DialogTitle>Advance Turn?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to advance to turn {(game?.turn || 0) + 1}? 
+            Are you sure you want to advance to turn {(game?.turn || 0) + 1}?
             This will process all pending actions and generate new events.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmAdvanceTurn(false)}>Cancel</Button>
-          <Button 
-            onClick={handleAdvanceTurn} 
+          <Button
+            onClick={handleAdvanceTurn}
             color="primary"
             disabled={advancingTurn}
           >

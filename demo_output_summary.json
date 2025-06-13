@@ -1,0 +1,27 @@
+{
+  "total_entries": 4,
+  "analysis_timestamp": "2025-06-12T23:49:56.762958",
+  "archetype_distribution": {
+    "Seeker": 1,
+    "Threshold": 1,
+    "Witness": 1,
+    "Return": 1
+  },
+  "emotional_tag_distribution": {
+    "loneliness": 1
+  },
+  "mode_distribution": {
+    "reflective": 2,
+    "dispersive": 2
+  },
+  "closure_distribution": {
+    "has_closure": 4,
+    "no_closure": 0
+  },
+  "top_emotions": [
+    [
+      "loneliness",
+      1
+    ]
+  ]
+}

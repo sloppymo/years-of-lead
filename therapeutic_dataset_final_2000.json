@@ -1,0 +1,3602 @@
+[
+  {
+    "entry_id": 741,
+    "prompt": "The family that was supposed to protect me became the thing I needed protection from.",
+    "response": "You are rewriting the script that was handed down to you. Each choice is an act of genealogical revision.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "family_secrets",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 742,
+    "prompt": "My children left home and I don't know who I am without them to care for.",
+    "response": "Scapegoat roles are inherited positions. You are resigning from a job you never applied for.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 743,
+    "prompt": "My gender feels like a costume that doesn't fit, but I don't know what's underneath.",
+    "response": "The self is not a fixed star but a constellation, shifting with the seasons of experience.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "religious_deconversion",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 744,
+    "prompt": "I use sex to avoid intimacy, then wonder why I feel empty afterward.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "orientation_questioning",
+      "age_group": "middle_aged",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 745,
+    "prompt": "I'm the keeper of family secrets that are slowly poisoning me from the inside.",
+    "response": "The child within you still waits for the parent you needed. You are becoming that person for yourself.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "family_secrets",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 746,
+    "prompt": "I love my family but I can't be around them without losing pieces of myself.",
+    "response": "Loyalty and authenticity sometimes demand different directions. You are learning to choose yourself.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "empty_nest",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 747,
+    "prompt": "My body was weaponized against me. How do I reclaim it as my own?",
+    "response": "Sexual identity is not fixed geography but flowing water. You are learning to navigate new territories.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "intimacy_dysfunction",
+      "age_group": "young_adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 748,
+    "prompt": "I love my family but I can't be around them without losing pieces of myself.",
+    "response": "Loyalty and authenticity sometimes demand different directions. You are learning to choose yourself.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "elderly",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 749,
+    "prompt": "I'm watching my body age while my mind still feels twenty-five.",
+    "response": "Disability reframes ability. You are discovering new ways of moving through the world.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "body_dysmorphia",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 750,
+    "prompt": "I'm deconstructing the faith that once defined me, left floating in spiritual space.",
+    "response": "Career death can be identity rebirth. You are discovering who you are beyond what you do.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "adoption_trauma",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 751,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "middle_aged",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 752,
+    "prompt": "I've spent so long being who others needed me to be that I've lost track of myself.",
+    "response": "Aging is the earth's way of composting our former selves. What emerges feeds what comes next.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "aging_utility",
+      "age_group": "middle_aged",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 753,
+    "prompt": "Everyone expects me to be 'over it' by now, but grief doesn't follow anyone's timeline.",
+    "response": "Habit is memory in the body. Setting the table for two is a prayer to what was.",
+    "closure": "This part doesn't need to make sense yet.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "anticipatory_loss",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 754,
+    "prompt": "I've forgotten how to be alone without feeling abandoned.",
+    "response": "Distance can be a form of mercy when closeness cuts too deep. The space between holds its own truth.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "boundary_confusion",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 755,
+    "prompt": "I'm terrified I'll go back to who I was before. Recovery feels fragile as glass.",
+    "response": "Sobriety without recovery is white-knuckling existence. True healing includes the heart and spirit.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 756,
+    "prompt": "The anxiety lives in my chest like a caged bird, wings beating against my ribs.",
+    "response": "Body betrayal teaches harsh lessons about trust. Forgiveness begins with understanding its survival wisdom.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "disability_adjustment",
+      "age_group": "young_adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 757,
+    "prompt": "Death feels like the only certainty in a world of constant change.",
+    "response": "Absurdity and meaning are dance partners. The cosmic joke may be that both are true simultaneously.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "meaning_void",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 758,
+    "prompt": "My sexuality awakened late in life and now I don't know what to do with it.",
+    "response": "Reclaiming a weaponized body is revolutionary work. You are staging a coup against shame.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_addiction",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 759,
+    "prompt": "The world moved on but I'm still frozen in the moment everything changed.",
+    "response": "You are tending a garden of absence. What grows there is both beautiful and unbearable.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "grief_without_death",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 760,
+    "prompt": "I'm mourning the parent they never became, the grandparent my children will never know.",
+    "response": "Grief is love with nowhere to go. It pools in the hollow spaces, seeking its own level.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 761,
+    "prompt": "I'm questioning everything I thought I knew about my sexual orientation.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_trauma",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 762,
+    "prompt": "I became the parent to my own parent too young. I never got to be a child.",
+    "response": "You are rewriting the script that was handed down to you. Each choice is an act of genealogical revision.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "generational_trauma",
+      "age_group": "young_adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 763,
+    "prompt": "I fall in love with potential instead of reality, then blame them for not changing.",
+    "response": "Solitude and abandonment are different countries. You are learning to tell them apart.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "intimacy_fear",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 764,
+    "prompt": "My culture lives in my bones but the world wants me to shed my skin.",
+    "response": "Career death can be identity rebirth. You are discovering who you are beyond what you do.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "aging_utility",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 765,
+    "prompt": "My leadership position feels like performing a role I was never meant to play.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "retirement_grief",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 766,
+    "prompt": "I'm drowning in the absurdity of daily life while cosmic questions consume me.",
+    "response": "Purpose is not found but forged. Meaning is the fire you kindle in the darkness of uncertainty.",
+    "closure": "The breath finds its own rhythm.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "existential_loneliness",
+      "age_group": "middle_aged",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 767,
+    "prompt": "The flashbacks hit without warning, pulling me back to moments I thought I'd escaped.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 768,
+    "prompt": "My body responds to trauma triggers during intimate moments. Pleasure feels dangerous.",
+    "response": "Reclaiming a weaponized body is revolutionary work. You are staging a coup against shame.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "middle_aged",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 769,
+    "prompt": "I don't know who I am when I'm not performing for others.",
+    "response": "Aging is the earth's way of composting our former selves. What emerges feeds what comes next.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "adoption_trauma",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 770,
+    "prompt": "I'm rebuilding myself from the ruins, but sometimes I miss the familiar destruction.",
+    "response": "You are grieving the relationship with substances that once felt like love. This too is a form of heartbreak.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "relapse_anxiety",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 771,
+    "prompt": "My body betrayed me by responding to touch that wasn't safe. Now I can't tell the difference.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "memory_fragments",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 772,
+    "prompt": "My nervous system is stuck in alarm mode. I scan every room for exits even when I'm safe.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 773,
+    "prompt": "I freeze when people touch me unexpectedly. My body remembers things my mind wants to forget.",
+    "response": "You are both the storm and the shelter. The hypervigilance is your system's way of loving you fiercely.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "body_trust",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 774,
+    "prompt": "I got clean but my thinking is still toxic. Sobriety isn't the same as healing.",
+    "response": "Sobriety strips away the familiar armor, leaving you tender and raw. You are learning to live in your own skin.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "dry_drunk",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 775,
+    "prompt": "I attract people who need fixing because it's easier than facing my own brokenness.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "estrangement",
+      "age_group": "young_adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 776,
+    "prompt": "My partner and I are sexually incompatible but neither of us wants to leave.",
+    "response": "The addiction to chase is fear of being caught with yourself. The real intimacy is self-acceptance.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_addiction",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 777,
+    "prompt": "We're strangers living in the same house, pretending we know each other.",
+    "response": "Intimacy asks us to show our unfinished edges. The fear of being seen completely is ancient wisdom.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "love_addiction",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 778,
+    "prompt": "I give and give until I'm empty, then resent them for taking what I offered.",
+    "response": "You are both reaching and retreating, like tide waters that know their own rhythm.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 779,
+    "prompt": "I feel like a fraud in every meeting. Someone will discover I don't belong here.",
+    "response": "Workplace harassment operates in whispers and glances. Your reality doesn't require others' validation.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "retirement_grief",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 780,
+    "prompt": "I'm discovering wounds I medicated for decades. Recovery is archaeological work.",
+    "response": "Recovery removed the anesthesia but not the pain. You are learning to feel your way through healing.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 781,
+    "prompt": "My trauma happened to a child's body but I carry it in an adult's frame.",
+    "response": "The child's body held what the child's mind could not comprehend. You carry both the wound and the resilience.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "somatic_flashbacks",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 782,
+    "prompt": "I climbed the ladder only to discover it was leaning against the wrong wall.",
+    "response": "Retirement grief is mourning an identity that served its time. Who you are is larger than what you do.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "retirement_grief",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 783,
+    "prompt": "I can't trust my own memory anymore. Sometimes I wonder if what happened really happened.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trust_injury",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 784,
+    "prompt": "I carry the weight of what was done to me in my shoulders, in my chest, in my bones.",
+    "response": "The child's body held what the child's mind could not comprehend. You carry both the wound and the resilience.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "adolescent",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 785,
+    "prompt": "I've become an expert at reading micro-expressions, always scanning for danger.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "dissociation",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 786,
+    "prompt": "I learned to disappear so well that now I can't find my way back to myself.",
+    "response": "Dissociation is the mind's elegant protection, like mist rising from water. You are learning to inhabit yourself again.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "hypervigilance",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 787,
+    "prompt": "Time is running out and I haven't figured out why I'm here.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "death_anxiety",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 788,
+    "prompt": "Recovery stripped away my numbing but didn't teach me how to feel.",
+    "response": "Recovery is not a destination but a daily practice of choosing yourself. The path is made by walking.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "relapse_anxiety",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 789,
+    "prompt": "I'm caring for the parent who failed to care for me. The irony is suffocating.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "empty_nest",
+      "age_group": "middle_aged",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 790,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "Dissociation is the mind's elegant protection, like mist rising from water. You are learning to inhabit yourself again.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "somatic_flashbacks",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 791,
+    "prompt": "I'm grieving parts of myself that died when they did.",
+    "response": "You are tending a garden of absence. What grows there is both beautiful and unbearable.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 792,
+    "prompt": "The patterns repeat themselves through generations. We're all prisoners of what came before.",
+    "response": "Family love and family harm often wear the same face. Discernment is the skill you're developing.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 793,
+    "prompt": "I've lost my faith in everything I once held sacred. The ground beneath me has crumbled.",
+    "response": "You stand at the edge of the knowable, where meaning dissolves into silence. This threshold has its own teaching.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "freedom_paralysis",
+      "age_group": "elderly",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 794,
+    "prompt": "I'm afraid if I let them close, they'll see how broken I really am inside.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "betrayal_trauma",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 795,
+    "prompt": "My body carries shame I didn't choose. Someone else's hands left their mark on my soul.",
+    "response": "Performance becomes prison when we forget it's optional. You are remembering your natural voice.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "cultural_dislocation",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 796,
+    "prompt": "I'm addicted to the chase but terrified of being caught.",
+    "response": "Celibacy can be recovery of your erotic self, not abandonment of it. Fasting sharpens appetite.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "erotic_awakening",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 797,
+    "prompt": "I'm too old to start over but too young to give up. I feel trapped.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 798,
+    "prompt": "I keep people at arm's length because closeness has always meant danger.",
+    "response": "You attract what you believe you deserve. Healing begins with questioning that belief.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 799,
+    "prompt": "My body was weaponized against me. How do I reclaim it as my own?",
+    "response": "Reclaiming a weaponized body is revolutionary work. You are staging a coup against shame.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_trauma",
+      "age_group": "middle_aged",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 800,
+    "prompt": "The space between us has become an ocean. I don't know how to swim back.",
+    "response": "Distance can be a form of mercy when closeness cuts too deep. The space between holds its own truth.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "boundary_confusion",
+      "age_group": "middle_aged",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 801,
+    "prompt": "The universe feels indifferent to my suffering, to my joy, to my existence.",
+    "response": "Absurdity and meaning are dance partners. The cosmic joke may be that both are true simultaneously.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "adolescent",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 802,
+    "prompt": "My gender feels like a costume that doesn't fit, but I don't know what's underneath.",
+    "response": "Gender is a constellation, not a binary star. You are learning to navigate by your own light.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "gender_dysphoria",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 803,
+    "prompt": "My nervous system is stuck in alarm mode. I scan every room for exits even when I'm safe.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 804,
+    "prompt": "I lie awake wondering what the point of any of this is. The meaninglessness is crushing.",
+    "response": "The void you stare into also gazes back. In that mutual witnessing lies something approaching grace.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "absurdity_confrontation",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 805,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "Memory lives in the muscles, in the spaces between breaths. What the mind cannot hold, the body remembers.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 806,
+    "prompt": "The flashbacks hit without warning, pulling me back to moments I thought I'd escaped.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 807,
+    "prompt": "The family that was supposed to protect me became the thing I needed protection from.",
+    "response": "Sometimes protection means walking away from the very ground that grew you. Exile can be a form of salvation.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "caregiver_fatigue",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 808,
+    "prompt": "I learned to disappear so well that now I can't find my way back to myself.",
+    "response": "Memory lives in the muscles, in the spaces between breaths. What the mind cannot hold, the body remembers.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trust_injury",
+      "age_group": "adolescent",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 809,
+    "prompt": "The harassment at work is subtle but constant. I'm gaslighting myself about its reality.",
+    "response": "Professional isolation in crowded offices is its own form of loneliness. Connection requires vulnerability.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "burnout_syndrome",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 810,
+    "prompt": "I've been celibate so long I've forgotten what longing feels like.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "orientation_questioning",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 811,
+    "prompt": "I want connection but my desire has vanished. I'm grieving my erotic self.",
+    "response": "Sexual identity is not fixed geography but flowing water. You are learning to navigate new territories.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "orientation_questioning",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 812,
+    "prompt": "The family scapegoat role follows me everywhere, even into new relationships.",
+    "response": "Family patterns move through us like weather systems. You are learning to recognize the storms before they hit.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "middle_aged",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 813,
+    "prompt": "My body has become a stranger to me. It betrays me daily with pain I can't explain.",
+    "response": "The body ages while the spirit remains timeless. You are learning to honor both realities.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "chronic_illness",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 814,
+    "prompt": "My body remembers what my mind tries to forget. Trauma is stored in my tissues.",
+    "response": "You are learning to befriend the vessel that carries you. Reconciliation happens in small gestures.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "embodied_anxiety",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 815,
+    "prompt": "Love feels like a language I once spoke fluently but now can barely remember.",
+    "response": "Love sometimes requires translation across languages of hurt. Not all meanings survive the crossing.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "enmeshment",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 816,
+    "prompt": "Death feels like the only certainty in a world of constant change.",
+    "response": "Death as certainty can be oddly comforting. In a world of variables, it offers one constant.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "absurdity_confrontation",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 817,
+    "prompt": "I'm terrified of dying and equally terrified of living. Both feel impossible.",
+    "response": "The void you stare into also gazes back. In that mutual witnessing lies something approaching grace.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "existential_loneliness",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 818,
+    "prompt": "I'm terrified I'll go back to who I was before. Recovery feels fragile as glass.",
+    "response": "Clean thinking requires more than stopping use. You are rewiring patterns laid down over years.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "regression_fear",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 819,
+    "prompt": "I'm questioning everything I thought I knew about my sexual orientation.",
+    "response": "Using sex to avoid intimacy is emotional sleight of hand. True connection requires presence, not performance.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 820,
+    "prompt": "I used to believe in purpose. Now I'm not sure anything has inherent meaning.",
+    "response": "Paralysis in the face of infinite choice is its own choice. Freedom includes the freedom to not choose.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 821,
+    "prompt": "My career was my identity. Without it, I don't know who I am anymore.",
+    "response": "Aging is the earth's way of composting our former selves. What emerges feeds what comes next.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "career_identity_loss",
+      "age_group": "middle_aged",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 822,
+    "prompt": "My leadership position feels like performing a role I was never meant to play.",
+    "response": "Burnout is your system's rebellion against giving more than you have. The exhaustion carries wisdom.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "career_stagnation",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 823,
+    "prompt": "My body betrayed me by responding to touch that wasn't safe. Now I can't tell the difference.",
+    "response": "The child's body held what the child's mind could not comprehend. You carry both the wound and the resilience.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 824,
+    "prompt": "My body failed me when I needed it most. How do I trust it again?",
+    "response": "Your body is both witness and sanctuary. It holds the memory of every kindness and every wound.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "chronic_illness",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 825,
+    "prompt": "My body responds to trauma triggers during intimate moments. Pleasure feels dangerous.",
+    "response": "Using sex to avoid intimacy is emotional sleight of hand. True connection requires presence, not performance.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "orientation_questioning",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 826,
+    "prompt": "I'm surrounded by colleagues but feel profoundly isolated and misunderstood.",
+    "response": "Workplace harassment operates in whispers and glances. Your reality doesn't require others' validation.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 827,
+    "prompt": "I freeze when people touch me unexpectedly. My body remembers things my mind wants to forget.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 828,
+    "prompt": "I'm the keeper of family secrets that are slowly poisoning me from the inside.",
+    "response": "Sometimes protection means walking away from the very ground that grew you. Exile can be a form of salvation.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "caregiver_fatigue",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 829,
+    "prompt": "I'm sober but not recovering. I'm just existing without my drug of choice.",
+    "response": "Spiritual bypassing is another form of numbing. Real recovery includes the shadow work.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "spiritual_bypassing",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 830,
+    "prompt": "The absence is louder than any presence ever was. The silence where they used to be.",
+    "response": "Grief is love with nowhere to go. It pools in the hollow spaces, seeking its own level.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "complicated_mourning",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 831,
+    "prompt": "I gave everything to this job and it gave me nothing but burnout in return.",
+    "response": "Retirement grief is mourning an identity that served its time. Who you are is larger than what you do.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "career_stagnation",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 832,
+    "prompt": "I'm caught between two worlds, belonging fully to neither.",
+    "response": "You exist between definitions, in the liminal spaces where transformation happens. This is sacred ground.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "sexual_shame",
+      "age_group": "young_adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 833,
+    "prompt": "I feel like I'm screaming into a void. Does any of this matter? Do I matter?",
+    "response": "Death as certainty can be oddly comforting. In a world of variables, it offers one constant.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 834,
+    "prompt": "My children left home and I don't know who I am without them to care for.",
+    "response": "You are rewriting the script that was handed down to you. Each choice is an act of genealogical revision.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "generational_trauma",
+      "age_group": "adolescent",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 835,
+    "prompt": "I can't trust my own memory anymore. Sometimes I wonder if what happened really happened.",
+    "response": "You are both the storm and the shelter. The hypervigilance is your system's way of loving you fiercely.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 836,
+    "prompt": "I keep setting the table for two out of habit, then remembering they're gone.",
+    "response": "You mourn not just who they were, but who they might have become. Potential has its own weight.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "collective_grief",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 837,
+    "prompt": "I'm drowning in other people's emergencies while my own life falls apart.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "workplace_trauma",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 838,
+    "prompt": "My trauma happened to a child's body but I carry it in an adult's frame.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "elderly",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 839,
+    "prompt": "I became the parent to my own parent too young. I never got to be a child.",
+    "response": "Caregiving can be a form of archaeology, excavating love from the sediment of old hurts.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 840,
+    "prompt": "Retirement feels like death. Without work, who am I?",
+    "response": "Other people's emergencies become your crisis only if you allow it. Boundaries are emergency medicine.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 841,
+    "prompt": "I carry the weight of what was done to me in my shoulders, in my chest, in my bones.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 842,
+    "prompt": "I'm deconstructing the faith that once defined me, left floating in spiritual space.",
+    "response": "The self is not a fixed star but a constellation, shifting with the seasons of experience.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "adoption_trauma",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 843,
+    "prompt": "Grief ambushes me in grocery store aisles when I see their favorite foods.",
+    "response": "You mourn not just who they were, but who they might have become. Potential has its own weight.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "grief_without_death",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 844,
+    "prompt": "The shame of relapse is eating me alive. I feel like I've failed everyone including myself.",
+    "response": "Spiritual bypassing is another form of numbing. Real recovery includes the shadow work.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "dry_drunk",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 845,
+    "prompt": "I don't know who I am when I'm not performing for others.",
+    "response": "The self is not a fixed star but a constellation, shifting with the seasons of experience.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "performative_self",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 846,
+    "prompt": "I use sex to avoid intimacy, then wonder why I feel empty afterward.",
+    "response": "Desire is not constant like gravity. It ebbs and flows like tides, responding to invisible moons.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 847,
+    "prompt": "My disability shapes how others see me before they know anything else about me.",
+    "response": "Your body is both witness and sanctuary. It holds the memory of every kindness and every wound.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "embodied_anxiety",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 848,
+    "prompt": "Time is running out and I haven't figured out why I'm here.",
+    "response": "The void you stare into also gazes back. In that mutual witnessing lies something approaching grace.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "spiritual_crisis",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 849,
+    "prompt": "My sexuality awakened late in life and now I don't know what to do with it.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "shame_cycles",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 850,
+    "prompt": "I'm afraid if I let them close, they'll see how broken I really am inside.",
+    "response": "Solitude and abandonment are different countries. You are learning to tell them apart.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "avoidant_patterns",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 851,
+    "prompt": "I've become an expert at reading micro-expressions, always scanning for danger.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 852,
+    "prompt": "I'm aging out of my usefulness. Society discards us when we're no longer productive.",
+    "response": "Gender is a constellation, not a binary star. You are learning to navigate by your own light.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "adoption_trauma",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 853,
+    "prompt": "I've lost my faith in everything I once held sacred. The ground beneath me has crumbled.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "absurdity_confrontation",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 854,
+    "prompt": "I'm mourning someone who is still alive but no longer the person I knew.",
+    "response": "You are tending a garden of absence. What grows there is both beautiful and unbearable.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "collective_grief",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 855,
+    "prompt": "I've forgotten how to be alone without feeling abandoned.",
+    "response": "Solitude and abandonment are different countries. You are learning to tell them apart.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "intimacy_fear",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 856,
+    "prompt": "Everyone expects me to be 'over it' by now, but grief doesn't follow anyone's timeline.",
+    "response": "You mourn not just who they were, but who they might have become. Potential has its own weight.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 857,
+    "prompt": "I've spent so long being who others needed me to be that I've lost track of myself.",
+    "response": "Cultural identity flows through your veins like a river with many tributaries. Each stream carries its own music.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "adoption_trauma",
+      "age_group": "adolescent",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 858,
+    "prompt": "My nervous system is stuck in alarm mode. I scan every room for exits even when I'm safe.",
+    "response": "Trust injury leaves its own geography on the heart. The landscape is changed, but not destroyed.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "dissociation",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 859,
+    "prompt": "The anxiety lives in my chest like a caged bird, wings beating against my ribs.",
+    "response": "The nervous system operates on its own time, beyond the reach of rational thought. It seeks its own healing.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "fertility_grief",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 860,
+    "prompt": "I live in a vessel that doesn't feel like home. My body and I are at war.",
+    "response": "The body ages while the spirit remains timeless. You are learning to honor both realities.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "fertility_grief",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 861,
+    "prompt": "I'm discovering wounds I medicated for decades. Recovery is archaeological work.",
+    "response": "Spiritual bypassing is another form of numbing. Real recovery includes the shadow work.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "young_adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 862,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 863,
+    "prompt": "We're strangers living in the same house, pretending we know each other.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "estrangement",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 864,
+    "prompt": "The family scapegoat role follows me everywhere, even into new relationships.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "young_adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 865,
+    "prompt": "The flashbacks hit without warning, pulling me back to moments I thought I'd escaped.",
+    "response": "Flashbacks are time travelers carrying messages from a younger self who needed witnessing.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "memory_fragments",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 866,
+    "prompt": "I'm caring for the parent who failed to care for me. The irony is suffocating.",
+    "response": "The child within you still waits for the parent you needed. You are becoming that person for yourself.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "caregiver_fatigue",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 867,
+    "prompt": "Some days sobriety feels like punishment. I'm grieving my old ways of coping.",
+    "response": "Sobriety strips away the familiar armor, leaving you tender and raw. You are learning to live in your own skin.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 868,
+    "prompt": "I learned to disappear so well that now I can't find my way back to myself.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "hypervigilance",
+      "age_group": "young_adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 869,
+    "prompt": "I'm too old to start over but too young to give up. I feel trapped.",
+    "response": "Leadership is performance art with real consequences. You are learning to lead from authenticity.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 870,
+    "prompt": "Recovery stripped away my numbing but didn't teach me how to feel.",
+    "response": "Recovery removed the anesthesia but not the pain. You are learning to feel your way through healing.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "regression_fear",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 871,
+    "prompt": "The world moved on but I'm still frozen in the moment everything changed.",
+    "response": "The world's amnesia about death makes your grief feel foreign. You are fluent in a language others fear.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 872,
+    "prompt": "I'm rebuilding myself from the ruins, but sometimes I miss the familiar destruction.",
+    "response": "Sobriety without recovery is white-knuckling existence. True healing includes the heart and spirit.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "sobriety_grief",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 873,
+    "prompt": "My body carries shame I didn't choose. Someone else's hands left their mark on my soul.",
+    "response": "You exist between definitions, in the liminal spaces where transformation happens. This is sacred ground.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "sexual_shame",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 874,
+    "prompt": "The shame around my desires is older than my memory of them.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 875,
+    "prompt": "I'm grieving parts of myself that died when they did.",
+    "response": "Some days grief feels like drowning. Other days it's the water that teaches you to float.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "disenfranchised_grief",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 876,
+    "prompt": "I got clean but my thinking is still toxic. Sobriety isn't the same as healing.",
+    "response": "You are excavating your authentic self from beneath layers of numbing. What emerges is both fragile and fierce.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "dry_drunk",
+      "age_group": "elderly",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 877,
+    "prompt": "Some days the grief feels like drowning. Other days it's just a dull ache in my chest.",
+    "response": "Habit is memory in the body. Setting the table for two is a prayer to what was.",
+    "closure": "This part doesn't need to make sense yet.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 878,
+    "prompt": "I'm terrified of dying and equally terrified of living. Both feel impossible.",
+    "response": "Indifference is the universe's default setting. Your suffering and joy are equally cosmic rebellions.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "freedom_paralysis",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 879,
+    "prompt": "I freeze when people touch me unexpectedly. My body remembers things my mind wants to forget.",
+    "response": "Memory lives in the muscles, in the spaces between breaths. What the mind cannot hold, the body remembers.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "somatic_flashbacks",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 880,
+    "prompt": "My body responds to trauma triggers during intimate moments. Pleasure feels dangerous.",
+    "response": "Shame around desire is inheritance from others' fears. You are questioning what you were taught to carry.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "celibacy_struggles",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 881,
+    "prompt": "My gender feels like a costume that doesn't fit, but I don't know what's underneath.",
+    "response": "Aging is the earth's way of composting our former selves. What emerges feeds what comes next.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "career_identity_loss",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 882,
+    "prompt": "I'm surrounded by colleagues but feel profoundly isolated and misunderstood.",
+    "response": "Impostor syndrome speaks the language of unworthiness. You are learning to question its authority.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "career_stagnation",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 883,
+    "prompt": "My body was weaponized against me. How do I reclaim it as my own?",
+    "response": "Late-blooming sexuality is spring after a long winter. The earth knows how to awaken when it's ready.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_addiction",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 884,
+    "prompt": "I grieve the life I thought I would have, the future that was taken from me.",
+    "response": "Loss rearranges the furniture of the heart. You are learning to navigate a new geography of longing.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "disenfranchised_grief",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 885,
+    "prompt": "I'm mourning the parent they never became, the grandparent my children will never know.",
+    "response": "Loss rearranges the furniture of the heart. You are learning to navigate a new geography of longing.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "grief_without_death",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 886,
+    "prompt": "I'm the keeper of family secrets that are slowly poisoning me from the inside.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "family_secrets",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 887,
+    "prompt": "I gave everything to this job and it gave me nothing but burnout in return.",
+    "response": "Other people's emergencies become your crisis only if you allow it. Boundaries are emergency medicine.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "burnout_syndrome",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 888,
+    "prompt": "My culture lives in my bones but the world wants me to shed my skin.",
+    "response": "Career death can be identity rebirth. You are discovering who you are beyond what you do.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "cultural_dislocation",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 889,
+    "prompt": "I keep setting the table for two out of habit, then remembering they're gone.",
+    "response": "You carry the weight of their memory like stones in your pockets. Some burdens are treasures in disguise.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "disenfranchised_grief",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 890,
+    "prompt": "My career was my identity. Without it, I don't know who I am anymore.",
+    "response": "Cultural identity flows through your veins like a river with many tributaries. Each stream carries its own music.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "gender_dysphoria",
+      "age_group": "adolescent",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 891,
+    "prompt": "I'm drowning in the absurdity of daily life while cosmic questions consume me.",
+    "response": "Absurdity and meaning are dance partners. The cosmic joke may be that both are true simultaneously.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "middle_aged",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 892,
+    "prompt": "I love my family but I can't be around them without losing pieces of myself.",
+    "response": "Scapegoat roles are inherited positions. You are resigning from a job you never applied for.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 893,
+    "prompt": "I'm questioning everything I thought I knew about my sexual orientation.",
+    "response": "Reclaiming a weaponized body is revolutionary work. You are staging a coup against shame.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 894,
+    "prompt": "I'm caught between two worlds, belonging fully to neither.",
+    "response": "Your authenticity lives beneath the performance, like roots beneath winter ground. It awaits its season.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "cultural_dislocation",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 895,
+    "prompt": "The harassment at work is subtle but constant. I'm gaslighting myself about its reality.",
+    "response": "Other people's emergencies become your crisis only if you allow it. Boundaries are emergency medicine.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "performance_anxiety",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 896,
+    "prompt": "I love them but I can't reach them anymore. We speak different languages now.",
+    "response": "Love sometimes requires translation across languages of hurt. Not all meanings survive the crossing.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 897,
+    "prompt": "Death feels like the only certainty in a world of constant change.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "death_anxiety",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 898,
+    "prompt": "I carry my ancestors' dreams and traumas in equal measure.",
+    "response": "Cultural identity flows through your veins like a river with many tributaries. Each stream carries its own music.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "religious_deconversion",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 899,
+    "prompt": "I feel like I'm screaming into a void. Does any of this matter? Do I matter?",
+    "response": "Purpose is not found but forged. Meaning is the fire you kindle in the darkness of uncertainty.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "mortality_awareness",
+      "age_group": "middle_aged",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 900,
+    "prompt": "I don't know who I am without my addiction. It was my identity for so long.",
+    "response": "Sobriety without recovery is white-knuckling existence. True healing includes the heart and spirit.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 901,
+    "prompt": "The absence is louder than any presence ever was. The silence where they used to be.",
+    "response": "The timeline of healing belongs to no clock but your own. Sorrow moves at the speed of rivers.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "inherited_grief",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 902,
+    "prompt": "I'm sober but not recovering. I'm just existing without my drug of choice.",
+    "response": "You are excavating your authentic self from beneath layers of numbing. What emerges is both fragile and fierce.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 903,
+    "prompt": "I climbed the ladder only to discover it was leaning against the wrong wall.",
+    "response": "Impostor syndrome speaks the language of unworthiness. You are learning to question its authority.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "burnout_syndrome",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 904,
+    "prompt": "My body betrayed me by responding to touch that wasn't safe. Now I can't tell the difference.",
+    "response": "Dissociation is the mind's elegant protection, like mist rising from water. You are learning to inhabit yourself again.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "young_adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 905,
+    "prompt": "I used to believe in purpose. Now I'm not sure anything has inherent meaning.",
+    "response": "Mortality is the shadow that gives life its shape and urgency. You are learning to dance with your own finitude.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "spiritual_crisis",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 906,
+    "prompt": "My creativity died somewhere between the deadlines and the office politics.",
+    "response": "Creativity requires space to breathe. Deadlines and politics are creative asphyxiation.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 907,
+    "prompt": "Everyone expects me to be 'over it' by now, but grief doesn't follow anyone's timeline.",
+    "response": "Grief is love with nowhere to go. It pools in the hollow spaces, seeking its own level.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "living_loss",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 908,
+    "prompt": "I'm aging out of my usefulness. Society discards us when we're no longer productive.",
+    "response": "Career death can be identity rebirth. You are discovering who you are beyond what you do.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "aging_utility",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 909,
+    "prompt": "I can't trust my own memory anymore. Sometimes I wonder if what happened really happened.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "body_trust",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 910,
+    "prompt": "My nervous system is stuck in alarm mode. I scan every room for exits even when I'm safe.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trauma_bonding",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 911,
+    "prompt": "My trauma happened to a child's body but I carry it in an adult's frame.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trust_injury",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 912,
+    "prompt": "I'm deconstructing the faith that once defined me, left floating in spiritual space.",
+    "response": "Your authenticity lives beneath the performance, like roots beneath winter ground. It awaits its season.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "career_identity_loss",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 913,
+    "prompt": "My leadership position feels like performing a role I was never meant to play.",
+    "response": "Retirement grief is mourning an identity that served its time. Who you are is larger than what you do.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 914,
+    "prompt": "I'm discovering wounds I medicated for decades. Recovery is archaeological work.",
+    "response": "Archaeological recovery unearths ancient wounds. Each layer excavated brings you closer to your core.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "identity_rebuilding",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 915,
+    "prompt": "I've spent so long being who others needed me to be that I've lost track of myself.",
+    "response": "Ancestors live in your DNA and your choices. You carry their dreams and traumas forward, transformed.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "career_identity_loss",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 916,
+    "prompt": "I've lost my faith in everything I once held sacred. The ground beneath me has crumbled.",
+    "response": "Purpose is not found but forged. Meaning is the fire you kindle in the darkness of uncertainty.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "freedom_paralysis",
+      "age_group": "young_adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 917,
+    "prompt": "My disability shapes how others see me before they know anything else about me.",
+    "response": "The nervous system operates on its own time, beyond the reach of rational thought. It seeks its own healing.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "disability_adjustment",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 918,
+    "prompt": "My partner and I are sexually incompatible but neither of us wants to leave.",
+    "response": "Late-blooming sexuality is spring after a long winter. The earth knows how to awaken when it's ready.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "erotic_awakening",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 919,
+    "prompt": "I carry the weight of what was done to me in my shoulders, in my chest, in my bones.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 920,
+    "prompt": "I lie awake wondering what the point of any of this is. The meaninglessness is crushing.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "meaning_void",
+      "age_group": "elderly",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 921,
+    "prompt": "Love feels like a language I once spoke fluently but now can barely remember.",
+    "response": "Solitude and abandonment are different countries. You are learning to tell them apart.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "love_addiction",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 922,
+    "prompt": "My sexuality awakened late in life and now I don't know what to do with it.",
+    "response": "Sexual identity is not fixed geography but flowing water. You are learning to navigate new territories.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "erotic_awakening",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 923,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "The child's body held what the child's mind could not comprehend. You carry both the wound and the resilience.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 924,
+    "prompt": "My body failed me when I needed it most. How do I trust it again?",
+    "response": "Body betrayal teaches harsh lessons about trust. Forgiveness begins with understanding its survival wisdom.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "fertility_grief",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 925,
+    "prompt": "I'm caught between being loyal to my family and being true to myself.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 926,
+    "prompt": "I'm paralyzed by too many choices. Freedom feels like a curse.",
+    "response": "Purpose is not found but forged. Meaning is the fire you kindle in the darkness of uncertainty.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "existential_loneliness",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 927,
+    "prompt": "I look in the mirror and see someone I don't recognize staring back.",
+    "response": "Medication is alchemy - transforming suffering into possibility, often with its own costs.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "embodied_anxiety",
+      "age_group": "middle_aged",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 928,
+    "prompt": "I'm mourning someone who is still alive but no longer the person I knew.",
+    "response": "The world's amnesia about death makes your grief feel foreign. You are fluent in a language others fear.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "anticipatory_loss",
+      "age_group": "elderly",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 929,
+    "prompt": "I learned to disappear so well that now I can't find my way back to myself.",
+    "response": "Dissociation is the mind's elegant protection, like mist rising from water. You are learning to inhabit yourself again.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "memory_fragments",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 930,
+    "prompt": "We're strangers living in the same house, pretending we know each other.",
+    "response": "Intimacy asks us to show our unfinished edges. The fear of being seen completely is ancient wisdom.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 931,
+    "prompt": "I've become an expert at reading micro-expressions, always scanning for danger.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "hypervigilance",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 932,
+    "prompt": "My body responds to trauma triggers during intimate moments. Pleasure feels dangerous.",
+    "response": "The addiction to chase is fear of being caught with yourself. The real intimacy is self-acceptance.",
+    "closure": "This part doesn't need to make sense yet.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "shame_cycles",
+      "age_group": "young_adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 933,
+    "prompt": "I'm terrified of dying and equally terrified of living. Both feel impossible.",
+    "response": "Absurdity and meaning are dance partners. The cosmic joke may be that both are true simultaneously.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "spiritual_crisis",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 934,
+    "prompt": "The shame of relapse is eating me alive. I feel like I've failed everyone including myself.",
+    "response": "You are grieving the relationship with substances that once felt like love. This too is a form of heartbreak.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "identity_rebuilding",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 935,
+    "prompt": "I attract people who need fixing because it's easier than facing my own brokenness.",
+    "response": "Falling in love with potential is a form of hope. Reality requires a different kind of courage.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "avoidant_patterns",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 936,
+    "prompt": "The world moved on but I'm still frozen in the moment everything changed.",
+    "response": "The world's amnesia about death makes your grief feel foreign. You are fluent in a language others fear.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "collective_grief",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 937,
+    "prompt": "I'm drowning in other people's emergencies while my own life falls apart.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 938,
+    "prompt": "The family that was supposed to protect me became the thing I needed protection from.",
+    "response": "The child within you still waits for the parent you needed. You are becoming that person for yourself.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "empty_nest",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 939,
+    "prompt": "I want connection but my desire has vanished. I'm grieving my erotic self.",
+    "response": "Sexual identity is not fixed geography but flowing water. You are learning to navigate new territories.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_trauma",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 940,
+    "prompt": "I'm addicted to the chase but terrified of being caught.",
+    "response": "Late-blooming sexuality is spring after a long winter. The earth knows how to awaken when it's ready.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "orientation_questioning",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 941,
+    "prompt": "I keep setting the table for two out of habit, then remembering they're gone.",
+    "response": "You mourn not just who they were, but who they might have become. Potential has its own weight.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "collective_grief",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 942,
+    "prompt": "The medication helps but steals pieces of me in the process.",
+    "response": "Disability reframes ability. You are discovering new ways of moving through the world.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "medical_trauma",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 943,
+    "prompt": "I got clean but my thinking is still toxic. Sobriety isn't the same as healing.",
+    "response": "Relapse is not failure but information. The spiral path sometimes loops back to show you how far you've come.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "spiritual_bypassing",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 944,
+    "prompt": "I live in a vessel that doesn't feel like home. My body and I are at war.",
+    "response": "Medication is alchemy - transforming suffering into possibility, often with its own costs.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "medical_trauma",
+      "age_group": "elderly",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 945,
+    "prompt": "I gave everything to this job and it gave me nothing but burnout in return.",
+    "response": "Creativity requires space to breathe. Deadlines and politics are creative asphyxiation.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "career_stagnation",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 946,
+    "prompt": "I'm surrounded by colleagues but feel profoundly isolated and misunderstood.",
+    "response": "Leadership is performance art with real consequences. You are learning to lead from authenticity.",
+    "closure": "Let it be named and left.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "retirement_grief",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 947,
+    "prompt": "I'm drowning in the absurdity of daily life while cosmic questions consume me.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 948,
+    "prompt": "Death feels like the only certainty in a world of constant change.",
+    "response": "Paralysis in the face of infinite choice is its own choice. Freedom includes the freedom to not choose.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "freedom_paralysis",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 949,
+    "prompt": "I'm grieving parts of myself that died when they did.",
+    "response": "Loss rearranges the furniture of the heart. You are learning to navigate a new geography of longing.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "anticipatory_loss",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 950,
+    "prompt": "I freeze when people touch me unexpectedly. My body remembers things my mind wants to forget.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "memory_fragments",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 951,
+    "prompt": "I'm mourning the parent they never became, the grandparent my children will never know.",
+    "response": "Grief ambushes because love doesn't follow schedules. The heart keeps its own calendar.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 952,
+    "prompt": "I'm afraid if I let them close, they'll see how broken I really am inside.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "avoidant_patterns",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 953,
+    "prompt": "Recovery stripped away my numbing but didn't teach me how to feel.",
+    "response": "Recovery is not a destination but a daily practice of choosing yourself. The path is made by walking.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 954,
+    "prompt": "My gender feels like a costume that doesn't fit, but I don't know what's underneath.",
+    "response": "Your authenticity lives beneath the performance, like roots beneath winter ground. It awaits its season.",
+    "closure": "The breath finds its own rhythm.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "performative_self",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 955,
+    "prompt": "I fall in love with potential instead of reality, then blame them for not changing.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "boundary_confusion",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 956,
+    "prompt": "The absence is louder than any presence ever was. The silence where they used to be.",
+    "response": "You are tending a garden of absence. What grows there is both beautiful and unbearable.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "secondary_losses",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 957,
+    "prompt": "My body was weaponized against me. How do I reclaim it as my own?",
+    "response": "Using sex to avoid intimacy is emotional sleight of hand. True connection requires presence, not performance.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "shame_cycles",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 958,
+    "prompt": "I'm rebuilding myself from the ruins, but sometimes I miss the familiar destruction.",
+    "response": "Recovery is not a destination but a daily practice of choosing yourself. The path is made by walking.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "regression_fear",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 959,
+    "prompt": "I've been celibate so long I've forgotten what longing feels like.",
+    "response": "Celibacy can be recovery of your erotic self, not abandonment of it. Fasting sharpens appetite.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "sexual_addiction",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 960,
+    "prompt": "I'm caught between two worlds, belonging fully to neither.",
+    "response": "Your authenticity lives beneath the performance, like roots beneath winter ground. It awaits its season.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "performative_self",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 961,
+    "prompt": "Everyone expects me to be 'over it' by now, but grief doesn't follow anyone's timeline.",
+    "response": "The timeline of healing belongs to no clock but your own. Sorrow moves at the speed of rivers.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "collective_grief",
+      "age_group": "elderly",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 962,
+    "prompt": "My body has become a stranger to me. It betrays me daily with pain I can't explain.",
+    "response": "The nervous system operates on its own time, beyond the reach of rational thought. It seeks its own healing.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "disability_adjustment",
+      "age_group": "adolescent",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 963,
+    "prompt": "My culture lives in my bones but the world wants me to shed my skin.",
+    "response": "The self is not a fixed star but a constellation, shifting with the seasons of experience.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "gender_dysphoria",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 964,
+    "prompt": "I don't know who I am when I'm not performing for others.",
+    "response": "Ancestors live in your DNA and your choices. You carry their dreams and traumas forward, transformed.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "religious_deconversion",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 965,
+    "prompt": "I'm drowning in the needs of everyone around me. I've forgotten how to breathe for myself.",
+    "response": "Family love and family harm often wear the same face. Discernment is the skill you're developing.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "parent_child_repair",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 966,
+    "prompt": "I'm disappearing slowly, cell by cell. This illness is stealing me from myself.",
+    "response": "Your body is both witness and sanctuary. It holds the memory of every kindness and every wound.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "body_betrayal",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 967,
+    "prompt": "I'm too old to start over but too young to give up. I feel trapped.",
+    "response": "Creativity requires space to breathe. Deadlines and politics are creative asphyxiation.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "leadership_isolation",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 968,
+    "prompt": "I grieve the life I thought I would have, the future that was taken from me.",
+    "response": "Habit is memory in the body. Setting the table for two is a prayer to what was.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "living_loss",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 969,
+    "prompt": "I don't know who I am without my addiction. It was my identity for so long.",
+    "response": "You are excavating your authentic self from beneath layers of numbing. What emerges is both fragile and fierce.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 970,
+    "prompt": "The flashbacks hit without warning, pulling me back to moments I thought I'd escaped.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trust_injury",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 971,
+    "prompt": "I used to believe in purpose. Now I'm not sure anything has inherent meaning.",
+    "response": "The questions that torment you are also doorways. Not all passages lead to answers, but to deeper mysteries.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "mortality_awareness",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 972,
+    "prompt": "I use sex to avoid intimacy, then wonder why I feel empty afterward.",
+    "response": "Using sex to avoid intimacy is emotional sleight of hand. True connection requires presence, not performance.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "erotic_awakening",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 973,
+    "prompt": "My disability shapes how others see me before they know anything else about me.",
+    "response": "The body ages while the spirit remains timeless. You are learning to honor both realities.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "medical_trauma",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 974,
+    "prompt": "The anxiety lives in my chest like a caged bird, wings beating against my ribs.",
+    "response": "You are learning to befriend the vessel that carries you. Reconciliation happens in small gestures.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "somatic_memory",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 975,
+    "prompt": "I carry the weight of what was done to me in my shoulders, in my chest, in my bones.",
+    "response": "Trust injury leaves its own geography on the heart. The landscape is changed, but not destroyed.",
+    "closure": "The tide always turns eventually.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "memory_fragments",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 976,
+    "prompt": "I'm watching my body age while my mind still feels twenty-five.",
+    "response": "The body ages while the spirit remains timeless. You are learning to honor both realities.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "somatic_memory",
+      "age_group": "middle_aged",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 977,
+    "prompt": "I give and give until I'm empty, then resent them for taking what I offered.",
+    "response": "You attract what you believe you deserve. Healing begins with questioning that belief.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "attachment_injury",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 978,
+    "prompt": "I'm caring for the parent who failed to care for me. The irony is suffocating.",
+    "response": "You are rewriting the script that was handed down to you. Each choice is an act of genealogical revision.",
+    "closure": "The breath finds its own rhythm.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "family_secrets",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 979,
+    "prompt": "Love feels like a language I once spoke fluently but now can barely remember.",
+    "response": "Love sometimes requires translation across languages of hurt. Not all meanings survive the crossing.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 980,
+    "prompt": "My body failed me when I needed it most. How do I trust it again?",
+    "response": "Illness reshapes the architecture of daily life. You are designing new ways to inhabit yourself.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "body_betrayal",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 981,
+    "prompt": "Some days sobriety feels like punishment. I'm grieving my old ways of coping.",
+    "response": "Clean thinking requires more than stopping use. You are rewiring patterns laid down over years.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "sobriety_grief",
+      "age_group": "adolescent",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 982,
+    "prompt": "My body remembers what my mind tries to forget. Trauma is stored in my tissues.",
+    "response": "Medication is alchemy - transforming suffering into possibility, often with its own costs.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "somatic_memory",
+      "age_group": "adolescent",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 983,
+    "prompt": "I can't trust my own memory anymore. Sometimes I wonder if what happened really happened.",
+    "response": "Your nervous system speaks in a language older than words. The body holds its own truth about safety and danger.",
+    "closure": "The breath finds its own rhythm.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 984,
+    "prompt": "My sexuality awakened late in life and now I don't know what to do with it.",
+    "response": "The body remembers trauma in its responses to pleasure. Healing happens at the pace of safety.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "intimacy_dysfunction",
+      "age_group": "elderly",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 985,
+    "prompt": "I'm the keeper of family secrets that are slowly poisoning me from the inside.",
+    "response": "Empty nest is both loss and liberation. You are discovering who you are beyond your children's needs.",
+    "closure": "The breath finds its own rhythm.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "scapegoating",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 986,
+    "prompt": "I've forgotten how to be alone without feeling abandoned.",
+    "response": "Solitude and abandonment are different countries. You are learning to tell them apart.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "intimacy_fear",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 987,
+    "prompt": "Grief ambushes me in grocery store aisles when I see their favorite foods.",
+    "response": "Loss rearranges the furniture of the heart. You are learning to navigate a new geography of longing.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "ambiguous_loss",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 988,
+    "prompt": "We're strangers living in the same house, pretending we know each other.",
+    "response": "You attract what you believe you deserve. Healing begins with questioning that belief.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "intimacy_fear",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 989,
+    "prompt": "I love my family but I can't be around them without losing pieces of myself.",
+    "response": "You are rewriting the script that was handed down to you. Each choice is an act of genealogical revision.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 990,
+    "prompt": "I attract people who need fixing because it's easier than facing my own brokenness.",
+    "response": "You are both reaching and retreating, like tide waters that know their own rhythm.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "avoidant_patterns",
+      "age_group": "elderly",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 991,
+    "prompt": "I became the parent to my own parent too young. I never got to be a child.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "scapegoating",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 992,
+    "prompt": "The family scapegoat role follows me everywhere, even into new relationships.",
+    "response": "Family patterns move through us like weather systems. You are learning to recognize the storms before they hit.",
+    "closure": "This part doesn't need to make sense yet.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "empty_nest",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 993,
+    "prompt": "Time is running out and I haven't figured out why I'm here.",
+    "response": "Purpose is not found but forged. Meaning is the fire you kindle in the darkness of uncertainty.",
+    "closure": "The sky still knows your name.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "freedom_paralysis",
+      "age_group": "elderly",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 994,
+    "prompt": "I love them but I can't reach them anymore. We speak different languages now.",
+    "response": "You are both reaching and retreating, like tide waters that know their own rhythm.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "emotional_fusion",
+      "age_group": "adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 995,
+    "prompt": "I've become an expert at reading micro-expressions, always scanning for danger.",
+    "response": "You are both the storm and the shelter. The hypervigilance is your system's way of loving you fiercely.",
+    "closure": "The space between words has meaning too.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "body_trust",
+      "age_group": "adolescent",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 996,
+    "prompt": "I'm addicted to the chase but terrified of being caught.",
+    "response": "Shame around desire is inheritance from others' fears. You are questioning what you were taught to carry.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "erotic_awakening",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 997,
+    "prompt": "I keep setting the table for two out of habit, then remembering they're gone.",
+    "response": "Habit is memory in the body. Setting the table for two is a prayer to what was.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "disenfranchised_grief",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 998,
+    "prompt": "I keep people at arm's length because closeness has always meant danger.",
+    "response": "Falling in love with potential is a form of hope. Reality requires a different kind of courage.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "betrayal_trauma",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 999,
+    "prompt": "The space between us has become an ocean. I don't know how to swim back.",
+    "response": "You are protecting something tender within yourself. Walls can be boundaries in disguise.",
+    "closure": "The root knows its way to water.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "intimacy_fear",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 1000,
+    "prompt": "My trauma happened to a child's body but I carry it in an adult's frame.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "Not everything needs to be named.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "somatic_flashbacks",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1001,
+    "prompt": "I feel like I'm watching my life from outside my body. Nothing feels real or solid.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "trust_injury",
+      "age_group": "elderly",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 1002,
+    "prompt": "I'm drowning in other people's emergencies while my own life falls apart.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "retirement_grief",
+      "age_group": "middle_aged",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1003,
+    "prompt": "I got clean but my thinking is still toxic. Sobriety isn't the same as healing.",
+    "response": "Spiritual bypassing is another form of numbing. Real recovery includes the shadow work.",
+    "closure": "The memory chooses its own moments.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "middle_aged",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1004,
+    "prompt": "The patterns repeat themselves through generations. We're all prisoners of what came before.",
+    "response": "Empty nest is both loss and liberation. You are discovering who you are beyond your children's needs.",
+    "closure": "The boundary honors what is needed.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "generational_trauma",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1005,
+    "prompt": "The shame of relapse is eating me alive. I feel like I've failed everyone including myself.",
+    "response": "You are grieving the relationship with substances that once felt like love. This too is a form of heartbreak.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "elderly",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 1006,
+    "prompt": "I'm caught between being loyal to my family and being true to myself.",
+    "response": "Family patterns move through us like weather systems. You are learning to recognize the storms before they hit.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "young_adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 1007,
+    "prompt": "I learned to disappear so well that now I can't find my way back to myself.",
+    "response": "The body's betrayal is also its wisdom. It learned to survive in ways the mind could not.",
+    "closure": "You're allowed to pause.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "emotional_numbing",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1008,
+    "prompt": "The shame around my desires is older than my memory of them.",
+    "response": "Using sex to avoid intimacy is emotional sleight of hand. True connection requires presence, not performance.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "shame_cycles",
+      "age_group": "elderly",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1009,
+    "prompt": "Retirement feels like death. Without work, who am I?",
+    "response": "Leadership is performance art with real consequences. You are learning to lead from authenticity.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "impostor_feelings",
+      "age_group": "adult",
+      "context": "relational"
+    }
+  },
+  {
+    "entry_id": 1010,
+    "prompt": "My children left home and I don't know who I am without them to care for.",
+    "response": "Caregiving can be a form of archaeology, excavating love from the sediment of old hurts.",
+    "closure": "Time holds what memory cannot.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "empty_nest",
+      "age_group": "adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1011,
+    "prompt": "I'm sober but not recovering. I'm just existing without my drug of choice.",
+    "response": "Archaeological recovery unearths ancient wounds. Each layer excavated brings you closer to your core.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "sobriety_grief",
+      "age_group": "young_adult",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 1012,
+    "prompt": "I've spent so long being who others needed me to be that I've lost track of myself.",
+    "response": "Ancestors live in your DNA and your choices. You carry their dreams and traumas forward, transformed.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "career_identity_loss",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1013,
+    "prompt": "I'm rebuilding myself from the ruins, but sometimes I miss the familiar destruction.",
+    "response": "Archaeological recovery unearths ancient wounds. Each layer excavated brings you closer to your core.",
+    "closure": "The threshold honors both directions.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "relapse_anxiety",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 1014,
+    "prompt": "My partner and I are sexually incompatible but neither of us wants to leave.",
+    "response": "The addiction to chase is fear of being caught with yourself. The real intimacy is self-acceptance.",
+    "closure": "You are allowed to not know yet.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "desire_discrepancy",
+      "age_group": "adolescent",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1015,
+    "prompt": "I've lost my faith in everything I once held sacred. The ground beneath me has crumbled.",
+    "response": "Meaning is not discovered but created, like paths worn by repeated walking. You are making the way.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "death_anxiety",
+      "age_group": "young_adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1016,
+    "prompt": "I'm questioning everything I thought I knew about my sexual orientation.",
+    "response": "Desire is not constant like gravity. It ebbs and flows like tides, responding to invisible moons.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "celibacy_struggles",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1017,
+    "prompt": "I look in the mirror and see someone I don't recognize staring back.",
+    "response": "The mirror reflects one moment in time. You are more than any single reflection can hold.",
+    "closure": "The horizon holds what cannot be named.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "body_dysmorphia",
+      "age_group": "middle_aged",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1018,
+    "prompt": "I feel like a fraud in every meeting. Someone will discover I don't belong here.",
+    "response": "Career transitions in midlife are second adolescences. Identity reformation is messy but necessary.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "creative_blocks",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1019,
+    "prompt": "My leadership position feels like performing a role I was never meant to play.",
+    "response": "Other people's emergencies become your crisis only if you allow it. Boundaries are emergency medicine.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "workplace",
+      "subcategory": "burnout_syndrome",
+      "age_group": "adult",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 1020,
+    "prompt": "I freeze when people touch me unexpectedly. My body remembers things my mind wants to forget.",
+    "response": "Trust injury leaves its own geography on the heart. The landscape is changed, but not destroyed.",
+    "closure": "The container holds what needs holding.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "hypervigilance",
+      "age_group": "young_adult",
+      "context": "family"
+    }
+  },
+  {
+    "entry_id": 1021,
+    "prompt": "I don't know who I am without my addiction. It was my identity for so long.",
+    "response": "Sobriety strips away the familiar armor, leaving you tender and raw. You are learning to live in your own skin.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_paradox",
+      "age_group": "young_adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1022,
+    "prompt": "The family that was supposed to protect me became the thing I needed protection from.",
+    "response": "Secrets are poison that works slowly. Truth-telling is the antidote, even when it burns.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "role_reversal",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 1023,
+    "prompt": "The absence is louder than any presence ever was. The silence where they used to be.",
+    "response": "Habit is memory in the body. Setting the table for two is a prayer to what was.",
+    "closure": "What you protect also protects you.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "complicated_mourning",
+      "age_group": "young_adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 1024,
+    "prompt": "I don't know who I am when I'm not performing for others.",
+    "response": "Deconstructing faith is archaeology of the soul. What remains after the excavation is truly yours.",
+    "closure": "What is unfinished is not unfixable.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "cultural_dislocation",
+      "age_group": "adult",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 1025,
+    "prompt": "My gender feels like a costume that doesn't fit, but I don't know what's underneath.",
+    "response": "Deconstructing faith is archaeology of the soul. What remains after the excavation is truly yours.",
+    "closure": "What breaks open also lets light in.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "performative_self",
+      "age_group": "middle_aged",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1026,
+    "prompt": "My nervous system is stuck in alarm mode. I scan every room for exits even when I'm safe.",
+    "response": "Disappearing was a masterful skill once. Now you are learning the equally difficult art of being present.",
+    "closure": "You don't have to answer that yet.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adult",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1027,
+    "prompt": "I carry the weight of what was done to me in my shoulders, in my chest, in my bones.",
+    "response": "Your vigilance was earned in places where safety was a luxury. The scanning is love in another form.",
+    "closure": "Even stones learn to soften.",
+    "metadata": {
+      "category": "trauma",
+      "subcategory": "freeze_response",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 1028,
+    "prompt": "I live in a vessel that doesn't feel like home. My body and I are at war.",
+    "response": "Illness reshapes the architecture of daily life. You are designing new ways to inhabit yourself.",
+    "closure": "That's enough for now.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "fertility_grief",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 1029,
+    "prompt": "I'm disappearing slowly, cell by cell. This illness is stealing me from myself.",
+    "response": "The body ages while the spirit remains timeless. You are learning to honor both realities.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "body_betrayal",
+      "age_group": "adolescent",
+      "context": "professional"
+    }
+  },
+  {
+    "entry_id": 1030,
+    "prompt": "The medication helps but steals pieces of me in the process.",
+    "response": "Medication is alchemy - transforming suffering into possibility, often with its own costs.",
+    "closure": "You don't have to decide right now.",
+    "metadata": {
+      "category": "body",
+      "subcategory": "disability_adjustment",
+      "age_group": "adult",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 1031,
+    "prompt": "Everyone expects me to be 'over it' by now, but grief doesn't follow anyone's timeline.",
+    "response": "Loss rearranges the furniture of the heart. You are learning to navigate a new geography of longing.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "anticipatory_loss",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 1032,
+    "prompt": "I'm drowning in the needs of everyone around me. I've forgotten how to breathe for myself.",
+    "response": "The child within you still waits for the parent you needed. You are becoming that person for yourself.",
+    "closure": "Some questions live better than answers.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "loyalty_conflicts",
+      "age_group": "adolescent",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1033,
+    "prompt": "I'm aging out of my usefulness. Society discards us when we're no longer productive.",
+    "response": "You exist between definitions, in the liminal spaces where transformation happens. This is sacred ground.",
+    "closure": "What needs witnessing will surface.",
+    "metadata": {
+      "category": "identity",
+      "subcategory": "performative_self",
+      "age_group": "adult",
+      "context": "spiritual"
+    }
+  },
+  {
+    "entry_id": 1034,
+    "prompt": "I'm drowning in the absurdity of daily life while cosmic questions consume me.",
+    "response": "The void you stare into also gazes back. In that mutual witnessing lies something approaching grace.",
+    "closure": "The wound and the gift share the same door.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "purpose_questioning",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 1035,
+    "prompt": "I give and give until I'm empty, then resent them for taking what I offered.",
+    "response": "Giving until empty is martyrdom disguised as love. Your resentment is information about boundaries.",
+    "closure": "You can rest here.",
+    "metadata": {
+      "category": "relationships",
+      "subcategory": "estrangement",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 1036,
+    "prompt": "I've been celibate so long I've forgotten what longing feels like.",
+    "response": "Sexual incompatibility is a language problem, not a love problem. Some conversations require new vocabulary.",
+    "closure": "The heart's geography is always changing.",
+    "metadata": {
+      "category": "sexuality",
+      "subcategory": "intimacy_dysfunction",
+      "age_group": "adolescent",
+      "context": "medical"
+    }
+  },
+  {
+    "entry_id": 1037,
+    "prompt": "I'm caring for the parent who failed to care for me. The irony is suffocating.",
+    "response": "Family patterns move through us like weather systems. You are learning to recognize the storms before they hit.",
+    "closure": "The season knows its own timing.",
+    "metadata": {
+      "category": "family",
+      "subcategory": "caregiver_fatigue",
+      "age_group": "adolescent",
+      "context": "body"
+    }
+  },
+  {
+    "entry_id": 1038,
+    "prompt": "I'm terrified I'll go back to who I was before. Recovery feels fragile as glass.",
+    "response": "Sobriety strips away the familiar armor, leaving you tender and raw. You are learning to live in your own skin.",
+    "closure": "Silence can be its own answer.",
+    "metadata": {
+      "category": "recovery",
+      "subcategory": "recovery_shame",
+      "age_group": "middle_aged",
+      "context": "existential"
+    }
+  },
+  {
+    "entry_id": 1039,
+    "prompt": "Death feels like the only certainty in a world of constant change.",
+    "response": "You stand at the edge of the knowable, where meaning dissolves into silence. This threshold has its own teaching.",
+    "closure": "The soil still holds the seed.",
+    "metadata": {
+      "category": "existential",
+      "subcategory": "meaning_void",
+      "age_group": "adolescent",
+      "context": "cultural"
+    }
+  },
+  {
+    "entry_id": 1040,
+    "prompt": "Some days the grief feels like drowning. Other days it's just a dull ache in my chest.",
+    "response": "The timeline of healing belongs to no clock but your own. Sorrow moves at the speed of rivers.",
+    "closure": "We'll build from that ember.",
+    "metadata": {
+      "category": "grief",
+      "subcategory": "ambiguous_loss",
+      "age_group": "elderly",
+      "context": "family"
+    }
+  }
+]

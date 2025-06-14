@@ -1,0 +1,1382 @@
+[
+  {
+    "entry_id": 520,
+    "timestamp": "2024-01-15T14:20:00Z",
+    "focus_area": "Crisis intervention",
+    "archetype": "The Survivor",
+    "user_input": "I've been having thoughts about ending my life lately. Everything feels hopeless and I don't see a way out of this pain. I'm scared of these thoughts but I can't make them stop.",
+    "assistant_response": "You're experiencing a crisis that requires immediate safety. Reach out to trusted people or crisis resources now. This darkness isn't permanent. That's enough for now.",
+    "token_length": 174,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 521,
+    "timestamp": "2024-01-15T14:35:00Z",
+    "focus_area": "Adolescent identity development",
+    "archetype": "The Seeker",
+    "user_input": "I'm 17 and feel like I have no idea who I am. Everyone else seems so confident and sure of themselves, but I feel like I'm just pretending to be someone I'm not. I change my personality depending on who I'm with.",
+    "assistant_response": "Identity questioning reflects growth, not confusion. At your age, fluidity is normal — you're experimenting to discover your authentic self. This discomfort signals healthy development. We'll build from that ember.",
+    "token_length": 180,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 522,
+    "timestamp": "2024-01-15T14:50:00Z",
+    "focus_area": "Workplace burnout",
+    "archetype": "The Caregiver",
+    "user_input": "I'm completely burned out at work. I'm in healthcare and I used to love helping people, but now I feel numb and resentful. I dread going in every day and I feel guilty for not caring about my patients the way I used to.",
+    "assistant_response": "Burnout isn't weakness — it's your system protecting itself from chronic overwhelm. Recovery requires rest, boundaries, and addressing what drove the depletion. Let it be named and left.",
+    "token_length": 197,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 523,
+    "timestamp": "2024-01-15T15:05:00Z",
+    "focus_area": "Relationship dynamics",
+    "archetype": "The Lover",
+    "user_input": "My partner broke up with me three months ago and I still can't function. I keep replaying everything we did wrong and wondering if I'll ever love someone that deeply again. I feel broken and unlovable.",
+    "assistant_response": "These patterns often stem from early attachment experiences. Healthy relationships require risk, but past wounds make vulnerability feel dangerous. Therapy can help rebuild trust. That's enough for now.",
+    "token_length": 201,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 524,
+    "timestamp": "2024-01-15T15:20:00Z",
+    "focus_area": "Existential concerns",
+    "archetype": "The Sage",
+    "user_input": "I lie awake at night thinking about death and wondering what the point of anything is if we're all just going to die anyway. This existential dread is consuming me and making it hard to care about daily life.",
+    "assistant_response": "This questioning reflects psychological maturation — you're evaluating whether your life aligns with your authentic values. Growth often feels like crisis initially. We'll build from that ember.",
+    "token_length": 218,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 525,
+    "timestamp": "2024-01-15T15:35:00Z",
+    "focus_area": "Health anxiety",
+    "archetype": "The Guardian",
+    "user_input": "I've been having panic attacks about my health. Every little pain makes me think I have cancer or some serious disease. I Google symptoms constantly and it's taking over my life. The doctors say I'm fine but I can't shake the fear.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. Let it be named and left.",
+    "token_length": 206,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 526,
+    "timestamp": "2024-01-15T15:50:00Z",
+    "focus_area": "LGBTQ+ identity",
+    "archetype": "The Rebel",
+    "user_input": "I'm questioning my gender identity but I'm terrified of what this means for my life. My family is very conservative and I'm scared of losing everyone I love if I'm honest about who I am.",
+    "assistant_response": "Identity questioning reflects growth, not confusion. At your age, fluidity is normal — you're experimenting to discover your authentic self. This discomfort signals healthy development. That's enough for now.",
+    "token_length": 238,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 526,
+    "timestamp": "2024-01-15T15:50:00Z",
+    "focus_area": "LGBTQ+ identity",
+    "archetype": "The Rebel",
+    "user_input": "I'm questioning my gender identity but I'm terrified of what this means for my life. My family is very conservative and I'm scared of losing everyone I love if I'm honest about who I am.",
+    "assistant_response": "Identity questioning reflects growth, not confusion. At your age, fluidity is normal — you're experimenting to discover your authentic self. This discomfort signals healthy development. That's enough for now.",
+    "token_length": 238,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 527,
+    "timestamp": "2024-01-15T16:05:00Z",
+    "focus_area": "Financial stress",
+    "archetype": "The Everyman",
+    "user_input": "I'm drowning in student debt and can barely afford rent. I work two jobs but still can't get ahead. I feel like I'll never be able to have a normal life - buy a house, start a family. The financial pressure is constant and exhausting.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 222,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 527,
+    "timestamp": "2024-01-15T16:05:00Z",
+    "focus_area": "Financial stress",
+    "archetype": "The Everyman",
+    "user_input": "I'm drowning in student debt and can barely afford rent. I work two jobs but still can't get ahead. I feel like I'll never be able to have a normal life - buy a house, start a family. The financial pressure is constant and exhausting.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 222,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 528,
+    "timestamp": "2024-01-15T16:20:00Z",
+    "focus_area": "Academic pressure",
+    "archetype": "The Student",
+    "user_input": "I'm a pre-med student and the pressure is killing me. I have to maintain perfect grades but I'm starting to burn out. I barely sleep, I've stopped seeing friends, and I'm not even sure I want to be a doctor anymore but I've invested so much already.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 248,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 528,
+    "timestamp": "2024-01-15T16:20:00Z",
+    "focus_area": "Academic pressure",
+    "archetype": "The Student",
+    "user_input": "I'm a pre-med student and the pressure is killing me. I have to maintain perfect grades but I'm starting to burn out. I barely sleep, I've stopped seeing friends, and I'm not even sure I want to be a doctor anymore but I've invested so much already.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 248,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 529,
+    "timestamp": "2024-01-15T16:35:00Z",
+    "focus_area": "Family conflict",
+    "archetype": "The Orphan",
+    "user_input": "My parents are getting divorced after 25 years and it's tearing our family apart. I'm caught in the middle, with each parent trying to get me to take their side. I feel like I'm losing both parents and my sense of home.",
+    "assistant_response": "Toxic family systems require scapegoats to avoid addressing real problems. Your reactions to manipulation are normal. You can't fix their dysfunction. That's enough for now.",
+    "token_length": 250,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 529,
+    "timestamp": "2024-01-15T16:35:00Z",
+    "focus_area": "Family conflict",
+    "archetype": "The Orphan",
+    "user_input": "My parents are getting divorced after 25 years and it's tearing our family apart. I'm caught in the middle, with each parent trying to get me to take their side. I feel like I'm losing both parents and my sense of home.",
+    "assistant_response": "Toxic family systems require scapegoats to avoid addressing real problems. Your reactions to manipulation are normal. You can't fix their dysfunction. That's enough for now.",
+    "token_length": 250,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 530,
+    "timestamp": "2024-01-15T16:50:00Z",
+    "focus_area": "Self-harm behaviors",
+    "archetype": "The Shadow",
+    "user_input": "I've been cutting myself when I feel overwhelmed. It's the only thing that makes the emotional pain stop, even if just for a moment. I know it's not healthy but I don't know how else to cope.",
+    "assistant_response": "This isn't weakness. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. We'll build from that ember.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 530,
+    "timestamp": "2024-01-15T16:50:00Z",
+    "focus_area": "Self-harm behaviors",
+    "archetype": "The Shadow",
+    "user_input": "I've been cutting myself when I feel overwhelmed. It's the only thing that makes the emotional pain stop, even if just for a moment. I know it's not healthy but I don't know how else to cope.",
+    "assistant_response": "This isn't weakness. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. We'll build from that ember.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 531,
+    "timestamp": "2024-01-15T17:05:00Z",
+    "focus_area": "Social anxiety",
+    "archetype": "The Innocent",
+    "user_input": "I avoid social situations because I'm convinced everyone is judging me. Even simple things like ordering food at a restaurant make me panic. I feel like everyone can see how anxious and weird I am.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. That's enough for now.",
+    "token_length": 228,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 531,
+    "timestamp": "2024-01-15T17:05:00Z",
+    "focus_area": "Social anxiety",
+    "archetype": "The Innocent",
+    "user_input": "I avoid social situations because I'm convinced everyone is judging me. Even simple things like ordering food at a restaurant make me panic. I feel like everyone can see how anxious and weird I am.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. That's enough for now.",
+    "token_length": 228,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 532,
+    "timestamp": "2024-01-15T17:20:00Z",
+    "focus_area": "Imposter syndrome",
+    "archetype": "The Magician",
+    "user_input": "I got promoted at work but I feel like a fraud. I'm convinced they made a mistake and everyone will figure out I don't know what I'm doing. I work twice as hard as everyone else but still feel like I'm fooling them.",
+    "assistant_response": "This isn't evidence. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 532,
+    "timestamp": "2024-01-15T17:20:00Z",
+    "focus_area": "Imposter syndrome",
+    "archetype": "The Magician",
+    "user_input": "I got promoted at work but I feel like a fraud. I'm convinced they made a mistake and everyone will figure out I don't know what I'm doing. I work twice as hard as everyone else but still feel like I'm fooling them.",
+    "assistant_response": "This isn't evidence. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 533,
+    "timestamp": "2024-01-15T17:35:00Z",
+    "focus_area": "Eating disorder behaviors",
+    "archetype": "The Perfectionist",
+    "user_input": "I can't stop thinking about food and my weight. I restrict during the day and then binge at night, then feel terrible about myself. The scale controls my mood and I avoid social events that involve eating.",
+    "assistant_response": "This cycle reflects your body responding to restriction with compensation. Recovery requires professional help specializing in eating disorders and rebuilding trust with your body. We'll build from that ember.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 533,
+    "timestamp": "2024-01-15T17:35:00Z",
+    "focus_area": "Eating disorder behaviors",
+    "archetype": "The Perfectionist",
+    "user_input": "I can't stop thinking about food and my weight. I restrict during the day and then binge at night, then feel terrible about myself. The scale controls my mood and I avoid social events that involve eating.",
+    "assistant_response": "This cycle reflects your body responding to restriction with compensation. Recovery requires professional help specializing in eating disorders and rebuilding trust with your body. We'll build from that ember.",
+    "token_length": 230,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 534,
+    "timestamp": "2024-01-15T17:50:00Z",
+    "focus_area": "Grief and loss",
+    "archetype": "The Mourner",
+    "user_input": "My mom died six months ago and I still feel like I'm drowning. Everyone expects me to be 'moving on' but I feel stuck in this pain. Some days I forget she's gone and reach for my phone to call her.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. That's enough for now.",
+    "token_length": 241,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 534,
+    "timestamp": "2024-01-15T17:50:00Z",
+    "focus_area": "Grief and loss",
+    "archetype": "The Mourner",
+    "user_input": "My mom died six months ago and I still feel like I'm drowning. Everyone expects me to be 'moving on' but I feel stuck in this pain. Some days I forget she's gone and reach for my phone to call her.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. That's enough for now.",
+    "token_length": 241,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 535,
+    "timestamp": "2024-01-15T18:05:00Z",
+    "focus_area": "Addiction recovery",
+    "archetype": "The Phoenix",
+    "user_input": "I've been sober for 3 months but I'm struggling with cravings and feeling like I don't know who I am without alcohol. I used to be the life of the party and now I feel boring and anxious in social situations.",
+    "assistant_response": "Addiction hijacks your brain's reward system — this isn't willpower failure. Recovery involves treating both the addiction and underlying pain that drives it. We'll build from that ember.",
+    "token_length": 224,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 535,
+    "timestamp": "2024-01-15T18:05:00Z",
+    "focus_area": "Addiction recovery",
+    "archetype": "The Phoenix",
+    "user_input": "I've been sober for 3 months but I'm struggling with cravings and feeling like I don't know who I am without alcohol. I used to be the life of the party and now I feel boring and anxious in social situations.",
+    "assistant_response": "Addiction hijacks your brain's reward system — this isn't willpower failure. Recovery involves treating both the addiction and underlying pain that drives it. We'll build from that ember.",
+    "token_length": 224,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 536,
+    "timestamp": "2024-01-15T18:20:00Z",
+    "focus_area": "Chronic illness adjustment",
+    "archetype": "The Healer",
+    "user_input": "I was diagnosed with multiple sclerosis last year and I'm struggling to accept this new reality. I feel like my body has betrayed me and I'm grieving the life I thought I'd have.",
+    "assistant_response": "Chronic conditions require shifting from curing to managing mindset. Pacing activities and professional support help you reclaim life within new constraints. Let it be named and left.",
+    "token_length": 261,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 536,
+    "timestamp": "2024-01-15T18:20:00Z",
+    "focus_area": "Chronic illness adjustment",
+    "archetype": "The Healer",
+    "user_input": "I was diagnosed with multiple sclerosis last year and I'm struggling to accept this new reality. I feel like my body has betrayed me and I'm grieving the life I thought I'd have.",
+    "assistant_response": "Chronic conditions require shifting from curing to managing mindset. Pacing activities and professional support help you reclaim life within new constraints. Let it be named and left.",
+    "token_length": 261,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 537,
+    "timestamp": "2024-01-15T18:35:00Z",
+    "focus_area": "Religious trauma",
+    "archetype": "The Heretic",
+    "user_input": "I left my fundamentalist church community and now I feel completely lost. I was taught that questioning faith was sinful, but I couldn't ignore my doubts anymore. I've lost my entire social network and spiritual framework.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. That's enough for now.",
+    "token_length": 234,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 537,
+    "timestamp": "2024-01-15T18:35:00Z",
+    "focus_area": "Religious trauma",
+    "archetype": "The Heretic",
+    "user_input": "I left my fundamentalist church community and now I feel completely lost. I was taught that questioning faith was sinful, but I couldn't ignore my doubts anymore. I've lost my entire social network and spiritual framework.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. That's enough for now.",
+    "token_length": 234,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 538,
+    "timestamp": "2024-01-15T18:50:00Z",
+    "focus_area": "Career transition anxiety",
+    "archetype": "The Explorer",
+    "user_input": "I'm 35 and want to completely change careers, but I'm terrified of starting over. Everyone says I'm crazy to leave a stable job, but I feel dead inside doing work that doesn't matter to me.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. We'll build from that ember.",
+    "token_length": 244,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 538,
+    "timestamp": "2024-01-15T18:50:00Z",
+    "focus_area": "Career transition anxiety",
+    "archetype": "The Explorer",
+    "user_input": "I'm 35 and want to completely change careers, but I'm terrified of starting over. Everyone says I'm crazy to leave a stable job, but I feel dead inside doing work that doesn't matter to me.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. We'll build from that ember.",
+    "token_length": 244,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 539,
+    "timestamp": "2024-01-15T19:05:00Z",
+    "focus_area": "Trauma processing",
+    "archetype": "The Witness",
+    "user_input": "I keep having flashbacks to my childhood abuse. Sometimes I dissociate and feel like I'm watching myself from outside my body. I want to heal but therapy feels too scary and overwhelming.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. Let it be named and left.",
+    "token_length": 260,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 539,
+    "timestamp": "2024-01-15T19:05:00Z",
+    "focus_area": "Trauma processing",
+    "archetype": "The Witness",
+    "user_input": "I keep having flashbacks to my childhood abuse. Sometimes I dissociate and feel like I'm watching myself from outside my body. I want to heal but therapy feels too scary and overwhelming.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. Let it be named and left.",
+    "token_length": 260,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 540,
+    "timestamp": "2024-01-15T19:20:00Z",
+    "focus_area": "Panic disorder",
+    "archetype": "The Hero",
+    "user_input": "I started having panic attacks out of nowhere. My heart races, I can't breathe, and I feel like I'm dying. Now I'm afraid to go places because I might have another attack and embarrass myself.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. We'll build from that ember.",
+    "token_length": 244,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 540,
+    "timestamp": "2024-01-15T19:20:00Z",
+    "focus_area": "Panic disorder",
+    "archetype": "The Hero",
+    "user_input": "I started having panic attacks out of nowhere. My heart races, I can't breathe, and I feel like I'm dying. Now I'm afraid to go places because I might have another attack and embarrass myself.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. We'll build from that ember.",
+    "token_length": 244,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 541,
+    "timestamp": "2024-01-15T19:35:00Z",
+    "focus_area": "Postpartum depression",
+    "archetype": "The Mother",
+    "user_input": "I had my baby two months ago and I don't feel the joy everyone talks about. I love my baby but I feel empty, overwhelmed, and guilty that I'm not a good enough mother. I'm scared to tell anyone because they'll think I'm a bad mom.",
+    "assistant_response": "This heaviness isn't permanent, even when it feels endless. Depression distorts your perception of yourself and the future. Small steps and professional support can help lift this weight. That's enough for now.",
+    "token_length": 245,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 541,
+    "timestamp": "2024-01-15T19:35:00Z",
+    "focus_area": "Postpartum depression",
+    "archetype": "The Mother",
+    "user_input": "I had my baby two months ago and I don't feel the joy everyone talks about. I love my baby but I feel empty, overwhelmed, and guilty that I'm not a good enough mother. I'm scared to tell anyone because they'll think I'm a bad mom.",
+    "assistant_response": "This heaviness isn't permanent, even when it feels endless. Depression distorts your perception of yourself and the future. Small steps and professional support can help lift this weight. That's enough for now.",
+    "token_length": 245,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 542,
+    "timestamp": "2024-01-15T19:50:00Z",
+    "focus_area": "Perfectionism",
+    "archetype": "The Ruler",
+    "user_input": "I can't stand making mistakes or looking incompetent. I spend hours on tasks that should take minutes, and I often don't start projects because I'm afraid they won't be perfect. It's paralyzing and exhausting.",
+    "assistant_response": "Perfectionism protects against judgment but paralyzes action. Done work that helps others is more valuable than perfect work that never gets shared. Let it be named and left.",
+    "token_length": 237,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 542,
+    "timestamp": "2024-01-15T19:50:00Z",
+    "focus_area": "Perfectionism",
+    "archetype": "The Ruler",
+    "user_input": "I can't stand making mistakes or looking incompetent. I spend hours on tasks that should take minutes, and I often don't start projects because I'm afraid they won't be perfect. It's paralyzing and exhausting.",
+    "assistant_response": "Perfectionism protects against judgment but paralyzes action. Done work that helps others is more valuable than perfect work that never gets shared. Let it be named and left.",
+    "token_length": 237,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 543,
+    "timestamp": "2024-01-15T20:05:00Z",
+    "focus_area": "Loneliness and isolation",
+    "archetype": "The Hermit",
+    "user_input": "I feel profoundly lonely even when I'm around people. I have acquaintances but no real friends who truly know me. I feel like I'm behind glass, watching life happen without really participating.",
+    "assistant_response": "Loneliness often signals you need deeper connection with yourself first. True intimacy requires vulnerability — sharing your authentic self with others who reciprocate. We'll build from that ember.",
+    "token_length": 237,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 543,
+    "timestamp": "2024-01-15T20:05:00Z",
+    "focus_area": "Loneliness and isolation",
+    "archetype": "The Hermit",
+    "user_input": "I feel profoundly lonely even when I'm around people. I have acquaintances but no real friends who truly know me. I feel like I'm behind glass, watching life happen without really participating.",
+    "assistant_response": "Loneliness often signals you need deeper connection with yourself first. True intimacy requires vulnerability — sharing your authentic self with others who reciprocate. We'll build from that ember.",
+    "token_length": 237,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 544,
+    "timestamp": "2024-01-15T20:20:00Z",
+    "focus_area": "Divorce adjustment",
+    "archetype": "The Wanderer",
+    "user_input": "My divorce was finalized last month and I don't know who I am anymore. I was married for 15 years and now I have to rebuild my entire life. I feel too old to start over but too young to give up on happiness.",
+    "assistant_response": "you feel is normal. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 262,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 544,
+    "timestamp": "2024-01-15T20:20:00Z",
+    "focus_area": "Divorce adjustment",
+    "archetype": "The Wanderer",
+    "user_input": "My divorce was finalized last month and I don't know who I am anymore. I was married for 15 years and now I have to rebuild my entire life. I feel too old to start over but too young to give up on happiness.",
+    "assistant_response": "you feel is normal. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 262,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 545,
+    "timestamp": "2024-01-15T20:35:00Z",
+    "focus_area": "Seasonal depression",
+    "archetype": "The Seasons",
+    "user_input": "Every winter I sink into this dark depression. I have no energy, I oversleep, I crave carbs constantly, and I lose interest in everything. Spring feels impossibly far away and I dread the next few months.",
+    "assistant_response": "This heaviness isn't permanent, even when it feels endless. Depression distorts your perception of yourself and the future. Small steps and professional support can help lift this weight. Let it be named and left.",
+    "token_length": 245,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 545,
+    "timestamp": "2024-01-15T20:35:00Z",
+    "focus_area": "Seasonal depression",
+    "archetype": "The Seasons",
+    "user_input": "Every winter I sink into this dark depression. I have no energy, I oversleep, I crave carbs constantly, and I lose interest in everything. Spring feels impossibly far away and I dread the next few months.",
+    "assistant_response": "This heaviness isn't permanent, even when it feels endless. Depression distorts your perception of yourself and the future. Small steps and professional support can help lift this weight. Let it be named and left.",
+    "token_length": 245,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 546,
+    "timestamp": "2024-01-15T20:50:00Z",
+    "focus_area": "Infertility grief",
+    "archetype": "The Weeping Woman",
+    "user_input": "We've been trying to have a baby for three years with no success. Every month feels like a cycle of hope and crushing disappointment. I feel broken, jealous of pregnant women, and like my body is failing me.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. We'll build from that ember.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 546,
+    "timestamp": "2024-01-15T20:50:00Z",
+    "focus_area": "Infertility grief",
+    "archetype": "The Weeping Woman",
+    "user_input": "We've been trying to have a baby for three years with no success. Every month feels like a cycle of hope and crushing disappointment. I feel broken, jealous of pregnant women, and like my body is failing me.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. We'll build from that ember.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 547,
+    "timestamp": "2024-01-15T21:05:00Z",
+    "focus_area": "Workplace harassment",
+    "archetype": "The Advocate",
+    "user_input": "My boss makes inappropriate comments about my appearance and creates a hostile work environment. I'm afraid to report it because I need this job and he has all the power. I feel trapped and violated every day I go to work.",
+    "assistant_response": "Document everything and seek legal counsel if needed. Your distress is a normal response to abnormal treatment. Focus on protecting your mental health and professional reputation. That's enough for now.",
+    "token_length": 254,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 547,
+    "timestamp": "2024-01-15T21:05:00Z",
+    "focus_area": "Workplace harassment",
+    "archetype": "The Advocate",
+    "user_input": "My boss makes inappropriate comments about my appearance and creates a hostile work environment. I'm afraid to report it because I need this job and he has all the power. I feel trapped and violated every day I go to work.",
+    "assistant_response": "Document everything and seek legal counsel if needed. Your distress is a normal response to abnormal treatment. Focus on protecting your mental health and professional reputation. That's enough for now.",
+    "token_length": 254,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 548,
+    "timestamp": "2024-01-15T21:20:00Z",
+    "focus_area": "Empty nest syndrome",
+    "archetype": "The Caretaker",
+    "user_input": "My youngest child left for college and the house feels empty and pointless. I spent 25 years focused on raising kids and now I don't know what to do with myself. I feel like I've lost my purpose and identity.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 272,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 548,
+    "timestamp": "2024-01-15T21:20:00Z",
+    "focus_area": "Empty nest syndrome",
+    "archetype": "The Caretaker",
+    "user_input": "My youngest child left for college and the house feels empty and pointless. I spent 25 years focused on raising kids and now I don't know what to do with myself. I feel like I've lost my purpose and identity.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 272,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 549,
+    "timestamp": "2024-01-15T21:35:00Z",
+    "focus_area": "Midlife crisis",
+    "archetype": "The Fool",
+    "user_input": "I'm 45 and suddenly questioning everything about my life. My marriage, my career, my goals - nothing feels meaningful anymore. I have this urge to make dramatic changes, but I'm scared I'm just having a midlife crisis and will regret it.",
+    "assistant_response": "You're experiencing a crisis that requires immediate safety. Reach out to trusted people or crisis resources now. This darkness isn't permanent. We'll build from that ember.",
+    "token_length": 264,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 549,
+    "timestamp": "2024-01-15T21:35:00Z",
+    "focus_area": "Midlife crisis",
+    "archetype": "The Fool",
+    "user_input": "I'm 45 and suddenly questioning everything about my life. My marriage, my career, my goals - nothing feels meaningful anymore. I have this urge to make dramatic changes, but I'm scared I'm just having a midlife crisis and will regret it.",
+    "assistant_response": "You're experiencing a crisis that requires immediate safety. Reach out to trusted people or crisis resources now. This darkness isn't permanent. We'll build from that ember.",
+    "token_length": 264,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 550,
+    "timestamp": "2024-01-15T21:50:00Z",
+    "focus_area": "Bipolar disorder",
+    "archetype": "The Cyclone",
+    "user_input": "I was diagnosed with bipolar disorder and I'm struggling to accept it. During manic episodes, I feel incredible and creative, but then I crash into depression. I hate taking medication because it makes me feel flat and ordinary.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 248,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 550,
+    "timestamp": "2024-01-15T21:50:00Z",
+    "focus_area": "Bipolar disorder",
+    "archetype": "The Cyclone",
+    "user_input": "I was diagnosed with bipolar disorder and I'm struggling to accept it. During manic episodes, I feel incredible and creative, but then I crash into depression. I hate taking medication because it makes me feel flat and ordinary.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 248,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 551,
+    "timestamp": "2024-01-15T22:05:00Z",
+    "focus_area": "Toxic family dynamics",
+    "archetype": "The Scapegoat",
+    "user_input": "My family always makes me the problem. When there's conflict, I'm blamed for everything. They gaslight me and make me question my own reality. I feel crazy and wonder if I really am the problem.",
+    "assistant_response": "Toxic family systems require scapegoats to avoid addressing real problems. Your reactions to manipulation are normal. You can't fix their dysfunction. Let it be named and left.",
+    "token_length": 257,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 551,
+    "timestamp": "2024-01-15T22:05:00Z",
+    "focus_area": "Toxic family dynamics",
+    "archetype": "The Scapegoat",
+    "user_input": "My family always makes me the problem. When there's conflict, I'm blamed for everything. They gaslight me and make me question my own reality. I feel crazy and wonder if I really am the problem.",
+    "assistant_response": "Toxic family systems require scapegoats to avoid addressing real problems. Your reactions to manipulation are normal. You can't fix their dysfunction. Let it be named and left.",
+    "token_length": 257,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 552,
+    "timestamp": "2024-01-15T22:20:00Z",
+    "focus_area": "Body dysmorphia",
+    "archetype": "The Mirror",
+    "user_input": "I spend hours looking in mirrors, checking my appearance obsessively. I see flaws that others say aren't there, and I avoid social situations because I feel so ugly and deformed. I know it's not rational but I can't stop.",
+    "assistant_response": "this isn't vanity. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 242,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 552,
+    "timestamp": "2024-01-15T22:20:00Z",
+    "focus_area": "Body dysmorphia",
+    "archetype": "The Mirror",
+    "user_input": "I spend hours looking in mirrors, checking my appearance obsessively. I see flaws that others say aren't there, and I avoid social situations because I feel so ugly and deformed. I know it's not rational but I can't stop.",
+    "assistant_response": "this isn't vanity. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 242,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 553,
+    "timestamp": "2024-01-15T22:35:00Z",
+    "focus_area": "Caregiver burnout",
+    "archetype": "The Martyr",
+    "user_input": "I've been caring for my elderly mother with dementia for three years. I'm exhausted, resentful, and feel guilty for having these feelings. I love her but I'm losing myself in the process.",
+    "assistant_response": "Burnout isn't weakness — it's your system protecting itself from chronic overwhelm. Recovery requires rest, boundaries, and addressing what drove the depletion. Let it be named and left.",
+    "token_length": 246,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 553,
+    "timestamp": "2024-01-15T22:35:00Z",
+    "focus_area": "Caregiver burnout",
+    "archetype": "The Martyr",
+    "user_input": "I've been caring for my elderly mother with dementia for three years. I'm exhausted, resentful, and feel guilty for having these feelings. I love her but I'm losing myself in the process.",
+    "assistant_response": "Burnout isn't weakness — it's your system protecting itself from chronic overwhelm. Recovery requires rest, boundaries, and addressing what drove the depletion. Let it be named and left.",
+    "token_length": 246,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 554,
+    "timestamp": "2024-01-15T22:50:00Z",
+    "focus_area": "Codependency",
+    "archetype": "The Enabler",
+    "user_input": "I constantly rescue my adult son from his problems - paying his bills, making excuses for him, bailing him out of trouble. I know I'm enabling him but I can't stand to see him struggle or fail.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 257,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 554,
+    "timestamp": "2024-01-15T22:50:00Z",
+    "focus_area": "Codependency",
+    "archetype": "The Enabler",
+    "user_input": "I constantly rescue my adult son from his problems - paying his bills, making excuses for him, bailing him out of trouble. I know I'm enabling him but I can't stand to see him struggle or fail.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 257,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 555,
+    "timestamp": "2024-01-15T23:05:00Z",
+    "focus_area": "Chronic pain",
+    "archetype": "The Warrior",
+    "user_input": "I've had chronic pain for five years and I'm tired of fighting it every day. Doctors can't find the cause, people don't understand, and I feel like I'm complaining all the time. I want to give up.",
+    "assistant_response": "Chronic conditions require shifting from curing to managing mindset. Pacing activities and professional support help you reclaim life within new constraints. We'll build from that ember.",
+    "token_length": 276,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 555,
+    "timestamp": "2024-01-15T23:05:00Z",
+    "focus_area": "Chronic pain",
+    "archetype": "The Warrior",
+    "user_input": "I've had chronic pain for five years and I'm tired of fighting it every day. Doctors can't find the cause, people don't understand, and I feel like I'm complaining all the time. I want to give up.",
+    "assistant_response": "Chronic conditions require shifting from curing to managing mindset. Pacing activities and professional support help you reclaim life within new constraints. We'll build from that ember.",
+    "token_length": 276,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 556,
+    "timestamp": "2024-01-15T23:20:00Z",
+    "focus_area": "Coming out later in life",
+    "archetype": "The Late Bloomer",
+    "user_input": "I'm 50 and just realizing I'm gay after being married to the opposite sex for 20 years. I feel like I've wasted my life living a lie, and I'm terrified of coming out and losing everything I've built.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 270,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 556,
+    "timestamp": "2024-01-15T23:20:00Z",
+    "focus_area": "Coming out later in life",
+    "archetype": "The Late Bloomer",
+    "user_input": "I'm 50 and just realizing I'm gay after being married to the opposite sex for 20 years. I feel like I've wasted my life living a lie, and I'm terrified of coming out and losing everything I've built.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 270,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 557,
+    "timestamp": "2024-01-15T23:35:00Z",
+    "focus_area": "Impostor syndrome",
+    "archetype": "The Pretender",
+    "user_input": "I just got into graduate school but I'm convinced they made a mistake. I don't belong here with all these smart people. I'm afraid they'll figure out I'm not as intelligent as they think I am.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 264,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 557,
+    "timestamp": "2024-01-15T23:35:00Z",
+    "focus_area": "Impostor syndrome",
+    "archetype": "The Pretender",
+    "user_input": "I just got into graduate school but I'm convinced they made a mistake. I don't belong here with all these smart people. I'm afraid they'll figure out I'm not as intelligent as they think I am.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 264,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 558,
+    "timestamp": "2024-01-15T23:50:00Z",
+    "focus_area": "Anxiety disorders",
+    "archetype": "The Worrier",
+    "user_input": "I worry about everything constantly - my health, my family's safety, work, finances, the future. I can't turn off my brain and I'm always imagining worst-case scenarios. It's exhausting living in constant fear.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. We'll build from that ember.",
+    "token_length": 273,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 558,
+    "timestamp": "2024-01-15T23:50:00Z",
+    "focus_area": "Anxiety disorders",
+    "archetype": "The Worrier",
+    "user_input": "I worry about everything constantly - my health, my family's safety, work, finances, the future. I can't turn off my brain and I'm always imagining worst-case scenarios. It's exhausting living in constant fear.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. We'll build from that ember.",
+    "token_length": 273,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 559,
+    "timestamp": "2024-01-16T00:05:00Z",
+    "focus_area": "Retirement adjustment",
+    "archetype": "The Elder",
+    "user_input": "I retired six months ago after 40 years of work and I feel lost. I don't know who I am without my career. I have no structure, no purpose, and I'm driving my spouse crazy being around the house all the time.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 559,
+    "timestamp": "2024-01-16T00:05:00Z",
+    "focus_area": "Retirement adjustment",
+    "archetype": "The Elder",
+    "user_input": "I retired six months ago after 40 years of work and I feel lost. I don't know who I am without my career. I have no structure, no purpose, and I'm driving my spouse crazy being around the house all the time.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 560,
+    "timestamp": "2024-01-16T00:20:00Z",
+    "focus_area": "Agoraphobia",
+    "archetype": "The Prisoner",
+    "user_input": "I haven't left my house in months. What started as avoiding crowded places has escalated to being afraid of any public space. I order everything online and make excuses to avoid social gatherings. I feel trapped in my own home.",
+    "assistant_response": "your fear is real. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 254,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 560,
+    "timestamp": "2024-01-16T00:20:00Z",
+    "focus_area": "Agoraphobia",
+    "archetype": "The Prisoner",
+    "user_input": "I haven't left my house in months. What started as avoiding crowded places has escalated to being afraid of any public space. I order everything online and make excuses to avoid social gatherings. I feel trapped in my own home.",
+    "assistant_response": "your fear is real. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 254,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 561,
+    "timestamp": "2024-01-16T00:35:00Z",
+    "focus_area": "Miscarriage grief",
+    "archetype": "The Mother Who Lost",
+    "user_input": "I miscarried at 12 weeks and everyone tells me to 'move on' and that 'it wasn't meant to be.' I feel like I lost a child, not just a pregnancy. I'm grieving someone I never got to hold.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. That's enough for now.",
+    "token_length": 272,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 561,
+    "timestamp": "2024-01-16T00:35:00Z",
+    "focus_area": "Miscarriage grief",
+    "archetype": "The Mother Who Lost",
+    "user_input": "I miscarried at 12 weeks and everyone tells me to 'move on' and that 'it wasn't meant to be.' I feel like I lost a child, not just a pregnancy. I'm grieving someone I never got to hold.",
+    "assistant_response": "Grief has no timeline — six months is still early in processing such profound loss. Your pain reflects the depth of your love. This intensity honors your bond. That's enough for now.",
+    "token_length": 272,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 562,
+    "timestamp": "2024-01-16T00:50:00Z",
+    "focus_area": "Sexual trauma recovery",
+    "archetype": "The Survivor",
+    "user_input": "I was sexually assaulted two years ago and I still can't have intimate relationships. I get triggered by touch, I don't trust anyone, and I feel damaged and dirty all the time.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. Let it be named and left.",
+    "token_length": 269,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 562,
+    "timestamp": "2024-01-16T00:50:00Z",
+    "focus_area": "Sexual trauma recovery",
+    "archetype": "The Survivor",
+    "user_input": "I was sexually assaulted two years ago and I still can't have intimate relationships. I get triggered by touch, I don't trust anyone, and I feel damaged and dirty all the time.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. Let it be named and left.",
+    "token_length": 269,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 563,
+    "timestamp": "2024-01-16T01:05:00Z",
+    "focus_area": "Alzheimer's caregiving",
+    "archetype": "The Devoted",
+    "user_input": "My husband has early-onset Alzheimer's and he's disappearing little by little. Some days he doesn't recognize me. I'm watching the man I love fade away while taking care of a stranger who looks like him.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 276,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 563,
+    "timestamp": "2024-01-16T01:05:00Z",
+    "focus_area": "Alzheimer's caregiving",
+    "archetype": "The Devoted",
+    "user_input": "My husband has early-onset Alzheimer's and he's disappearing little by little. Some days he doesn't recognize me. I'm watching the man I love fade away while taking care of a stranger who looks like him.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 276,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 564,
+    "timestamp": "2024-01-16T01:20:00Z",
+    "focus_area": "Narcissistic abuse recovery",
+    "archetype": "The Awakening",
+    "user_input": "I finally left my narcissistic partner but I feel confused and broken. They made me doubt my own reality for so long that I don't trust my own perceptions anymore. I feel guilty for leaving and wonder if I'm the problem.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 564,
+    "timestamp": "2024-01-16T01:20:00Z",
+    "focus_area": "Narcissistic abuse recovery",
+    "archetype": "The Awakening",
+    "user_input": "I finally left my narcissistic partner but I feel confused and broken. They made me doubt my own reality for so long that I don't trust my own perceptions anymore. I feel guilty for leaving and wonder if I'm the problem.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 266,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 565,
+    "timestamp": "2024-01-16T01:35:00Z",
+    "focus_area": "Gender dysphoria",
+    "archetype": "The Shapeshifter",
+    "user_input": "I feel trapped in the wrong body. I've known since I was young that I was born the wrong gender, but I'm scared of transitioning. I don't know if I'm strong enough to face the discrimination and rejection.",
+    "assistant_response": "This isn't confusion. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 296,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 565,
+    "timestamp": "2024-01-16T01:35:00Z",
+    "focus_area": "Gender dysphoria",
+    "archetype": "The Shapeshifter",
+    "user_input": "I feel trapped in the wrong body. I've known since I was young that I was born the wrong gender, but I'm scared of transitioning. I don't know if I'm strong enough to face the discrimination and rejection.",
+    "assistant_response": "This isn't confusion. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 296,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 566,
+    "timestamp": "2024-01-16T01:50:00Z",
+    "focus_area": "Workaholism",
+    "archetype": "The Achiever",
+    "user_input": "I work 70-80 hours a week and I can't stop. I feel guilty when I'm not working, I check emails constantly, and I've lost all my relationships. Work is the only place I feel valuable and accomplished.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 277,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 566,
+    "timestamp": "2024-01-16T01:50:00Z",
+    "focus_area": "Workaholism",
+    "archetype": "The Achiever",
+    "user_input": "I work 70-80 hours a week and I can't stop. I feel guilty when I'm not working, I check emails constantly, and I've lost all my relationships. Work is the only place I feel valuable and accomplished.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 277,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 567,
+    "timestamp": "2024-01-16T02:05:00Z",
+    "focus_area": "Infidelity recovery",
+    "archetype": "The Betrayed",
+    "user_input": "I discovered my spouse was having an affair and my world fell apart. I don't know if I can trust them again or if I should try to save the marriage. I feel humiliated, angry, and completely lost.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 278,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 567,
+    "timestamp": "2024-01-16T02:05:00Z",
+    "focus_area": "Infidelity recovery",
+    "archetype": "The Betrayed",
+    "user_input": "I discovered my spouse was having an affair and my world fell apart. I don't know if I can trust them again or if I should try to save the marriage. I feel humiliated, angry, and completely lost.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 278,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 568,
+    "timestamp": "2024-01-16T02:20:00Z",
+    "focus_area": "Autism spectrum diagnosis",
+    "archetype": "The Outsider",
+    "user_input": "I was diagnosed with autism at 28 and I'm reprocessing my entire life through this new lens. I feel relieved to finally understand myself, but also grieving the years I spent feeling broken and trying to be 'normal.'",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 277,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 568,
+    "timestamp": "2024-01-16T02:20:00Z",
+    "focus_area": "Autism spectrum diagnosis",
+    "archetype": "The Outsider",
+    "user_input": "I was diagnosed with autism at 28 and I'm reprocessing my entire life through this new lens. I feel relieved to finally understand myself, but also grieving the years I spent feeling broken and trying to be 'normal.'",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 277,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 569,
+    "timestamp": "2024-01-16T02:35:00Z",
+    "focus_area": "Suicidal ideation",
+    "archetype": "The Edge Walker",
+    "user_input": "I think about suicide almost every day. I'm not planning anything specific, but the thoughts are constant and they scare me. I feel like I'm a burden to everyone and that life would be better without me.",
+    "assistant_response": "These thoughts signal overwhelming pain that's too heavy to carry alone. Crisis resources like 988 are available 24/7. Your pain is real, and so is the possibility of healing. We'll build from that ember.",
+    "token_length": 304,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 569,
+    "timestamp": "2024-01-16T02:35:00Z",
+    "focus_area": "Suicidal ideation",
+    "archetype": "The Edge Walker",
+    "user_input": "I think about suicide almost every day. I'm not planning anything specific, but the thoughts are constant and they scare me. I feel like I'm a burden to everyone and that life would be better without me.",
+    "assistant_response": "These thoughts signal overwhelming pain that's too heavy to carry alone. Crisis resources like 988 are available 24/7. Your pain is real, and so is the possibility of healing. We'll build from that ember.",
+    "token_length": 304,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 570,
+    "timestamp": "2024-01-16T02:50:00Z",
+    "focus_area": "Borderline personality disorder",
+    "archetype": "The Intense",
+    "user_input": "My emotions are so intense that they feel like they're going to destroy me. I go from loving someone to hating them in minutes. I'm terrified of abandonment but I push people away. I feel like I'm going crazy.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. That's enough for now.",
+    "token_length": 277,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 571,
+    "timestamp": "2024-01-16T03:05:00Z",
+    "focus_area": "Childhood emotional neglect",
+    "archetype": "The Abandoned Child",
+    "user_input": "I had a 'normal' childhood - no abuse, good parents - but I feel emotionally numb and disconnected. I don't understand my own feelings and I feel like something is missing but I can't name what.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 286,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 571,
+    "timestamp": "2024-01-16T03:05:00Z",
+    "focus_area": "Childhood emotional neglect",
+    "archetype": "The Abandoned Child",
+    "user_input": "I had a 'normal' childhood - no abuse, good parents - but I feel emotionally numb and disconnected. I don't understand my own feelings and I feel like something is missing but I can't name what.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 286,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 572,
+    "timestamp": "2024-01-16T03:20:00Z",
+    "focus_area": "Parental alienation",
+    "archetype": "The Torn",
+    "user_input": "My ex-spouse has turned our children against me after the divorce. They refuse to see me and repeat lies about me that their other parent tells them. I'm losing my relationship with my own children.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 280,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 572,
+    "timestamp": "2024-01-16T03:20:00Z",
+    "focus_area": "Parental alienation",
+    "archetype": "The Torn",
+    "user_input": "My ex-spouse has turned our children against me after the divorce. They refuse to see me and repeat lies about me that their other parent tells them. I'm losing my relationship with my own children.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 280,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 573,
+    "timestamp": "2024-01-16T03:35:00Z",
+    "focus_area": "Hoarding disorder",
+    "archetype": "The Collector",
+    "user_input": "I can't throw anything away because everything feels important and valuable. My house is so cluttered I can barely move around. I'm ashamed and isolated because I can't let anyone inside.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 270,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 573,
+    "timestamp": "2024-01-16T03:35:00Z",
+    "focus_area": "Hoarding disorder",
+    "archetype": "The Collector",
+    "user_input": "I can't throw anything away because everything feels important and valuable. My house is so cluttered I can barely move around. I'm ashamed and isolated because I can't let anyone inside.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 270,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 574,
+    "timestamp": "2024-01-16T03:50:00Z",
+    "focus_area": "Spiritual crisis",
+    "archetype": "The Questioner",
+    "user_input": "I've lost my faith and I don't know who I am anymore. My entire worldview and sense of meaning was built on beliefs I can no longer accept. I feel spiritually homeless and existentially lost.",
+    "assistant_response": "You're experiencing a crisis that requires immediate safety. Reach out to trusted people or crisis resources now. This darkness isn't permanent. That's enough for now.",
+    "token_length": 305,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 574,
+    "timestamp": "2024-01-16T03:50:00Z",
+    "focus_area": "Spiritual crisis",
+    "archetype": "The Questioner",
+    "user_input": "I've lost my faith and I don't know who I am anymore. My entire worldview and sense of meaning was built on beliefs I can no longer accept. I feel spiritually homeless and existentially lost.",
+    "assistant_response": "You're experiencing a crisis that requires immediate safety. Reach out to trusted people or crisis resources now. This darkness isn't permanent. That's enough for now.",
+    "token_length": 305,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 575,
+    "timestamp": "2024-01-16T04:05:00Z",
+    "focus_area": "Chronic fatigue syndrome",
+    "archetype": "The Tired",
+    "user_input": "I'm exhausted all the time no matter how much I sleep. Doctors say nothing is wrong but I can barely function. People think I'm lazy or making excuses, but I feel like I'm living in a fog.",
+    "assistant_response": "Chronic conditions require shifting from curing to managing mindset. Pacing activities and professional support help you reclaim life within new constraints. We'll build from that ember.",
+    "token_length": 309,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 576,
+    "timestamp": "2024-01-16T04:20:00Z",
+    "focus_area": "Adoptee identity issues",
+    "archetype": "The Searching",
+    "user_input": "I'm adopted and I've always felt like something is missing. I love my adoptive family but I feel disconnected from my history and identity. I'm scared to search for my birth family because I don't want to hurt anyone.",
+    "assistant_response": "Identity questioning reflects growth, not confusion. At your age, fluidity is normal — you're experimenting to discover your authentic self. This discomfort signals healthy development. Let it be named and left.",
+    "token_length": 282,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 577,
+    "timestamp": "2024-01-16T04:35:00Z",
+    "focus_area": "Financial anxiety",
+    "archetype": "The Scarcity",
+    "user_input": "I obsess about money constantly even though I have enough. I check my accounts multiple times a day, I feel guilty about any spending, and I'm always worried about becoming homeless or destitute.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. 988 Crisis Lifeline available 24/7. That's enough for now.",
+    "token_length": 284,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 578,
+    "timestamp": "2024-01-16T04:50:00Z",
+    "focus_area": "Lesbian bed death",
+    "archetype": "The Dormant",
+    "user_input": "My partner and I have been together for 8 years and our sex life has completely disappeared. We love each other but we're more like roommates than lovers. I don't know how to bring back the intimacy we used to have.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 305,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 579,
+    "timestamp": "2024-01-16T05:05:00Z",
+    "focus_area": "Deportation anxiety",
+    "archetype": "The Exile",
+    "user_input": "I'm undocumented and live in constant fear of being separated from my family. Every knock on the door, every police car makes my heart race. I can't plan for the future because I don't know if I'll be here tomorrow.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. Let it be named and left.",
+    "token_length": 284,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 580,
+    "timestamp": "2024-01-16T05:20:00Z",
+    "focus_area": "Gambling addiction",
+    "archetype": "The Chaser",
+    "user_input": "I can't stop gambling even though I've lost everything. I tell myself I'll just play until I win back what I lost, but I keep losing more. I've lied to everyone and destroyed my family's trust.",
+    "assistant_response": "Addiction hijacks your brain's reward system — this isn't willpower failure. Recovery involves treating both the addiction and underlying pain that drives it. That's enough for now.",
+    "token_length": 284,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 581,
+    "timestamp": "2024-01-16T05:35:00Z",
+    "focus_area": "Trichotillomania",
+    "archetype": "The Puller",
+    "user_input": "I pull out my hair when I'm stressed or bored. I have bald patches and I wear hats constantly to hide them. I try to stop but my hands move to my hair automatically without thinking.",
+    "assistant_response": "This isn't a. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 288,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 582,
+    "timestamp": "2024-01-16T05:50:00Z",
+    "focus_area": "Menopause transition",
+    "archetype": "The Changing",
+    "user_input": "I'm going through menopause and I don't recognize myself anymore. I have hot flashes, I can't sleep, my mood swings are extreme, and I feel like I'm losing my mind. Nobody prepared me for how hard this would be.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 324,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 583,
+    "timestamp": "2024-01-16T06:05:00Z",
+    "focus_area": "Caregiver stress for special needs child",
+    "archetype": "The Devoted Parent",
+    "user_input": "My son has severe autism and intellectual disability. I love him completely but I'm exhausted from 24/7 caregiving. I feel guilty for wanting a break and scared about what will happen to him when I'm gone.",
+    "assistant_response": "you feel is legitimate. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 306,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 584,
+    "timestamp": "2024-01-16T06:20:00Z",
+    "focus_area": "Late-life depression",
+    "archetype": "The Dimming",
+    "user_input": "I'm 72 and I've never been depressed before, but now I feel hopeless and empty. My friends are dying, my body is failing, and I feel like a burden to my family. I don't see the point in continuing.",
+    "assistant_response": "This heaviness isn't permanent, even when it feels endless. Depression distorts your perception of yourself and the future. Small steps and professional support can help lift this weight. We'll build from that ember.",
+    "token_length": 328,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 585,
+    "timestamp": "2024-01-16T06:35:00Z",
+    "focus_area": "Polyamory jealousy",
+    "archetype": "The Sharing",
+    "user_input": "My partner and I opened our relationship but I'm struggling with jealousy when they're with other people. I believe in polyamory philosophically but emotionally I feel threatened and inadequate.",
+    "assistant_response": "Your feelings are valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 290,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 586,
+    "timestamp": "2024-01-16T06:50:00Z",
+    "focus_area": "Male infertility shame",
+    "archetype": "The Inadequate",
+    "user_input": "We found out I'm the reason we can't get pregnant. My sperm count is too low and I feel like I've failed as a man. I can't give my wife the family she wants and I feel broken and ashamed.",
+    "assistant_response": "Your worth isn't determined by reproductive capacity. Fertility involves complex biology beyond your control. Multiple paths to family exist including adoption and childfree living. That's enough for now.",
+    "token_length": 304,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 587,
+    "timestamp": "2024-01-16T07:05:00Z",
+    "focus_area": "Racial trauma",
+    "archetype": "The Weathered",
+    "user_input": "I'm tired of experiencing racism every day. The microaggressions, the assumptions, the way people treat me differently because of my skin color. I feel angry all the time but also exhausted from fighting.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. We'll build from that ember.",
+    "token_length": 306,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 588,
+    "timestamp": "2024-01-16T07:20:00Z",
+    "focus_area": "Peripartum anxiety",
+    "archetype": "The Protective",
+    "user_input": "I'm pregnant and I can't stop worrying about everything that could go wrong. I obsess over every symptom, I'm terrified of miscarriage, and I can't sleep because of the anxiety. I should be happy but I'm miserable.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. Let it be named and left.",
+    "token_length": 310,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 589,
+    "timestamp": "2024-01-16T07:35:00Z",
+    "focus_area": "Digital addiction",
+    "archetype": "The Connected",
+    "user_input": "I spend 8-10 hours a day on my phone scrolling social media. I know it's too much but I can't stop. I feel anxious when I don't have my phone and I've lost interest in everything else.",
+    "assistant_response": "Addiction hijacks your brain's reward system — this isn't willpower failure. Recovery involves treating both the addiction and underlying pain that drives it. That's enough for now.",
+    "token_length": 326,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 590,
+    "timestamp": "2024-01-16T07:50:00Z",
+    "focus_area": "Hypervigilance from PTSD",
+    "archetype": "The Sentinel",
+    "user_input": "Since my assault, I can't relax anywhere. I sit with my back to walls, scan every room for exits, and startle at sudden sounds. I'm exhausted from being constantly on guard but I can't turn it off.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 282,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 591,
+    "timestamp": "2024-01-16T08:05:00Z",
+    "focus_area": "Stepfamily dynamics",
+    "archetype": "The Blended",
+    "user_input": "I remarried and my stepkids hate me. They compare me to their 'real' mom constantly and act like I'm an intruder in their lives. I love my husband but I feel like giving up on trying to connect with his children.",
+    "assistant_response": "Toxic family systems require scapegoats to avoid addressing real problems. Your reactions to manipulation are normal. You can't fix their dysfunction. Let it be named and left.",
+    "token_length": 292,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 592,
+    "timestamp": "2024-01-16T08:20:00Z",
+    "focus_area": "Compulsive shopping",
+    "archetype": "The Seeker of Things",
+    "user_input": "I shop when I'm depressed, anxious, or bored. I buy things I don't need and can't afford. My closets are full of items with tags still on them, but I keep buying more. I'm drowning in debt.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 281,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 593,
+    "timestamp": "2024-01-16T08:35:00Z",
+    "focus_area": "Therapist burnout",
+    "archetype": "The Wounded Healer",
+    "user_input": "I'm a therapist who's completely burned out. I feel numb listening to clients' problems and I'm questioning whether I'm helping anyone. I became a therapist to heal the world but now I feel depleted and cynical.",
+    "assistant_response": "Burnout isn't weakness — it's your system protecting itself from chronic overwhelm. Recovery requires rest, boundaries, and addressing what drove the depletion. 988 Crisis Lifeline available 24/7. We'll build from that ember.",
+    "token_length": 294,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 594,
+    "timestamp": "2024-01-16T08:50:00Z",
+    "focus_area": "Asexuality in relationships",
+    "archetype": "The Different",
+    "user_input": "I recently realized I'm asexual but I'm in a relationship with someone who has a normal sex drive. I love them but I don't want sex and I feel broken. I'm scared they'll leave me for someone who can give them what they need.",
+    "assistant_response": "These patterns often stem from early attachment experiences. Healthy relationships require risk, but past wounds make vulnerability feel dangerous. Therapy can help rebuild trust. Let it be named and left.",
+    "token_length": 293,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 595,
+    "timestamp": "2024-01-16T09:05:00Z",
+    "focus_area": "Survivor guilt",
+    "archetype": "The Spared",
+    "user_input": "I survived a car accident that killed my best friend. I can't understand why I lived and she died. I feel guilty for being alive, for laughing, for enjoying anything when she can't. I should have died instead.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 320,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 596,
+    "timestamp": "2024-01-16T09:20:00Z",
+    "focus_area": "Social media comparison",
+    "archetype": "The Comparer",
+    "user_input": "I spend hours on Instagram and Facebook comparing myself to others. Everyone looks happier, more successful, and more attractive than me. I know it's not real but I can't stop feeling inadequate when I see their perfect lives.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 309,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 597,
+    "timestamp": "2024-01-16T09:35:00Z",
+    "focus_area": "Empty relationship",
+    "archetype": "The Distant",
+    "user_input": "My partner and I have been together for 10 years but we feel like strangers living in the same house. We don't talk about anything meaningful, we don't touch, and I feel lonelier with them than when I'm alone.",
+    "assistant_response": "These patterns often stem from early attachment experiences. Healthy relationships require risk, but past wounds make vulnerability feel dangerous. Therapy can help rebuild trust. Let it be named and left.",
+    "token_length": 293,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 598,
+    "timestamp": "2024-01-16T09:50:00Z",
+    "focus_area": "Burnout recovery",
+    "archetype": "The Exhausted",
+    "user_input": "I burned out completely at my job and took a leave of absence. Now I just sleep all day and have no motivation for anything. I feel like I've lost my drive and ambition permanently. I don't know how to get my life back.",
+    "assistant_response": "Burnout isn't weakness — it's your system protecting itself from chronic overwhelm. Recovery requires rest, boundaries, and addressing what drove the depletion. That's enough for now.",
+    "token_length": 320,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 599,
+    "timestamp": "2024-01-16T10:05:00Z",
+    "focus_area": "Fertility treatment stress",
+    "archetype": "The Hopeful",
+    "user_input": "We've been doing IVF for three years with multiple failed transfers. Each cycle brings hope followed by devastating disappointment. I feel like my body is failing me and I'm not sure how much more heartbreak I can take.",
+    "assistant_response": "Your worth isn't determined by reproductive capacity. Fertility involves complex biology beyond your control. Multiple paths to family exist including adoption and childfree living. We'll build from that ember.",
+    "token_length": 305,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 600,
+    "timestamp": "2024-01-16T10:20:00Z",
+    "focus_area": "Medication stigma",
+    "archetype": "The Medicated",
+    "user_input": "I need antidepressants to function but I feel ashamed about taking them. People say I should be able to handle my problems naturally or that I'm just weak. I keep wanting to stop taking them to prove I'm strong.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 293,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 601,
+    "timestamp": "2024-01-16T10:35:00Z",
+    "focus_area": "Workplace bullying",
+    "archetype": "The Target",
+    "user_input": "My coworker constantly undermines me, spreads rumors, and excludes me from meetings. HR says it's just personality conflicts but I dread going to work every day. I feel like I'm being gaslit and going crazy.",
+    "assistant_response": "Document everything and seek legal counsel if needed. Your distress is a normal response to abnormal treatment. Focus on protecting your mental health and professional reputation. That's enough for now.",
+    "token_length": 294,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 602,
+    "timestamp": "2024-01-16T10:50:00Z",
+    "focus_area": "Parenting anxiety",
+    "archetype": "The Worried Parent",
+    "user_input": "I constantly worry about my children's safety and future. I check on them multiple times at night, I won't let them do normal kid activities because something might happen. I know I'm being overprotective but I can't stop.",
+    "assistant_response": "Your nervous system is stuck in threat-detection mode, but you're safer than your brain believes. Grounding techniques and professional help can teach it to distinguish real danger from false alarms. We'll build from that ember.",
+    "token_length": 285,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 603,
+    "timestamp": "2024-01-16T11:05:00Z",
+    "focus_area": "Affairs aftermath",
+    "archetype": "The Unfaithful",
+    "user_input": "I had an affair and destroyed my marriage. I ended it and want to rebuild trust with my spouse, but they can't get past it. I feel horrible about what I did but I don't know how to fix the damage I caused.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. Let it be named and left.",
+    "token_length": 310,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 604,
+    "timestamp": "2024-01-16T11:20:00Z",
+    "focus_area": "Premenstrual dysphoric disorder",
+    "archetype": "The Cyclical",
+    "user_input": "Two weeks before my period, I become a different person - depressed, angry, hopeless. I say horrible things to people I love and then feel terrible afterward. I can't control my emotions during this time.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. That's enough for now.",
+    "token_length": 289,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 605,
+    "timestamp": "2024-01-16T11:35:00Z",
+    "focus_area": "Creativity blocks",
+    "archetype": "The Artist",
+    "user_input": "I used to be creative and passionate about art, but now I feel completely blocked. Everything I make feels terrible and derivative. I wonder if I ever had any real talent or if I should give up on creative pursuits.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. We'll build from that ember.",
+    "token_length": 336,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 606,
+    "timestamp": "2024-01-16T11:50:00Z",
+    "focus_area": "Elder care decisions",
+    "archetype": "The Responsible Child",
+    "user_input": "My father has dementia and can't live alone anymore, but he refuses help and wants to stay in his house. I'm torn between respecting his wishes and keeping him safe. I feel guilty no matter what I choose.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 312,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 607,
+    "timestamp": "2024-01-16T12:05:00Z",
+    "focus_area": "Academic rejection",
+    "archetype": "The Aspiring",
+    "user_input": "I didn't get into any of the graduate programs I applied to. I've been planning this path for years and now I feel like a failure. I don't know what to do with my life if I can't pursue my academic dreams.",
+    "assistant_response": "Your experience is valid. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. 988 Crisis Lifeline available 24/7. That's enough for now.",
+    "token_length": 326,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 608,
+    "timestamp": "2024-01-16T12:20:00Z",
+    "focus_area": "Identity after trauma",
+    "archetype": "The Reconstructed",
+    "user_input": "Since my trauma, I don't know who I am anymore. The person I was before feels like a stranger, but this new version of myself feels broken and damaged. I don't know how to move forward when I can't recognize myself.",
+    "assistant_response": "Your reactions are normal responses to abnormal experiences. Trauma-informed therapy can help your nervous system learn safety again without rushing the process. We'll build from that ember.",
+    "token_length": 332,
+    "overlength_flag": true
+  },
+  {
+    "entry_id": 609,
+    "timestamp": "2024-01-16T12:35:00Z",
+    "focus_area": "Sexual dysfunction",
+    "archetype": "The Disconnected",
+    "user_input": "I can't enjoy sex anymore. I feel disconnected from my body and go through the motions without any pleasure or desire. My partner is understanding but I feel broken and worry our relationship will suffer.",
+    "assistant_response": "This isn't uncommon. These feelings make sense given what you're facing. Professional support can help you navigate this challenge with appropriate tools. Let it be named and left.",
+    "token_length": 318,
+    "overlength_flag": true
+  }
+]

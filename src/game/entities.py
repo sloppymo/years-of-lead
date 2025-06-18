@@ -124,23 +124,23 @@ class Agent:
     def get_secret_count(self) -> int:
         """Get number of secrets this agent has"""
         return len(self.secrets)
-    
+
     def get_relationship_with(self, other_agent_id: str):
         """Get relationship state with another agent (Phase 2)"""
         # Import here to avoid circular import
         from .relationships import RelationshipState
-        
+
         if other_agent_id not in self.relationships:
             self.relationships[other_agent_id] = RelationshipState()
-        
+
         # Convert dict to RelationshipState if needed
         rel_data = self.relationships[other_agent_id]
         if isinstance(rel_data, dict):
             self.relationships[other_agent_id] = RelationshipState.from_dict(rel_data)
-        elif not hasattr(rel_data, 'trust'):
+        elif not hasattr(rel_data, "trust"):
             # Create new RelationshipState if the data isn't properly structured
             self.relationships[other_agent_id] = RelationshipState()
-            
+
         return self.relationships[other_agent_id]
 
     def __post_init__(self):

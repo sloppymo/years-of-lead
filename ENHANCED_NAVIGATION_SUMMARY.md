@@ -101,7 +101,7 @@ The menu interface has been improved to support multiple navigation methods:
                self.current_menu_items[self.selected_index].selected = False
                self.selected_index = i
                self.current_menu_items[self.selected_index].selected = True
-               
+
                # If it's a double click or click on the action part, execute the action
                if item.action:
                    return item.action()
@@ -114,22 +114,22 @@ The menu interface has been improved to support multiple navigation methods:
        print("\n" + "=" * 60)
        print("RESISTANCE COMMAND CENTER")
        print("=" * 60)
-       
+
        # Calculate positions for each menu item (for mouse clicks)
        current_row = 4  # Start after the header
-       
+
        print("Commands:")
        for i, item in enumerate(self.current_menu_items):
            # Store the position for mouse clicks
            item.position = (current_row, 2)
            current_row += 1
-           
+
            # Display the menu item with selection indicator
            if item.selected and self.use_arrow_keys:
                print(f"→ [{item.key}] {item.label:<12} - {item.description}")
            else:
                print(f"  [{item.key}] {item.label:<12} - {item.description}")
-       
+
        # Show navigation help
        print("=" * 60)
        print(f"Navigation: ↑/↓ arrows to select, Enter to execute | Click to select, double-click to execute")
@@ -149,7 +149,7 @@ if command.startswith('arrow:'):
     if result == "quit":
         break
     continue
-    
+
 if command.startswith('mouse:'):
     # Format: mouse:x,y
     coords = command.split(':')[1].split(',')
@@ -162,7 +162,7 @@ if command.startswith('mouse:'):
             continue
         except ValueError:
             pass
-            
+
 # Handle regular commands
 if command == 'q':
     print("Quit Game")
@@ -218,4 +218,4 @@ A demonstration script `demo_enhanced_navigation.py` showcases all the new navig
 
 ---
 
-*"Navigate with precision, command with ease. The resistance depends on your leadership."* 
+*"Navigate with precision, command with ease. The resistance depends on your leadership."*

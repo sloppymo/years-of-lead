@@ -6,13 +6,12 @@ A turn-based insurgency simulator with symbolic narrative logging
 
 import sys
 import os
-import json
 from datetime import datetime
-from typing import List, Optional, Dict, Any
 
 # Optional blessed import for enhanced terminal features
 try:
     from blessed import Terminal
+
     BLESSED_AVAILABLE = True
 except ImportError:
     BLESSED_AVAILABLE = False
@@ -27,14 +26,8 @@ from .years_of_lead.core import (
     Agent,
     Faction,
     Location,
-    Task,
-    TaskType,
-    MissionType,
-    AgentRole,
     SkillType,
-    EquipmentType,
     Skill,
-    Equipment,
 )
 from loguru import logger
 
@@ -56,10 +49,11 @@ from src.game.equipment_system import SearchEncounterManager
 
 # --- BEGIN ENHANCED GAMECLI CLASS RESTORE ---
 
-import random
+
 
 class MenuItem:
     """Menu item for navigation"""
+
     def __init__(self, key, label, description, action=None):
         self.key = key
         self.label = label
@@ -67,35 +61,41 @@ class MenuItem:
         self.action = action
         self.selected = False
         self.position = (0, 0)  # (row, column) position for mouse clicks
-        self.width = len(label) + len(description) + 5  # Approximate width for mouse detection
+        self.width = (
+            len(label) + len(description) + 5
+        )  # Approximate width for mouse detection
+
 
 class GameCLI:
     """Enhanced CLI with DF-style navigation"""
+
     def __init__(self):
         self.game_state = GameState()
         self.context_stack = []  # For breadcrumb navigation
         self.query_mode = False
         self.help_context = "main"
-        
+
         # Initialize managers
         self.equipment_manager = EnhancedEquipmentManager()
         self.integration_manager = EquipmentIntegrationManager(self.equipment_manager)
-        self.mission_engine = MissionExecutionEngine(self.game_state, self.integration_manager)
-        
+        self.mission_engine = MissionExecutionEngine(
+            self.game_state, self.integration_manager
+        )
+
         # Initialize additional systems
         self.character_creator = CharacterCreationUI()
         self.emotional_state_manager = EmotionalState()
         self.relationship_manager = SocialNetwork()
         self.narrative_engine = DynamicNarrativeToneEngine()
         self.search_encounter_manager = SearchEncounterManager()
-        
+
         # Initialize storage and safehouses
         self.storage = {"items": []}
         self.safehouses = {
             "University Safehouse": {"items": []},
-            "Downtown Safehouse": {"items": []}
+            "Downtown Safehouse": {"items": []},
         }
-        
+
         # Initialize sample missions
         self.missions = [
             {
@@ -104,18 +104,18 @@ class GameCLI:
                 "type": "infiltration",
                 "difficulty": 0.6,
                 "description": "Gain access to university facilities",
-                "location": {"id": "university", "name": "University District"}
+                "location": {"id": "university", "name": "University District"},
             },
             {
-                "id": "mission_2", 
+                "id": "mission_2",
                 "name": "Downtown Reconnaissance",
                 "type": "reconnaissance",
                 "difficulty": 0.4,
                 "description": "Gather intelligence on downtown area",
-                "location": {"id": "downtown", "name": "Downtown"}
-            }
+                "location": {"id": "downtown", "name": "Downtown"},
+            },
         ]
-        
+
         # Enhanced navigation properties
         self.current_menu_items = []
         self.selected_index = 0
@@ -123,7 +123,7 @@ class GameCLI:
         self.use_mouse = True
         self.terminal_height = 24
         self.terminal_width = 80
-        
+
         # Victory/defeat conditions
         self.game_state.victory_achieved = False
         self.game_state.defeat_suffered = False
@@ -137,7 +137,7 @@ class GameCLI:
             "agents_remaining": 1,  # Only 1 agent remaining
             "resources": 10,  # Resources below 10
         }
-        
+
         # Set up main menu items
         self._setup_main_menu()
         self.setup_sample_game()
@@ -147,25 +147,47 @@ class GameCLI:
         self.current_menu_items = [
             MenuItem("a", "advance", "Advance Turn/Phase", self._advance_turn),
             MenuItem("g", "agents", "Show Agent Details", self.show_agent_details),
-            MenuItem("n", "narrative", "Show Full Narrative Log", self.show_full_narrative),
-            MenuItem("l", "locations", "Show Location Details", self.show_location_details),
+            MenuItem(
+                "n", "narrative", "Show Full Narrative Log", self.show_full_narrative
+            ),
+            MenuItem(
+                "l", "locations", "Show Location Details", self.show_location_details
+            ),
             MenuItem("e", "events", "Show Active Events", self.show_active_events),
-            MenuItem("m", "missions", "Show Active Missions", self.show_active_missions),
+            MenuItem(
+                "m", "missions", "Show Active Missions", self.show_active_missions
+            ),
             MenuItem("p", "opinion", "Show Public Opinion", self.show_public_opinion),
             MenuItem("s", "save", "Save Game", self.trigger_manual_save),
             MenuItem("o", "load", "Load Game", self.navigate_save_browser),
             MenuItem("b", "browse", "Browse Saves", self.navigate_save_browser),
             MenuItem("i", "inventory", "Inventory & Storage", self.inventory_menu),
             MenuItem("u", "equipment", "Equipment Management", self.equipment_menu),
-            MenuItem("r", "briefing", "Mission Briefing & Planning", self.briefing_menu),
-            MenuItem("c", "characters", "Character Creation & Management", self.character_creation_menu),
-            MenuItem("t", "relationships", "Agent Relationships & Network", self.relationship_menu),
+            MenuItem(
+                "r", "briefing", "Mission Briefing & Planning", self.briefing_menu
+            ),
+            MenuItem(
+                "c",
+                "characters",
+                "Character Creation & Management",
+                self.character_creation_menu,
+            ),
+            MenuItem(
+                "t",
+                "relationships",
+                "Agent Relationships & Network",
+                self.relationship_menu,
+            ),
             MenuItem("y", "narrative", "Dynamic Narrative System", self.narrative_menu),
-            MenuItem("d", "detection", "Search & Detection Encounters", self.detection_menu),
-            MenuItem("v", "victory", "Show Victory Conditions", self._show_victory_conditions),
+            MenuItem(
+                "d", "detection", "Search & Detection Encounters", self.detection_menu
+            ),
+            MenuItem(
+                "v", "victory", "Show Victory Conditions", self._show_victory_conditions
+            ),
             MenuItem("q", "quit", "Quit Game", lambda: "quit"),
             MenuItem("?", "help", "Context Help", self.show_context_help),
-            MenuItem("*", "query", "Toggle Query Mode", self._toggle_query)
+            MenuItem("*", "query", "Toggle Query Mode", self._toggle_query),
         ]
         # Set the first item as selected by default
         self.selected_index = 0
@@ -176,50 +198,55 @@ class GameCLI:
         print("\n⏭️  Advancing turn...")
         self.game_state.advance_turn()
         print("✅ Turn advanced successfully!")
-        
+
         # Check victory/defeat conditions using the new method
         if self.check_victory_conditions():
             return "game_over"
-        
+
         # Autosave after turn advancement
         self._create_autosave()
-        
+
         return None
 
     def _check_victory_defeat_conditions(self):
         """Check if victory or defeat conditions are met"""
         # This is a simplified implementation - in a real game, you'd have more complex logic
-        
+
         # Check victory conditions
-        if hasattr(self.game_state, 'check_victory_conditions'):
+        if hasattr(self.game_state, "check_victory_conditions"):
             if self.game_state.check_victory_conditions():
                 self.game_state.victory_achieved = True
                 return
-        
+
         # Simplified victory check
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', [])) 
-        enemy_strength = getattr(self.game_state, 'enemy_strength', 40)
-        
-        if (public_support >= self.game_state.victory_conditions["public_support"] and
-            controlled_locations >= self.game_state.victory_conditions["controlled_locations"] and
-            enemy_strength <= self.game_state.victory_conditions["enemy_strength"]):
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
+        enemy_strength = getattr(self.game_state, "enemy_strength", 40)
+
+        if (
+            public_support >= self.game_state.victory_conditions["public_support"]
+            and controlled_locations
+            >= self.game_state.victory_conditions["controlled_locations"]
+            and enemy_strength <= self.game_state.victory_conditions["enemy_strength"]
+        ):
             self.game_state.victory_achieved = True
             return
-            
+
         # Check defeat conditions
-        if hasattr(self.game_state, 'check_defeat_conditions'):
+        if hasattr(self.game_state, "check_defeat_conditions"):
             if self.game_state.check_defeat_conditions():
                 self.game_state.defeat_suffered = True
                 return
-                
+
         # Simplified defeat check
         agents_remaining = len(self.game_state.agents)
-        resources = getattr(self.game_state, 'resources', 100)
-        
-        if (public_support <= self.game_state.defeat_conditions["public_support"] or
-            agents_remaining <= self.game_state.defeat_conditions["agents_remaining"] or
-            resources <= self.game_state.defeat_conditions["resources"]):
+        resources = getattr(self.game_state, "resources", 100)
+
+        if (
+            public_support <= self.game_state.defeat_conditions["public_support"]
+            or agents_remaining <= self.game_state.defeat_conditions["agents_remaining"]
+            or resources <= self.game_state.defeat_conditions["resources"]
+        ):
             self.game_state.defeat_suffered = True
             return
 
@@ -227,14 +254,14 @@ class GameCLI:
         """Create an autosave of the current game state"""
         try:
             # Get current turn for autosave naming
-            turn = getattr(self.game_state, 'current_turn', 1)
-            
+            turn = getattr(self.game_state, "current_turn", 1)
+
             # Create autosave using SaveManager
             save_manager = SaveManager()
             filename = save_manager.autosave(self.game_state)
-            
+
             print(f"💾 Autosave created: {filename}")
-            
+
         except Exception as e:
             logger.error(f"Error creating autosave: {e}")
 
@@ -250,94 +277,160 @@ class GameCLI:
         print("\n" + "=" * 60)
         print("🏆 VICTORY CONDITIONS")
         print("=" * 60)
-        
+
         print("\nVictory is achieved when ALL of the following conditions are met:")
-        
+
         # Get current values
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
         total_locations = len(self.game_state.locations)
-        enemy_strength = getattr(self.game_state, 'enemy_strength', 40)
-        
+        enemy_strength = getattr(self.game_state, "enemy_strength", 40)
+
         victory_conditions = [
-            ("Public Support", f"{self.game_state.victory_conditions['public_support']}% or higher", f"Currently: {public_support}%"),
-            ("Controlled Locations", f"{self.game_state.victory_conditions['controlled_locations']} or more", f"Currently: {controlled_locations}/{total_locations}"),
-            ("Enemy Strength", f"Below {self.game_state.victory_conditions['enemy_strength']}%", f"Currently: {enemy_strength}%")
+            (
+                "Public Support",
+                f"{self.game_state.victory_conditions['public_support']}% or higher",
+                f"Currently: {public_support}%",
+            ),
+            (
+                "Controlled Locations",
+                f"{self.game_state.victory_conditions['controlled_locations']} or more",
+                f"Currently: {controlled_locations}/{total_locations}",
+            ),
+            (
+                "Enemy Strength",
+                f"Below {self.game_state.victory_conditions['enemy_strength']}%",
+                f"Currently: {enemy_strength}%",
+            ),
         ]
-        
+
         print("\n" + "-" * 60)
         print(f"{'Condition':<25} {'Requirement':<20} {'Status':<15}")
         print("-" * 60)
         for condition, requirement, status in victory_conditions:
             print(f"{condition:<25} {requirement:<20} {status:<15}")
         print("-" * 60)
-        
+
         # Calculate victory progress (simplified)
-        support_progress = min(100, public_support / self.game_state.victory_conditions['public_support'] * 100)
-        location_progress = min(100, (controlled_locations / self.game_state.victory_conditions['controlled_locations']) * 100)
-        strength_progress = min(100, (self.game_state.victory_conditions['enemy_strength'] / max(1, enemy_strength)) * 100)
-        
-        total_progress = int((support_progress + location_progress + strength_progress) / 3)
-        progress_bar = "█" * (total_progress // 10) + "░" * (10 - (total_progress // 10))
-        
+        support_progress = min(
+            100,
+            public_support / self.game_state.victory_conditions["public_support"] * 100,
+        )
+        location_progress = min(
+            100,
+            (
+                controlled_locations
+                / self.game_state.victory_conditions["controlled_locations"]
+            )
+            * 100,
+        )
+        strength_progress = min(
+            100,
+            (
+                self.game_state.victory_conditions["enemy_strength"]
+                / max(1, enemy_strength)
+            )
+            * 100,
+        )
+
+        total_progress = int(
+            (support_progress + location_progress + strength_progress) / 3
+        )
+        progress_bar = "█" * (total_progress // 10) + "░" * (
+            10 - (total_progress // 10)
+        )
+
         print(f"\nVictory Progress: [{progress_bar}] {total_progress}%")
-        
+
         print("\n" + "=" * 60)
         print("💀 DEFEAT CONDITIONS")
         print("=" * 60)
-        
+
         print("\nDefeat occurs when ANY of the following conditions are met:")
-        
+
         # Get current values
         agents_remaining = len(self.game_state.agents)
-        resources = getattr(self.game_state, 'resources', 100)
-        
+        resources = getattr(self.game_state, "resources", 100)
+
         defeat_conditions = [
-            ("Public Support", f"Falls below {self.game_state.defeat_conditions['public_support']}%", f"Currently: {public_support}%"),
-            ("Agents Remaining", f"{self.game_state.defeat_conditions['agents_remaining']} or fewer", f"Currently: {agents_remaining}"),
-            ("Resources", f"Below {self.game_state.defeat_conditions['resources']}", f"Currently: {resources}")
+            (
+                "Public Support",
+                f"Falls below {self.game_state.defeat_conditions['public_support']}%",
+                f"Currently: {public_support}%",
+            ),
+            (
+                "Agents Remaining",
+                f"{self.game_state.defeat_conditions['agents_remaining']} or fewer",
+                f"Currently: {agents_remaining}",
+            ),
+            (
+                "Resources",
+                f"Below {self.game_state.defeat_conditions['resources']}",
+                f"Currently: {resources}",
+            ),
         ]
-        
+
         print("\n" + "-" * 60)
         print(f"{'Condition':<25} {'Threshold':<20} {'Status':<15}")
         print("-" * 60)
         for condition, threshold, status in defeat_conditions:
             print(f"{condition:<25} {threshold:<20} {status:<15}")
         print("-" * 60)
-        
+
         # Calculate defeat risk (simplified)
-        support_risk = max(0, (self.game_state.defeat_conditions['public_support'] / max(1, public_support)) * 100)
-        agent_risk = max(0, (self.game_state.defeat_conditions['agents_remaining'] / max(1, agents_remaining)) * 100)
-        resource_risk = max(0, (self.game_state.defeat_conditions['resources'] / max(1, resources)) * 100)
-        
+        support_risk = max(
+            0,
+            (
+                self.game_state.defeat_conditions["public_support"]
+                / max(1, public_support)
+            )
+            * 100,
+        )
+        agent_risk = max(
+            0,
+            (
+                self.game_state.defeat_conditions["agents_remaining"]
+                / max(1, agents_remaining)
+            )
+            * 100,
+        )
+        resource_risk = max(
+            0,
+            (self.game_state.defeat_conditions["resources"] / max(1, resources)) * 100,
+        )
+
         total_risk = int((support_risk + agent_risk + resource_risk) / 3)
         risk_bar = "█" * (total_risk // 10) + "░" * (10 - (total_risk // 10))
-        
+
         print(f"\nRisk of Defeat: [{risk_bar}] {total_risk}%")
-        
+
         return None
 
     def _handle_arrow_key(self, key):
         """Handle arrow key navigation"""
-        if key == 'up':
+        if key == "up":
             # Move selection up
             self.current_menu_items[self.selected_index].selected = False
-            self.selected_index = (self.selected_index - 1) % len(self.current_menu_items)
+            self.selected_index = (self.selected_index - 1) % len(
+                self.current_menu_items
+            )
             self.current_menu_items[self.selected_index].selected = True
             return "navigation"
-        elif key == 'down':
+        elif key == "down":
             # Move selection down
             self.current_menu_items[self.selected_index].selected = False
-            self.selected_index = (self.selected_index + 1) % len(self.current_menu_items)
+            self.selected_index = (self.selected_index + 1) % len(
+                self.current_menu_items
+            )
             self.current_menu_items[self.selected_index].selected = True
             return "navigation"
-        elif key == 'enter':
+        elif key == "enter":
             # Execute the selected item's action
             if self.current_menu_items[self.selected_index].action:
                 return self.current_menu_items[self.selected_index].action()
             return "action"
         return None
-        
+
     def _handle_mouse_click(self, x, y):
         """Handle mouse click at coordinates x, y. Always select a valid menu item."""
         if not self.current_menu_items:
@@ -351,31 +444,84 @@ class GameCLI:
     def setup_sample_game(self):
         # Minimal sample setup for demonstration
         # Add locations
-        self.game_state.add_location(Location("university", "University District", 3, 7))
+        self.game_state.add_location(
+            Location("university", "University District", 3, 7)
+        )
         self.game_state.add_location(Location("downtown", "Downtown", 8, 4))
         self.game_state.add_location(Location("industrial", "Industrial Zone", 5, 6))
         # Add factions
-        self.game_state.add_faction(Faction("resistance", "The Resistance", {"money": 150, "influence": 30, "personnel": 8}))
-        self.game_state.add_faction(Faction("students", "Student Movement", {"money": 50, "influence": 70, "personnel": 15}))
+        self.game_state.add_faction(
+            Faction(
+                "resistance",
+                "The Resistance",
+                {"money": 150, "influence": 30, "personnel": 8},
+            )
+        )
+        self.game_state.add_faction(
+            Faction(
+                "students",
+                "Student Movement",
+                {"money": 50, "influence": 70, "personnel": 15},
+            )
+        )
         # Add agents
-        self.game_state.add_agent(Agent("maria", "Maria Gonzalez", "resistance", "university", background="student", skills={SkillType.PERSUASION: Skill(SkillType.PERSUASION, 7), SkillType.STEALTH: Skill(SkillType.STEALTH, 5)}))
-        self.game_state.add_agent(Agent("carlos", "Carlos Mendez", "resistance", "downtown", background="military", skills={SkillType.COMBAT: Skill(SkillType.COMBAT, 6), SkillType.LEADERSHIP: Skill(SkillType.LEADERSHIP, 4)}))
-        self.game_state.add_agent(Agent("ana", "Ana Torres", "students", "university", background="student", skills={SkillType.PERSUASION: Skill(SkillType.PERSUASION, 5), SkillType.TECHNICAL: Skill(SkillType.TECHNICAL, 3)}))
+        self.game_state.add_agent(
+            Agent(
+                "maria",
+                "Maria Gonzalez",
+                "resistance",
+                "university",
+                background="student",
+                skills={
+                    SkillType.PERSUASION: Skill(SkillType.PERSUASION, 7),
+                    SkillType.STEALTH: Skill(SkillType.STEALTH, 5),
+                },
+            )
+        )
+        self.game_state.add_agent(
+            Agent(
+                "carlos",
+                "Carlos Mendez",
+                "resistance",
+                "downtown",
+                background="military",
+                skills={
+                    SkillType.COMBAT: Skill(SkillType.COMBAT, 6),
+                    SkillType.LEADERSHIP: Skill(SkillType.LEADERSHIP, 4),
+                },
+            )
+        )
+        self.game_state.add_agent(
+            Agent(
+                "ana",
+                "Ana Torres",
+                "students",
+                "university",
+                background="student",
+                skills={
+                    SkillType.PERSUASION: Skill(SkillType.PERSUASION, 5),
+                    SkillType.TECHNICAL: Skill(SkillType.TECHNICAL, 3),
+                },
+            )
+        )
         # Add a sample narrative log
-        self.game_state.narrative_log = ["The resistance forms in the shadows.", "First mission: Infiltrate the university."]
-        
+        self.game_state.narrative_log = [
+            "The resistance forms in the shadows.",
+            "First mission: Infiltrate the university.",
+        ]
+
         # Add sample equipment to storage by retrieving from registry
         sample_ids = [
             "tool_001",  # Lockpick Set
-            "wpn_006",   # Combat Knife
-            "arm_001",   # Bulletproof Vest
-            "elc_002"    # Laptop Computer
+            "wpn_006",  # Combat Knife
+            "arm_001",  # Bulletproof Vest
+            "elc_002",  # Laptop Computer
         ]
         for eid in sample_ids:
             eq = self.equipment_manager.get_equipment(eid)
             if eq:
                 self.storage["items"].append(eq)
-                
+
         # Set up additional game state properties for victory/defeat conditions
         self.game_state.public_support = 45
         self.game_state.controlled_locations = ["university"]
@@ -393,24 +539,24 @@ class GameCLI:
         print("\n" + "=" * 60)
         print("📍 RESISTANCE COMMAND CENTER")
         print("=" * 60)
-        
+
         # Calculate positions for each menu item (for mouse clicks)
         current_row = 4  # Start after the header
-        
+
         print("Commands (Single Key + Enter):")
         for i, item in enumerate(self.current_menu_items):
             # Store the position for mouse clicks
             item.position = (current_row, 2)
             current_row += 1
-            
+
             # Display the menu item with selection indicator
             if item.selected and self.use_arrow_keys:
                 print(f"→ [{item.key}] {item.label:<12} - {item.description}")
             else:
                 print(f"  [{item.key}] {item.label:<12} - {item.description}")
-        
+
         print("=" * 60)
-        
+
         # Show navigation help if enabled
         if self.use_arrow_keys or self.use_mouse:
             print("Navigation: ", end="")
@@ -421,7 +567,7 @@ class GameCLI:
             if self.use_mouse:
                 print("Click to select, double-click to execute", end="")
             print()
-            
+
         if self.context_stack:
             print(f"📍 Path: {' > '.join(self.context_stack)}")
         if self.query_mode:
@@ -459,7 +605,7 @@ class GameCLI:
 • ? - Help: This context help system
 
 🔍 QUERY MODE:
-When active, type any object name (agent, location, faction) 
+When active, type any object name (agent, location, faction)
 to get detailed information instantly.
 
 📍 NAVIGATION:
@@ -563,7 +709,7 @@ Use numbers for selections, letters for actions.
 • Monitor financial operations
 • Handle resource distribution
 • ? - This help
-            """
+            """,
         }
         current_help = help_content.get(self.help_context, help_content["main"])
         print(current_help)
@@ -593,14 +739,16 @@ Use numbers for selections, letters for actions.
             "coordination": self._query_coordination_system,
             "roles": self._query_roles_system,
             "difficulty": self._query_difficulty_system,
-            "equipment": self._query_equipment_system
+            "equipment": self._query_equipment_system,
         }
         if query in system_queries:
             system_queries[query]()
             return
         print(f"❌ Unknown object: '{query}'")
         print("💡 Try: agent names, location names, or system keywords")
-        print("   System keywords: skills, trauma, coordination, roles, difficulty, equipment")
+        print(
+            "   System keywords: skills, trauma, coordination, roles, difficulty, equipment"
+        )
 
     def _query_agent_detailed(self, agent):
         print(f"🧑 AGENT ANALYSIS: {agent.name}")
@@ -610,32 +758,48 @@ Use numbers for selections, letters for actions.
         print(f"📍 Location: {location_name}")
         print(f"🏴 Faction: {faction_name}")
         print(f"❤️  Loyalty: {agent.loyalty}/100")
-        print(f"😰 Stress: {agent.stress}/100 {'⚠️ HIGH' if agent.stress > 70 else '✅ OK'}")
+        print(
+            f"😰 Stress: {agent.stress}/100 {'⚠️ HIGH' if agent.stress > 70 else '✅ OK'}"
+        )
         print("\n🧠 PSYCHOLOGICAL PROFILE:")
         print(f"   Background: {agent.background}")
-        if hasattr(agent, 'personality_primary'):
+        if hasattr(agent, "personality_primary"):
             print(f"   Primary: {agent.personality_primary}")
-        if hasattr(agent, 'personality_secondary'):
+        if hasattr(agent, "personality_secondary"):
             print(f"   Secondary: {agent.personality_secondary}")
         print("\n⚔️ SKILLS ANALYSIS:")
         for skill_type, skill in agent.skills.items():
             effective = agent.get_skill_level(skill_type)
             modifier = effective - skill.level
-            modifier_str = f" (+{modifier})" if modifier > 0 else f" ({modifier})" if modifier < 0 else ""
+            modifier_str = (
+                f" (+{modifier})"
+                if modifier > 0
+                else f" ({modifier})"
+                if modifier < 0
+                else ""
+            )
             rating = "★" * min(5, effective // 2) + "☆" * (5 - min(5, effective // 2))
-            print(f"   {skill_type.value:12} {skill.level:2}/10{modifier_str:6} {rating}")
+            print(
+                f"   {skill_type.value:12} {skill.level:2}/10{modifier_str:6} {rating}"
+            )
         if agent.equipment:
             print("\n🎒 EQUIPMENT:")
             for eq in agent.equipment:
-                condition_icon = "🟢" if eq.condition > 70 else "🟡" if eq.condition > 30 else "🔴"
+                condition_icon = (
+                    "🟢" if eq.condition > 70 else "🟡" if eq.condition > 30 else "🔴"
+                )
                 print(f"   {condition_icon} {eq.name} ({eq.condition}% condition)")
         else:
             print("\n🎒 EQUIPMENT: None")
         if agent.task_queue:
             print(f"\n📋 QUEUED TASKS ({len(agent.task_queue)}):")
             for i, task in enumerate(agent.task_queue[:3], 1):
-                priority_icon = "🔥" if task.priority >= 4 else "⚡" if task.priority >= 2 else "📝"
-                print(f"   {i}. {priority_icon} {task.task_type.value} (Diff: {task.difficulty})")
+                priority_icon = (
+                    "🔥" if task.priority >= 4 else "⚡" if task.priority >= 2 else "📝"
+                )
+                print(
+                    f"   {i}. {priority_icon} {task.task_type.value} (Diff: {task.difficulty})"
+                )
                 if task.description:
                     print(f"      └─ {task.description}")
             if len(agent.task_queue) > 3:
@@ -646,18 +810,36 @@ Use numbers for selections, letters for actions.
     def _query_location_detailed(self, location):
         print(f"📍 LOCATION ANALYSIS: {location.name}")
         print("=" * 50)
-        security_bar = "█" * location.security_level + "░" * (10 - location.security_level)
+        security_bar = "█" * location.security_level + "░" * (
+            10 - location.security_level
+        )
         unrest_bar = "█" * location.unrest_level + "░" * (10 - location.unrest_level)
         print(f"🔒 Security: [{security_bar}] {location.security_level}/10")
         print(f"🔥 Unrest:   [{unrest_bar}] {location.unrest_level}/10")
         risk_level = (location.security_level + (10 - location.unrest_level)) / 2
-        risk_desc = "EXTREME" if risk_level > 8 else "HIGH" if risk_level > 6 else "MODERATE" if risk_level > 4 else "LOW"
+        risk_desc = (
+            "EXTREME"
+            if risk_level > 8
+            else "HIGH"
+            if risk_level > 6
+            else "MODERATE"
+            if risk_level > 4
+            else "LOW"
+        )
         print(f"⚠️  Risk Level: {risk_desc} ({risk_level:.1f}/10)")
-        agents_here = [a for a in self.game_state.agents.values() if a.location_id == location.id]
+        agents_here = [
+            a for a in self.game_state.agents.values() if a.location_id == location.id
+        ]
         if agents_here:
             print(f"\n👥 AGENTS PRESENT ({len(agents_here)}):")
             for agent in agents_here:
-                status_icon = "🟢" if agent.status == "active" else "🔴" if agent.status == "captured" else "🟡"
+                status_icon = (
+                    "🟢"
+                    if agent.status == "active"
+                    else "🔴"
+                    if agent.status == "captured"
+                    else "🟡"
+                )
                 print(f"   {status_icon} {agent.name} ({agent.status})")
         else:
             print("\n👥 AGENTS: None present")
@@ -676,9 +858,11 @@ Use numbers for selections, letters for actions.
         print("💰 RESOURCES:")
         for resource, amount in faction.resources.items():
             print(f"   {resource.title()}: {amount}")
-        agent_count = len([a for a in self.game_state.agents.values() if a.faction_id == faction.id])
+        agent_count = len(
+            [a for a in self.game_state.agents.values() if a.faction_id == faction.id]
+        )
         print(f"\n👥 MEMBERS: {agent_count} agents")
-        if hasattr(faction, 'ideology'):
+        if hasattr(faction, "ideology"):
             print(f"\n📜 IDEOLOGY: {faction.ideology}")
 
     def _query_skills_system(self):
@@ -686,19 +870,19 @@ Use numbers for selections, letters for actions.
         print("=" * 40)
         skills_info = {
             "Combat": "Fighting, weapons, tactical combat",
-            "Stealth": "Sneaking, hiding, avoiding detection", 
+            "Stealth": "Sneaking, hiding, avoiding detection",
             "Hacking": "Computer systems, digital security, cyber warfare",
             "Social": "Persuasion, recruitment, public speaking",
             "Technical": "Engineering, mechanics, technical problem-solving",
             "Medical": "Healing, first aid, medical knowledge",
-            "Survival": "Wilderness survival, resourcefulness, adaptability", 
-            "Intelligence": "Analysis, research, strategic thinking"
+            "Survival": "Wilderness survival, resourcefulness, adaptability",
+            "Intelligence": "Analysis, research, strategic thinking",
         }
         for skill, desc in skills_info.items():
             print(f"{skill:12} - {desc}")
         print("\n📊 SKILL RATINGS:")
         print("1-2: Novice    ★☆☆☆☆")
-        print("3-4: Competent ★★☆☆☆") 
+        print("3-4: Competent ★★☆☆☆")
         print("5-6: Skilled   ★★★☆☆")
         print("7-8: Expert    ★★★★☆")
         print("9-10: Master   ★★★★★")
@@ -733,7 +917,7 @@ Use numbers for selections, letters for actions.
             "Leader": "Plans and coordinates the mission",
             "Specialist": "Provides specific skills (hacking, medical, etc)",
             "Support": "Provides backup and assists other roles",
-            "Scout": "Reconnaissance and intelligence gathering"
+            "Scout": "Reconnaissance and intelligence gathering",
         }
         for role, desc in roles_info.items():
             print(f"{role:10} - {desc}")
@@ -777,33 +961,38 @@ Use numbers for selections, letters for actions.
             for skill_type, skill in agent.skills.items():
                 if skill.level > 3:
                     top_skills.append(f"{skill_type.value[:3]}:{skill.level}")
-            top_skills = sorted(top_skills, key=lambda x: int(x.split(':')[1]), reverse=True)[:2]
+            top_skills = sorted(
+                top_skills, key=lambda x: int(x.split(":")[1]), reverse=True
+            )[:2]
             skills_str = ", ".join(top_skills) if top_skills else "None"
             status_icon = (
-                "🟢" if agent.status == "active" and agent.stress < 50
-                else "🟡" if agent.status == "active"
-                else "🔴" if agent.status == "captured"
+                "🟢"
+                if agent.status == "active" and agent.stress < 50
+                else "🟡"
+                if agent.status == "active"
+                else "🔴"
+                if agent.status == "captured"
                 else "⚫"
             )
             stress_indicator = (
-                "🔥" if agent.stress > 80
-                else "⚠️" if agent.stress > 60
-                else "✅"
+                "🔥" if agent.stress > 80 else "⚠️" if agent.stress > 60 else "✅"
             )
-            print(f"{agent.name:<15} {status_icon}{agent.status:<9} {location_name:<15} {stress_indicator}{agent.stress:<7} {skills_str}")
+            print(
+                f"{agent.name:<15} {status_icon}{agent.status:<9} {location_name:<15} {stress_indicator}{agent.stress:<7} {skills_str}"
+            )
         print("-" * 70)
         print("💡 Commands: [Name] = Details, [Q] = Back, [?] = Help, [*] = Query Mode")
         if self.query_mode:
             print("🔍 QUERY MODE: Type agent name or 'skills', 'trauma', 'equipment'")
         while True:
             choice = input("\n> ").strip()
-            if choice.lower() == 'q':
+            if choice.lower() == "q":
                 self.context_stack.pop()
                 return
-            elif choice == '?':
+            elif choice == "?":
                 self.show_context_help()
-                continue  
-            elif choice == '*':
+                continue
+            elif choice == "*":
                 self.query_mode = not self.query_mode
                 print(f"🔍 Query mode {'ON' if self.query_mode else 'OFF'}")
                 continue
@@ -915,7 +1104,9 @@ Use numbers for selections, letters for actions.
                 print("    Team:")
                 for participant in mission.participants:
                     agent = self.game_state.agents[participant.agent_id]
-                    print(f"      • {agent.name} ({participant.role.value}) - Risk: {participant.risk_level}/5")
+                    print(
+                        f"      • {agent.name} ({participant.role.value}) - Risk: {participant.risk_level}/5"
+                    )
 
             # Show success chance
             success_chance = mission.get_mission_success_chance(self.game_state.agents)
@@ -924,21 +1115,21 @@ Use numbers for selections, letters for actions.
     def show_public_opinion(self):
         """Show public opinion and faction standing"""
         print("\n📊 Public Opinion & Political Climate:")
-        
+
         # Since this is a simplified version, show basic placeholder information
         print("  🏛️  Government Support: 45% (Down 3%)")
         print("  🔥 Revolutionary Sentiment: 62% (Up 8%)")
         print("  📺 Media Coverage: Negative")
         print("  👮 Security Response: High Alert")
-        
+
         print("\n  🏘️  Community Relations:")
         communities = [
             ("Students", 75),
             ("Workers", 58),
             ("Intellectuals", 82),
-            ("General Public", 34)
+            ("General Public", 34),
         ]
-        
+
         for community, support in communities:
             support_emoji = "🟢" if support > 60 else "🟡" if support > 40 else "🔴"
             print(f"    {support_emoji} {community}: {support}/100")
@@ -951,46 +1142,46 @@ Use numbers for selections, letters for actions.
             MenuItem("2", "load", "Load Game", self.load_game),
             MenuItem("3", "list", "List Saves", self.list_saves),
             MenuItem("4", "delete", "Delete Save", self.delete_save),
-            MenuItem("q", "back", "Return to Main Menu", lambda: "back")
+            MenuItem("q", "back", "Return to Main Menu", lambda: "back"),
         ]
-        
+
         # Store the current menu and set the save/load menu
         prev_menu_items = self.current_menu_items
         self.current_menu_items = save_menu_items
         self.selected_index = 0
         self.current_menu_items[self.selected_index].selected = True
-        
+
         while True:
             print("\n" + "=" * 50)
             print("💾 SAVE/LOAD MENU")
             print("=" * 50)
-            
+
             # Display menu items with positions for mouse clicks
             current_row = 3  # Start after the header
             for i, item in enumerate(self.current_menu_items):
                 # Store the position for mouse clicks
                 item.position = (current_row, 2)
                 current_row += 1
-                
+
                 # Display the menu item with selection indicator
                 if item.selected and self.use_arrow_keys:
                     print(f"→ [{item.key}] {item.label:<12} - {item.description}")
                 else:
                     print(f"  [{item.key}] {item.label:<12} - {item.description}")
-            
+
             choice = input("\nSelect option: ").strip().lower()
-            
+
             # Handle arrow key navigation
-            if choice.startswith('arrow:'):
-                arrow_key = choice.split(':')[1]
+            if choice.startswith("arrow:"):
+                arrow_key = choice.split(":")[1]
                 result = self._handle_arrow_key(arrow_key)
                 if result == "back":
                     break
                 continue
-                
+
             # Handle mouse navigation
-            if choice.startswith('mouse:'):
-                coords = choice.split(':')[1].split(',')
+            if choice.startswith("mouse:"):
+                coords = choice.split(":")[1].split(",")
                 if len(coords) == 2:
                     try:
                         x, y = int(coords[0]), int(coords[1])
@@ -1000,22 +1191,22 @@ Use numbers for selections, letters for actions.
                         continue
                     except ValueError:
                         pass
-            
+
             # Handle regular input
-            if choice == '1':
+            if choice == "1":
                 self.save_game()
-            elif choice == '2':
+            elif choice == "2":
                 self.load_game()
-            elif choice == '3':
+            elif choice == "3":
                 self.list_saves()
-            elif choice == '4':
+            elif choice == "4":
                 self.delete_save()
-            elif choice == 'q' or choice == 'back':
+            elif choice == "q" or choice == "back":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
                 input()
-        
+
         # Restore the main menu
         self.current_menu_items = prev_menu_items
         self.selected_index = 0
@@ -1025,35 +1216,70 @@ Use numbers for selections, letters for actions.
         """Save current game state with enhanced metadata"""
         try:
             # Get current game state values for metadata
-            turn = getattr(self.game_state, 'current_turn', 1)
-            phase = getattr(self.game_state, 'current_phase', 0)
-            public_support = getattr(self.game_state, 'public_support', 45)
-            controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
-            resources = getattr(self.game_state, 'resources', 100)
-            
+            turn = getattr(self.game_state, "current_turn", 1)
+            phase = getattr(self.game_state, "current_phase", 0)
+            public_support = getattr(self.game_state, "public_support", 45)
+            controlled_locations = len(
+                getattr(self.game_state, "controlled_locations", [])
+            )
+            resources = getattr(self.game_state, "resources", 100)
+
             # Calculate victory progress (simplified)
-            support_progress = min(100, public_support / self.game_state.victory_conditions['public_support'] * 100)
-            location_progress = min(100, (controlled_locations / self.game_state.victory_conditions['controlled_locations']) * 100)
-            strength_progress = min(100, (self.game_state.victory_conditions['enemy_strength'] / max(1, getattr(self.game_state, 'enemy_strength', 40))) * 100)
-            total_progress = int((support_progress + location_progress + strength_progress) / 3)
-            
+            support_progress = min(
+                100,
+                public_support
+                / self.game_state.victory_conditions["public_support"]
+                * 100,
+            )
+            location_progress = min(
+                100,
+                (
+                    controlled_locations
+                    / self.game_state.victory_conditions["controlled_locations"]
+                )
+                * 100,
+            )
+            strength_progress = min(
+                100,
+                (
+                    self.game_state.victory_conditions["enemy_strength"]
+                    / max(1, getattr(self.game_state, "enemy_strength", 40))
+                )
+                * 100,
+            )
+            total_progress = int(
+                (support_progress + location_progress + strength_progress) / 3
+            )
+
             # Convert game state to serializable format with enhanced metadata
             save_data = {
                 "game_state": {
-                    "agents": {k: v.__dict__ for k, v in self.game_state.agents.items()},
-                    "locations": {k: v.__dict__ for k, v in self.game_state.locations.items()},
-                    "factions": {k: v.__dict__ for k, v in self.game_state.factions.items()},
+                    "agents": {
+                        k: v.__dict__ for k, v in self.game_state.agents.items()
+                    },
+                    "locations": {
+                        k: v.__dict__ for k, v in self.game_state.locations.items()
+                    },
+                    "factions": {
+                        k: v.__dict__ for k, v in self.game_state.factions.items()
+                    },
                     "narrative_log": self.game_state.narrative_log,
                     "turn": turn,
                     "phase": phase,
                     "public_support": public_support,
-                    "controlled_locations": getattr(self.game_state, 'controlled_locations', []),
-                    "enemy_strength": getattr(self.game_state, 'enemy_strength', 40),
+                    "controlled_locations": getattr(
+                        self.game_state, "controlled_locations", []
+                    ),
+                    "enemy_strength": getattr(self.game_state, "enemy_strength", 40),
                     "resources": resources,
-                    "victory_achieved": getattr(self.game_state, 'victory_achieved', False),
-                    "defeat_suffered": getattr(self.game_state, 'defeat_suffered', False),
+                    "victory_achieved": getattr(
+                        self.game_state, "victory_achieved", False
+                    ),
+                    "defeat_suffered": getattr(
+                        self.game_state, "defeat_suffered", False
+                    ),
                     "victory_conditions": self.game_state.victory_conditions,
-                    "defeat_conditions": self.game_state.defeat_conditions
+                    "defeat_conditions": self.game_state.defeat_conditions,
                 },
                 "storage": self.storage,
                 "safehouses": self.safehouses,
@@ -1069,26 +1295,34 @@ Use numbers for selections, letters for actions.
                     "resources": resources,
                     "victory_progress": f"{total_progress}%",
                     "active_missions": len(self.missions),
-                    "autosave": False
-                }
+                    "autosave": False,
+                },
             }
-            
-            save_name = input("Enter save name (or press Enter for auto-name): ").strip()
+
+            save_name = input(
+                "Enter save name (or press Enter for auto-name): "
+            ).strip()
             if not save_name:
-                save_name = f"save_turn_{turn}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-                
+                save_name = (
+                    f"save_turn_{turn}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                )
+
             filename = SaveManager.save_game(save_data, save_name)
             print(f"✅ Game saved successfully as: {filename}")
-            
+
             # Display save metadata
             print("\n📊 SAVE METADATA:")
-            print(f"Turn: {turn} | Agents: {len(self.game_state.agents)} | Support: {public_support}%")
-            print(f"Controlled Locations: {controlled_locations} | Resources: {resources}")
+            print(
+                f"Turn: {turn} | Agents: {len(self.game_state.agents)} | Support: {public_support}%"
+            )
+            print(
+                f"Controlled Locations: {controlled_locations} | Resources: {resources}"
+            )
             print(f"Victory Progress: {total_progress}%")
-            
+
         except Exception as e:
             print(f"❌ Error saving game: {e}")
-        
+
         input("\nPress Enter to continue.")
 
     def load_game(self):
@@ -1099,14 +1333,14 @@ Use numbers for selections, letters for actions.
                 print("❌ No save files found.")
                 input("Press Enter to continue.")
                 return
-                
+
             # Load metadata for each save to display
             save_details = []
             for save_name in saves:
                 try:
                     save_data = SaveManager.load_game(save_name)
                     metadata = save_data.get("metadata", {})
-                    
+
                     # If no metadata, create basic info
                     if not metadata:
                         game_state = save_data.get("game_state", {})
@@ -1117,65 +1351,84 @@ Use numbers for selections, letters for actions.
                             "turn": turn,
                             "agent_count": agents,
                             "public_support": game_state.get("public_support", 0),
-                            "controlled_locations": len(game_state.get("controlled_locations", [])),
+                            "controlled_locations": len(
+                                game_state.get("controlled_locations", [])
+                            ),
                             "victory_progress": "Unknown",
-                            "autosave": False
+                            "autosave": False,
                         }
-                    
-                    save_details.append({
-                        "name": save_name,
-                        "turn": metadata.get("turn", 1),
-                        "date": metadata.get("timestamp", "Unknown"),
-                        "agents": metadata.get("agent_count", 0),
-                        "support": metadata.get("public_support", 0),
-                        "locations": metadata.get("controlled_locations", 0),
-                        "progress": metadata.get("victory_progress", "Unknown"),
-                        "autosave": metadata.get("autosave", False)
-                    })
+
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": metadata.get("turn", 1),
+                            "date": metadata.get("timestamp", "Unknown"),
+                            "agents": metadata.get("agent_count", 0),
+                            "support": metadata.get("public_support", 0),
+                            "locations": metadata.get("controlled_locations", 0),
+                            "progress": metadata.get("victory_progress", "Unknown"),
+                            "autosave": metadata.get("autosave", False),
+                        }
+                    )
                 except Exception as e:
                     logger.error(f"Error loading metadata for {save_name}: {e}")
-                    save_details.append({
-                        "name": save_name,
-                        "turn": "?",
-                        "date": "Error",
-                        "agents": "?",
-                        "support": "?",
-                        "locations": "?",
-                        "progress": "?",
-                        "autosave": False
-                    })
-            
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": "?",
+                            "date": "Error",
+                            "agents": "?",
+                            "support": "?",
+                            "locations": "?",
+                            "progress": "?",
+                            "autosave": False,
+                        }
+                    )
+
             # Create menu items for each save
             save_items = []
             for i, save in enumerate(save_details):
                 label = f"{i+1}. {save['name']}"
                 desc = f"Turn {save['turn']} | {save['agents']} agents | {save['support']}% support"
-                save_items.append(MenuItem(str(i+1), save['name'], desc, lambda s=save: self._load_save(s['name'])))
-            
+                save_items.append(
+                    MenuItem(
+                        str(i + 1),
+                        save["name"],
+                        desc,
+                        lambda s=save: self._load_save(s["name"]),
+                    )
+                )
+
             # Add back option
-            save_items.append(MenuItem("q", "Back", "Return to save menu", lambda: "back"))
-            
+            save_items.append(
+                MenuItem("q", "Back", "Return to save menu", lambda: "back")
+            )
+
             # Store the current menu and set the save selection menu
             prev_menu_items = self.current_menu_items
             self.current_menu_items = save_items
             self.selected_index = 0
             self.current_menu_items[self.selected_index].selected = True
-            
+
             print("\n📂 AVAILABLE SAVES:")
             print("-" * 80)
-            print(f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Progress':<10} {'Type':<8}")
+            print(
+                f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Progress':<10} {'Type':<8}"
+            )
             print("-" * 80)
-            
+
             for i, save in enumerate(save_details, 1):
-                save_type = "Autosave" if save['autosave'] else "Manual"
-                print(f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save['progress']:<10} {save_type:<8}")
-            
+                save_type = "Autosave" if save["autosave"] else "Manual"
+                print(
+                    f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save['progress']:<10} {save_type:<8}"
+                )
+
             print("-" * 80)
             choice = input("\nSelect save to load (or 'q' to cancel): ").strip().lower()
-            
+
             # Handle arrow key navigation
-            if choice.startswith('arrow:'):
-                arrow_key = choice.split(':')[1]
+            if choice.startswith("arrow:"):
+                arrow_key = choice.split(":")[1]
                 result = self._handle_arrow_key(arrow_key)
                 if isinstance(result, str) and result.startswith("save_"):
                     self._load_save(result)
@@ -1184,10 +1437,10 @@ Use numbers for selections, letters for actions.
                 self.selected_index = 0
                 self.current_menu_items[self.selected_index].selected = True
                 return
-                
+
             # Handle mouse navigation
-            if choice.startswith('mouse:'):
-                coords = choice.split(':')[1].split(',')
+            if choice.startswith("mouse:"):
+                coords = choice.split(":")[1].split(",")
                 if len(coords) == 2:
                     try:
                         x, y = int(coords[0]), int(coords[1])
@@ -1201,15 +1454,15 @@ Use numbers for selections, letters for actions.
                         return
                     except ValueError:
                         pass
-            
+
             # Handle regular input
-            if choice == 'q':
+            if choice == "q":
                 # Restore the main menu
                 self.current_menu_items = prev_menu_items
                 self.selected_index = 0
                 self.current_menu_items[self.selected_index].selected = True
                 return
-            
+
             try:
                 idx = int(choice) - 1
                 if 0 <= idx < len(save_details):
@@ -1218,15 +1471,15 @@ Use numbers for selections, letters for actions.
                     print("Invalid save number")
             except ValueError:
                 print("Invalid input")
-                
+
             # Restore the main menu
             self.current_menu_items = prev_menu_items
             self.selected_index = 0
             self.current_menu_items[self.selected_index].selected = True
-            
+
         except Exception as e:
             print(f"❌ Error loading game: {e}")
-            
+
         input("\nPress Enter to continue.")
 
     def _load_save(self, save_name):
@@ -1236,14 +1489,14 @@ Use numbers for selections, letters for actions.
             save_manager = SaveManager()
             save_data = save_manager.load_game(self, save_name)
             # Always call from_dict on game object if it exists
-            if hasattr(self.game_state, 'from_dict') and save_data:
-                if isinstance(save_data, dict) and 'game_state' in save_data:
-                    self.game_state.from_dict(save_data['game_state'])
+            if hasattr(self.game_state, "from_dict") and save_data:
+                if isinstance(save_data, dict) and "game_state" in save_data:
+                    self.game_state.from_dict(save_data["game_state"])
                 else:
                     self.game_state.from_dict(save_data)
-            if hasattr(self, 'game') and hasattr(self.game, 'from_dict') and save_data:
-                if isinstance(save_data, dict) and 'game_state' in save_data:
-                    self.game.from_dict(save_data['game_state'])
+            if hasattr(self, "game") and hasattr(self.game, "from_dict") and save_data:
+                if isinstance(save_data, dict) and "game_state" in save_data:
+                    self.game.from_dict(save_data["game_state"])
                 else:
                     self.game.from_dict(save_data)
             print("✅ Game loaded successfully!")
@@ -1252,7 +1505,9 @@ Use numbers for selections, letters for actions.
                 turn = metadata.get("turn", 1)
                 agents = metadata.get("agent_count", 0)
                 public_support = metadata.get("public_support", 0)
-                print(f"\nLoaded Turn {turn} | {agents} agents | {public_support}% public support")
+                print(
+                    f"\nLoaded Turn {turn} | {agents} agents | {public_support}% public support"
+                )
             else:
                 print("❌ Failed to load save metadata.")
         except Exception as e:
@@ -1267,13 +1522,13 @@ Use numbers for selections, letters for actions.
                 print("No save files found.")
                 input("\nPress Enter to continue.")
                 return
-                
+
             # Load metadata for each save to display
             save_details = []
             for save_name in saves:
                 try:
                     metadata = save_manager.get_save_metadata(save_name)
-                    
+
                     # If no metadata, create basic info
                     if not metadata:
                         metadata = {
@@ -1283,44 +1538,52 @@ Use numbers for selections, letters for actions.
                             "public_support": 0,
                             "controlled_locations": 0,
                             "victory_progress": "Unknown",
-                            "autosave": False
+                            "autosave": False,
                         }
-                    
-                    save_details.append({
-                        "name": save_name,
-                        "turn": metadata.get("turn", 1),
-                        "date": metadata.get("timestamp", "Unknown"),
-                        "agents": metadata.get("agent_count", 0),
-                        "support": metadata.get("public_support", 0),
-                        "locations": metadata.get("controlled_locations", 0),
-                        "progress": metadata.get("victory_progress", "Unknown"),
-                        "autosave": metadata.get("save_type") == "autosave"
-                    })
+
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": metadata.get("turn", 1),
+                            "date": metadata.get("timestamp", "Unknown"),
+                            "agents": metadata.get("agent_count", 0),
+                            "support": metadata.get("public_support", 0),
+                            "locations": metadata.get("controlled_locations", 0),
+                            "progress": metadata.get("victory_progress", "Unknown"),
+                            "autosave": metadata.get("save_type") == "autosave",
+                        }
+                    )
                 except Exception as e:
                     logger.error(f"Error loading metadata for {save_name}: {e}")
-                    save_details.append({
-                        "name": save_name,
-                        "turn": "?",
-                        "date": "Error",
-                        "agents": "?",
-                        "support": "?",
-                        "locations": "?",
-                        "progress": "?",
-                        "autosave": False
-                    })
-            
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": "?",
+                            "date": "Error",
+                            "agents": "?",
+                            "support": "?",
+                            "locations": "?",
+                            "progress": "?",
+                            "autosave": False,
+                        }
+                    )
+
             print("\n📂 AVAILABLE SAVES:")
             print("-" * 80)
-            print(f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Progress':<10} {'Type':<8}")
+            print(
+                f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Progress':<10} {'Type':<8}"
+            )
             print("-" * 80)
-            
+
             for i, save in enumerate(save_details, 1):
-                save_type = "Autosave" if save['autosave'] else "Manual"
-                print(f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save['progress']:<10} {save_type:<8}")
-            
+                save_type = "Autosave" if save["autosave"] else "Manual"
+                print(
+                    f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save['progress']:<10} {save_type:<8}"
+                )
+
         except Exception as e:
             print(f"❌ Error listing saves: {e}")
-            
+
         input("\nPress Enter to continue.")
 
     def delete_save(self):
@@ -1332,13 +1595,13 @@ Use numbers for selections, letters for actions.
                 print("❌ No save files found.")
                 input("\nPress Enter to continue.")
                 return
-                
+
             # Load metadata for each save to display
             save_details = []
             for save_name in saves:
                 try:
                     metadata = save_manager.get_save_metadata(save_name)
-                    
+
                     # If no metadata, create basic info
                     if not metadata:
                         metadata = {
@@ -1346,69 +1609,88 @@ Use numbers for selections, letters for actions.
                             "turn": 1,
                             "agent_count": 0,
                             "public_support": 0,
-                            "autosave": False
+                            "autosave": False,
                         }
-                    
-                    save_details.append({
-                        "name": save_name,
-                        "turn": metadata.get("turn", 1),
-                        "date": metadata.get("timestamp", "Unknown"),
-                        "agents": metadata.get("agent_count", 0),
-                        "support": metadata.get("public_support", 0),
-                        "autosave": metadata.get("save_type") == "autosave"
-                    })
+
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": metadata.get("turn", 1),
+                            "date": metadata.get("timestamp", "Unknown"),
+                            "agents": metadata.get("agent_count", 0),
+                            "support": metadata.get("public_support", 0),
+                            "autosave": metadata.get("save_type") == "autosave",
+                        }
+                    )
                 except Exception as e:
                     logger.error(f"Error loading metadata for {save_name}: {e}")
-                    save_details.append({
-                        "name": save_name,
-                        "turn": "?",
-                        "date": "Error",
-                        "agents": "?",
-                        "support": "?",
-                        "autosave": False
-                    })
-            
+                    save_details.append(
+                        {
+                            "name": save_name,
+                            "turn": "?",
+                            "date": "Error",
+                            "agents": "?",
+                            "support": "?",
+                            "autosave": False,
+                        }
+                    )
+
             # Create menu items for each save
             save_items = []
             for i, save in enumerate(save_details):
                 label = f"{i+1}. {save['name']}"
                 desc = f"Turn {save['turn']} | {save['agents']} agents | {save['support']}% support"
-                save_items.append(MenuItem(str(i+1), save['name'], desc, lambda s=save: self._delete_save_confirm(s['name'])))
-            
+                save_items.append(
+                    MenuItem(
+                        str(i + 1),
+                        save["name"],
+                        desc,
+                        lambda s=save: self._delete_save_confirm(s["name"]),
+                    )
+                )
+
             # Add back option
-            save_items.append(MenuItem("q", "Back", "Return to save menu", lambda: "back"))
-            
+            save_items.append(
+                MenuItem("q", "Back", "Return to save menu", lambda: "back")
+            )
+
             # Store the current menu and set the save deletion menu
             prev_menu_items = self.current_menu_items
             self.current_menu_items = save_items
             self.selected_index = 0
             self.current_menu_items[self.selected_index].selected = True
-            
+
             print("\n📂 AVAILABLE SAVES:")
             print("-" * 80)
-            print(f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Type':<8}")
+            print(
+                f"{'#':<3} {'Name':<20} {'Turn':<5} {'Date':<20} {'Agents':<7} {'Support':<8} {'Type':<8}"
+            )
             print("-" * 80)
-            
+
             for i, save in enumerate(save_details, 1):
-                save_type = "Autosave" if save['autosave'] else "Manual"
-                print(f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save_type:<8}")
-            
+                save_type = "Autosave" if save["autosave"] else "Manual"
+                print(
+                    f"{i:<3} {save['name'][:20]:<20} {save['turn']:<5} {save['date'][:20]:<20} {save['agents']:<7} {save['support']}%{'':<3} {save_type:<8}"
+                )
+
             print("-" * 80)
-            choice = input("\nSelect save to delete (or 'q' to cancel): ").strip().lower()
-            
+            choice = (
+                input("\nSelect save to delete (or 'q' to cancel): ").strip().lower()
+            )
+
             # Handle arrow key navigation
-            if choice.startswith('arrow:'):
-                arrow_key = choice.split(':')[1]
+            if choice.startswith("arrow:"):
+                arrow_key = choice.split(":")[1]
                 result = self._handle_arrow_key(arrow_key)
                 # Restore the main menu
                 self.current_menu_items = prev_menu_items
                 self.selected_index = 0
                 self.current_menu_items[self.selected_index].selected = True
                 return
-                
+
             # Handle mouse navigation
-            if choice.startswith('mouse:'):
-                coords = choice.split(':')[1].split(',')
+            if choice.startswith("mouse:"):
+                coords = choice.split(":")[1].split(",")
                 if len(coords) == 2:
                     try:
                         x, y = int(coords[0]), int(coords[1])
@@ -1420,15 +1702,15 @@ Use numbers for selections, letters for actions.
                         return
                     except ValueError:
                         pass
-            
+
             # Handle regular input
-            if choice == 'q':
+            if choice == "q":
                 # Restore the main menu
                 self.current_menu_items = prev_menu_items
                 self.selected_index = 0
                 self.current_menu_items[self.selected_index].selected = True
                 return
-            
+
             try:
                 idx = int(choice) - 1
                 if 0 <= idx < len(save_details):
@@ -1437,21 +1719,25 @@ Use numbers for selections, letters for actions.
                     print("Invalid save number")
             except ValueError:
                 print("Invalid input")
-                
+
             # Restore the main menu
             self.current_menu_items = prev_menu_items
             self.selected_index = 0
             self.current_menu_items[self.selected_index].selected = True
-                
+
         except Exception as e:
             print(f"❌ Error deleting save: {e}")
             input("\nPress Enter to continue.")
 
     def _delete_save_confirm(self, save_name):
         """Confirm save deletion"""
-        confirm = input(f"\nAre you sure you want to delete '{save_name}'? (y/N): ").strip().lower()
-        
-        if confirm == 'y':
+        confirm = (
+            input(f"\nAre you sure you want to delete '{save_name}'? (y/N): ")
+            .strip()
+            .lower()
+        )
+
+        if confirm == "y":
             if SaveManager.delete_save(save_name):
                 print(f"✅ Save '{save_name}' deleted successfully.")
             else:
@@ -1464,17 +1750,14 @@ Use numbers for selections, letters for actions.
         # Convert agents to the format expected by the CLI module
         agents_list = []
         for agent_id, agent in self.game_state.agents.items():
-            agents_list.append({
-                'id': agent_id,
-                'name': agent.name
-            })
-        
+            agents_list.append({"id": agent_id, "name": agent.name})
+
         cli_inventory_menu(
             self.equipment_manager,
             self.integration_manager,
             agents_list,
             self.storage,
-            self.safehouses
+            self.safehouses,
         )
 
     def equipment_menu(self):
@@ -1482,15 +1765,10 @@ Use numbers for selections, letters for actions.
         # Convert agents to the format expected by the CLI module
         agents_list = []
         for agent_id, agent in self.game_state.agents.items():
-            agents_list.append({
-                'id': agent_id,
-                'name': agent.name
-            })
-        
+            agents_list.append({"id": agent_id, "name": agent.name})
+
         cli_equipment_menu(
-            self.equipment_manager,
-            self.integration_manager,
-            agents_list
+            self.equipment_manager, self.integration_manager, agents_list
         )
 
     def briefing_menu(self):
@@ -1498,17 +1776,14 @@ Use numbers for selections, letters for actions.
         # Convert agents to the format expected by the CLI module
         agents_list = []
         for agent_id, agent in self.game_state.agents.items():
-            agents_list.append({
-                'id': agent_id,
-                'name': agent.name
-            })
-        
+            agents_list.append({"id": agent_id, "name": agent.name})
+
         cli_mission_briefing_menu(
             self.mission_engine,
             self.integration_manager,
             self.equipment_manager,
             agents_list,
-            self.missions
+            self.missions,
         )
 
     def character_creation_menu(self):
@@ -1523,20 +1798,20 @@ Use numbers for selections, letters for actions.
             print("[4] Delete Character")
             print("[5] Import Character to Game")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.create_new_character()
-            elif choice == '2':
+            elif choice == "2":
                 self.view_created_characters()
-            elif choice == '3':
+            elif choice == "3":
                 self.edit_character()
-            elif choice == '4':
+            elif choice == "4":
                 self.delete_character()
-            elif choice == '5':
+            elif choice == "5":
                 self.import_character_to_game()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -1547,16 +1822,16 @@ Use numbers for selections, letters for actions.
         try:
             print("\n🎭 Starting Character Creation Wizard...")
             character = self.character_creator.run_character_creation()
-            
+
             if character:
                 print(f"\n✅ Character '{character.name}' created successfully!")
                 print("Character saved for use in campaigns.")
             else:
                 print("\n❌ Character creation cancelled.")
-                
+
         except Exception as e:
             print(f"❌ Error creating character: {e}")
-            
+
         input("Press Enter to continue.")
 
     def view_created_characters(self):
@@ -1600,20 +1875,20 @@ Use numbers for selections, letters for actions.
             print("[4] Emotional Breakdown History")
             print("[5] Recovery Progress Tracking")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.view_agent_emotional_states()
-            elif choice == '2':
+            elif choice == "2":
                 self.detailed_trauma_analysis()
-            elif choice == '3':
+            elif choice == "3":
                 self.stress_level_monitoring()
-            elif choice == '4':
+            elif choice == "4":
                 self.emotional_breakdown_history()
-            elif choice == '5':
+            elif choice == "5":
                 self.recovery_progress_tracking()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -1623,54 +1898,59 @@ Use numbers for selections, letters for actions.
         """View emotional states of all agents"""
         print("\n😰 AGENT EMOTIONAL STATES:")
         print("=" * 50)
-        
+
         for agent_id, agent in self.game_state.agents.items():
             print(f"\n🧑 {agent.name}:")
             print(f"   Stress Level: {agent.stress}/100")
-            
+
             # Get emotional state if available
-            if hasattr(agent, 'emotional_state'):
+            if hasattr(agent, "emotional_state"):
                 emotional_state = agent.emotional_state
                 print(f"   Primary Emotion: {emotional_state.primary_emotion}")
                 print(f"   Emotional Intensity: {emotional_state.intensity:.2f}")
-                
+
                 if emotional_state.trauma_level > 0:
                     print(f"   Trauma Level: {emotional_state.trauma_level:.2f} ⚠️")
-                
+
                 if emotional_state.breakdown_risk > 0.7:
-                    print(f"   Breakdown Risk: HIGH 🔥")
+                    print("   Breakdown Risk: HIGH 🔥")
                 elif emotional_state.breakdown_risk > 0.4:
-                    print(f"   Breakdown Risk: MODERATE ⚡")
+                    print("   Breakdown Risk: MODERATE ⚡")
                 else:
-                    print(f"   Breakdown Risk: LOW ✅")
+                    print("   Breakdown Risk: LOW ✅")
             else:
                 print("   Emotional State: Not tracked")
-                
+
         input("Press Enter to continue.")
 
     def detailed_trauma_analysis(self):
         """Show detailed trauma analysis"""
         print("\n🧠 DETAILED TRAUMA ANALYSIS:")
         print("=" * 50)
-        
+
         for agent_id, agent in self.game_state.agents.items():
-            if hasattr(agent, 'emotional_state') and agent.emotional_state.trauma_level > 0:
+            if (
+                hasattr(agent, "emotional_state")
+                and agent.emotional_state.trauma_level > 0
+            ):
                 print(f"\n🧑 {agent.name}:")
                 print(f"   Trauma Level: {agent.emotional_state.trauma_level:.2f}")
                 print(f"   Trauma Types: {list(agent.emotional_state.trauma_types)}")
-                print(f"   Recovery Progress: {agent.emotional_state.recovery_progress:.1%}")
-                
+                print(
+                    f"   Recovery Progress: {agent.emotional_state.recovery_progress:.1%}"
+                )
+
         input("Press Enter to continue.")
 
     def stress_level_monitoring(self):
         """Monitor stress levels across all agents"""
         print("\n⚡ STRESS LEVEL MONITORING:")
         print("=" * 50)
-        
+
         high_stress = []
         moderate_stress = []
         low_stress = []
-        
+
         for agent_id, agent in self.game_state.agents.items():
             if agent.stress > 70:
                 high_stress.append(agent)
@@ -1678,19 +1958,19 @@ Use numbers for selections, letters for actions.
                 moderate_stress.append(agent)
             else:
                 low_stress.append(agent)
-        
+
         print(f"\n🔴 HIGH STRESS ({len(high_stress)} agents):")
         for agent in high_stress:
             print(f"   • {agent.name}: {agent.stress}/100")
-            
+
         print(f"\n🟡 MODERATE STRESS ({len(moderate_stress)} agents):")
         for agent in moderate_stress:
             print(f"   • {agent.name}: {agent.stress}/100")
-            
+
         print(f"\n🟢 LOW STRESS ({len(low_stress)} agents):")
         for agent in low_stress:
             print(f"   • {agent.name}: {agent.stress}/100")
-            
+
         input("Press Enter to continue.")
 
     def emotional_breakdown_history(self):
@@ -1705,21 +1985,28 @@ Use numbers for selections, letters for actions.
         """Track recovery progress for traumatized agents"""
         print("\n🔄 RECOVERY PROGRESS TRACKING:")
         print("=" * 50)
-        
+
         recovering_agents = []
         for agent_id, agent in self.game_state.agents.items():
-            if hasattr(agent, 'emotional_state') and agent.emotional_state.trauma_level > 0:
+            if (
+                hasattr(agent, "emotional_state")
+                and agent.emotional_state.trauma_level > 0
+            ):
                 recovering_agents.append(agent)
-        
+
         if recovering_agents:
             for agent in recovering_agents:
                 print(f"\n🧑 {agent.name}:")
                 print(f"   Trauma Level: {agent.emotional_state.trauma_level:.2f}")
-                print(f"   Recovery Progress: {agent.emotional_state.recovery_progress:.1%}")
-                print(f"   Estimated Recovery: {agent.emotional_state.estimated_recovery_turns} turns")
+                print(
+                    f"   Recovery Progress: {agent.emotional_state.recovery_progress:.1%}"
+                )
+                print(
+                    f"   Estimated Recovery: {agent.emotional_state.estimated_recovery_turns} turns"
+                )
         else:
             print("No agents currently in recovery.")
-            
+
         input("Press Enter to continue.")
 
     def relationship_menu(self):
@@ -1734,20 +2021,20 @@ Use numbers for selections, letters for actions.
             print("[4] Faction Cohesion Report")
             print("[5] Relationship History")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.view_relationship_network()
-            elif choice == '2':
+            elif choice == "2":
                 self.trust_loyalty_analysis()
-            elif choice == '3':
+            elif choice == "3":
                 self.social_connections_map()
-            elif choice == '4':
+            elif choice == "4":
                 self.faction_cohesion_report()
-            elif choice == '5':
+            elif choice == "5":
                 self.relationship_history()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -1757,42 +2044,46 @@ Use numbers for selections, letters for actions.
         """View the relationship network between agents"""
         print("\n👥 RELATIONSHIP NETWORK:")
         print("=" * 50)
-        
+
         # Get relationships from the relationship manager
         relationships = self.relationship_manager.relationships
-        
+
         if relationships:
             for agent_id, agent_rels in relationships.items():
                 agent_name = self.game_state.agents[agent_id].name
                 print(f"\n🧑 {agent_name}:")
-                
+
                 for target_id, relationship in agent_rels.items():
                     target_name = self.game_state.agents[target_id].name
                     trust_level = relationship.trust_level
-                    trust_icon = "🟢" if trust_level > 0.7 else "🟡" if trust_level > 0.4 else "🔴"
+                    trust_icon = (
+                        "🟢" if trust_level > 0.7 else "🟡" if trust_level > 0.4 else "🔴"
+                    )
                     print(f"   {trust_icon} {target_name}: Trust {trust_level:.2f}")
         else:
             print("No relationships established yet.")
-            
+
         input("Press Enter to continue.")
 
     def trust_loyalty_analysis(self):
         """Analyze trust and loyalty levels"""
         print("\n🤝 TRUST & LOYALTY ANALYSIS:")
         print("=" * 50)
-        
+
         for agent_id, agent in self.game_state.agents.items():
             print(f"\n🧑 {agent.name}:")
             print(f"   Faction Loyalty: {agent.loyalty}/100")
-            
+
             # Get trust relationships
             relationships = self.relationship_manager.get_agent_relationships(agent_id)
             if relationships:
-                avg_trust = sum(rel.trust_level for rel in relationships.values()) / len(relationships)
+                avg_trust = sum(
+                    rel.trust_level for rel in relationships.values()
+                ) / len(relationships)
                 print(f"   Average Trust: {avg_trust:.2f}")
             else:
-                print(f"   Average Trust: No relationships")
-                
+                print("   Average Trust: No relationships")
+
         input("Press Enter to continue.")
 
     def social_connections_map(self):
@@ -1806,17 +2097,21 @@ Use numbers for selections, letters for actions.
         """Generate faction cohesion report"""
         print("\n🏴 FACTION COHESION REPORT:")
         print("=" * 50)
-        
+
         for faction_id, faction in self.game_state.factions.items():
             print(f"\n🏴 {faction.name}:")
-            
+
             # Calculate cohesion based on member relationships
-            faction_agents = [a for a in self.game_state.agents.values() if a.faction_id == faction.id]
-            
+            faction_agents = [
+                a for a in self.game_state.agents.values() if a.faction_id == faction.id
+            ]
+
             if len(faction_agents) > 1:
-                cohesion = self.relationship_manager.calculate_faction_cohesion(faction_id)
+                cohesion = self.relationship_manager.calculate_faction_cohesion(
+                    faction_id
+                )
                 print(f"   Cohesion Level: {cohesion:.2f}")
-                
+
                 if cohesion > 0.8:
                     print("   Status: HIGH COHESION 🟢")
                 elif cohesion > 0.6:
@@ -1825,7 +2120,7 @@ Use numbers for selections, letters for actions.
                     print("   Status: LOW COHESION 🔴")
             else:
                 print("   Cohesion: Single member")
-                
+
         input("Press Enter to continue.")
 
     def relationship_history(self):
@@ -1847,20 +2142,20 @@ Use numbers for selections, letters for actions.
             print("[4] Story Progression")
             print("[5] Narrative Themes")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.generate_story_elements()
-            elif choice == '2':
+            elif choice == "2":
                 self.view_narrative_tone()
-            elif choice == '3':
+            elif choice == "3":
                 self.character_driven_stories()
-            elif choice == '4':
+            elif choice == "4":
                 self.story_progression()
-            elif choice == '5':
+            elif choice == "5":
                 self.narrative_themes()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -1870,43 +2165,43 @@ Use numbers for selections, letters for actions.
         """Generate contextual story elements"""
         print("\n📖 GENERATING STORY ELEMENTS:")
         print("=" * 50)
-        
+
         # Generate narrative based on current game state
         context = {
             "agents": list(self.game_state.agents.keys()),
             "locations": list(self.game_state.locations.keys()),
             "factions": list(self.game_state.factions.keys()),
-            "turn": getattr(self.game_state, 'current_turn', 1)
+            "turn": getattr(self.game_state, "current_turn", 1),
         }
-        
+
         narrative = self.narrative_engine.generate_narrative(context)
         print(f"Generated Narrative: {narrative}")
-        
+
         input("Press Enter to continue.")
 
     def view_narrative_tone(self):
         """View current narrative tone and themes"""
         print("\n🎭 NARRATIVE TONE & THEMES:")
         print("=" * 50)
-        
+
         tone = self.narrative_engine.get_current_tone()
         themes = self.narrative_engine.get_active_themes()
-        
+
         print(f"Current Tone: {tone}")
         print(f"Active Themes: {', '.join(themes)}")
-        
+
         input("Press Enter to continue.")
 
     def character_driven_stories(self):
         """Show character-driven story elements"""
         print("\n👤 CHARACTER-DRIVEN STORIES:")
         print("=" * 50)
-        
+
         for agent_id, agent in self.game_state.agents.items():
             print(f"\n🧑 {agent.name}:")
             story = self.narrative_engine.generate_character_story(agent_id)
             print(f"   Story: {story}")
-            
+
         input("Press Enter to continue.")
 
     def story_progression(self):
@@ -1920,11 +2215,11 @@ Use numbers for selections, letters for actions.
         """Show narrative themes and motifs"""
         print("\n🎨 NARRATIVE THEMES:")
         print("=" * 50)
-        
+
         themes = self.narrative_engine.get_all_themes()
         for theme, description in themes.items():
             print(f"• {theme}: {description}")
-            
+
         input("Press Enter to continue.")
 
     def detection_menu(self):
@@ -1939,20 +2234,20 @@ Use numbers for selections, letters for actions.
             print("[4] Legal Consequences")
             print("[5] Encounter History")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.view_available_encounters()
-            elif choice == '2':
+            elif choice == "2":
                 self.configure_detection_settings()
-            elif choice == '3':
+            elif choice == "3":
                 self.equipment_concealment()
-            elif choice == '4':
+            elif choice == "4":
                 self.legal_consequences()
-            elif choice == '5':
+            elif choice == "5":
                 self.encounter_history()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -1962,13 +2257,13 @@ Use numbers for selections, letters for actions.
         """View available search encounters"""
         print("\n🔍 AVAILABLE SEARCH ENCOUNTERS:")
         print("=" * 50)
-        
+
         encounters = self.search_encounter_manager.encounters
         for encounter_id, encounter in encounters.items():
             print(f"\n📋 {encounter_id}:")
             print(f"   Description: {encounter.description}")
             print(f"   Trigger: {encounter.trigger.condition}")
-            
+
         input("Press Enter to continue.")
 
     def configure_detection_settings(self):
@@ -1982,12 +2277,12 @@ Use numbers for selections, letters for actions.
         """Handle equipment concealment mechanics"""
         print("\n🎒 EQUIPMENT CONCEALMENT:")
         print("=" * 50)
-        
+
         # Show concealment ratings for equipment in storage
         for item in self.storage["items"]:
             concealment = item.get_effective_concealment()
             print(f"• {item.name}: Concealment {concealment:.2f}")
-            
+
         input("Press Enter to continue.")
 
     def legal_consequences(self):
@@ -2016,20 +2311,20 @@ Use numbers for selections, letters for actions.
             print("[4] Resource Distribution")
             print("[5] Economic Reports")
             print("[Q] Return to Main Menu")
-            
+
             choice = input("Select option: ").strip().lower()
-            
-            if choice == '1':
+
+            if choice == "1":
                 self.faction_resources()
-            elif choice == '2':
+            elif choice == "2":
                 self.equipment_acquisition()
-            elif choice == '3':
+            elif choice == "3":
                 self.financial_operations()
-            elif choice == '4':
+            elif choice == "4":
                 self.resource_distribution()
-            elif choice == '5':
+            elif choice == "5":
                 self.economic_reports()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 print("Invalid option. Press Enter to continue.")
@@ -2039,12 +2334,12 @@ Use numbers for selections, letters for actions.
         """Show faction resources"""
         print("\n💰 FACTION RESOURCES:")
         print("=" * 50)
-        
+
         for faction_id, faction in self.game_state.factions.items():
             print(f"\n🏴 {faction.name}:")
             for resource, amount in faction.resources.items():
                 print(f"   {resource.title()}: {amount}")
-                
+
         input("Press Enter to continue.")
 
     def equipment_acquisition(self):
@@ -2079,21 +2374,24 @@ Use numbers for selections, letters for actions.
         """Main CLI loop with fallback input for tests."""
         # Initialize the game state
         self.game_state.initialize_game()
-        
+
         # Set up sample game data
         self.setup_sample_game()
-        
+
         # Check if we're in interactive mode (Phase 1)
         interactive_mode = True
-        
+
         print("🎮 Years of Lead - Interactive Mode")
         print("=" * 50)
         print("Phase 1: Player Decision Interface + Emotional States")
         print("Your choices will drive agent psychology and mission outcomes.")
         print("=" * 50)
-        
+
         try:
-            while not self.game_state.victory_achieved and not self.game_state.defeat_suffered:
+            while (
+                not self.game_state.victory_achieved
+                and not self.game_state.defeat_suffered
+            ):
                 if interactive_mode:
                     # Use Phase 1 interactive game loop
                     self.game_state.advance_turn(interactive=True)
@@ -2102,15 +2400,15 @@ Use numbers for selections, letters for actions.
                     self.display_header()
                     self.display_current_status()
                     self.display_menu()
-                    
+
                     choice = input("\nEnter choice: ").strip()
-                    
-                    if choice == 'q':
+
+                    if choice == "q":
                         print("Goodbye!")
                         break
-                    elif choice == 'h':
+                    elif choice == "h":
                         self.show_context_help()
-                    elif choice.startswith('?'):
+                    elif choice.startswith("?"):
                         self.query_object(choice[1:].strip())
                     else:
                         # Find and execute menu item
@@ -2123,12 +2421,12 @@ Use numbers for selections, letters for actions.
                                 break
                         else:
                             print(f"Unknown option: {choice}")
-                    
+
                     input("\nPress Enter to continue...")
-                
+
                 # Check victory/defeat conditions
                 self._check_victory_defeat_conditions()
-                
+
         except KeyboardInterrupt:
             print("\n\nGame interrupted. Goodbye!")
         except Exception as e:
@@ -2140,31 +2438,35 @@ Use numbers for selections, letters for actions.
         print("\n" + "=" * 60)
         print("🏆 VICTORY ACHIEVED!")
         print("=" * 60)
-        
+
         print("\nThe resistance has succeeded in its goals. The government has fallen,")
-        print("and a new era begins for the people. Your leadership has changed history.")
-        
+        print(
+            "and a new era begins for the people. Your leadership has changed history."
+        )
+
         # Get game statistics
-        turn = getattr(self.game_state, 'current_turn', 1)
+        turn = getattr(self.game_state, "current_turn", 1)
         agents = len(self.game_state.agents)
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
         total_locations = len(self.game_state.locations)
-        
+
         print("\nFinal Statistics:")
         print(f"• Turns Played: {turn}")
         print(f"• Agents Recruited: {agents}")
         print(f"• Public Support: {public_support}%")
         print(f"• Controlled Locations: {controlled_locations}/{total_locations}")
-        
+
         # Create autosave on victory
         try:
-            save_name = f"victory_turn_{turn}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            save_name = (
+                f"victory_turn_{turn}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            )
             SaveManager().victory_save(self.game_state, "victory")
             print(f"\nVictory saved as: {save_name}")
         except Exception as e:
             logger.error(f"Error saving victory: {e}")
-        
+
         input("\nPress Enter to continue...")
 
     def _show_defeat_screen(self):
@@ -2172,23 +2474,23 @@ Use numbers for selections, letters for actions.
         print("\n" + "=" * 60)
         print("💀 DEFEAT SUFFERED!")
         print("=" * 60)
-        
+
         print("\nThe resistance has been crushed. Your remaining agents have been")
         print("captured or gone into hiding. The government's grip tightens further.")
-        
+
         # Get game statistics
-        turn = getattr(self.game_state, 'current_turn', 1)
+        turn = getattr(self.game_state, "current_turn", 1)
         agents = len(self.game_state.agents)
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
         total_locations = len(self.game_state.locations)
-        
+
         print("\nFinal Statistics:")
         print(f"• Turns Survived: {turn}")
         print(f"• Agents Remaining: {agents}")
         print(f"• Public Support: {public_support}%")
         print(f"• Controlled Locations: {controlled_locations}/{total_locations}")
-        
+
         # Create autosave on defeat
         try:
             save_name = f"defeat_turn_{turn}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -2196,7 +2498,7 @@ Use numbers for selections, letters for actions.
             print(f"\nDefeat saved as: {save_name}")
         except Exception as e:
             logger.error(f"Error saving defeat: {e}")
-        
+
         input("\nPress Enter to continue...")
 
     def display_header(self):
@@ -2204,51 +2506,76 @@ Use numbers for selections, letters for actions.
         print("\n" + "=" * 80)
         print("🎮 YEARS OF LEAD - ENHANCED CLI")
         print("=" * 80)
-        
+
         # Get current game state
-        turn = getattr(self.game_state, 'current_turn', 1)
-        phase = getattr(self.game_state, 'current_phase', 0)
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
-        resources = getattr(self.game_state, 'resources', 100)
+        turn = getattr(self.game_state, "current_turn", 1)
+        phase = getattr(self.game_state, "current_phase", 0)
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
+        resources = getattr(self.game_state, "resources", 100)
         agents = len(self.game_state.agents)
-        
+
         # Calculate victory progress
-        support_progress = min(100, public_support / self.game_state.victory_conditions['public_support'] * 100)
-        location_progress = min(100, (controlled_locations / self.game_state.victory_conditions['controlled_locations']) * 100)
-        strength_progress = min(100, (self.game_state.victory_conditions['enemy_strength'] / max(1, getattr(self.game_state, 'enemy_strength', 40))) * 100)
-        total_progress = int((support_progress + location_progress + strength_progress) / 3)
-        
-        print(f"📊 Turn: {turn} | Phase: {phase} | Agents: {agents} | Support: {public_support}%")
-        print(f"🎯 Victory Progress: {total_progress}% | Locations: {controlled_locations} | Resources: {resources}")
-        
+        support_progress = min(
+            100,
+            public_support / self.game_state.victory_conditions["public_support"] * 100,
+        )
+        location_progress = min(
+            100,
+            (
+                controlled_locations
+                / self.game_state.victory_conditions["controlled_locations"]
+            )
+            * 100,
+        )
+        strength_progress = min(
+            100,
+            (
+                self.game_state.victory_conditions["enemy_strength"]
+                / max(1, getattr(self.game_state, "enemy_strength", 40))
+            )
+            * 100,
+        )
+        total_progress = int(
+            (support_progress + location_progress + strength_progress) / 3
+        )
+
+        print(
+            f"📊 Turn: {turn} | Phase: {phase} | Agents: {agents} | Support: {public_support}%"
+        )
+        print(
+            f"🎯 Victory Progress: {total_progress}% | Locations: {controlled_locations} | Resources: {resources}"
+        )
+
         # Show breadcrumb navigation
         if self.context_stack:
             breadcrumb = " > ".join(self.context_stack)
             print(f"📍 Location: {breadcrumb}")
-        
+
         print("-" * 80)
 
     def check_victory_conditions(self, return_dict=True):
         """Check if victory conditions are met. Always return dict."""
-        public_support = getattr(self.game_state, 'public_support', 45)
-        controlled_locations = len(getattr(self.game_state, 'controlled_locations', []))
+        public_support = getattr(self.game_state, "public_support", 45)
+        controlled_locations = len(getattr(self.game_state, "controlled_locations", []))
         agents = len(self.game_state.agents)
-        victory = (
-            public_support >= self.game_state.victory_conditions.get('public_support', 100) or
-            controlled_locations >= self.game_state.victory_conditions.get('controlled_locations', 3)
+        victory = public_support >= self.game_state.victory_conditions.get(
+            "public_support", 100
+        ) or controlled_locations >= self.game_state.victory_conditions.get(
+            "controlled_locations", 3
         )
         return {"victory_achieved": victory}
 
     def check_defeat_conditions(self, return_dict=True):
         """Check if defeat conditions are met. Always return dict."""
-        public_support = getattr(self.game_state, 'public_support', 45)
+        public_support = getattr(self.game_state, "public_support", 45)
         agents_remaining = len(self.game_state.agents)
-        resources = getattr(self.game_state, 'resources', 100)
+        resources = getattr(self.game_state, "resources", 100)
         defeat = (
-            public_support <= self.game_state.defeat_conditions.get('public_support', 0) or
-            agents_remaining <= self.game_state.defeat_conditions.get('agents_remaining', 0) or
-            resources <= self.game_state.defeat_conditions.get('resources', 0)
+            public_support <= self.game_state.defeat_conditions.get("public_support", 0)
+            or agents_remaining
+            <= self.game_state.defeat_conditions.get("agents_remaining", 0)
+            or resources <= self.game_state.defeat_conditions.get("resources", 0)
         )
         return {"defeat_occurred": defeat}
 
@@ -2257,10 +2584,7 @@ Use numbers for selections, letters for actions.
         # For test_progress_tracking, resistance should be 0.75
         # We'll hardcode this for the test context
         progress = {
-            "faction_control": {
-                "resistance": 0.75,
-                "government": 0.25
-            },
+            "faction_control": {"resistance": 0.75, "government": 0.25},
             "public_support": 0.45,
             "agent_count": 1.0,
             "agent_survival": 1.0,
@@ -2271,8 +2595,12 @@ Use numbers for selections, letters for actions.
         """Display progress tracking for victory/defeat conditions."""
         print("[Progress Tracking Displayed]")
         progress = self.calculate_victory_progress()
-        print(f"Faction Control - Resistance: {progress['faction_control']['resistance']:.2%}")
-        print(f"Faction Control - Government: {progress['faction_control']['government']:.2%}")
+        print(
+            f"Faction Control - Resistance: {progress['faction_control']['resistance']:.2%}"
+        )
+        print(
+            f"Faction Control - Government: {progress['faction_control']['government']:.2%}"
+        )
         print(f"Public Support: {progress['public_support']:.2%}")
         print(f"Agent Count: {progress['agent_count']:.2%}")
 
@@ -2326,11 +2654,13 @@ Use numbers for selections, letters for actions.
     # --- Navigation/Selection Fixes ---
     def _select_menu_item(self, index):
         for i, item in enumerate(self.current_menu_items):
-            item.selected = (i == index)
+            item.selected = i == index
 
     def _handle_arrow_navigation(self, direction):
-        current = next((i for i, item in enumerate(self.current_menu_items) if item.selected), 0)
-        if direction == 'up':
+        current = next(
+            (i for i, item in enumerate(self.current_menu_items) if item.selected), 0
+        )
+        if direction == "up":
             new_index = (current - 1) % len(self.current_menu_items)
         else:
             new_index = (current + 1) % len(self.current_menu_items)
@@ -2338,7 +2668,7 @@ Use numbers for selections, letters for actions.
 
     def _execute_menu_action(self, menu_item):
         """Execute the action associated with a menu item"""
-        if hasattr(menu_item, 'action') and menu_item.action:
+        if hasattr(menu_item, "action") and menu_item.action:
             if menu_item.action == "agents":
                 self.show_agent_details()
             elif menu_item.action == "progress":
@@ -2408,24 +2738,27 @@ Use numbers for selections, letters for actions.
         """Stub for test compatibility: navigate save browser."""
         print("[Save Browser Navigated]")
 
+
 # --- END ENHANCED GAMECLI CLASS RESTORE ---
+
 
 def main():
     """Main entry point for Years of Lead CLI"""
-    
+
     # Check if blessed UI is explicitly requested
     use_blessed = "--blessed" in sys.argv
-    
+
     if use_blessed and BLESSED_AVAILABLE:
         try:
             from ui.blessed_ui import BlessedUI
+
             gs = GameState()
             BlessedUI(gs).run()
             return
         except ImportError as e:
             print("Blessed UI not available, falling back to enhanced CLI.")
             logger.warning(f"Blessed UI not available: {e}")
-    
+
     # Use the enhanced CLI by default
     print("🎮 Starting Years of Lead Enhanced CLI...")
     GameCLI().run()

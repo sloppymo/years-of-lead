@@ -131,4 +131,4 @@ Potential future enhancements include:
 
 ## Conclusion
 
-These enhancements significantly improve the user experience of Years of Lead while maintaining compatibility with existing features. The game now offers multiple navigation methods to accommodate different player preferences, a robust save/load system with rich metadata, and meaningful victory/defeat conditions that provide clear goals and consequences. 
+These enhancements significantly improve the user experience of Years of Lead while maintaining compatibility with existing features. The game now offers multiple navigation methods to accommodate different player preferences, a robust save/load system with rich metadata, and meaningful victory/defeat conditions that provide clear goals and consequences.

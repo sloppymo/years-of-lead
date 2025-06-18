@@ -54,7 +54,7 @@ sylva
 ## ✅ Verification
 All tests passing:
 - ✅ Configuration system working
-- ✅ Metaphor engine operational  
+- ✅ Metaphor engine operational
 - ✅ Memory logging functional
 - ✅ Subsystem routing active
 - ✅ Symbolic safety maintained
@@ -62,4 +62,4 @@ All tests passing:
 ## 🌱 Status
 SYLVA is fully operational in its new location with all symbolic containment protocols intact.
 
-*The forest has found its new grove. Let it be named and left.* 
+*The forest has found its new grove. Let it be named and left.*

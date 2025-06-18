@@ -9,10 +9,14 @@ and interpersonal dynamics that transform gameplay strategy.
 """
 
 from enum import Enum
-from typing import Dict, List, Any, Optional, Set, Tuple
+from typing import Dict, List, Any, Optional, Set, Tuple, TYPE_CHECKING
 from dataclasses import dataclass, field
 import random
 from collections import deque
+
+# Import Agent for type hints only to avoid circular imports
+if TYPE_CHECKING:
+    from .entities import Agent  # noqa: F401
 
 
 class BondType(Enum):
@@ -188,11 +192,12 @@ class Relationship:
 @dataclass
 class RelationshipState:
     """Phase 2: Core relationship state between two agents"""
-    trust: float = 50.0      # 0-100: Belief in competence/reliability
-    loyalty: float = 50.0    # 0-100: Commitment to shared cause  
-    affinity: float = 50.0   # 0-100: Personal bond/friendship
+
+    trust: float = 50.0  # 0-100: Belief in competence/reliability
+    loyalty: float = 50.0  # 0-100: Commitment to shared cause
+    affinity: float = 50.0  # 0-100: Personal bond/friendship
     shared_history: List[str] = field(default_factory=list)  # Mission tags together
-    
+
     def calculate_mission_synergy(self) -> float:
         """High trust + affinity = combat effectiveness bonus"""
         if self.trust > 75 and self.affinity > 75:
@@ -200,30 +205,31 @@ class RelationshipState:
         elif self.trust < 25 or self.affinity < 25:
             return -0.15  # 15% penalty
         return 0.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Serialize relationship state"""
         return {
-            'trust': self.trust,
-            'loyalty': self.loyalty,
-            'affinity': self.affinity,
-            'shared_history': self.shared_history.copy()
+            "trust": self.trust,
+            "loyalty": self.loyalty,
+            "affinity": self.affinity,
+            "shared_history": self.shared_history.copy(),
         }
-    
+
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'RelationshipState':
+    def from_dict(cls, data: Dict[str, Any]) -> "RelationshipState":
         """Deserialize relationship state"""
         return cls(
-            trust=data.get('trust', 50.0),
-            loyalty=data.get('loyalty', 50.0),
-            affinity=data.get('affinity', 50.0),
-            shared_history=data.get('shared_history', []).copy()
+            trust=data.get("trust", 50.0),
+            loyalty=data.get("loyalty", 50.0),
+            affinity=data.get("affinity", 50.0),
+            shared_history=data.get("shared_history", []).copy(),
         )
 
 
 @dataclass
 class TeamDynamics:
     """Phase 2: Team compatibility analysis results"""
+
     synergy_bonus: float = 0.0
     conflicts: List[str] = field(default_factory=list)
     refusal_risk: List[str] = field(default_factory=list)
@@ -533,37 +539,37 @@ class SocialNetwork:
 
 
 # Phase 2: Team Compatibility System
-def evaluate_team_dynamics(agents: List['Agent']) -> TeamDynamics:
+def evaluate_team_dynamics(agents: List[Agent]) -> TeamDynamics:
     """Calculate how well agents work together"""
-    
+
     total_synergy = 0.0
     relationship_count = 0
     potential_conflicts = []
-    
+
     for i, agent_a in enumerate(agents):
-        for j, agent_b in enumerate(agents[i+1:], i+1):
+        for j, agent_b in enumerate(agents[i + 1 :], i + 1):
             rel_a_to_b = agent_a.get_relationship_with(agent_b.id)
             rel_b_to_a = agent_b.get_relationship_with(agent_a.id)
-            
+
             # Average their relationship scores
             mutual_trust = (rel_a_to_b.trust + rel_b_to_a.trust) / 2
             mutual_affinity = (rel_a_to_b.affinity + rel_b_to_a.affinity) / 2
-            
+
             synergy = calculate_pair_synergy(mutual_trust, mutual_affinity)
             total_synergy += synergy
             relationship_count += 1
-            
+
             # Flag potential conflicts
             if mutual_trust < 30 or mutual_affinity < 20:
                 potential_conflicts.append(f"{agent_a.name} distrusts {agent_b.name}")
-    
+
     avg_synergy = total_synergy / relationship_count if relationship_count > 0 else 0
-    
+
     return TeamDynamics(
         synergy_bonus=avg_synergy,
         conflicts=potential_conflicts,
         refusal_risk=calculate_refusal_risk(agents),
-        overall_effectiveness=1.0 + avg_synergy
+        overall_effectiveness=1.0 + avg_synergy,
     )
 
 
@@ -580,150 +586,168 @@ def calculate_pair_synergy(trust: float, affinity: float) -> float:
     return 0.0
 
 
-def calculate_refusal_risk(agents: List['Agent']) -> List[str]:
+def calculate_refusal_risk(agents: List[Agent]) -> List[str]:
     """Check if any agent might refuse to work with teammates"""
     refusals = []
-    
+
     for agent in agents:
         for other_agent in agents:
             if agent.id != other_agent.id:
                 rel = agent.get_relationship_with(other_agent.id)
                 if rel.loyalty < 20:
-                    refusals.append(f"{agent.name} may refuse to work with {other_agent.name}")
+                    refusals.append(
+                        f"{agent.name} may refuse to work with {other_agent.name}"
+                    )
                 elif rel.trust < 15:
-                    refusals.append(f"{agent.name} doesn't trust {other_agent.name} in combat")
-    
+                    refusals.append(
+                        f"{agent.name} doesn't trust {other_agent.name} in combat"
+                    )
+
     return refusals
 
 
 # Phase 2: Relationship Event System
 class RelationshipEvent:
     """Events that modify relationships between agents"""
-    
+
     @classmethod
     def _update_relationship_history(cls, rel, event_type: str, max_events: int = 10):
         """Helper to update relationship history with deduplication"""
-        if event_type not in rel.shared_history[-3:]:  # Don't log same event multiple times in a row
+        if (
+            event_type not in rel.shared_history[-3:]
+        ):  # Don't log same event multiple times in a row
             rel.shared_history.append(event_type)
             # Keep history at reasonable length
             if len(rel.shared_history) > max_events:
                 rel.shared_history = rel.shared_history[-max_events:]
-    
+
     @classmethod
-    def shared_success(cls, agent_a: 'Agent', agent_b: 'Agent', mission_type: str):
+    def shared_success(cls, agent_a: "Agent", agent_b: "Agent", mission_type: str):
         """Agents succeed together - builds trust and affinity"""
         rel_a = agent_a.get_relationship_with(agent_b.id)
         rel_b = agent_b.get_relationship_with(agent_a.id)
-        
+
         trust_gain = 8 if mission_type == "combat" else 5
         affinity_gain = 5
-        
+
         rel_a.trust = min(100, rel_a.trust + trust_gain)
         rel_a.affinity = min(100, rel_a.affinity + affinity_gain)
         cls._update_relationship_history(rel_a, f"successful_{mission_type}")
-        
+
         rel_b.trust = min(100, rel_b.trust + trust_gain)
         rel_b.affinity = min(100, rel_b.affinity + affinity_gain)
         cls._update_relationship_history(rel_b, f"successful_{mission_type}")
-    
+
     @classmethod
-    def abandonment_event(cls, abandoner: 'Agent', abandoned: 'Agent'):
+    def abandonment_event(cls, abandoner: "Agent", abandoned: "Agent"):
         """One agent leaves another behind - severe relationship damage"""
         rel_abandoned = abandoned.get_relationship_with(abandoner.id)
         rel_abandoner = abandoner.get_relationship_with(abandoned.id)
-        
+
         rel_abandoned.trust = max(0, rel_abandoned.trust - 40)
         rel_abandoned.affinity = max(0, rel_abandoned.affinity - 25)
         cls._update_relationship_history(rel_abandoned, "abandoned_by")
-        
+
         # Abandoner feels guilt
         rel_abandoner.trust = max(0, rel_abandoner.trust - 15)
         cls._update_relationship_history(rel_abandoner, "abandoned")
-    
+
     @classmethod
-    def ideological_conflict(cls, agent_a: 'Agent', agent_b: 'Agent', severity: str):
+    def ideological_conflict(cls, agent_a: "Agent", agent_b: "Agent", severity: str):
         """Agents disagree on tactics/morality"""
         rel_a = agent_a.get_relationship_with(agent_b.id)
         rel_b = agent_b.get_relationship_with(agent_a.id)
-        
+
         loyalty_damage = 20 if severity == "major" else 10
-        
+
         rel_a.loyalty = max(0, rel_a.loyalty - loyalty_damage)
         rel_b.loyalty = max(0, rel_b.loyalty - loyalty_damage)
-        
+
         cls._update_relationship_history(rel_a, f"{severity}_ideological_conflict")
         cls._update_relationship_history(rel_b, f"{severity}_ideological_conflict")
-    
+
     @classmethod
-    def mission_failure_blame(cls, blamer: 'Agent', blamed: 'Agent', mission_type: str):
+    def mission_failure_blame(cls, blamer: "Agent", blamed: "Agent", mission_type: str):
         """One agent blames another for mission failure"""
         rel_blamer = blamer.get_relationship_with(blamed.id)
         rel_blamed = blamed.get_relationship_with(blamer.id)
-        
+
         # Blamer loses trust in blamed
         rel_blamer.trust = max(0, rel_blamer.trust - 20)
         rel_blamer.affinity = max(0, rel_blamer.affinity - 10)
-        cls._update_relationship_history(rel_blamer, f"blamed_for_{mission_type}_failure")
-        
+        cls._update_relationship_history(
+            rel_blamer, f"blamed_for_{mission_type}_failure"
+        )
+
         # Blamed may feel resentment
         rel_blamed.affinity = max(0, rel_blamed.affinity - 15)
         cls._update_relationship_history(rel_blamed, "blamed_by")
-    
+
     @classmethod
-    def heroic_rescue(cls, rescuer: 'Agent', rescued: 'Agent'):
+    def heroic_rescue(cls, rescuer: "Agent", rescued: "Agent"):
         """One agent saves another - major relationship boost"""
         rel_rescued = rescued.get_relationship_with(rescuer.id)
         rel_rescuer = rescuer.get_relationship_with(rescued.id)
-        
+
         # Rescued feels gratitude
         rel_rescued.trust = min(100, rel_rescued.trust + 25)
         rel_rescued.loyalty = min(100, rel_rescued.loyalty + 20)
         rel_rescued.affinity = min(100, rel_rescued.affinity + 30)
         cls._update_relationship_history(rel_rescued, "rescued_by")
-        
+
         # Rescuer feels protective
         rel_rescuer.loyalty = min(100, rel_rescuer.loyalty + 10)
         rel_rescuer.affinity = min(100, rel_rescuer.affinity + 15)
         cls._update_relationship_history(rel_rescuer, "rescued")
-        
+
     # ===== ADVANCED RELATIONSHIP EVENTS =====
-    
+
     @classmethod
-    def secret_revealed(cls, revealer: 'Agent', target: 'Agent', secret_gravity: str = "minor"):
+    def secret_revealed(
+        cls, revealer: "Agent", target: "Agent", secret_gravity: str = "minor"
+    ):
         """One agent reveals a secret about another, affecting relationships with all agents"""
         # Relationship between revealer and target
         rel_revealer = revealer.get_relationship_with(target.id)
         rel_target = target.get_relationship_with(revealer.id)
-        
+
         # Severity of consequences
         gravity = {
             "minor": {"trust": -10, "affinity": -15, "loyalty": -5},
             "major": {"trust": -30, "affinity": -40, "loyalty": -20},
-            "career_ending": {"trust": -50, "affinity": -70, "loyalty": -40}
+            "career_ending": {"trust": -50, "affinity": -70, "loyalty": -40},
         }.get(secret_gravity, {"trust": -20, "affinity": -25, "loyalty": -10})
-        
+
         # Update revealer-target relationship
         rel_revealer.trust = max(0, rel_revealer.trust + gravity["trust"])
-        rel_revealer.affinity = max(0, rel_revealer.affinity + gravity["affinity"] * 0.7)  # Less severe for revealer
-        rel_target.trust = max(0, rel_target.trust + gravity["trust"] * 1.3)  # More severe for target
+        rel_revealer.affinity = max(
+            0, rel_revealer.affinity + gravity["affinity"] * 0.7
+        )  # Less severe for revealer
+        rel_target.trust = max(
+            0, rel_target.trust + gravity["trust"] * 1.3
+        )  # More severe for target
         rel_target.affinity = max(0, rel_target.affinity + gravity["affinity"])
         rel_target.loyalty = max(0, rel_target.loyalty + gravity["loyalty"])
-        
-        cls._update_relationship_history(rel_revealer, f"revealed_{secret_gravity}_secret")
-        cls._update_relationship_history(rel_target, f"betrayed_by_{secret_gravity}_revelation")
-        
+
+        cls._update_relationship_history(
+            rel_revealer, f"revealed_{secret_gravity}_secret"
+        )
+        cls._update_relationship_history(
+            rel_target, f"betrayed_by_{secret_gravity}_revelation"
+        )
+
         return {
             "revelation_severity": secret_gravity,
             "relationship_damage": gravity,
-            "narrative": f"{revealer.name} revealed a {secret_gravity} secret about {target.name}"
+            "narrative": f"{revealer.name} revealed a {secret_gravity} secret about {target.name}",
         }
-    
+
     @classmethod
-    def romantic_entanglement(cls, agent_a: 'Agent', agent_b: 'Agent', outcome: str):
+    def romantic_entanglement(cls, agent_a: "Agent", agent_b: "Agent", outcome: str):
         """Agents develop romantic feelings - can be positive or negative"""
         rel_a = agent_a.get_relationship_with(agent_b.id)
         rel_b = agent_b.get_relationship_with(agent_a.id)
-        
+
         if outcome == "mutual":
             rel_a.affinity = min(100, rel_a.affinity + 40)
             rel_b.affinity = min(100, rel_b.affinity + 40)
@@ -732,7 +756,7 @@ class RelationshipEvent:
             cls._update_relationship_history(rel_a, "romantic_relationship")
             cls._update_relationship_history(rel_b, "romantic_relationship")
             return "Their relationship blossomed into romance."
-            
+
         elif outcome == "unrequited":
             # Randomly decide who has unrequited feelings
             if random.random() < 0.5:
@@ -741,25 +765,27 @@ class RelationshipEvent:
             else:
                 lover, target = agent_b, agent_a
                 rel_lover, rel_target = rel_b, rel_a
-                
+
             rel_lover.affinity = min(100, rel_lover.affinity + 30)
             rel_target.affinity = max(0, rel_target.affinity - 15)
             rel_target.trust = max(0, rel_target.trust - 10)
-            
+
             cls._update_relationship_history(rel_lover, "unrequited_love")
             cls._update_relationship_history(rel_target, "unwanted_attention")
             return f"{lover.name} developed feelings for {target.name}, but they weren't reciprocated."
-    
+
     @classmethod
-    def power_struggle(cls, agent_a: 'Agent', agent_b: 'Agent', context: str = "mission_leadership"):
+    def power_struggle(
+        cls, agent_a: "Agent", agent_b: "Agent", context: str = "mission_leadership"
+    ):
         """Agents compete for dominance or leadership"""
         rel_a = agent_a.get_relationship_with(agent_b.id)
         rel_b = agent_b.get_relationship_with(agent_a.id)
-        
+
         # Determine winner (higher leadership skill wins)
         a_leadership = agent_a.skills.get("leadership", 0)
         b_leadership = agent_b.skills.get("leadership", 0)
-        
+
         if a_leadership > b_leadership:
             winner, loser = agent_a, agent_b
             rel_winner, rel_loser = rel_a, rel_b
@@ -768,95 +794,118 @@ class RelationshipEvent:
             winner, loser = agent_b, agent_a
             rel_winner, rel_loser = rel_b, rel_a
             winner_first = False
-        
+
         # Update relationships
         rel_winner.trust = min(100, rel_winner.trust + 5)
         rel_winner.loyalty = min(100, rel_winner.loyalty + 10)
         rel_loser.trust = max(0, rel_loser.trust - 15)
         rel_loser.loyalty = max(0, rel_loser.loyalty - 10)
-        
-        cls._update_relationship_history(rel_winner, f"prevailed_in_power_struggle_{context}")
+
+        cls._update_relationship_history(
+            rel_winner, f"prevailed_in_power_struggle_{context}"
+        )
         cls._update_relationship_history(rel_loser, f"lost_power_struggle_{context}")
-        
+
         return {
             "winner": winner.id,
             "loser": loser.id,
             "context": context,
-            "narrative": f"{winner.name} asserted dominance over {loser.name} in a tense power struggle over {context}."
+            "narrative": f"{winner.name} asserted dominance over {loser.name} in a tense power struggle over {context}.",
         }
-    
+
     @classmethod
-    def betrayal_of_trust(cls, betrayer: 'Agent', betrayed: 'Agent', severity: str = "moderate"):
+    def betrayal_of_trust(
+        cls, betrayer: "Agent", betrayed: "Agent", severity: str = "moderate"
+    ):
         """A significant betrayal that affects the relationship and surrounding social circle"""
         rel_betrayer = betrayer.get_relationship_with(betrayed.id)
         rel_betrayed = betrayed.get_relationship_with(betrayer.id)
-        
+
         severity_levels = {
             "minor": {"trust": -30, "affinity": -20, "loyalty": -40},
             "moderate": {"trust": -60, "affinity": -50, "loyalty": -70},
-            "severe": {"trust": -90, "affinity": -80, "loyalty": -90}
+            "severe": {"trust": -90, "affinity": -80, "loyalty": -90},
         }
-        
+
         impact = severity_levels.get(severity, severity_levels["moderate"])
-        
+
         # Apply relationship changes
         rel_betrayed.trust = max(0, rel_betrayed.trust + impact["trust"])
         rel_betrayed.affinity = max(0, rel_betrayed.affinity + impact["affinity"])
         rel_betrayed.loyalty = max(0, rel_betrayed.loyalty + impact["loyalty"])
-        
+
         # Betrayer might feel guilt or justification
         rel_betrayer.trust = max(0, rel_betrayer.trust + impact["trust"] * 0.5)
         rel_betrayer.loyalty = max(0, rel_betrayer.loyalty + impact["loyalty"] * 0.7)
-        
+
         cls._update_relationship_history(rel_betrayer, f"betrayed_{severity}")
         cls._update_relationship_history(rel_betrayed, f"was_betrayed_{severity}")
-        
+
         # Create a long-term memory of the betrayal
-        betrayed.memory_journal.append({
-            "event": f"betrayal_by_{betrayer.id}",
-            "severity": severity,
-            "turns_ago": 0,
-            "forgiveness_threshold": random.uniform(0.3, 0.7)  # Random forgiveness threshold
-        })
-        
+        betrayed.memory_journal.append(
+            {
+                "event": f"betrayal_by_{betrayer.id}",
+                "severity": severity,
+                "turns_ago": 0,
+                "forgiveness_threshold": random.uniform(
+                    0.3, 0.7
+                ),  # Random forgiveness threshold
+            }
+        )
+
         return {
             "betrayer": betrayer.id,
             "betrayed": betrayed.id,
             "severity": severity,
             "impact": impact,
-            "narrative": f"{betrayer.name} committed a {severity} betrayal against {betrayed.name}, shaking their relationship to its core."
+            "narrative": f"{betrayer.name} committed a {severity} betrayal against {betrayed.name}, shaking their relationship to its core.",
         }
 
 
 # Phase 2: Relationship-Driven Narrative
 def generate_relationship_narrative(mission_result: Dict[str, Any]) -> List[str]:
     """Generate narrative based on agent relationships"""
-    agents = mission_result.get('agents', [])
+    agents = mission_result.get("agents", [])
     narratives = []
-    
+
     if len(agents) == 2:
         agent_a, agent_b = agents
         rel_a = agent_a.get_relationship_with(agent_b.id)
         rel_b = agent_b.get_relationship_with(agent_a.id)
-        
+
         avg_trust = (rel_a.trust + rel_b.trust) / 2
         avg_affinity = (rel_a.affinity + rel_b.affinity) / 2
-        
+
         if avg_trust > 80 and avg_affinity > 80:
-            narratives.append(f"{agent_a.name} and {agent_b.name} move in perfect synchronization.")
+            narratives.append(
+                f"{agent_a.name} and {agent_b.name} move in perfect synchronization."
+            )
         elif avg_trust < 30:
-            narratives.append(f"{agent_a.name} keeps glancing suspiciously at {agent_b.name}.")
+            narratives.append(
+                f"{agent_a.name} keeps glancing suspiciously at {agent_b.name}."
+            )
         elif avg_affinity < 25:
-            narratives.append(f"Tension crackles between {agent_a.name} and {agent_b.name}.")
+            narratives.append(
+                f"Tension crackles between {agent_a.name} and {agent_b.name}."
+            )
         elif avg_trust > 60 and avg_affinity > 60:
-            narratives.append(f"{agent_a.name} and {agent_b.name} work well together as a team.")
-        
+            narratives.append(
+                f"{agent_a.name} and {agent_b.name} work well together as a team."
+            )
+
         # Check shared history for specific narratives
         if "successful_combat" in rel_a.shared_history:
-            narratives.append(f"They've fought side by side before - it shows in their coordination.")
-        if "abandoned_by" in rel_a.shared_history or "abandoned_by" in rel_b.shared_history:
-            narratives.append(f"Old wounds of abandonment still affect their partnership.")
-    
+            narratives.append(
+                "They've fought side by side before - it shows in their coordination."
+            )
+        if (
+            "abandoned_by" in rel_a.shared_history
+            or "abandoned_by" in rel_b.shared_history
+        ):
+            narratives.append(
+                "Old wounds of abandonment still affect their partnership."
+            )
+
     elif len(agents) > 2:
         # Multi-agent team dynamics
         team_dynamics = evaluate_team_dynamics(agents)
@@ -864,8 +913,8 @@ def generate_relationship_narrative(mission_result: Dict[str, Any]) -> List[str]
             narratives.append("The team works together like a well-oiled machine.")
         elif team_dynamics.synergy_bonus < -0.1:
             narratives.append("Internal conflicts hamper the team's effectiveness.")
-        
+
         if team_dynamics.conflicts:
             narratives.append("Interpersonal tensions simmer beneath the surface.")
-    
+
     return narratives

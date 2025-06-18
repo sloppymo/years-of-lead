@@ -61,4 +61,4 @@ tests/unit/test_advanced_relationships_test.py::TestNarrativeEngineIntegration::
 tests/unit/test_advanced_relationships_test.py::TestNarrativeEngineIntegration::test_persona_requirement_checking PASSED [ 24%]
 tests/unit/test_advanced_relationships_test.py::TestNarrativeEngineIntegration::test_ideology_conflict_checking PASSED [ 24%]
 tests/unit/test_betrayal_memory_trigger_test.py::test_betrayal_plan_and_memory PASSED [ 25%]
-tests/unit/test_cli_e2e.py::test_cli_full_game_flow 
+tests/unit/test_cli_e2e.py::test_cli_full_game_flow

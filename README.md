@@ -1,7 +1,7 @@
 ![License](https://img.shields.io/badge/license-Forest%20Within%20Proprietary-blueviolet?style=flat-square)
 
-> © 2025 Forest Within Therapeutic Services PC.  
-> [Custom Symbolic License](./LICENSE.txt) — All rights reserved.  
+> © 2025 Forest Within Therapeutic Services PC.
+> [Custom Symbolic License](./LICENSE.txt) — All rights reserved.
 > For licensing inquiries, contact: [your.email@example.com]
 
 # Years of Lead v1.0.0

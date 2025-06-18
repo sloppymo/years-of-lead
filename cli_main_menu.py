@@ -8,39 +8,38 @@ featuring new game, load game, customization, and credits.
 
 import os
 import sys
-import json
 import time
 from pathlib import Path
 
 # Add src directory to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 
 class YearsOfLeadMainMenu:
     """Main menu system for Years of Lead CLI"""
-    
+
     def __init__(self):
         self.save_directory = Path("saves")
         self.save_directory.mkdir(exist_ok=True)
-        
+
     def clear_screen(self):
         """Clear the terminal screen"""
-        os.system('clear' if os.name == 'posix' else 'cls')
-    
+        os.system("clear" if os.name == "posix" else "cls")
+
     def print_title_art(self):
         """Print the game title art"""
         title_art = """
-██╗   ██╗███████╗ █████╗ ██████╗ ███████╗     ██████╗ ███████╗    ██╗     ███████╗ █████╗ ██████╗ 
+██╗   ██╗███████╗ █████╗ ██████╗ ███████╗     ██████╗ ███████╗    ██╗     ███████╗ █████╗ ██████╗
 ╚██╗ ██╔╝██╔════╝██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝    ██║     ██╔════╝██╔══██╗██╔══██╗
  ╚████╔╝ █████╗  ███████║██████╔╝███████╗    ██║   ██║█████╗      ██║     █████╗  ███████║██║  ██║
   ╚██╔╝  ██╔══╝  ██╔══██║██╔══██╗╚════██║    ██║   ██║██╔══╝      ██║     ██╔══╝  ██╔══██║██║  ██║
    ██║   ███████╗██║  ██║██║  ██║███████║    ╚██████╔╝██║         ███████╗███████╗██║  ██║██████╔╝
-   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝         ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ 
-                                                                                                      
+   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝         ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝
+
                            ░░░░░ INSURGENCY SIMULATION ░░░░░
         """
         print(title_art)
-    
+
     def print_subtitle(self):
         """Print atmospheric subtitle"""
         subtitle = """
@@ -55,7 +54,7 @@ class YearsOfLeadMainMenu:
         └─────────────────────────────────────────────────────────────────────────────────┘
         """
         print(subtitle)
-    
+
     def print_main_menu(self):
         """Print the main menu options"""
         menu = """
@@ -82,25 +81,25 @@ class YearsOfLeadMainMenu:
         ╚═══════════════════════════════════════════════════════════════════════════════════╝
         """
         print(menu)
-    
+
     def new_game_menu(self):
         """Handle new game creation"""
         self.clear_screen()
         print("🆕 STARTING NEW CAMPAIGN")
         print("=" * 80)
         print()
-        
+
         print("Select campaign type:")
         print()
         print("1. 📚 Tutorial Campaign     - Learn the basics with guided missions")
-        print("2. 🎯 Standard Campaign     - Balanced challenge for experienced players") 
+        print("2. 🎯 Standard Campaign     - Balanced challenge for experienced players")
         print("3. 💀 Hardcore Campaign     - Maximum difficulty, permadeath enabled")
         print("4. 🎨 Custom Campaign       - Configure your own scenario")
         print("5. ← Back to Main Menu")
         print()
-        
+
         choice = input("Enter your choice (1-5): ").strip()
-        
+
         if choice == "1":
             self.start_standard_campaign()
         elif choice == "2":
@@ -115,7 +114,7 @@ class YearsOfLeadMainMenu:
             print("❌ Invalid choice. Please try again.")
             time.sleep(1)
             self.new_game_menu()
-    
+
     def start_standard_campaign(self):
         """Start standard campaign"""
         print("\n🎯 STARTING CAMPAIGN")
@@ -124,25 +123,26 @@ class YearsOfLeadMainMenu:
         print("✓ Setting up faction dynamics...")
         print("✓ Preparing narrative systems...")
         print()
-        
+
         time.sleep(2)
         self.launch_cli_game()
-    
+
     def launch_cli_game(self):
         """Launch the actual CLI game"""
         print("🚀 Launching Years of Lead...")
         print()
-        
+
         try:
             # Import and run the CLI game
             from src.main import main as cli_main
+
             cli_main()
-            
+
         except Exception as e:
             print(f"❌ Error launching game: {e}")
             print("🔄 Returning to main menu...")
             time.sleep(2)
-    
+
     def load_game_menu(self):
         """Handle game loading"""
         self.clear_screen()
@@ -152,7 +152,7 @@ class YearsOfLeadMainMenu:
         print("\nSave/Load functionality coming soon!")
         print("For now, start a new campaign to play.")
         input("\nPress Enter to return to main menu...")
-    
+
     def customize_game_menu(self):
         """Handle game customization"""
         self.clear_screen()
@@ -166,7 +166,7 @@ class YearsOfLeadMainMenu:
         print("• Character defaults")
         print("• Save file management")
         input("\nPress Enter to return to main menu...")
-    
+
     def character_creator_menu(self):
         """Launch character creator"""
         self.clear_screen()
@@ -175,29 +175,29 @@ class YearsOfLeadMainMenu:
         print()
         print("Design custom agents for your resistance campaigns.")
         print()
-        
+
         try:
             # Try to import character creation
             from game.character_creation_ui import CharacterCreationUI
-            
+
             print("Starting character creation wizard...")
             print()
-            
+
             creator = CharacterCreationUI()
             character = creator.run_character_creation()
-            
+
             if character:
                 print(f"\n✅ Character '{character.name}' created successfully!")
                 print("Character saved for use in campaigns.")
             else:
                 print("\n❌ Character creation cancelled.")
-                
+
         except Exception as e:
             print(f"❌ Character creation not available: {e}")
             print("\nFor now, characters are auto-generated in campaigns.")
-        
+
         input("\nPress Enter to return to main menu...")
-    
+
     def statistics_menu(self):
         """Show game statistics"""
         self.clear_screen()
@@ -211,13 +211,13 @@ class YearsOfLeadMainMenu:
         print("• Success/failure rates")
         print("• Achievements unlocked")
         input("\nPress Enter to return to main menu...")
-    
+
     def credits_menu(self):
         """Show game credits"""
         self.clear_screen()
         print("ℹ️ CREDITS")
         print("=" * 80)
-        
+
         credits = """
 
         ╔═══════════════════════════════════════════════════════════════════════════════════╗
@@ -263,12 +263,12 @@ class YearsOfLeadMainMenu:
         ║                        Thank you for playing Years of Lead!                      ║
         ║                                                                                   ║
         ╚═══════════════════════════════════════════════════════════════════════════════════╝
-        
+
         """
         print(credits)
-        
+
         input("Press Enter to return to main menu...")
-    
+
     def help_tutorial_menu(self):
         """Show help and tutorial"""
         self.clear_screen()
@@ -289,9 +289,9 @@ class YearsOfLeadMainMenu:
         print("• Choose background and personality")
         print("• Allocate skill points")
         print("• Characters integrate into gameplay")
-        
+
         input("\nPress Enter to return to main menu...")
-    
+
     def run(self):
         """Main menu loop"""
         while True:
@@ -299,9 +299,9 @@ class YearsOfLeadMainMenu:
             self.print_title_art()
             self.print_subtitle()
             self.print_main_menu()
-            
+
             choice = input("Enter your choice (1-8): ").strip()
-            
+
             if choice == "1":
                 self.new_game_menu()
             elif choice == "2":
@@ -341,4 +341,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

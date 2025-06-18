@@ -82,7 +82,7 @@ Mouse support has been added for point-and-click navigation:
 ### Save/Load Menu Navigation
 
 1. **Keyboard Shortcut**: Press `s` to access the Save/Load menu
-2. **Arrow Keys**: 
+2. **Arrow Keys**:
    - Press `↓` to highlight "Load Game"
    - Press `Enter` to see available saves
    - Use `↑`/`↓` to select a save
@@ -129,4 +129,4 @@ The demo showcases:
 
 ---
 
-*"Command efficiently, navigate intuitively. The resistance depends on it."* 
+*"Command efficiently, navigate intuitively. The resistance depends on it."*

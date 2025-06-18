@@ -118,4 +118,4 @@ A comprehensive demo script (`demo_victory_defeat_save.py`) has been created to 
 
 The implementation of victory/defeat conditions and the enhanced save/load system completes the game loop for Years of Lead. Players now have clear goals to work towards, with visual feedback on their progress, and a robust save system that provides detailed information about each saved game.
 
-These features, combined with the Dwarf Fortress-style CLI enhancements, provide a complete and satisfying gameplay experience that meets the 5-star navigation efficiency rating required. 
+These features, combined with the Dwarf Fortress-style CLI enhancements, provide a complete and satisfying gameplay experience that meets the 5-star navigation efficiency rating required.

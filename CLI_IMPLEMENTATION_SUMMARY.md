@@ -104,7 +104,7 @@ The Years of Lead CLI interface has been completely redesigned with a focus on e
   ```
   VICTORY ACHIEVED!
   The resistance has succeeded in its goals.
-  
+
   Final Statistics:
   - Turns: 24
   - Public Support: 78%
@@ -160,4 +160,4 @@ All CLI features have comprehensive tests:
 
 ---
 
-*"Command with efficiency, lead with clarity. The resistance depends on your guidance."* 
+*"Command with efficiency, lead with clarity. The resistance depends on your guidance."*

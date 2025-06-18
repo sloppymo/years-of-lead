@@ -65,40 +65,38 @@ def launch_cli():
         # Add src directory to path
         src_path = os.path.join(os.path.dirname(__file__), "src")
         sys.path.insert(0, src_path)
-        
+
         # Import necessary components
         from game.core import GameState
-        from game.interface import PlayerInterface, EmotionalStateManager
-        from game.entities import MissionType
-        
+
         # Initialize game state
         gs = GameState()
         gs.initialize_game()
-        
+
         print("🎮 CLI interface loaded successfully!")
         print("Use Ctrl+C to exit")
-        
+
         # Main game loop
         while True:
             try:
-                print("\n" + "="*50)
+                print("\n" + "=" * 50)
                 print(f"Turn {gs.turn_number} - {gs.current_phase.name}")
-                print("="*50)
-                
+                print("=" * 50)
+
                 # Show available agents
                 print("\nAvailable Agents:")
                 print("-" * 30)
                 for agent in gs.agents.values():
                     print(f"- {agent.name} ({agent.faction_id})")
-                
+
                 # Advance turn (this will trigger the mission planning interface)
                 input("\nPress Enter to plan next mission...")
                 gs.advance_turn()
-                
+
             except KeyboardInterrupt:
                 print("\nExiting...")
                 break
-                
+
     except ImportError as e:
         print(f"❌ Error importing required modules: {e}")
         print("📟 Please ensure all dependencies are installed.")
@@ -106,6 +104,7 @@ def launch_cli():
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)
 

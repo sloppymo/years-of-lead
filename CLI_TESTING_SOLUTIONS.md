@@ -32,15 +32,15 @@ def run_cli_with_inputs(inputs):
     """Run CLI with predefined inputs and capture all output"""
     from io import StringIO
     import sys
-    
+
     # Capture stdout
     old_stdout = sys.stdout
     sys.stdout = StringIO()
-    
+
     try:
         # Create CLI instance
         cli = MockCLI()
-        
+
         # Simulate input sequence
         input_index = 0
         def mock_input():
@@ -50,21 +50,21 @@ def run_cli_with_inputs(inputs):
                 input_index += 1
                 return result
             return 'q'  # Default to quit if inputs exhausted
-        
+
         # Replace input function
         import builtins
         original_input = builtins.input
         builtins.input = mock_input
-        
+
         try:
             cli.run()
         finally:
             builtins.input = original_input
-        
+
         # Get captured output
         output = sys.stdout.getvalue()
         return output
-        
+
     finally:
         sys.stdout = old_stdout
 ```
@@ -222,14 +222,14 @@ def _validate_input(self, user_input):
     """Validate user input and return appropriate response"""
     if not user_input or not user_input.strip():
         return "Invalid command", False
-    
+
     user_input = user_input.strip().lower()
-    
+
     # Check for valid commands
     valid_commands = [item.key for item in self.current_menu_items]
     if user_input not in valid_commands:
         return f"Invalid command: '{user_input}'", False
-    
+
     return user_input, True
 ```
 
@@ -303,4 +303,4 @@ After implementing these solutions:
 
 ## Conclusion
 
-The implemented solutions provide a robust, comprehensive testing framework for the Years of Lead CLI system. The enhanced mock CLI, improved test coverage, and sophisticated error handling ensure reliable testing and development workflows. The documentation serves as a reference for future development and maintenance of the CLI testing system. 
+The implemented solutions provide a robust, comprehensive testing framework for the Years of Lead CLI system. The enhanced mock CLI, improved test coverage, and sophisticated error handling ensure reliable testing and development workflows. The documentation serves as a reference for future development and maintenance of the CLI testing system.

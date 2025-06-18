@@ -94,4 +94,4 @@ Failed: 0
 
 The enhanced navigation system successfully transforms the Years of Lead CLI interface into a modern, accessible command center while maintaining the Dwarf Fortress-inspired efficiency. Users now have multiple ways to interact with the game, making it more approachable for newcomers while preserving the power and speed that experienced players expect.
 
-This implementation completes the CLI enhancement phase of the project, bringing the navigation efficiency rating to a full 5 stars (⭐⭐⭐⭐⭐). 
+This implementation completes the CLI enhancement phase of the project, bringing the navigation efficiency rating to a full 5 stars (⭐⭐⭐⭐⭐).

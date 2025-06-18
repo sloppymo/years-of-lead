@@ -89,6 +89,16 @@ sylva_*
 *intimacy*
 *career*
 
+# Large JSON datasets
+therapeutic_dataset_*.json
+sylva_*.json
+*_responses.json
+*_dataset.json
+
+# Maintenance logs
+maintenance_logs/
+!maintenance_logs/README.md
+
 # Game saves and user data
 saves/
 *.sav

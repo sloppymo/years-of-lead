@@ -1,14 +1,21 @@
-from src.game.equipment_enhanced import EnhancedEquipmentManager, EnhancedEquipmentProfile
+from src.game.equipment_enhanced import (
+    EnhancedEquipmentManager,
+)
 from src.game.equipment_integration import EquipmentIntegrationManager, LoadoutSlot
-from src.game.equipment_system import EquipmentCategory
 
 # Helper for clear screen
 import os
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
 
-def cli_equipment_menu(equipment_manager: EnhancedEquipmentManager, integration_manager: EquipmentIntegrationManager, agents: list):
+def clear_screen():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+def cli_equipment_menu(
+    equipment_manager: EnhancedEquipmentManager,
+    integration_manager: EquipmentIntegrationManager,
+    agents: list,
+):
     """Main CLI menu for equipment management."""
     while True:
         clear_screen()
@@ -20,23 +27,24 @@ def cli_equipment_menu(equipment_manager: EnhancedEquipmentManager, integration_
         print("[5] Show Agent Loadouts")
         print("[H] Help   [Q] Quit Equipment Menu")
         choice = input("Select an option: ").strip().lower()
-        if choice == '1':
+        if choice == "1":
             cli_view_all_equipment(equipment_manager)
-        elif choice == '2':
+        elif choice == "2":
             cli_inspect_equipment(equipment_manager)
-        elif choice == '3':
+        elif choice == "3":
             cli_assign_equipment(equipment_manager, integration_manager, agents)
-        elif choice == '4':
+        elif choice == "4":
             cli_remove_equipment(integration_manager, agents)
-        elif choice == '5':
+        elif choice == "5":
             cli_show_agent_loadouts(integration_manager, agents)
-        elif choice == 'h':
+        elif choice == "h":
             cli_equipment_help()
-        elif choice == 'q':
+        elif choice == "q":
             break
         else:
             print("Invalid option. Press Enter to continue.")
             input()
+
 
 def cli_view_all_equipment(equipment_manager: EnhancedEquipmentManager):
     clear_screen()
@@ -46,8 +54,11 @@ def cli_view_all_equipment(equipment_manager: EnhancedEquipmentManager):
         print("No equipment available.")
     else:
         for idx, eq in enumerate(equipment_list):
-            print(f"[{idx+1}] {eq.name} (Category: {eq.category.value}, Condition: {eq.durability.condition:.2f})")
+            print(
+                f"[{idx+1}] {eq.name} (Category: {eq.category.value}, Condition: {eq.durability.condition:.2f})"
+            )
     input("\nPress Enter to return.")
+
 
 def cli_inspect_equipment(equipment_manager: EnhancedEquipmentManager):
     clear_screen()
@@ -64,7 +75,7 @@ def cli_inspect_equipment(equipment_manager: EnhancedEquipmentManager):
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    eq = equipment_list[int(choice)-1]
+    eq = equipment_list[int(choice) - 1]
     clear_screen()
     print(f"--- {eq.name} ---")
     print(f"Category: {eq.category.value}")
@@ -77,7 +88,12 @@ def cli_inspect_equipment(equipment_manager: EnhancedEquipmentManager):
     print(f"Description: {eq.description}")
     input("\nPress Enter to return.")
 
-def cli_assign_equipment(equipment_manager: EnhancedEquipmentManager, integration_manager: EquipmentIntegrationManager, agents: list):
+
+def cli_assign_equipment(
+    equipment_manager: EnhancedEquipmentManager,
+    integration_manager: EquipmentIntegrationManager,
+    agents: list,
+):
     clear_screen()
     print("--- Assign Equipment to Agent ---")
     equipment_list = list(equipment_manager.equipment_registry.values())
@@ -92,7 +108,7 @@ def cli_assign_equipment(equipment_manager: EnhancedEquipmentManager, integratio
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    eq = equipment_list[int(eq_choice)-1]
+    eq = equipment_list[int(eq_choice) - 1]
     print("Available agents:")
     for idx, agent in enumerate(agents):
         print(f"[{idx+1}] {agent['name']}")
@@ -101,8 +117,8 @@ def cli_assign_equipment(equipment_manager: EnhancedEquipmentManager, integratio
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    agent = agents[int(agent_choice)-1]
-    loadout = integration_manager.get_agent_loadout(agent['id'])
+    agent = agents[int(agent_choice) - 1]
+    loadout = integration_manager.get_agent_loadout(agent["id"])
     print("Available slots:")
     for idx, slot in enumerate(LoadoutSlot):
         print(f"[{idx+1}] {slot.value}")
@@ -111,14 +127,17 @@ def cli_assign_equipment(equipment_manager: EnhancedEquipmentManager, integratio
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    slot = list(LoadoutSlot)[int(slot_choice)-1]
+    slot = list(LoadoutSlot)[int(slot_choice) - 1]
     if loadout.add_equipment(slot, eq):
         print(f"✅ Assigned {eq.name} to {agent['name']} in slot {slot.value}.")
     else:
         print(f"❌ Slot {slot.value} already occupied for {agent['name']}.")
     input("Press Enter to return.")
 
-def cli_remove_equipment(integration_manager: EquipmentIntegrationManager, agents: list):
+
+def cli_remove_equipment(
+    integration_manager: EquipmentIntegrationManager, agents: list
+):
     clear_screen()
     print("--- Remove Equipment from Agent ---")
     for idx, agent in enumerate(agents):
@@ -128,8 +147,8 @@ def cli_remove_equipment(integration_manager: EquipmentIntegrationManager, agent
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    agent = agents[int(agent_choice)-1]
-    loadout = integration_manager.get_agent_loadout(agent['id'])
+    agent = agents[int(agent_choice) - 1]
+    loadout = integration_manager.get_agent_loadout(agent["id"])
     if not loadout or not loadout.equipment:
         print(f"No equipment assigned to {agent['name']}.")
         input("Press Enter to return.")
@@ -144,7 +163,7 @@ def cli_remove_equipment(integration_manager: EquipmentIntegrationManager, agent
         print("Invalid selection.")
         input("Press Enter to return.")
         return
-    slot = slots[int(slot_choice)-1]
+    slot = slots[int(slot_choice) - 1]
     removed = loadout.remove_equipment(slot)
     if removed:
         print(f"✅ Removed {removed.name} from {agent['name']}.")
@@ -152,22 +171,32 @@ def cli_remove_equipment(integration_manager: EquipmentIntegrationManager, agent
         print(f"❌ Failed to remove equipment from slot {slot.value}.")
     input("Press Enter to return.")
 
-def cli_show_agent_loadouts(integration_manager: EquipmentIntegrationManager, agents: list):
+
+def cli_show_agent_loadouts(
+    integration_manager: EquipmentIntegrationManager, agents: list
+):
     clear_screen()
     print("--- Agent Loadouts ---")
     for agent in agents:
-        loadout = integration_manager.get_agent_loadout(agent['id'])
+        loadout = integration_manager.get_agent_loadout(agent["id"])
         print(f"\n{agent['name']}:")
         if not loadout or not loadout.equipment:
             print("  (No equipment assigned)")
         else:
             for slot, eq in loadout.equipment.items():
-                print(f"  {slot.value}: {eq.name} (Condition: {eq.durability.condition:.2f})")
-        print(f"  Total Weight: {loadout.total_weight:.1f} kg  Bulk: {loadout.total_bulk:.1f}")
-        print(f"  Concealment: {loadout.concealment_rating:.2f}  Legal Risk: {loadout.legal_risk:.2f}")
+                print(
+                    f"  {slot.value}: {eq.name} (Condition: {eq.durability.condition:.2f})"
+                )
+        print(
+            f"  Total Weight: {loadout.total_weight:.1f} kg  Bulk: {loadout.total_bulk:.1f}"
+        )
+        print(
+            f"  Concealment: {loadout.concealment_rating:.2f}  Legal Risk: {loadout.legal_risk:.2f}"
+        )
         print(f"  Skill Bonuses: {loadout.equipment_bonuses}")
         print(f"  Mission Modifiers: {loadout.mission_modifiers}")
     input("\nPress Enter to return.")
+
 
 def cli_equipment_help():
     clear_screen()
@@ -179,4 +208,4 @@ def cli_equipment_help():
     print("5: Show all agent loadouts and bonuses.")
     print("H: Show this help screen.")
     print("Q: Quit equipment management menu.")
-    input("\nPress Enter to return.") 
+    input("\nPress Enter to return.")

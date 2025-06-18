@@ -49,7 +49,7 @@ commands = [
     ("P", "opinion", "Show Public Opinion"),
     ("Q", "quit", "Quit Game"),
     ("?", "help", "Context Help"),
-    ("*", "query", "Toggle Query Mode")
+    ("*", "query", "Toggle Query Mode"),
 ]
 
 for key, cmd, desc in commands:
@@ -63,7 +63,7 @@ query_examples = [
     ("resistance", "Check faction resources and member count"),
     ("skills", "Show complete skills reference system"),
     ("trauma", "Explain psychological trauma mechanics"),
-    ("coordination", "Learn about mission coordination system")
+    ("coordination", "Learn about mission coordination system"),
 ]
 
 for query, desc in query_examples:
@@ -82,4 +82,4 @@ print("   The CLI now provides the efficient, information-dense")
 print("   navigation experience that DF players expect.")
 print()
 print("⚡ TO RUN: python src/main.py")
-print("   All features are fully implemented and functional.") 
+print("   All features are fully implemented and functional.")

@@ -165,7 +165,7 @@ class GameState:
 
         try:
             result = {"success": False, "action_type": action_type, "message": ""}
-            
+
             if action_type == "move_agent":
                 result = await self._process_move_agent(action_data)
             elif action_type == "assign_mission":
@@ -207,30 +207,30 @@ class GameState:
         """Process agent movement action"""
         agent_id = action_data.get("agent_id")
         target_location = action_data.get("target_location")
-        
+
         if not agent_id or not target_location:
             return {
                 "success": False,
                 "message": "Missing agent_id or target_location"
             }
-        
+
         # Check if agent exists
         if agent_id not in self.players:
             return {
                 "success": False,
                 "message": f"Agent {agent_id} not found"
             }
-        
+
         # Check if location exists
         if target_location not in self.districts:
             return {
                 "success": False,
                 "message": f"Location {target_location} not found"
             }
-        
+
         # Update agent location
         self.players[agent_id]["location"] = target_location
-        
+
         return {
             "success": True,
             "message": f"Agent {agent_id} moved to {target_location}"
@@ -240,13 +240,13 @@ class GameState:
         """Process mission assignment action"""
         mission_id = action_data.get("mission_id")
         agent_ids = action_data.get("agent_ids", [])
-        
+
         if not mission_id or not agent_ids:
             return {
                 "success": False,
                 "message": "Missing mission_id or agent_ids"
             }
-        
+
         # Validate agents exist
         for agent_id in agent_ids:
             if agent_id not in self.players:
@@ -254,7 +254,7 @@ class GameState:
                     "success": False,
                     "message": f"Agent {agent_id} not found"
                 }
-        
+
         # Add mission assignment to events
         self.events.append({
             "type": "mission_assigned",
@@ -262,7 +262,7 @@ class GameState:
             "agent_ids": agent_ids,
             "timestamp": self._get_timestamp(),
         })
-        
+
         return {
             "success": True,
             "message": f"Mission {mission_id} assigned to {len(agent_ids)} agents"
@@ -272,20 +272,20 @@ class GameState:
         """Process equipment assignment action"""
         agent_id = action_data.get("agent_id")
         item_id = action_data.get("item_id")
-        
+
         if not agent_id or not item_id:
             return {
                 "success": False,
                 "message": "Missing agent_id or item_id"
             }
-        
+
         # Check if agent exists
         if agent_id not in self.players:
             return {
                 "success": False,
                 "message": f"Agent {agent_id} not found"
             }
-        
+
         return {
             "success": True,
             "message": f"Item {item_id} equipped to agent {agent_id}"
@@ -295,20 +295,20 @@ class GameState:
         """Process equipment removal action"""
         agent_id = action_data.get("agent_id")
         item_id = action_data.get("item_id")
-        
+
         if not agent_id or not item_id:
             return {
                 "success": False,
                 "message": "Missing agent_id or item_id"
             }
-        
+
         # Check if agent exists
         if agent_id not in self.players:
             return {
                 "success": False,
                 "message": f"Agent {agent_id} not found"
             }
-        
+
         return {
             "success": True,
             "message": f"Item {item_id} unequipped from agent {agent_id}"
@@ -317,16 +317,16 @@ class GameState:
     async def _process_recruit_agent(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process agent recruitment action"""
         agent_data = action_data.get("agent_data", {})
-        
+
         if not agent_data:
             return {
                 "success": False,
                 "message": "Missing agent_data"
             }
-        
+
         # Generate new agent ID
         agent_id = f"agent_{len(self.players) + 1}"
-        
+
         # Add agent to players
         self.players[agent_id] = {
             "id": agent_id,
@@ -336,7 +336,7 @@ class GameState:
             "equipment": agent_data.get("equipment", []),
             "status": "active"
         }
-        
+
         return {
             "success": True,
             "message": f"Agent {agent_id} recruited successfully"
@@ -345,13 +345,13 @@ class GameState:
     async def _process_gather_intelligence(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process intelligence gathering action"""
         location = action_data.get("location", "downtown")
-        
+
         # Simulate intelligence gathering
         intelligence_quality = 0.7  # Base quality
         if location in self.districts:
             security_level = self.districts[location].get("security_level", 5)
             intelligence_quality = max(0.1, intelligence_quality - (security_level * 0.05))
-        
+
         # Add intelligence event
         self.events.append({
             "type": "intelligence_gathered",
@@ -359,7 +359,7 @@ class GameState:
             "quality": intelligence_quality,
             "timestamp": self._get_timestamp(),
         })
-        
+
         return {
             "success": True,
             "message": f"Intelligence gathered at {location} (quality: {intelligence_quality:.2f})"
@@ -369,13 +369,13 @@ class GameState:
         """Process propaganda action"""
         target_district = action_data.get("target_district", "downtown")
         message = action_data.get("message", "General propaganda")
-        
+
         # Simulate propaganda effect
         effect_strength = 0.3  # Base effect
         if target_district in self.districts:
             population = self.districts[target_district].get("population", 100000)
             effect_strength = min(1.0, effect_strength * (population / 100000))
-        
+
         # Add propaganda event
         self.events.append({
             "type": "propaganda_campaign",
@@ -384,7 +384,7 @@ class GameState:
             "effect_strength": effect_strength,
             "timestamp": self._get_timestamp(),
         })
-        
+
         return {
             "success": True,
             "message": f"Propaganda campaign in {target_district} (effect: {effect_strength:.2f})"
@@ -434,7 +434,7 @@ class GameState:
             self._check_enemy_weakening_victory(),
             self._check_mission_completion_victory()
         ]
-        
+
         return any(victory_conditions)
 
     def _check_public_support_victory(self) -> bool:
@@ -443,7 +443,7 @@ class GameState:
         total_population = sum(d.get("population", 0) for d in self.districts.values())
         if total_population == 0:
             return False
-        
+
         # Simulate public support calculation
         support_percentage = 0.5  # Base 50% support
         for event in self.events[-10:]:  # Look at recent events
@@ -453,7 +453,7 @@ class GameState:
                 support_percentage += 0.05
             elif event.get("type") == "mission_failure":
                 support_percentage -= 0.03
-        
+
         return support_percentage >= 0.75  # 75% support needed for victory
 
     def _check_territory_control_victory(self) -> bool:
@@ -465,28 +465,28 @@ class GameState:
             player_control = control.get("player", 0)
             if player_control > 0.5:  # More than 50% control
                 controlled_districts += 1
-        
+
         return controlled_districts >= 3  # Need 3+ districts under control
 
     def _check_enemy_weakening_victory(self) -> bool:
         """Check if enemy weakening victory condition is met"""
         # Simulate enemy strength calculation
         enemy_strength = 1.0  # Base enemy strength
-        
+
         # Reduce enemy strength based on successful operations
         for event in self.events[-20:]:  # Look at recent events
             if event.get("type") == "mission_success":
                 enemy_strength -= 0.02
-            elif event.get("type") == "intelligence_gathered"):
+            elif event.get("type") == "intelligence_gathered":
                 enemy_strength -= 0.01
-        
+
         return enemy_strength <= 0.25  # Enemy strength below 25%
 
     def _check_mission_completion_victory(self) -> bool:
         """Check if mission completion victory condition is met"""
-        completed_missions = sum(1 for event in self.events 
+        completed_missions = sum(1 for event in self.events
                                if event.get("type") == "mission_success")
-        
+
         return completed_missions >= 10  # Complete 10+ missions for victory
 
     async def serialize(self) -> Dict[str, Any]:

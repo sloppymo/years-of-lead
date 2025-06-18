@@ -184,4 +184,4 @@ The equipment system supports custom equipment creation through the `create_cust
 
 ---
 
-*This catalog represents the current state of equipment in Years of Lead as of the latest implementation. New equipment can be added through the equipment system's registration functions.* 
+*This catalog represents the current state of equipment in Years of Lead as of the latest implementation. New equipment can be added through the equipment system's registration functions.*

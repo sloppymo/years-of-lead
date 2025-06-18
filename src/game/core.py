@@ -33,6 +33,7 @@ from .advanced_relationships import (
 # Set up logging
 logger = logging.getLogger(__name__)
 
+
 # Extend the base Agent class with complex functionality by adding methods
 def _initialize_social_tags(self):
     """Initialize social tags based on background and faction"""
@@ -485,7 +486,9 @@ class GameState(BaseGameState):
         self.factions: Dict[str, Faction] = {}
         self.locations: Dict[str, Location] = {}
         self.missions: Dict[str, Mission] = {}
-        self.planned_missions: List[Tuple[Mission, List[Agent]]] = []  # Missions planned for current turn
+        self.planned_missions: List[
+            Tuple[Mission, List[Agent]]
+        ] = []  # Missions planned for current turn
         self.social_network = SocialNetwork()
         self.recent_narrative: List[str] = []
         self.active_events: List[str] = []
@@ -500,8 +503,9 @@ class GameState(BaseGameState):
 
         # Player interface (imported here to avoid circular imports)
         from .interface import PlayerInterface
+
         self.player_interface = PlayerInterface(self)
-        
+
     def clear_planned_missions(self):
         """Clear all planned missions for the current turn"""
         self.planned_missions = []
@@ -513,6 +517,7 @@ class GameState(BaseGameState):
         """
         # Starting from January 1, 1970 (for example)
         from datetime import datetime, timedelta
+
         start_date = datetime(1970, 1, 1)
         current_date = start_date + timedelta(weeks=self.turn_number - 1)
         return current_date.strftime("%B %d, %Y")
@@ -544,7 +549,7 @@ class GameState(BaseGameState):
         """Advance to the next turn with optional interactive player input"""
         # Clear any remaining missions from previous turn
         self.clear_planned_missions()
-        
+
         self.turn_number += 1
 
         # Update current turn for all agents
@@ -557,7 +562,7 @@ class GameState(BaseGameState):
         else:
             # Automated processing (for testing/simulation)
             self._process_planning_phase()
-            
+
         # Process all planned missions
         self._process_action_phase()
         self._process_resolution_phase()
@@ -578,12 +583,12 @@ class GameState(BaseGameState):
         if interactive:
             # Show turn summary to player
             self.player_interface.end_turn_summary()
-            
+
     def add_planned_mission(self, mission: Mission, agents: List[Agent]):
         """Add a mission to the current turn's planned missions"""
         self.planned_missions.append((mission, agents))
         self.missions[mission.id] = mission  # Also add to main missions dict
-        
+
         # Update agent statuses
         for agent in agents:
             agent.status = AgentStatus.ON_MISSION
@@ -592,136 +597,161 @@ class GameState(BaseGameState):
     def _process_interactive_planning_phase(self):
         """Interactive planning phase where player makes decisions"""
         self.current_phase = GamePhase.PLANNING
-        
+
         # Clear any existing planned missions
         self.clear_planned_missions()
-        
+
         while True:
             # Get player mission decision
             mission_assignment = self.player_interface.mission_planning_interface(
                 current_missions_count=len(self.planned_missions)
             )
-            
+
             if not mission_assignment:
                 # Player is done planning
                 if not self.planned_missions:
                     # No missions planned, ask for confirmation
-                    if not self.player_interface.confirm("No missions planned. End turn without any actions?"):
+                    if not self.player_interface.confirm(
+                        "No missions planned. End turn without any actions?"
+                    ):
                         continue
                 break
-                
+
             mission, assigned_agents = mission_assignment
-            
+
             # Add mission to planned missions
             self.add_planned_mission(mission, assigned_agents)
-            
+
             # Show current mission plan
-            self.player_interface.show_message(f"\nMission '{mission.name}' added to the plan.")
-            self.player_interface.show_message(f"Total missions planned: {len(self.planned_missions)}")
-            
+            self.player_interface.show_message(
+                f"\nMission '{mission.name}' added to the plan."
+            )
+            self.player_interface.show_message(
+                f"Total missions planned: {len(self.planned_missions)}"
+            )
+
             # Check if we've reached the maximum number of missions per turn
             if len(self.planned_missions) >= 3:  # Maximum 3 missions per turn
-                self.player_interface.show_message("\nMaximum number of missions (3) reached for this turn.")
-                break
-                
-            # Ask if player wants to plan another mission
-            if not self.player_interface.confirm("\nPlan another mission for this turn?"):
+                self.player_interface.show_message(
+                    "\nMaximum number of missions (3) reached for this turn."
+                )
                 break
 
-    def _execute_mission_with_emotions(self, mission: Mission, agents: List[Agent]) -> Dict[str, Any]:
+            # Ask if player wants to plan another mission
+            if not self.player_interface.confirm(
+                "\nPlan another mission for this turn?"
+            ):
+                break
+
+    def _execute_mission_with_emotions(
+        self, mission: Mission, agents: List[Agent]
+    ) -> Dict[str, Any]:
         """Execute mission using enhanced mission flow system with dramatic choices"""
         try:
             # Import here to avoid circular imports
             from .mission_flow_integration import execute_enhanced_mission
-            
+
             # Add mission to agents' current missions
             for agent in agents:
-                if hasattr(agent, 'current_missions'):
+                if hasattr(agent, "current_missions"):
                     agent.current_missions.append(mission.id)
-            
+
             # Execute the mission with enhanced flow
             outcome = execute_enhanced_mission(self, mission, agents)
-            
+
             # Ensure we have required outcome fields
-            if 'success' not in outcome:
-                outcome['success'] = random.random() < 0.5  # Fallback success chance
-                
-            if 'description' not in outcome:
-                if outcome['success']:
-                    outcome['description'] = self._generate_success_description(mission.mission_type)
+            if "success" not in outcome:
+                outcome["success"] = random.random() < 0.5  # Fallback success chance
+
+            if "description" not in outcome:
+                if outcome["success"]:
+                    outcome["description"] = self._generate_success_description(
+                        mission.mission_type
+                    )
                 else:
-                    outcome['description'] = self._generate_failure_description(mission.mission_type)
-                    
+                    outcome["description"] = self._generate_failure_description(
+                        mission.mission_type
+                    )
+
             # Update agent states based on outcome
             for agent in agents:
                 # Remove mission from current missions
-                if hasattr(agent, 'current_missions') and mission.id in agent.current_missions:
+                if (
+                    hasattr(agent, "current_missions")
+                    and mission.id in agent.current_missions
+                ):
                     agent.current_missions.remove(mission.id)
-                
+
                 # Apply stress changes if not already handled by enhanced flow
-                if 'stress_changes' not in outcome:
-                    if outcome['success']:
+                if "stress_changes" not in outcome:
+                    if outcome["success"]:
                         agent.stress = max(0, agent.stress - 5)
                     else:
                         agent.stress = min(100, agent.stress + 10)
-            
+
             # Ensure we have required fields
-            if 'casualties' not in outcome:
-                outcome['casualties'] = 0
-                
+            if "casualties" not in outcome:
+                outcome["casualties"] = 0
+
             return outcome
-            
+
         except Exception as e:
             # Fallback to basic mission resolution if enhanced flow fails
             logger.error(f"Error in enhanced mission flow: {e}")
             logger.exception("Falling back to basic mission resolution")
-            
+
             # Basic mission resolution logic
             outcome = {
-                'mission_type': mission.mission_type,
-                'success': random.random() < 0.5,
-                'description': 'Mission completed with standard resolution',
-                'casualties': 0
+                "mission_type": mission.mission_type,
+                "success": random.random() < 0.5,
+                "description": "Mission completed with standard resolution",
+                "casualties": 0,
             }
-            
-            if outcome['success']:
-                outcome['description'] = self._generate_success_description(mission.mission_type)
+
+            if outcome["success"]:
+                outcome["description"] = self._generate_success_description(
+                    mission.mission_type
+                )
                 for agent in agents:
                     agent.stress = max(0, agent.stress - 5)
             else:
-                outcome['description'] = self._generate_failure_description(mission.mission_type)
+                outcome["description"] = self._generate_failure_description(
+                    mission.mission_type
+                )
                 for agent in agents:
                     agent.stress = min(100, agent.stress + 10)
-                
+
                 if random.random() < 0.2:
-                    outcome['casualties'] = 1
+                    outcome["casualties"] = 1
                     for agent in agents:
                         agent.stress = min(100, agent.stress + 15)
-            
+
             return outcome
-        
-    def _get_mission_relevant_skill(self, mission_type: MissionType) -> Optional[SkillType]:
+
+    def _get_mission_relevant_skill(
+        self, mission_type: MissionType
+    ) -> Optional[SkillType]:
         """Get the most relevant skill for a mission type"""
         skill_mapping = {
             MissionType.PROPAGANDA: SkillType.PERSUASION,
             MissionType.SABOTAGE: SkillType.DEMOLITIONS,
             MissionType.RECRUITMENT: SkillType.PERSUASION,
             MissionType.INTELLIGENCE: SkillType.INTELLIGENCE,
-            MissionType.FINANCING: SkillType.PERSUASION
+            MissionType.FINANCING: SkillType.PERSUASION,
         }
         return skill_mapping.get(mission_type)
-        
+
     def _generate_success_description(self, mission_type: MissionType) -> str:
         """Generate success description for mission type"""
         descriptions = {
             MissionType.PROPAGANDA: "Propaganda leaflets distributed successfully across the city",
             MissionType.SABOTAGE: "Target facility sabotaged without detection",
             MissionType.RECRUITMENT: "New operatives successfully recruited to the cause",
-            MissionType.INTELLIGENCE: "Valuable intelligence gathered on government activities", 
-            MissionType.FINANCING: "Funds successfully raised for future operations"
+            MissionType.INTELLIGENCE: "Valuable intelligence gathered on government activities",
+            MissionType.FINANCING: "Funds successfully raised for future operations",
         }
         return descriptions.get(mission_type, "Mission completed successfully")
-        
+
     def _generate_failure_description(self, mission_type: MissionType) -> str:
         """Generate failure description for mission type"""
         descriptions = {
@@ -729,9 +759,11 @@ class GameState(BaseGameState):
             MissionType.SABOTAGE: "Sabotage attempt detected, operatives forced to retreat",
             MissionType.RECRUITMENT: "Potential recruits proved unreliable or hostile",
             MissionType.INTELLIGENCE: "Intelligence gathering compromised by security measures",
-            MissionType.FINANCING: "Fundraising efforts met with suspicion and resistance"
+            MissionType.FINANCING: "Fundraising efforts met with suspicion and resistance",
         }
-        return descriptions.get(mission_type, "Mission failed due to unforeseen complications")
+        return descriptions.get(
+            mission_type, "Mission failed due to unforeseen complications"
+        )
 
     def generate_secret_for_agent(
         self, agent_id: str, secret_type=None
@@ -1167,86 +1199,100 @@ class GameState(BaseGameState):
         """Process action phase operations for all planned missions"""
         self.current_phase = GamePhase.ACTION
         logger.info(f"Processing action phase for turn {self.turn_number}")
-        
+
         if not self.planned_missions:
             self.recent_narrative.append(
                 f"Turn {self.turn_number}: No missions planned this turn"
             )
             return
-            
+
         self.recent_narrative.append(
             f"Turn {self.turn_number}: Action phase - Executing {len(self.planned_missions)} missions"
         )
-        
+
         # Process all planned missions for this turn
         for mission, agents in self.planned_missions:
             try:
-                logger.info(f"Executing mission: {mission.id} with {len(agents)} agents")
+                logger.info(
+                    f"Executing mission: {mission.id} with {len(agents)} agents"
+                )
                 outcome = self._execute_mission_with_emotions(mission, agents)
                 mission.outcome = outcome
                 mission.phase = MissionPhase.COMPLETED
-                
+
                 # Store outcome for resolution phase
                 mission.outcome = outcome
-                
+
                 # Update emotional states based on mission outcome
                 for agent in agents:
-                    emotional_changes = self.emotional_state_manager.update_agent_emotions(
-                        agent, outcome
+                    emotional_changes = (
+                        self.emotional_state_manager.update_agent_emotions(
+                            agent, outcome
+                        )
                     )
-                    if 'emotional_impacts' not in outcome:
-                        outcome['emotional_impacts'] = {}
-                    outcome['emotional_impacts'][agent.id] = emotional_changes
-                    
+                    if "emotional_impacts" not in outcome:
+                        outcome["emotional_impacts"] = {}
+                    outcome["emotional_impacts"][agent.id] = emotional_changes
+
             except Exception as e:
-                logger.error(f"Error executing mission {mission.id}: {str(e)}", exc_info=True)
+                logger.error(
+                    f"Error executing mission {mission.id}: {str(e)}", exc_info=True
+                )
                 mission.phase = MissionPhase.FAILED
                 mission.outcome = {
-                    'success': False,
-                    'message': f'Mission failed due to error: {str(e)}'
+                    "success": False,
+                    "message": f"Mission failed due to error: {str(e)}",
                 }
 
     def _process_resolution_phase(self):
         """Process resolution phase outcomes for all missions"""
         self.current_phase = GamePhase.RESOLUTION
         logger.info(f"Processing resolution phase for turn {self.turn_number}")
-        
+
         self.recent_narrative.append(
             f"Turn {self.turn_number}: Resolution phase - Assessing mission outcomes"
         )
-        
+
         # Process all completed missions
         for mission, agents in self.planned_missions:
-            if mission.phase == MissionPhase.COMPLETED and hasattr(mission, 'outcome'):
+            if mission.phase == MissionPhase.COMPLETED and hasattr(mission, "outcome"):
                 try:
                     # Display mission outcome to player
-                    if hasattr(self, 'player_interface'):
-                        self.player_interface.display_mission_outcome(mission, agents, mission.outcome)
-                    
+                    if hasattr(self, "player_interface"):
+                        self.player_interface.display_mission_outcome(
+                            mission, agents, mission.outcome
+                        )
+
                     # Update agent statuses
                     for agent in agents:
                         agent.status = AgentStatus.ACTIVE
                         agent.current_mission = None
-                    
+
                     # Update faction resources based on mission outcome
-                    if mission.outcome.get('success', False):
+                    if mission.outcome.get("success", False):
                         for faction in self.factions.values():
                             if any(agent.faction_id == faction.id for agent in agents):
                                 # Successful missions increase faction resources
-                                faction.resources['money'] = max(0, faction.resources.get('money', 0) + 10)
-                                faction.resources['influence'] = max(0, faction.resources.get('influence', 0) + 2)
-                
+                                faction.resources["money"] = max(
+                                    0, faction.resources.get("money", 0) + 10
+                                )
+                                faction.resources["influence"] = max(
+                                    0, faction.resources.get("influence", 0) + 2
+                                )
+
                 except Exception as e:
-                    logger.error(f"Error resolving mission {mission.id}: {str(e)}", exc_info=True)
-        
+                    logger.error(
+                        f"Error resolving mission {mission.id}: {str(e)}", exc_info=True
+                    )
+
         # Process faction events and updates
         for faction in self.factions.values():
             self._update_faction_resources(faction)
-            
+
         # Apply relationship decay and update social clusters
         self.social_network.decay_all_relationships()
         self.social_network.get_social_clusters()
-        
+
         # Clear planned missions after processing
         self.clear_planned_missions()
 

@@ -37,4 +37,4 @@ setup(
         "Topic :: Scientific/Engineering :: Human Machine Interfaces",
         "Topic :: Utilities",
     ],
-) 
+)

@@ -8,4 +8,5 @@ Starts the main menu system for the CLI version.
 
 if __name__ == "__main__":
     from cli_main_menu import main
-    main() 
+
+    main()

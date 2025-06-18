@@ -32,7 +32,7 @@ The current equipment system provides a solid foundation with 4 items, concealme
 ```python
 # Firearms
 - Assault Rifle (wpn_002): High damage, poor concealment
-- Sniper Rifle (wpn_003): Long range, very poor concealment  
+- Sniper Rifle (wpn_003): Long range, very poor concealment
 - Submachine Gun (wpn_004): Medium damage, good concealment
 - Silenced Pistol (wpn_005): Stealth weapon, excellent concealment
 
@@ -353,4 +353,4 @@ CREATE TABLE player_equipment (
 
 ---
 
-*This expansion would transform Years of Lead's equipment system from a basic concealment mechanic into a comprehensive, dynamic equipment ecosystem that enhances every aspect of gameplay.* 
+*This expansion would transform Years of Lead's equipment system from a basic concealment mechanic into a comprehensive, dynamic equipment ecosystem that enhances every aspect of gameplay.*

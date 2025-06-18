@@ -49,7 +49,7 @@ Main menu will show faction resources
 ```
 **Initial baselines:**
 - The Resistance: $150, Influence: 30, Personnel: 8
-- Student Movement: $50, Influence: 70, Personnel: 15  
+- Student Movement: $50, Influence: 70, Personnel: 15
 - Workers Union: $200, Influence: 40, Personnel: 12
 
 ---
@@ -134,7 +134,7 @@ For each agent, document:
 
 #### Emotional State Changes
 - **Pre-mission emotions**
-- **Post-mission emotions** 
+- **Post-mission emotions**
 - **Trauma accumulation**
 - **Effectiveness reduction**
 
@@ -243,7 +243,7 @@ Commands: [4] addtask, [8] createmission
 - **Compound Difficulty:** How security increases after failures
 - **Resource Burn Rate:** Acceleration of resource consumption
 
-### Agent-Level Metrics  
+### Agent-Level Metrics
 - **Stress Accumulation Rate:** How quickly agents break down
 - **Trauma Persistence:** How long psychological damage lasts
 - **Effectiveness Correlation:** Relationship between trauma and performance
@@ -312,7 +312,7 @@ python main.py --mode cli
 
 # Essential command sequence for failure testing:
 # [2] → Check agent status
-# [8] → Create high-risk mission  
+# [8] → Create high-risk mission
 # [9] → Assign stressed agents
 # [10] → Execute mission
 # [1] → Advance turn
@@ -322,11 +322,11 @@ python main.py --mode cli
 
 ### Expected Timeline:
 - **Phase 1 (Baseline):** 10-15 minutes
-- **Phase 2 (Mission Testing):** 20-30 minutes  
+- **Phase 2 (Mission Testing):** 20-30 minutes
 - **Phase 3 (Psychology Analysis):** 15-20 minutes
 - **Phase 4 (Cascade Documentation):** 15-25 minutes
 - **Total:** 60-90 minutes for comprehensive test
 
 ---
 
-This systematic approach will give you deep insights into how your simulation handles failure scenarios and creates meaningful narrative consequences from those failures. 
+This systematic approach will give you deep insights into how your simulation handles failure scenarios and creates meaningful narrative consequences from those failures.

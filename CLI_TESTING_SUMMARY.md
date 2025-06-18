@@ -90,4 +90,4 @@ These tests focus on component interactions:
 
 ## Conclusion
 
-The CLI testing suite provides comprehensive coverage of the Dwarf Fortress-style interface enhancements. All tests are passing, confirming that the CLI navigation efficiency has been successfully improved from ⭐⭐⭐⭐ to ⭐⭐⭐⭐⭐ as required. 
+The CLI testing suite provides comprehensive coverage of the Dwarf Fortress-style interface enhancements. All tests are passing, confirming that the CLI navigation efficiency has been successfully improved from ⭐⭐⭐⭐ to ⭐⭐⭐⭐⭐ as required.

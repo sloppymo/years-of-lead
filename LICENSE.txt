@@ -16,7 +16,7 @@ LICENSED USE:
 Commercial, research, academic, or clinical licensing may be granted under explicit contract.
 To inquire about licensing or integration, contact: [your.email@example.com]
 
-THIS SOFTWARE IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  
+THIS SOFTWARE IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.
 NO LIABILITY IS ASSUMED FOR INDIRECT OR DIRECT HARM ARISING FROM MISUSE, MODIFICATION, OR INTERPRETATION OF THIS SYSTEM.
 
-END OF LICENSE 
+END OF LICENSE

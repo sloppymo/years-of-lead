@@ -48,7 +48,7 @@ def run_manual_cli():
     print("  • Cascading effects across network")
     print("  • Dynamic narrative generation")
     print()
-    
+
     try:
         # Try to launch the main CLI
         subprocess.run([sys.executable, "main.py", "--mode", "cli"])
@@ -70,7 +70,7 @@ def run_enhanced_automated_testing():
     print("• Cascading effects analysis")
     print("• System stability and performance testing")
     print("=" * 60)
-    
+
     try:
         subprocess.run([sys.executable, "automated_failure_analysis.py"])
     except FileNotFoundError:
@@ -78,51 +78,56 @@ def run_enhanced_automated_testing():
     except Exception as e:
         print(f"❌ Error running enhanced testing: {e}")
 
+
 def run_legacy_automated_analysis():
     """Launch the legacy automated failure analysis"""
     print("\n📊 Launching Legacy Automated Analysis...")
     print("=" * 50)
     print("Running basic simulation-based testing...")
-    
+
     try:
         # Create a simple legacy analyzer for backwards compatibility
         import json
         import random
         from datetime import datetime
-        
+
         print("🔄 Running legacy simulation...")
         results = {"missions": [], "analysis": {}}
-        
+
         for i in range(5):
             outcome = "FAILURE" if random.random() < 0.4 else "SUCCESS"
-            results["missions"].append({
-                "mission_id": i,
-                "outcome": outcome,
-                "stress_impact": random.randint(10, 30) if outcome == "FAILURE" else random.randint(-5, 5),
-                "timestamp": datetime.now().isoformat()
-            })
+            results["missions"].append(
+                {
+                    "mission_id": i,
+                    "outcome": outcome,
+                    "stress_impact": random.randint(10, 30)
+                    if outcome == "FAILURE"
+                    else random.randint(-5, 5),
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
             print(f"  Mission {i+1}: {outcome}")
-        
+
         # Basic analysis
         failures = [m for m in results["missions"] if m["outcome"] == "FAILURE"]
         results["analysis"] = {
             "failure_rate": len(failures) / len(results["missions"]),
             "total_stress_impact": sum(m["stress_impact"] for m in results["missions"]),
-            "cascade_detected": len(failures) >= 3
+            "cascade_detected": len(failures) >= 3,
         }
-        
-        print(f"\n📊 Legacy Analysis Results:")
+
+        print("\n📊 Legacy Analysis Results:")
         print(f"   Failure Rate: {results['analysis']['failure_rate']:.1%}")
         print(f"   Total Stress Impact: {results['analysis']['total_stress_impact']}")
         print(f"   Cascade Detected: {results['analysis']['cascade_detected']}")
-        
+
         # Save results
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"legacy_analysis_{timestamp}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(results, f, indent=2)
         print(f"\n💾 Results saved to {filename}")
-        
+
     except Exception as e:
         print(f"❌ Error running legacy analysis: {e}")
 
@@ -131,7 +136,7 @@ def view_guide():
     """Display the playtest guide"""
     print("\n📋 PLAYTEST GUIDE OVERVIEW")
     print("=" * 50)
-    
+
     guide_file = "CLI_PLAYTEST_GUIDE.md"
     if os.path.exists(guide_file):
         print(f"📖 Full guide available in: {guide_file}")
@@ -167,26 +172,26 @@ def run_all_tests():
     print("Step 1: Enhanced automated testing for comprehensive analysis")
     print("Step 2: Manual CLI testing for detailed observation")
     print()
-    
+
     input("Press Enter to start enhanced automated testing...")
     run_enhanced_automated_testing()
-    
+
     print("\n" + "=" * 60)
     print("Enhanced automated testing complete!")
     print("Now switching to manual CLI testing for hands-on verification...")
     input("Press Enter to launch CLI interface...")
-    
+
     run_manual_cli()
 
 
 def main():
     """Main launcher interface"""
-    
+
     while True:
         print_menu()
-        
+
         choice = input("\nSelect option (1-6): ").strip()
-        
+
         if choice == "1":
             run_manual_cli()
         elif choice == "2":
@@ -198,14 +203,16 @@ def main():
         elif choice == "5":
             run_all_tests()
         elif choice == "6":
-            print("\n👋 Happy testing! May your failures be educational and your bugs be squashed!")
+            print(
+                "\n👋 Happy testing! May your failures be educational and your bugs be squashed!"
+            )
             break
         else:
             print("❌ Invalid choice. Please select 1-6.")
-        
+
         if choice in ["1", "2", "3", "5"]:
             input("\nPress Enter to return to menu...")
 
 
 if __name__ == "__main__":
-    main() 
+    main()

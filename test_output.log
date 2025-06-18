@@ -33,26 +33,26 @@ self = <test_enhanced_systems.TestEnhancedMissionSystem testMethod=test_mission_
         try:
             from game.enhanced_mission_system import EnhancedMissionExecutor
             mission_system = EnhancedMissionExecutor(self.game_state)
-    
+
             # Create test mission
             mission = {
                 "id": "test_mission",
                 "type": "intelligence",
                 "difficulty": "medium"
             }
-    
+
             agents = [{"id": "agent_1", "name": "Test Agent 1", "skills": self.agent1.skills}]
             location = {"id": "location_1", "name": "Test Location"}
             resources = {"budget": 1000, "time": 5}
-    
+
             # Execute enhanced mission
 >           result = mission_system.execute_enhanced_mission(mission, agents, location, resources)
 
-tests/test_enhanced_systems.py:183: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_enhanced_systems.py:183:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/game/enhanced_mission_system.py:115: in execute_enhanced_mission
     emotional_impacts = self._calculate_mission_emotional_impacts(
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <game.enhanced_mission_system.EnhancedMissionExecutor object at 0x72d041fa5df0>
 outcome = <EnhancedExecutionOutcome.PERFECT_SUCCESS: 'perfect_success'>
@@ -66,24 +66,24 @@ consequences = [EnhancedConsequence(type='morale_boost', description='Perfect mi
         consequences: List[EnhancedConsequence],
     ) -> Dict[str, Dict[str, float]]:
         """Calculate and apply emotional impacts from mission"""
-    
+
         total_impacts = {}
-    
+
         # Initialize impact tracking
         for agent in agents:
             total_impacts[agent["id"]] = {}
-    
+
         # Collect impacts from consequences
         for consequence in consequences:
             for agent_id, impacts in consequence.emotional_impact.items():
                 if agent_id not in total_impacts:
                     total_impacts[agent_id] = {}
-    
+
                 for emotion, value in impacts.items():
                     total_impacts[agent_id][emotion] = (
                         total_impacts[agent_id].get(emotion, 0.0) + value
                     )
-    
+
         # Apply to actual agent emotional states
         for agent_id, impacts in total_impacts.items():
             agent_obj = self.game_state.agents.get(agent_id)
@@ -108,24 +108,24 @@ self = <test_enhanced_systems.TestEnhancedNarrativeSystem testMethod=test_narrat
         try:
             from game.enhanced_narrative_system import EnhancedDynamicNarrativeSystem
             narrative_system = EnhancedDynamicNarrativeSystem(self.game_state)
-    
+
             # Process dynamic narrative
 >           results = narrative_system.process_dynamic_narrative()
 
-tests/test_enhanced_systems.py:302: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_enhanced_systems.py:302:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/game/enhanced_narrative_system.py:294: in process_dynamic_narrative
     triggered_hooks = self._trigger_contextual_hooks(current_turn)
 src/game/enhanced_narrative_system.py:820: in _trigger_contextual_hooks
     self._apply_hook_impacts(hook)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <game.enhanced_narrative_system.EnhancedDynamicNarrativeSystem object at 0x72d041fec500>
 hook = ContextualNarrativeHook(id='betrayal_ripple', hook_type='betrayal', description='A betrayal creates ripples of suspici...'anger': 0.4, 'fear': 0.3, 'trust': -0.5}, relationship_changes={}, prerequisites=[], cooldown_turns=6, last_used=None)
 
     def _apply_hook_impacts(self, hook: ContextualNarrativeHook):
         """Apply hook impacts to agents and relationships"""
-    
+
         # Apply emotional impacts to all agents
         for agent_id, agent in self.game_state.agents.items():
             if hasattr(agent, 'emotional_state'):
@@ -145,19 +145,19 @@ self = <test_enhanced_systems.TestAdvancedTraumaSystem testMethod=test_trauma_ev
         try:
             from game.advanced_trauma_system import AdvancedTraumaSystem
             trauma_system = AdvancedTraumaSystem(self.game_state)
-    
+
             # Process trauma system
 >           results = trauma_system.process_trauma_system()
 
-tests/test_enhanced_systems.py:360: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_enhanced_systems.py:360:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/game/advanced_trauma_system.py:275: in process_trauma_system
     healing_breakthroughs = self._check_healing_breakthroughs()
 src/game/advanced_trauma_system.py:718: in _check_healing_breakthroughs
     breakthrough = self._evaluate_breakthrough_conditions(agent)
 src/game/advanced_trauma_system.py:730: in _evaluate_breakthrough_conditions
     positive_sum = sum(max(0, getattr(emotional_state, emotion, 0)) for emotion in positive_emotions)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 .0 = <list_iterator object at 0x72d041fef010>
 
@@ -174,49 +174,49 @@ self = <test_enhanced_systems.TestEnhancedSimulationIntegration testMethod=test_
         try:
             from game.enhanced_simulation_integration import EnhancedSimulationIntegration
             integration_system = EnhancedSimulationIntegration(self.game_state)
-    
+
             # Process a turn first
 >           integration_system.process_enhanced_turn()
 
-tests/test_enhanced_systems.py:473: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_enhanced_systems.py:473:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/game/enhanced_simulation_integration.py:126: in process_enhanced_turn
     turn.intelligence_results = self.intelligence_system.process_real_time_intelligence()
 src/game/enhanced_intelligence_system.py:173: in process_real_time_intelligence
     new_intel = self._generate_continuous_intelligence()
 src/game/enhanced_intelligence_system.py:215: in _generate_continuous_intelligence
     agent_intel = self._generate_agent_network_intel()
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <game.enhanced_intelligence_system.EnhancedIntelligenceSystem object at 0x72d041fadbe0>
 
     def _generate_agent_network_intel(self) -> List[RealTimeIntelEvent]:
         """Generate intelligence from agent network"""
         intel_events = []
-    
+
         if not hasattr(self.game_state, "agents"):
             return intel_events
-    
+
         # Active agents can generate intelligence
         active_agents = [
             a for a in self.game_state.agents.values() if a.status == "active"
         ]
-    
+
         for agent in active_agents:
             # Check if agent generates intelligence this turn
             intel_chance = 0.3  # Base 30% chance
-    
+
             # Modify based on agent skills
             if hasattr(agent, "skills") and "intelligence" in agent.skills:
                 skill_level = agent.skills["intelligence"].level
                 intel_chance += (skill_level - 2) * 0.1
-    
+
             # Modify based on emotional state
             if hasattr(agent, "emotional_state"):
                 # Fear reduces intelligence gathering
                 fear_penalty = getattr(agent.emotional_state, "fear", 0) * 0.2
                 intel_chance -= fear_penalty
-    
+
                 # Anticipation increases it
                 anticipation_bonus = (
 >                   getattr(agent.emotional_state, "anticipation", 0) * 0.1
@@ -233,12 +233,12 @@ self = <test_enhanced_systems.TestEnhancedSimulationIntegration testMethod=test_
         try:
             from game.enhanced_simulation_integration import EnhancedSimulationIntegration
             integration_system = EnhancedSimulationIntegration(self.game_state)
-    
+
             # Run 3 turns
 >           results = integration_system.run_enhanced_simulation(turns=3)
 
-tests/test_enhanced_systems.py:452: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_enhanced_systems.py:452:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/game/enhanced_simulation_integration.py:547: in run_enhanced_simulation
     turn = self.process_enhanced_turn()
 src/game/enhanced_simulation_integration.py:126: in process_enhanced_turn
@@ -247,37 +247,37 @@ src/game/enhanced_intelligence_system.py:173: in process_real_time_intelligence
     new_intel = self._generate_continuous_intelligence()
 src/game/enhanced_intelligence_system.py:215: in _generate_continuous_intelligence
     agent_intel = self._generate_agent_network_intel()
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <game.enhanced_intelligence_system.EnhancedIntelligenceSystem object at 0x72d041f8c890>
 
     def _generate_agent_network_intel(self) -> List[RealTimeIntelEvent]:
         """Generate intelligence from agent network"""
         intel_events = []
-    
+
         if not hasattr(self.game_state, "agents"):
             return intel_events
-    
+
         # Active agents can generate intelligence
         active_agents = [
             a for a in self.game_state.agents.values() if a.status == "active"
         ]
-    
+
         for agent in active_agents:
             # Check if agent generates intelligence this turn
             intel_chance = 0.3  # Base 30% chance
-    
+
             # Modify based on agent skills
             if hasattr(agent, "skills") and "intelligence" in agent.skills:
                 skill_level = agent.skills["intelligence"].level
                 intel_chance += (skill_level - 2) * 0.1
-    
+
             # Modify based on emotional state
             if hasattr(agent, "emotional_state"):
                 # Fear reduces intelligence gathering
                 fear_penalty = getattr(agent.emotional_state, "fear", 0) * 0.2
                 intel_chance -= fear_penalty
-    
+
                 # Anticipation increases it
                 anticipation_bonus = (
 >                   getattr(agent.emotional_state, "anticipation", 0) * 0.1

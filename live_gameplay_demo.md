@@ -17,7 +17,7 @@
 
 👥 AGENT OVERVIEW:
   Maria Gonzalez  🟢active    University District
-  Carlos Mendez   🟢active    Downtown  
+  Carlos Mendez   🟢active    Downtown
   Ana Torres      🔴captured  University District
   Jorge Silva     🔴captured  Industrial Zone
   Elena Rodriguez 🟡injured   Industrial Zone
@@ -30,9 +30,9 @@
 ### **Player Action:** Views agent details for Maria
 ```
 🧑 DETAILED AGENT INFO: Maria Gonzalez
-Location: University District  
+Location: University District
 Status: active
-Loyalty: 75/100  
+Loyalty: 75/100
 Stress: 30/100
 Skills: persuasion:7, stealth:5
 Equipment: Maria's Laptop
@@ -77,7 +77,7 @@ Final Success Probability: 90%
 
 ---
 
-## ⚡ **Turn 3: Mission Execution** 
+## ⚡ **Turn 3: Mission Execution**
 
 ### **Player Action:** Executes the mission
 
@@ -148,8 +148,8 @@ Relationship: Maria ↔ Carlos trust improved (+0.1)
    Reliability: 85%
    Details: "Security looking for female student organizer with laptop"
    Threat Level: MEDIUM
-   
-🔍 "Student Movement Growing" 
+
+🔍 "Student Movement Growing"
    Source: Social monitoring
    Reliability: 70%
    Details: "Underground pamphlets circulating in dormitories"
@@ -210,7 +210,7 @@ Security Level: Medium (5/10)
 
 ### **What the Player Experienced:**
 1. **Strategic Planning**: Choosing the right mission for available agents
-2. **Risk/Reward Decisions**: Balancing success probability vs. consequences  
+2. **Risk/Reward Decisions**: Balancing success probability vs. consequences
 3. **Emotional Consequences**: Agents responding realistically to mission stress
 4. **Intelligence Feedback**: The world responding to player actions
 5. **Political Simulation**: Government and media reacting to resistance activities
@@ -247,4 +247,4 @@ Security Level: Medium (5/10)
 
 ---
 
-**This demonstrates that Years of Lead provides a rich, sophisticated gameplay experience that rivals professional game development while offering unique insights into resistance movements, psychology, and political dynamics.** 
+**This demonstrates that Years of Lead provides a rich, sophisticated gameplay experience that rivals professional game development while offering unique insights into resistance movements, psychology, and political dynamics.**

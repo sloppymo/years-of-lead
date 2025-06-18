@@ -205,6 +205,41 @@ python -m pytest tests/test_character_creation.py
 python -m pytest --cov=src tests/
 ```
 
+## 🧹 Repository Hygiene
+
+### Keeping the Repository Lean
+To maintain good performance and usability, please follow these guidelines:
+
+1. **File Size Limits**
+   - No single file should exceed 5MB
+   - Binary files should be kept to a minimum
+   - Large datasets should be stored externally (e.g., cloud storage) and referenced in documentation
+
+2. **What to Exclude**
+   - Never commit:
+     - `node_modules/` directories
+     - Virtual environments (`venv/`, `.venv/`)
+     - Cache files (`__pycache__/`, `.pytest_cache/`)
+     - Local configuration files (`.env`, `.vscode/`)
+     - Large datasets (use `.gitignore` patterns)
+
+3. **Before Committing**
+   ```bash
+   # Check for large files
+   find . -type f -size +5M -not -path "./venv/*" -not -path "./.git/*"
+   
+   # Check repository size
+   git count-objects -vH
+   ```
+
+4. **If You Need to Add Large Files**
+   - Contact the maintainers first
+   - Consider using Git LFS (Large File Storage)
+   - Document the reason for including large files
+
+5. **Cleaning Up**
+   Use the provided `cleanup_history.sh` script to remove large files from history if needed.
+
 ## 📚 Documentation
 
 ### Code Documentation

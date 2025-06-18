@@ -1,16 +1,83 @@
-# --- cleanup: exclude artefacts ---
-*.py[cod]
+# --- Python ---
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyd
+*.py[cod]
+*$py.class
 *.so
+.Python
+build/
+dev-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
+.installed.cfg
+*.egg
 
+# --- Virtual Environment ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# --- Build and Release ---
+build/
+dist/
+*.egg-info/
+*.spec
+
+# --- Testing ---
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Logs and databases ---
+*.log
+*.sql
+*.sqlite
+*.db
+*.sqlite3
+
+# --- OS generated files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Project Specific ---
 # Exclude therapeutic datasets and SYLVA files
-*therapeutic*.json
-*therapeutic*.md
-*_dataset.json
-*_responses.json
-*_training.json
+therapeutic_*
+*therapeutic*
+*_dataset*
+*_responses*
+*_training*
 sylva_*
 *SYLVA*
 *Sylva*
@@ -22,32 +89,35 @@ sylva_*
 *intimacy*
 *career*
 
-# virtual-envs
-venv/
-.env/
-.venv/
+# Game saves and user data
+saves/
+*.sav
+*.bak
+*.tmp
+*.temp
 
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
+# Environment variables
+.env
+.env.*
+!.env.example
 
-# Build outputs
-dist/
-build/
-*.build/
+# Debug logs
+debug.log
+*.log
 
-# Coverage reports
-.coverage
-htmlcov/
-*.cover
-.hypothesis/
-.pytest_cache/
+# Local development
+local_settings.py
+settings/local.py
 
-# IDEs
-.vscode/
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo

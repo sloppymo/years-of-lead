@@ -1,0 +1,20 @@
+YEARS OF LEAD - ENHANCED AUTOMATED TESTING SUMMARY
+============================================================
+
+MISSION ANALYSIS:
+  Total Missions: 8
+  Failure Rate: 75.0%
+
+EMOTIONAL IMPACT:
+  Agents Analyzed: 3
+  High Trauma: 0
+  Unstable: 0
+
+SYSTEM PERFORMANCE:
+  Total Tests: 26
+  Error Rate: 0.0%
+  Stability Score: 1.000
+
+RECOMMENDATIONS:
+  1. Mission failure rate is very high - consider balancing difficulty
+  2. sabotage missions have very high failure rate - review balance

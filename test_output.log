@@ -1,0 +1,295 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/sloppymo/Documents/Windsurf/years-of-lead
+collecting ... collected 226 items / 5 skipped
+
+test_improvements.py::test_character_creation_improvements PASSED        [  0%]
+test_improvements.py::test_mission_planning_system PASSED                [  0%]
+test_improvements.py::test_intelligence_system PASSED                    [  1%]
+test_improvements.py::test_integration PASSED                            [  1%]
+tests/test_enhanced_systems.py::TestEnhancedAgentAutonomy::test_agent_autonomy_profile_creation PASSED [  2%]
+tests/test_enhanced_systems.py::TestEnhancedAgentAutonomy::test_autonomous_decision_generation PASSED [  2%]
+tests/test_enhanced_systems.py::TestEnhancedAgentAutonomy::test_autonomy_system_initialization PASSED [  3%]
+tests/test_enhanced_systems.py::TestEnhancedMissionSystem::test_mission_collaboration_analysis FAILED [  3%]
+tests/test_enhanced_systems.py::TestEnhancedMissionSystem::test_mission_system_initialization PASSED [  3%]
+tests/test_enhanced_systems.py::TestEnhancedIntelligenceSystem::test_intelligence_generation PASSED [  4%]
+tests/test_enhanced_systems.py::TestEnhancedIntelligenceSystem::test_intelligence_system_initialization PASSED [  4%]
+tests/test_enhanced_systems.py::TestEnhancedNarrativeSystem::test_narrative_system_initialization PASSED [  5%]
+tests/test_enhanced_systems.py::TestEnhancedNarrativeSystem::test_narrative_trigger_detection FAILED [  5%]
+tests/test_enhanced_systems.py::TestAdvancedTraumaSystem::test_trauma_event_creation FAILED [  6%]
+tests/test_enhanced_systems.py::TestAdvancedTraumaSystem::test_trauma_system_initialization PASSED [  6%]
+tests/test_enhanced_systems.py::TestEnhancedSimulationIntegration::test_integration_summary FAILED [  7%]
+tests/test_enhanced_systems.py::TestEnhancedSimulationIntegration::test_integration_system_initialization PASSED [  7%]
+tests/test_enhanced_systems.py::TestEnhancedSimulationIntegration::test_multi_turn_simulation FAILED [  7%]
+
+=================================== FAILURES ===================================
+________ TestEnhancedMissionSystem.test_mission_collaboration_analysis _________
+
+self = <test_enhanced_systems.TestEnhancedMissionSystem testMethod=test_mission_collaboration_analysis>
+
+    def test_mission_collaboration_analysis(self):
+        """Test mission collaboration analysis"""
+        try:
+            from game.enhanced_mission_system import EnhancedMissionExecutor
+            mission_system = EnhancedMissionExecutor(self.game_state)
+    
+            # Create test mission
+            mission = {
+                "id": "test_mission",
+                "type": "intelligence",
+                "difficulty": "medium"
+            }
+    
+            agents = [{"id": "agent_1", "name": "Test Agent 1", "skills": self.agent1.skills}]
+            location = {"id": "location_1", "name": "Test Location"}
+            resources = {"budget": 1000, "time": 5}
+    
+            # Execute enhanced mission
+>           result = mission_system.execute_enhanced_mission(mission, agents, location, resources)
+
+tests/test_enhanced_systems.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/game/enhanced_mission_system.py:115: in execute_enhanced_mission
+    emotional_impacts = self._calculate_mission_emotional_impacts(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <game.enhanced_mission_system.EnhancedMissionExecutor object at 0x72d041fa5df0>
+outcome = <EnhancedExecutionOutcome.PERFECT_SUCCESS: 'perfect_success'>
+agents = [{'id': 'agent_1', 'name': 'Test Agent 1', 'skills': {'combat': <Mock id='126238785691456'>, 'intelligence': <Mock id='126238785690064'>, 'social': <Mock id='126238785691072'>}}]
+consequences = [EnhancedConsequence(type='morale_boost', description='Perfect mission execution boosts team morale and confidence', i...ive_hooks=['Team struggles to coordinate', 'Tensions rise between agents'], escalation_potential=0.0, recovery_time=2)]
+
+    def _calculate_mission_emotional_impacts(
+        self,
+        outcome: EnhancedExecutionOutcome,
+        agents: List[Dict[str, Any]],
+        consequences: List[EnhancedConsequence],
+    ) -> Dict[str, Dict[str, float]]:
+        """Calculate and apply emotional impacts from mission"""
+    
+        total_impacts = {}
+    
+        # Initialize impact tracking
+        for agent in agents:
+            total_impacts[agent["id"]] = {}
+    
+        # Collect impacts from consequences
+        for consequence in consequences:
+            for agent_id, impacts in consequence.emotional_impact.items():
+                if agent_id not in total_impacts:
+                    total_impacts[agent_id] = {}
+    
+                for emotion, value in impacts.items():
+                    total_impacts[agent_id][emotion] = (
+                        total_impacts[agent_id].get(emotion, 0.0) + value
+                    )
+    
+        # Apply to actual agent emotional states
+        for agent_id, impacts in total_impacts.items():
+            agent_obj = self.game_state.agents.get(agent_id)
+            if agent_obj and hasattr(agent_obj, "emotional_state"):
+                for emotion, value in impacts.items():
+                    if emotion == "trauma_increase":
+                        agent_obj.emotional_state.trauma_level = min(
+                            1.0, agent_obj.emotional_state.trauma_level + value
+                        )
+                    elif hasattr(agent_obj.emotional_state, emotion):
+                        current_value = getattr(agent_obj.emotional_state, emotion)
+>                       new_value = max(-1.0, min(1.0, current_value + value))
+E                       TypeError: unsupported operand type(s) for +: 'Mock' and 'float'
+
+src/game/enhanced_mission_system.py:1183: TypeError
+_________ TestEnhancedNarrativeSystem.test_narrative_trigger_detection _________
+
+self = <test_enhanced_systems.TestEnhancedNarrativeSystem testMethod=test_narrative_trigger_detection>
+
+    def test_narrative_trigger_detection(self):
+        """Test narrative trigger detection"""
+        try:
+            from game.enhanced_narrative_system import EnhancedDynamicNarrativeSystem
+            narrative_system = EnhancedDynamicNarrativeSystem(self.game_state)
+    
+            # Process dynamic narrative
+>           results = narrative_system.process_dynamic_narrative()
+
+tests/test_enhanced_systems.py:302: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/game/enhanced_narrative_system.py:294: in process_dynamic_narrative
+    triggered_hooks = self._trigger_contextual_hooks(current_turn)
+src/game/enhanced_narrative_system.py:820: in _trigger_contextual_hooks
+    self._apply_hook_impacts(hook)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <game.enhanced_narrative_system.EnhancedDynamicNarrativeSystem object at 0x72d041fec500>
+hook = ContextualNarrativeHook(id='betrayal_ripple', hook_type='betrayal', description='A betrayal creates ripples of suspici...'anger': 0.4, 'fear': 0.3, 'trust': -0.5}, relationship_changes={}, prerequisites=[], cooldown_turns=6, last_used=None)
+
+    def _apply_hook_impacts(self, hook: ContextualNarrativeHook):
+        """Apply hook impacts to agents and relationships"""
+    
+        # Apply emotional impacts to all agents
+        for agent_id, agent in self.game_state.agents.items():
+            if hasattr(agent, 'emotional_state'):
+                for emotion, value in hook.emotional_impact.items():
+                    if hasattr(agent.emotional_state, emotion):
+                        current_value = getattr(agent.emotional_state, emotion)
+>                       new_value = max(-1.0, min(1.0, current_value + value))
+E                       TypeError: unsupported operand type(s) for +: 'Mock' and 'float'
+
+src/game/enhanced_narrative_system.py:865: TypeError
+_____________ TestAdvancedTraumaSystem.test_trauma_event_creation ______________
+
+self = <test_enhanced_systems.TestAdvancedTraumaSystem testMethod=test_trauma_event_creation>
+
+    def test_trauma_event_creation(self):
+        """Test trauma event creation"""
+        try:
+            from game.advanced_trauma_system import AdvancedTraumaSystem
+            trauma_system = AdvancedTraumaSystem(self.game_state)
+    
+            # Process trauma system
+>           results = trauma_system.process_trauma_system()
+
+tests/test_enhanced_systems.py:360: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/game/advanced_trauma_system.py:275: in process_trauma_system
+    healing_breakthroughs = self._check_healing_breakthroughs()
+src/game/advanced_trauma_system.py:718: in _check_healing_breakthroughs
+    breakthrough = self._evaluate_breakthrough_conditions(agent)
+src/game/advanced_trauma_system.py:730: in _evaluate_breakthrough_conditions
+    positive_sum = sum(max(0, getattr(emotional_state, emotion, 0)) for emotion in positive_emotions)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x72d041fef010>
+
+>   positive_sum = sum(max(0, getattr(emotional_state, emotion, 0)) for emotion in positive_emotions)
+E   TypeError: '>' not supported between instances of 'Mock' and 'int'
+
+src/game/advanced_trauma_system.py:730: TypeError
+__________ TestEnhancedSimulationIntegration.test_integration_summary __________
+
+self = <test_enhanced_systems.TestEnhancedSimulationIntegration testMethod=test_integration_summary>
+
+    def test_integration_summary(self):
+        """Test integration system summary generation"""
+        try:
+            from game.enhanced_simulation_integration import EnhancedSimulationIntegration
+            integration_system = EnhancedSimulationIntegration(self.game_state)
+    
+            # Process a turn first
+>           integration_system.process_enhanced_turn()
+
+tests/test_enhanced_systems.py:473: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/game/enhanced_simulation_integration.py:126: in process_enhanced_turn
+    turn.intelligence_results = self.intelligence_system.process_real_time_intelligence()
+src/game/enhanced_intelligence_system.py:173: in process_real_time_intelligence
+    new_intel = self._generate_continuous_intelligence()
+src/game/enhanced_intelligence_system.py:215: in _generate_continuous_intelligence
+    agent_intel = self._generate_agent_network_intel()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <game.enhanced_intelligence_system.EnhancedIntelligenceSystem object at 0x72d041fadbe0>
+
+    def _generate_agent_network_intel(self) -> List[RealTimeIntelEvent]:
+        """Generate intelligence from agent network"""
+        intel_events = []
+    
+        if not hasattr(self.game_state, "agents"):
+            return intel_events
+    
+        # Active agents can generate intelligence
+        active_agents = [
+            a for a in self.game_state.agents.values() if a.status == "active"
+        ]
+    
+        for agent in active_agents:
+            # Check if agent generates intelligence this turn
+            intel_chance = 0.3  # Base 30% chance
+    
+            # Modify based on agent skills
+            if hasattr(agent, "skills") and "intelligence" in agent.skills:
+                skill_level = agent.skills["intelligence"].level
+                intel_chance += (skill_level - 2) * 0.1
+    
+            # Modify based on emotional state
+            if hasattr(agent, "emotional_state"):
+                # Fear reduces intelligence gathering
+                fear_penalty = getattr(agent.emotional_state, "fear", 0) * 0.2
+                intel_chance -= fear_penalty
+    
+                # Anticipation increases it
+                anticipation_bonus = (
+>                   getattr(agent.emotional_state, "anticipation", 0) * 0.1
+                )
+E               TypeError: unsupported operand type(s) for *: 'Mock' and 'float'
+
+src/game/enhanced_intelligence_system.py:261: TypeError
+_________ TestEnhancedSimulationIntegration.test_multi_turn_simulation _________
+
+self = <test_enhanced_systems.TestEnhancedSimulationIntegration testMethod=test_multi_turn_simulation>
+
+    def test_multi_turn_simulation(self):
+        """Test running a multi-turn enhanced simulation"""
+        try:
+            from game.enhanced_simulation_integration import EnhancedSimulationIntegration
+            integration_system = EnhancedSimulationIntegration(self.game_state)
+    
+            # Run 3 turns
+>           results = integration_system.run_enhanced_simulation(turns=3)
+
+tests/test_enhanced_systems.py:452: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/game/enhanced_simulation_integration.py:547: in run_enhanced_simulation
+    turn = self.process_enhanced_turn()
+src/game/enhanced_simulation_integration.py:126: in process_enhanced_turn
+    turn.intelligence_results = self.intelligence_system.process_real_time_intelligence()
+src/game/enhanced_intelligence_system.py:173: in process_real_time_intelligence
+    new_intel = self._generate_continuous_intelligence()
+src/game/enhanced_intelligence_system.py:215: in _generate_continuous_intelligence
+    agent_intel = self._generate_agent_network_intel()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <game.enhanced_intelligence_system.EnhancedIntelligenceSystem object at 0x72d041f8c890>
+
+    def _generate_agent_network_intel(self) -> List[RealTimeIntelEvent]:
+        """Generate intelligence from agent network"""
+        intel_events = []
+    
+        if not hasattr(self.game_state, "agents"):
+            return intel_events
+    
+        # Active agents can generate intelligence
+        active_agents = [
+            a for a in self.game_state.agents.values() if a.status == "active"
+        ]
+    
+        for agent in active_agents:
+            # Check if agent generates intelligence this turn
+            intel_chance = 0.3  # Base 30% chance
+    
+            # Modify based on agent skills
+            if hasattr(agent, "skills") and "intelligence" in agent.skills:
+                skill_level = agent.skills["intelligence"].level
+                intel_chance += (skill_level - 2) * 0.1
+    
+            # Modify based on emotional state
+            if hasattr(agent, "emotional_state"):
+                # Fear reduces intelligence gathering
+                fear_penalty = getattr(agent.emotional_state, "fear", 0) * 0.2
+                intel_chance -= fear_penalty
+    
+                # Anticipation increases it
+                anticipation_bonus = (
+>                   getattr(agent.emotional_state, "anticipation", 0) * 0.1
+                )
+E               TypeError: unsupported operand type(s) for *: 'Mock' and 'float'
+
+src/game/enhanced_intelligence_system.py:261: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_enhanced_systems.py::TestEnhancedMissionSystem::test_mission_collaboration_analysis
+FAILED tests/test_enhanced_systems.py::TestEnhancedNarrativeSystem::test_narrative_trigger_detection
+FAILED tests/test_enhanced_systems.py::TestAdvancedTraumaSystem::test_trauma_event_creation
+FAILED tests/test_enhanced_systems.py::TestEnhancedSimulationIntegration::test_integration_summary
+FAILED tests/test_enhanced_systems.py::TestEnhancedSimulationIntegration::test_multi_turn_simulation
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+=================== 5 failed, 13 passed, 5 skipped in 0.52s ====================

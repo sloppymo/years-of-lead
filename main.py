@@ -62,32 +62,52 @@ def launch_cli():
         import sys
         import os
 
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
-        from src.main import main as cli_main
-
-        cli_main()
+        # Add src directory to path
+        src_path = os.path.join(os.path.dirname(__file__), "src")
+        sys.path.insert(0, src_path)
+        
+        # Import necessary components
+        from game.core import GameState
+        from game.interface import PlayerInterface, EmotionalStateManager
+        from game.entities import MissionType
+        
+        # Initialize game state
+        gs = GameState()
+        gs.initialize_game()
+        
+        print("🎮 CLI interface loaded successfully!")
+        print("Use Ctrl+C to exit")
+        
+        # Main game loop
+        while True:
+            try:
+                print("\n" + "="*50)
+                print(f"Turn {gs.turn_number} - {gs.current_phase.name}")
+                print("="*50)
+                
+                # Show available agents
+                print("\nAvailable Agents:")
+                print("-" * 30)
+                for agent in gs.agents.values():
+                    print(f"- {agent.name} ({agent.faction_id})")
+                
+                # Advance turn (this will trigger the mission planning interface)
+                input("\nPress Enter to plan next mission...")
+                gs.advance_turn()
+                
+            except KeyboardInterrupt:
+                print("\nExiting...")
+                break
+                
     except ImportError as e:
-        print(f"❌ CLI interface not found: {e}")
-        print("📟 Please check that src/main.py exists and is properly configured.")
+        print(f"❌ Error importing required modules: {e}")
+        print("📟 Please ensure all dependencies are installed.")
         sys.exit(1)
     except Exception as e:
-        print(f"❌ CLI interface error: {e}")
-        print("📟 Falling back to basic CLI...")
-        # Try to run a basic CLI
-        try:
-            from src.game.core import GameState
-
-            gs = GameState()
-            gs.initialize_game()
-            print("🎮 Basic CLI loaded successfully!")
-            print("Use Ctrl+C to exit")
-            while True:
-                input("Press Enter to advance turn...")
-                gs.advance_turn()
-                print(f"Turn {gs.turn_number} completed")
-        except Exception as e2:
-            print(f"❌ Basic CLI also failed: {e2}")
-            sys.exit(1)
+        print(f"❌ Unexpected error: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":

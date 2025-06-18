@@ -11,6 +11,9 @@ from enum import Enum
 from typing import Dict, List, Any
 from dataclasses import dataclass
 
+# Import equipment integration
+from .equipment_integration import EquipmentIntegrationManager, AgentLoadout, LoadoutSlot
+from .equipment_enhanced import EnhancedEquipmentProfile, EquipmentDurability
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +40,7 @@ class ConsequenceType(Enum):
     REPUTATION = "reputation"
     TACTICAL = "tactical"
     EMOTIONAL = "emotional"
+    EQUIPMENT = "equipment"  # New consequence type for equipment
 
 
 @dataclass
@@ -61,6 +65,7 @@ class ResourceCost:
     agent_time_hours: int = 0
     network_exposure: float = 0.0  # 0.0-1.0 risk of network compromise
     safe_house_risk: float = 0.0  # Risk to safe house security
+    equipment_repair_costs: float = 0.0  # New: equipment repair costs
 
     def __post_init__(self):
         self.network_exposure = max(0.0, min(1.0, self.network_exposure))
@@ -80,15 +85,17 @@ class ExecutionResult:
     narrative_summary: str
     political_impact: float
     reputation_changes: Dict[str, float]
+    equipment_effects: Dict[str, Any]  # New: equipment effects and degradation
 
 
 class MissionExecutionEngine:
     """Enhanced mission execution engine with spy network integration"""
 
-    def __init__(self, game_state):
+    def __init__(self, game_state, equipment_manager):
         self.game_state = game_state
         self.execution_history = []
         self.network_compromise_tracker = {}
+        self.equipment_manager = equipment_manager
 
     def execute_mission(
         self,
@@ -96,36 +103,60 @@ class MissionExecutionEngine:
         agents: List[Dict[str, Any]],
         location: Dict[str, Any],
         resources: Dict[str, Any],
+        agent_loadouts: Dict[str, AgentLoadout] = None,  # New parameter
     ) -> Dict[str, Any]:
-        """Execute a mission with comprehensive outcome tracking"""
+        """Execute a mission with comprehensive outcome tracking and equipment integration"""
 
-        # Calculate base success probability
-        base_success = self._calculate_base_success(mission, agents, location)
+        # Initialize equipment integration
+        if agent_loadouts is None:
+            agent_loadouts = {}
+            for agent in agents:
+                agent_id = agent.get("id")
+                if agent_id:
+                    loadout = self.equipment_manager.create_agent_loadout(agent_id)
+                    agent_loadouts[agent_id] = loadout
 
-        # Apply execution modifiers (emotional state, trauma, etc.)
-        modified_success = self._apply_execution_modifiers(
-            base_success, mission, agents, location
+        # Apply equipment effects to mission
+        equipment_effects = self.equipment_manager.apply_equipment_effects_to_mission(
+            mission, agents, agent_loadouts
+        )
+
+        # Calculate base success probability with equipment modifiers
+        base_success = self._calculate_base_success_with_equipment(
+            mission, agents, location, equipment_effects
+        )
+
+        # Apply execution modifiers (emotional state, trauma, equipment)
+        modified_success = self._apply_execution_modifiers_with_equipment(
+            base_success, mission, agents, location, equipment_effects
         )
 
         # Determine outcome
         outcome = self._determine_outcome(modified_success)
 
-        # Calculate resource costs
-        resource_costs = self._calculate_resource_costs(mission, agents, outcome)
+        # Calculate resource costs including equipment
+        resource_costs = self._calculate_resource_costs_with_equipment(
+            mission, agents, outcome, equipment_effects
+        )
 
-        # Generate consequences
-        consequences = self._generate_mission_consequences(
-            mission, agents, location, outcome
+        # Generate consequences including equipment consequences
+        consequences = self._generate_mission_consequences_with_equipment(
+            mission, agents, location, outcome, equipment_effects
         )
 
         # Apply network effects
         network_effects = self._apply_network_effects(mission, agents, outcome)
 
-        # Generate narrative
-        narrative = self._generate_mission_narrative(mission, agents, location, outcome)
+        # Generate narrative with equipment elements
+        narrative = self._generate_mission_narrative_with_equipment(
+            mission, agents, location, outcome, equipment_effects
+        )
 
         # Track execution for patterns
         self._track_execution_patterns(mission, outcome, consequences)
+
+        # Update agent loadouts with equipment degradation
+        self._update_agent_loadouts(agent_loadouts, equipment_effects)
 
         return {
             "outcome": outcome,
@@ -136,7 +167,269 @@ class MissionExecutionEngine:
             "narrative": narrative,
             "agents_affected": len(agents),
             "mission_type": mission.get("type", "unknown"),
+            "equipment_effects": equipment_effects,  # New: equipment effects
+            "agent_loadouts": agent_loadouts,  # New: updated loadouts
         }
+
+    def _calculate_base_success_with_equipment(
+        self,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        location: Dict[str, Any],
+        equipment_effects: Dict[str, Any],
+    ) -> float:
+        """Calculate base mission success probability with equipment integration"""
+
+        # Get base success without equipment
+        base_success = self._calculate_base_success(mission, agents, location)
+
+        # Apply equipment success modifier
+        equipment_success_modifier = equipment_effects.get("success_modifier", 0.0)
+        base_success += equipment_success_modifier
+
+        # Apply skill bonuses from equipment
+        skill_bonuses = equipment_effects.get("skill_bonuses", {})
+        for skill, bonus in skill_bonuses.items():
+            # Convert skill bonus to success probability boost
+            skill_boost = bonus * 0.1  # 10% of skill bonus becomes success boost
+            base_success += skill_boost
+
+        # Apply concealment effects for stealth missions
+        mission_type = mission.get("type", "propaganda")
+        if mission_type in ["intelligence", "sabotage"]:
+            concealment_rating = equipment_effects.get("concealment_rating", 0.0)
+            concealment_boost = concealment_rating * 0.15  # 15% boost from good concealment
+            base_success += concealment_boost
+
+        # Apply legal risk penalty
+        legal_risk = equipment_effects.get("legal_risk", 0.0)
+        legal_penalty = legal_risk * 0.1  # 10% penalty from high legal risk
+        base_success -= legal_penalty
+
+        return max(0.05, min(0.95, base_success))
+
+    def _apply_execution_modifiers_with_equipment(
+        self,
+        base_success: float,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        location: Dict[str, Any],
+        equipment_effects: Dict[str, Any],
+    ) -> float:
+        """Apply situational modifiers including equipment effects"""
+
+        modified_success = base_success
+
+        # Emotional state modifiers
+        for agent in agents:
+            emotional_state = agent.get("emotional_state", {})
+            trauma_level = emotional_state.get("trauma_level", 0.0)
+
+            # Trauma reduces effectiveness
+            trauma_penalty = trauma_level * 0.15
+            modified_success -= trauma_penalty
+
+            # Apply equipment emotional effects
+            emotional_effects = equipment_effects.get("emotional_effects", {})
+            for emotion, effect in emotional_effects.items():
+                if emotion == "confidence" and effect > 0:
+                    modified_success += effect * 0.05  # Confidence boosts success
+                elif emotion == "fear" and effect > 0:
+                    modified_success -= effect * 0.03  # Fear reduces success
+
+        # Equipment degradation effects
+        equipment_degradation = equipment_effects.get("equipment_degradation", {})
+        for agent_id, degradation in equipment_degradation.items():
+            for slot, result in degradation.items():
+                if result.get("broken", False):
+                    modified_success -= 0.1  # Broken equipment penalty
+                elif result.get("maintenance_required", False):
+                    modified_success -= 0.05  # Maintenance required penalty
+
+        return max(0.05, min(0.95, modified_success))
+
+    def _calculate_resource_costs_with_equipment(
+        self,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        outcome: ExecutionOutcome,
+        equipment_effects: Dict[str, Any],
+    ) -> ResourceCost:
+        """Calculate resource costs including equipment repair costs"""
+
+        # Get base resource costs
+        base_costs = self._calculate_resource_costs(mission, agents, outcome)
+
+        # Add equipment repair costs
+        equipment_repair_costs = 0.0
+        equipment_degradation = equipment_effects.get("equipment_degradation", {})
+        
+        for agent_id, degradation in equipment_degradation.items():
+            for slot, result in degradation.items():
+                if result.get("broken", False) or result.get("maintenance_required", False):
+                    # Estimate repair costs based on equipment value
+                    equipment_repair_costs += result.get("repair_cost", 100)
+
+        # Create enhanced resource cost
+        enhanced_costs = ResourceCost(
+            money=base_costs.money + int(equipment_repair_costs),
+            equipment=base_costs.equipment,
+            agent_time_hours=base_costs.agent_time_hours,
+            network_exposure=base_costs.network_exposure,
+            safe_house_risk=base_costs.safe_house_risk,
+            equipment_repair_costs=equipment_repair_costs
+        )
+
+        return enhanced_costs
+
+    def _generate_mission_consequences_with_equipment(
+        self,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        location: Dict[str, Any],
+        outcome: ExecutionOutcome,
+        equipment_effects: Dict[str, Any],
+    ) -> List[MissionConsequence]:
+        """Generate mission consequences including equipment-related consequences"""
+
+        # Get base consequences
+        consequences = self._generate_mission_consequences(mission, agents, location, outcome)
+
+        # Add equipment-specific consequences
+        equipment_consequences = self._generate_equipment_consequences(
+            mission, agents, outcome, equipment_effects
+        )
+        consequences.extend(equipment_consequences)
+
+        return consequences
+
+    def _generate_equipment_consequences(
+        self,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        outcome: ExecutionOutcome,
+        equipment_effects: Dict[str, Any],
+    ) -> List[MissionConsequence]:
+        """Generate equipment-specific consequences"""
+
+        consequences = []
+        equipment_degradation = equipment_effects.get("equipment_degradation", {})
+        
+        # Check for broken equipment
+        broken_equipment_count = 0
+        for agent_id, degradation in equipment_degradation.items():
+            for slot, result in degradation.items():
+                if result.get("broken", False):
+                    broken_equipment_count += 1
+
+        if broken_equipment_count > 0:
+            consequence = MissionConsequence(
+                type=ConsequenceType.EQUIPMENT,
+                description=f"{broken_equipment_count} pieces of equipment were destroyed",
+                immediate_effects={
+                    "equipment_loss": broken_equipment_count,
+                    "repair_costs": equipment_effects.get("equipment_repair_costs", 0)
+                },
+                long_term_effects={
+                    "equipment_shortage": broken_equipment_count * 0.1,
+                    "maintenance_backlog": broken_equipment_count * 0.2
+                },
+                emotional_impact={
+                    "frustration": 0.3,
+                    "anxiety": 0.2
+                },
+                narrative_text=f"Critical equipment failure during the mission resulted in the loss of {broken_equipment_count} items.",
+                severity=min(0.8, broken_equipment_count * 0.2)
+            )
+            consequences.append(consequence)
+
+        # Check for maintenance requirements
+        maintenance_required_count = 0
+        for agent_id, degradation in equipment_degradation.items():
+            for slot, result in degradation.items():
+                if result.get("maintenance_required", False) and not result.get("broken", False):
+                    maintenance_required_count += 1
+
+        if maintenance_required_count > 0:
+            consequence = MissionConsequence(
+                type=ConsequenceType.EQUIPMENT,
+                description=f"{maintenance_required_count} pieces of equipment need maintenance",
+                immediate_effects={
+                    "maintenance_required": maintenance_required_count,
+                    "reduced_effectiveness": maintenance_required_count * 0.1
+                },
+                long_term_effects={
+                    "maintenance_costs": maintenance_required_count * 50,
+                    "equipment_reliability": -maintenance_required_count * 0.05
+                },
+                emotional_impact={
+                    "concern": 0.2
+                },
+                narrative_text=f"Several pieces of equipment require immediate maintenance after the mission.",
+                severity=min(0.5, maintenance_required_count * 0.1)
+            )
+            consequences.append(consequence)
+
+        return consequences
+
+    def _generate_mission_narrative_with_equipment(
+        self,
+        mission: Dict[str, Any],
+        agents: List[Dict[str, Any]],
+        location: Dict[str, Any],
+        outcome: ExecutionOutcome,
+        equipment_effects: Dict[str, Any],
+    ) -> str:
+        """Generate mission narrative including equipment elements"""
+
+        # Get base narrative
+        base_narrative = self._generate_mission_narrative(mission, agents, location, outcome)
+
+        # Add equipment narrative elements
+        equipment_narrative = equipment_effects.get("narrative_elements", [])
+        
+        if equipment_narrative:
+            equipment_text = " Equipment-wise, " + ". ".join(equipment_narrative) + "."
+            base_narrative += equipment_text
+
+        # Add equipment effectiveness narrative
+        success_modifier = equipment_effects.get("success_modifier", 0.0)
+        if success_modifier > 0.1:
+            base_narrative += " The team's equipment proved highly effective."
+        elif success_modifier < -0.1:
+            base_narrative += " Equipment issues hampered the team's effectiveness."
+
+        return base_narrative
+
+    def _update_agent_loadouts(
+        self,
+        agent_loadouts: Dict[str, AgentLoadout],
+        equipment_effects: Dict[str, Any]
+    ):
+        """Update agent loadouts with equipment degradation results"""
+        
+        equipment_degradation = equipment_effects.get("equipment_degradation", {})
+        
+        for agent_id, degradation in equipment_degradation.items():
+            loadout = agent_loadouts.get(agent_id)
+            if loadout:
+                # Loadout is already updated by the equipment manager
+                # This method can be used for additional post-mission processing
+                pass
+
+    def get_equipment_analysis_for_mission(
+        self,
+        mission: Dict[str, Any],
+        available_equipment: List[EnhancedEquipmentProfile]
+    ) -> Dict[str, Any]:
+        """Get equipment analysis and recommendations for a mission"""
+        
+        return self.equipment_manager.analyze_mission_equipment(mission, available_equipment)
+
+    def get_equipment_maintenance_status(self) -> Dict[str, Any]:
+        """Get current equipment maintenance status"""
+        
+        return self.equipment_manager.get_equipment_maintenance_report()
 
     def _calculate_base_success(
         self,
@@ -155,11 +448,25 @@ class MissionExecutionEngine:
         # Mission complexity
         complexity_modifier = self._get_complexity_modifier(mission)
 
-        # Base success calculation
+        # Mission type base modifiers - REDUCED SABOTAGE DIFFICULTY
+        mission_type = mission.get("type", "propaganda")
+        type_base_modifiers = {
+            "propaganda": 0.0,      # No modifier
+            "intelligence": -0.05,   # Slightly harder
+            "sabotage": -0.15,       # REDUCED from -0.25 to -0.15
+            "recruitment": -0.05,    # Slightly harder
+            "rescue": -0.20,         # Hard
+            "assassination": -0.30,  # Very hard
+        }
+        
+        type_modifier = type_base_modifiers.get(mission_type, 0.0)
+
+        # Base success calculation with improved balance
         base_success = (
             (agent_competency * 0.6)
             + ((1.0 - location_difficulty) * 0.3)
             + (complexity_modifier * 0.1)
+            + type_modifier  # Add mission type modifier
         )
 
         return max(0.05, min(0.95, base_success))
@@ -206,6 +513,18 @@ class MissionExecutionEngine:
             # Intel missions benefit from patience and observation
             modified_success += 0.1 if len(agents) <= 2 else -0.05
 
+        elif mission.get("type") == "sabotage":
+            # SABOTAGE BALANCE: Reduced penalties and added bonuses
+            # Smaller teams get coordination bonus
+            if len(agents) <= 2:
+                modified_success += 0.08  # REDUCED from 0.05
+            # Equipment quality matters more for sabotage
+            equipment_bonus = 0.0
+            for agent in agents:
+                if agent.get("equipment", {}).get("quality", 0) > 5:
+                    equipment_bonus += 0.05
+            modified_success += min(equipment_bonus, 0.15)  # Cap equipment bonus
+
         elif mission.get("type") == "rescue":
             # Rescue missions need speed and coordination
             if len(agents) >= 3:
@@ -251,22 +570,22 @@ class MissionExecutionEngine:
         mission_type = mission.get("type", "propaganda")
         base_costs = {
             "propaganda": ResourceCost(
-                money=500, equipment={"printing": 1}, agent_time_hours=8
+                money=500, equipment=1, agent_time_hours=8
             ),
             "sabotage": ResourceCost(
-                money=2000, equipment={"explosives": 2, "tools": 1}, agent_time_hours=12
+                money=2000, equipment=3, agent_time_hours=12
             ),
             "intelligence": ResourceCost(
-                money=300, equipment={"surveillance": 1}, agent_time_hours=16
+                money=300, equipment=1, agent_time_hours=16
             ),
             "recruitment": ResourceCost(
-                money=800, equipment={"materials": 1}, agent_time_hours=10
+                money=800, equipment=1, agent_time_hours=10
             ),
             "rescue": ResourceCost(
-                money=3000, equipment={"weapons": 2, "medical": 1}, agent_time_hours=6
+                money=3000, equipment=3, agent_time_hours=6
             ),
             "assassination": ResourceCost(
-                money=5000, equipment={"weapons": 3, "escape": 1}, agent_time_hours=4
+                money=5000, equipment=4, agent_time_hours=4
             ),
         }
 
@@ -820,7 +1139,15 @@ class MissionExecutionEngine:
 
             agent_competency = 0
             for skill in relevant_skills:
-                skill_level = skills.get(skill, {}).get("level", 1)
+                # Handle both float and dict skill formats
+                skill_value = skills.get(skill, 0.0)
+                if isinstance(skill_value, dict):
+                    # Dict format: {"level": 0.7, "experience": 100}
+                    skill_level = skill_value.get("level", 0.0)
+                else:
+                    # Float format: 0.7
+                    skill_level = float(skill_value)
+                
                 agent_competency += skill_level / 5.0  # Normalize to 0-1
 
             total_competency += agent_competency / len(relevant_skills)

@@ -5,6 +5,23 @@ __pycache__/
 *.so
 *.egg-info/
 
+# Exclude therapeutic datasets and SYLVA files
+*therapeutic*.json
+*therapeutic*.md
+*_dataset.json
+*_responses.json
+*_training.json
+sylva_*
+*SYLVA*
+*Sylva*
+*dataset*
+*training*
+*responses*
+*adolescent*
+*intervention*
+*intimacy*
+*career*
+
 # virtual-envs
 venv/
 .env/

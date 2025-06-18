@@ -27,6 +27,7 @@ from game.intelligence_system import (
     IntelligenceGenerator,
     IntelligenceType,
     IntelligencePriority,
+    IntelligenceSource,
 )
 from game.reputation_system import ReputationSystem, MediaTone
 from game.agent_decision_system import integrate_agent_decisions
@@ -209,7 +210,7 @@ def run_complete_simulation():
                 priority=IntelligencePriority.HIGH
                 if turn > 3
                 else IntelligencePriority.MEDIUM,
-                source="SURVEILLANCE",
+                source=IntelligenceSource.SURVEILLANCE,
             )
 
             if intel_event:

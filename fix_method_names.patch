@@ -1,0 +1,20 @@
+--- a/src/game/interface.py
++++ b/src/game/interface.py
+@@ -475,7 +475,7 @@
+             if len(selected_agents) > 1:
+                 print(f"\nAnalyzing team of {len(selected_agents)} agents...")
+                 
+-                if not self.display_team_compatibility(selected_agents):
++                if not self.display_team_analysis(selected_agents):
+                     print("Mission planning cancelled due to team compatibility issues.")
+                     input("Press Enter to continue...")
+                     return None
+@@ -857,7 +857,7 @@
+             if len(selected_agents) > 1:
+                 print(f"\nAnalyzing team of {len(selected_agents)} agents...")
+                 
+-                if not self.display_team_compatibility(selected_agents):
++                if not self.display_team_analysis(selected_agents):
+                     print("Mission planning cancelled due to team compatibility issues.")
+                     input("Press Enter to continue...")
+                     return None

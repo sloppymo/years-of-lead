@@ -1,3 +1,9 @@
+![License](https://img.shields.io/badge/license-Forest%20Within%20Proprietary-blueviolet?style=flat-square)
+
+> © 2025 Forest Within Therapeutic Services PC.  
+> [Custom Symbolic License](./LICENSE.txt) — All rights reserved.  
+> For licensing inquiries, contact: [your.email@example.com]
+
 # Years of Lead v1.0.0
 
 > An advanced psychological insurgency simulator featuring autonomous agent decision-making, enhanced mission execution, real-time intelligence systems, deep agent relationships, emotional modeling, emergent narrative generation, and sophisticated reputation systems through complex social network dynamics.
@@ -313,9 +319,18 @@ print(f"Threat assessments: {intel_results['threat_assessments']}")
 - Counter-intelligence operations and security measures
 - Intelligence-driven mission planning and execution
 
+### ✅ **Phase 4: Enhanced CLI Navigation** - COMPLETED
+- Dwarf Fortress-inspired command center interface with 5-star navigation efficiency
+- Arrow key navigation for menu selection and interaction
+- Mouse click support for intuitive point-and-click interface
+- Combined navigation methods for accessibility and user preference
+- Visual selection indicators and context-sensitive help
+- Victory/defeat conditions with game over screens and statistics
+- Enhanced save/load system with rich metadata and autosave functionality
+
 ### 🔄 **Upcoming Enhancements**
-- **Phase 4**: Dynamic Narrative Generation expansion
-- **Phase 5**: Advanced Trauma and Psychological Impact systems
+- **Phase 5**: Dynamic Narrative Generation expansion
+- **Phase 6**: Advanced Trauma and Psychological Impact systems
 - Enhanced web UI with real-time intelligence dashboards
 - Multi-player faction competition modes
 
@@ -368,6 +383,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **Enhanced Agent Autonomy**: Complete autonomous decision-making system
 - ✅ **Advanced Mission Execution**: Multi-layered outcomes with collaboration effects
 - ✅ **Real-time Intelligence**: Continuous gathering and counter-intelligence operations
+- ✅ **Enhanced CLI Navigation**: Arrow keys, mouse support, and DF-style interface
+- ✅ **Game Flow Completion**: Victory/defeat conditions and enhanced save system
 - ✅ **Code Quality**: Full pre-commit hook implementation and CI/CD pipeline
 - ✅ **Documentation**: Comprehensive API documentation and usage examples
 - ✅ **Testing**: Complete test coverage with unit, integration, and E2E tests

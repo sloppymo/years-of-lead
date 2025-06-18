@@ -1,0 +1,22 @@
+SYLVA LICENSE
+Copyright © 2025 Forest Within Therapeutic Services Professional Corporation.
+All Rights Reserved.
+
+SYLVA is proprietary software and a symbolic interaction framework governed by containment-focused, trauma-safe design principles. No portion of this software, including but not limited to source code, symbolic logic, narrative scaffolding, metaphor datasets, UX commands, subsystem architecture (MARROW, ROOT, AURA), or ritual protocols may be copied, distributed, modified, published, licensed, or sublicensed without prior written permission from Forest Within Therapeutic Services PC.
+
+SYLVA may not be:
+- Replicated in whole or in part for public or private use;
+- Rebranded or redistributed under a different name;
+- Integrated into commercial, therapeutic, clinical, or AI systems without a commercial license agreement;
+- Used to generate derivative works that simulate empathy, clinical response, or therapeutic guidance.
+
+The core philosophy of SYLVA — “containment over completion” — must not be violated. Any use that introduces directive advice, emotional simulation, or therapeutic substitution is strictly prohibited.
+
+LICENSED USE:
+Commercial, research, academic, or clinical licensing may be granted under explicit contract.
+To inquire about licensing or integration, contact: [your.email@example.com]
+
+THIS SOFTWARE IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.  
+NO LIABILITY IS ASSUMED FOR INDIRECT OR DIRECT HARM ARISING FROM MISUSE, MODIFICATION, OR INTERPRETATION OF THIS SYSTEM.
+
+END OF LICENSE 

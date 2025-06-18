@@ -8,7 +8,7 @@ import pytest
 
 from datetime import date
 
-from src.game.reputation_system import (
+from game.reputation_system import (
     FameType,
     MediaTone,
     EncounterTone,

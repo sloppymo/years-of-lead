@@ -23,6 +23,7 @@ class AgentStatus(Enum):
     """Agent status types"""
 
     ACTIVE = "active"
+    ON_MISSION = "on_mission"
     INJURED = "injured"
     ARRESTED = "arrested"
     DEAD = "dead"
@@ -98,30 +99,49 @@ class Agent:
             "radical": 0.5,
             "pacifist": 0.5,
             "individualist": 0.5,
-            "traditional": 0.5,
             "nationalist": 0.5,
-            "materialist": 0.5,
         }
     )
-    emotion_state: Dict[str, float] = field(
-        default_factory=lambda: {"hope": 0.5, "fear": 0.3, "anger": 0.2, "despair": 0.1}
-    )
-    planned_betrayal: Any = None
-    persona_active: bool = False  # Whether persona mask is currently active
 
-    # Symbolic systems integration
-    symbolic_resonance: Dict[str, float] = field(
-        default_factory=dict
-    )  # Connection to symbolic elements
-    narrative_threads: List[str] = field(
-        default_factory=list
-    )  # Active narrative threads
-    propaganda_exposure: Dict[str, float] = field(
-        default_factory=dict
-    )  # Exposure to propaganda themes
-    sleeper_activation_conditions: List[str] = field(
-        default_factory=list
-    )  # Sleeper agent triggers
+    # Emotional state tracking
+    emotion_state: Dict[str, float] = field(
+        default_factory=lambda: {
+            "hope": 0.5,
+            "fear": 0.3,
+            "anger": 0.2,
+            "despair": 0.1,
+            "determination": 0.6,
+        }
+    )
+
+    # Current turn number (for advanced mechanics)
+    _current_turn: int = 1
+
+    def add_secret(self, secret):
+        """Add a secret to this agent"""
+        self.secrets.append(secret)
+
+    def get_secret_count(self) -> int:
+        """Get number of secrets this agent has"""
+        return len(self.secrets)
+    
+    def get_relationship_with(self, other_agent_id: str):
+        """Get relationship state with another agent (Phase 2)"""
+        # Import here to avoid circular import
+        from .relationships import RelationshipState
+        
+        if other_agent_id not in self.relationships:
+            self.relationships[other_agent_id] = RelationshipState()
+        
+        # Convert dict to RelationshipState if needed
+        rel_data = self.relationships[other_agent_id]
+        if isinstance(rel_data, dict):
+            self.relationships[other_agent_id] = RelationshipState.from_dict(rel_data)
+        elif not hasattr(rel_data, 'trust'):
+            # Create new RelationshipState if the data isn't properly structured
+            self.relationships[other_agent_id] = RelationshipState()
+            
+        return self.relationships[other_agent_id]
 
     def __post_init__(self):
         """Initialize default skills"""
@@ -161,6 +181,7 @@ class Mission:
     mission_type: MissionType
     faction_id: str
     target_location_id: str
+    name: str = ""  # Name of the mission
     participants: List[str] = field(default_factory=list)
     progress: int = 0
 

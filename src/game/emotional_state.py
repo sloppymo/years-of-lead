@@ -317,6 +317,142 @@ class EmotionalState:
             f"stability={stability:.2f}, trauma={self.trauma_level:.2f})"
         )
 
+    def initialize_personality_based_emotions(self, personality_type: str = None):
+        """
+        Initialize emotional state based on personality type for more diversity.
+        Creates varied emotional starting points instead of all agents having the same emotions.
+        """
+        if personality_type is None:
+            # Random personality type for diversity
+            personality_types = ["optimistic", "cautious", "angry", "hopeful", "fearful", "determined"]
+            personality_type = random.choice(personality_types)
+        
+        # Reset to neutral first
+        self.fear = 0.0
+        self.anger = 0.0
+        self.sadness = 0.0
+        self.joy = 0.0
+        self.trust = 0.0
+        self.anticipation = 0.0
+        self.surprise = 0.0
+        self.disgust = 0.0
+        
+        # Apply personality-based emotional starting points
+        if personality_type == "optimistic":
+            self.joy = 0.3
+            self.anticipation = 0.4
+            self.trust = 0.2
+            self.fear = -0.1  # Slightly less fearful
+            
+        elif personality_type == "cautious":
+            self.fear = 0.2
+            self.anticipation = 0.1
+            self.trust = -0.1
+            self.joy = -0.1
+            
+        elif personality_type == "angry":
+            self.anger = 0.4
+            self.disgust = 0.2
+            self.trust = -0.2
+            self.fear = -0.1
+            
+        elif personality_type == "hopeful":
+            self.joy = 0.2
+            self.anticipation = 0.3
+            self.trust = 0.3
+            self.sadness = -0.1
+            
+        elif personality_type == "fearful":
+            self.fear = 0.3
+            self.trust = -0.2
+            self.anticipation = -0.1
+            self.joy = -0.2
+            
+        elif personality_type == "determined":
+            self.anger = 0.2
+            self.anticipation = 0.3
+            self.trust = 0.1
+            self.fear = -0.1
+            
+        # Add some random variation to prevent identical emotional states
+        for emotion in ["fear", "anger", "sadness", "joy", "trust", "anticipation", "surprise", "disgust"]:
+            current_value = getattr(self, emotion)
+            variation = random.uniform(-0.1, 0.1)
+            new_value = current_value + variation
+            setattr(self, emotion, new_value)
+        
+        self._clamp_values()
+
+    def update_agent_emotions(self, agent, outcome: Dict[str, Any]) -> Dict[str, float]:
+        """
+        Update an agent's emotional state based on mission outcome.
+        
+        Args:
+            agent: The agent whose emotions to update
+            outcome: Dictionary containing mission outcome details
+            
+        Returns:
+            Dictionary of emotional changes that were applied
+        """
+        # Default to no changes
+        changes = {emotion: 0.0 for emotion in [
+            'fear', 'anger', 'sadness', 'joy', 
+            'trust', 'anticipation', 'surprise', 'disgust', 'trauma'
+        ]}
+        
+        # Determine event type based on outcome
+        if not outcome.get('success', False):
+            # Mission failure
+            event_type = 'mission_failure'
+            intensity = 0.7
+            # Increase intensity if there were casualties
+            if outcome.get('casualties', 0) > 0:
+                intensity = min(1.0, intensity + 0.3 * outcome['casualties'])
+        else:
+            # Mission success
+            event_type = 'mission_success'
+            intensity = 0.6
+            # Increase joy for high-value missions
+            if outcome.get('value', 'normal') == 'high':
+                intensity = 0.9
+        
+        # Get emotional impact for this event
+        impact = self.get_emotional_impact(event_type, intensity)
+        
+        # Apply emotional changes
+        for emotion, delta in impact.items():
+            if emotion == 'trauma':
+                # Handle trauma separately
+                self.trauma_level = max(0.0, min(1.0, self.trauma_level + delta * 0.5))
+                self.last_trauma_intensity = delta
+                changes['trauma'] = delta * 0.5
+            elif hasattr(self, emotion):
+                # Apply emotional change with some randomness
+                current = getattr(self, emotion)
+                # Scale delta by agent's current state (emotions are more volatile when already high)
+                scaled_delta = delta * (1.0 - abs(current)) * (0.8 + 0.4 * random.random())
+                new_value = max(-1.0, min(1.0, current + scaled_delta))
+                setattr(self, emotion, new_value)
+                changes[emotion] = new_value - current
+        
+        # Additional emotional effects based on mission type
+        if 'mission_type' in outcome:
+            if outcome['mission_type'] == 'RECRUITMENT' and outcome.get('success', False):
+                # Recruiting is exciting and builds trust
+                self.joy = min(1.0, self.joy + 0.3 * (0.8 + 0.4 * random.random()))
+                changes['joy'] += 0.3
+                self.trust = min(1.0, self.trust + 0.2 * (0.8 + 0.4 * random.random()))
+                changes['trust'] += 0.2
+            
+            if outcome['mission_type'] == 'SABOTAGE':
+                # Sabotage can be stressful
+                self.fear = min(1.0, self.fear + 0.2 * (0.8 + 0.4 * random.random()))
+                changes['fear'] += 0.2
+        
+        # Ensure all values are within bounds
+        self._clamp_values()
+        
+        return changes
 
 def create_random_emotional_state(
     trauma_range: tuple[float, float] = (0.0, 0.3)

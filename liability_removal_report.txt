@@ -1,0 +1,9 @@
+WILLOW Dataset Liability Removal Report
+==================================================
+
+Input file: willow_training_corpus_final.jsonl
+Output file: willow_training_corpus_cleaned.jsonl
+Total entries: 143
+Entries modified: 31
+Total changes: 38
+Modification rate: 21.7%

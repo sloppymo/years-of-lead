@@ -1,0 +1,132 @@
+{
+  "symbol_sets": {
+    "traditional": {
+      "warmth_symbol": "🔥",
+      "safety_symbol": "🛡️",
+      "grounding_symbol": "💙",
+      "care_symbol": "💙",
+      "protection_symbol": "🛡️",
+      "compassion_symbol": "❤️",
+      "forward_symbol": "➡️",
+      "breath_symbol": "💨",
+      "life_symbol": "💙",
+      "status_symbol": "📱",
+      "alert_symbol": "🚨",
+      "calm_symbol": "✨",
+      "completion_symbol": "✅",
+      "success_symbol": "🌟",
+      "triumph_symbol": "🎯",
+      "sanctuary_symbol": "🏠",
+      "love_symbol": "💗",
+      "clear_symbol": "✨",
+      "peace_symbol": "🕊️",
+      "vitality_symbol": "💪"
+    },
+    "nature": {
+      "warmth_symbol": "🌤️",
+      "safety_symbol": "🌊",
+      "grounding_symbol": "🌿",
+      "care_symbol": "🌸",
+      "protection_symbol": "🌿",
+      "compassion_symbol": "🌺",
+      "forward_symbol": "🌊",
+      "breath_symbol": "🌊",
+      "life_symbol": "🌱",
+      "status_symbol": "🍃",
+      "alert_symbol": "⛈️",
+      "calm_symbol": "🌅",
+      "completion_symbol": "🌤️",
+      "success_symbol": "🌈",
+      "triumph_symbol": "🌟",
+      "sanctuary_symbol": "🌲",
+      "love_symbol": "🌷",
+      "clear_symbol": "🌤️",
+      "peace_symbol": "🕊️",
+      "vitality_symbol": "🌿"
+    },
+    "minimal": {
+      "warmth_symbol": "→",
+      "safety_symbol": "•",
+      "grounding_symbol": "•",
+      "care_symbol": "•",
+      "protection_symbol": "→",
+      "compassion_symbol": "•",
+      "forward_symbol": "→",
+      "breath_symbol": "~",
+      "life_symbol": "•",
+      "status_symbol": "?",
+      "alert_symbol": "!",
+      "calm_symbol": ".",
+      "completion_symbol": "✓",
+      "success_symbol": "✓",
+      "triumph_symbol": "★",
+      "sanctuary_symbol": "▪",
+      "love_symbol": "♦",
+      "clear_symbol": "○",
+      "peace_symbol": "―",
+      "vitality_symbol": "+"
+    },
+    "none": {
+      "warmth_symbol": "",
+      "safety_symbol": "",
+      "grounding_symbol": "",
+      "care_symbol": "",
+      "protection_symbol": "",
+      "compassion_symbol": "",
+      "forward_symbol": "",
+      "breath_symbol": "",
+      "life_symbol": "",
+      "status_symbol": "",
+      "alert_symbol": "",
+      "calm_symbol": "",
+      "completion_symbol": "",
+      "success_symbol": "",
+      "triumph_symbol": "",
+      "sanctuary_symbol": "",
+      "love_symbol": "",
+      "clear_symbol": "",
+      "peace_symbol": "",
+      "vitality_symbol": ""
+    }
+  },
+  "resolution_styles": {
+    "strength-based": {
+      "template": "{achievement} {acknowledgment} {symbol}",
+      "examples": [
+        "Your children are warm and safe. You protected them through a parent's worst fear.",
+        "You're safe. Your courage saved your life.",
+        "Your baby is breathing clearly. You advocated fiercely when it mattered most."
+      ]
+    },
+    "factual": {
+      "template": "{status} {outcome} {symbol}",
+      "examples": [
+        "You're safe. The danger has passed.",
+        "Air quality verified safe.",
+        "Air cleared. Fire prevented. Quick thinking."
+      ]
+    },
+    "reflective": {
+      "template": "{observation} {meaning} {symbol}",
+      "examples": [
+        "The water is stopped. You navigated through danger with clarity.",
+        "Power stabilized. Your mother breathes easy. You carried her through.",
+        "You moved through fear to protect what matters. The crisis has passed."
+      ]
+    }
+  },
+  "tier_2_density_rules": {
+    "max_steps": 3,
+    "max_words_per_step": 7,
+    "warning_triggers": {
+      "step_count": 4,
+      "total_words": 30,
+      "cognitive_load_sum": 6
+    },
+    "accessibility_flags": [
+      "screen_reader_pause",
+      "mobile_truncate",
+      "cognitive_overload"
+    ]
+  }
+}

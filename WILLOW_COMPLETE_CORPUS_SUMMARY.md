@@ -1,124 +1,127 @@
-# WILLOW Complete Training Corpus Summary
+# WILLOW Complete Corpus Summary
 
 ## Overview
-The WILLOW training corpus now contains **303 high-quality entries** covering both crisis situations and everyday tenant interactions. This comprehensive dataset is ready for A100 training.
-
-## Corpus Composition
-
-### Total Entries: 303
-- **WILLOW_001-100**: Crisis and discrimination scenarios
-- **WILLOW_101-143**: Enhanced trauma-informed responses  
-- **WILLOW_144-182**: Extended crisis scenarios
-- **WILLOW_183-203**: Regenerated routine inquiries
-- **WILLOW_204-303**: NEW everyday tenant interactions
-
-### Emotional Distribution
-- **Low Arousal (≤3.5)**: 83 entries (27.4%) - Routine inquiries
-- **Medium Arousal (3.5-6.0)**: 70 entries (23.1%) - Mild frustrations
-- **High Arousal (>6.0)**: 150 entries (49.5%) - Crisis situations
-
-### Scenario Categories
-
-#### Crisis & Discrimination (Entries 1-182)
-- Emergency maintenance (heat, flooding, mold)
-- Discrimination (racial, LGBTQ+, disability)
-- Mental health crises
-- Domestic violence situations
-- Medical emergencies
-- Financial distress
-
-#### Everyday Interactions (Entries 183-303)
-- **Routine Maintenance** (30%): Leaky faucets, broken lights, clogged drains
-- **Neighbor/Social** (26%): Noise complaints, parking issues, community spaces
-- **Policy Questions** (29%): Guest policies, pet rules, payment options
-- **Minor Requests** (15%): Paint touch-ups, extra keys, wall mounting
-
-## Key Features
-
-### 1. **Trauma-Informed Approach**
-- Tiered response system (Tier 1 → 1.5 → 2)
-- Emotional validation before action
-- Consent-based progression
-- Arousal management throughout
-
-### 2. **Legal Safety**
-- No time-specific promises
-- Process transparency
-- Non-committal language
-- No liability-creating statements
-
-### 3. **Practical Coverage**
-- 224 unique scenarios
-- Balanced crisis/routine split
-- Real-world tenant concerns
-- Diverse demographic representation
-
-## Sample Everyday Entries
-
-### Low-Stakes Maintenance
-```json
-Tenant: "My bathroom faucet drips constantly"
-Willow: "A dripping faucet is definitely annoying, especially when you're trying to sleep. I'll get a maintenance request in right away to fix that for you."
-```
-
-### Policy Clarification
-```json
-Tenant: "Are fish tanks allowed?"
-Willow: "Fish are generally allowed! Tanks under 20 gallons don't require approval. Larger ones just need a quick form."
-```
-
-### Neighbor Relations
-```json
-Tenant: "Someone keeps parking in my spot"
-Willow: "That's frustrating when you can't use your assigned spot. I'll send a reminder about assigned parking and check if we need better signage."
-```
-
-## Quality Metrics
-
-### Response Quality
-- ✅ 100% empathetic acknowledgment
-- ✅ 0 time-specific promises
-- ✅ Appropriate emotional calibration
-- ✅ Clear, actionable solutions
-
-### Technical Quality
-- Clean JSONL format
-- Complete metadata
-- Consistent structure
-- Proper arousal/capacity tracking
-
-## Training Readiness
-
-The corpus is **100% ready for A100 training** with:
-1. **Comprehensive Coverage**: Both crisis and routine scenarios
-2. **Emotional Range**: Low to high arousal situations
-3. **Legal Compliance**: No liability-creating language
-4. **Therapeutic Integrity**: Consistent trauma-informed approach
-5. **Practical Utility**: Real-world applicability
-
-## Usage Instructions
-
-```bash
-# Train with complete corpus
-python train_willow.py --data willow_corpus_complete.jsonl
-
-# Verify corpus integrity
-python verify_corpus.py willow_corpus_complete.jsonl
-
-# Split for training/validation
-python split_corpus.py willow_corpus_complete.jsonl --ratio 0.9
-```
-
-## Next Steps
-
-1. **A100 Training**: Begin model fine-tuning
-2. **Evaluation Metrics**: Set up performance benchmarks
-3. **User Testing**: Validate with real tenant interactions
-4. **Continuous Improvement**: Add edge cases as discovered
+The WILLOW complete corpus now contains **1,003 training entries** for the tenant management AI system. This comprehensive dataset covers a wide range of tenant scenarios with trauma-informed, empathetic responses.
 
 ## File Information
-- **Filename**: `willow_corpus_complete.jsonl`
-- **Size**: 303 entries
-- **Format**: JSONL (one JSON object per line)
-- **Encoding**: UTF-8
-- **Last Updated**: Current date
+- **Filename**: `willow_corpus_complete_final.jsonl`
+- **Total Entries**: 1,003
+- **ID Range**: WILLOW_001 to WILLOW_1003
+- **Format**: JSONL (JSON Lines)
+
+## Entry Distribution
+
+### Original Entries (WILLOW_001-903)
+1. **Trauma-Informed Crisis Responses** (WILLOW_001-200)
+   - Heat failures, flooding, pest infestations
+   - Medical emergencies, eviction threats
+   - Disability accommodations, discrimination issues
+
+2. **Simple Tenant Responses** (WILLOW_604-803)
+   - Routine maintenance requests
+   - Administrative tasks
+   - Common appliance issues
+   - Basic amenity questions
+
+3. **Service Scenarios** (WILLOW_101-200)
+   - Facility issues with emotional support
+   - Policy questions with personalized responses
+   - Community building opportunities
+
+4. **Administrative Scenarios** (WILLOW_301-360)
+   - Billing issues
+   - Lease renewals
+   - Documentation requests
+   - Move-in/out procedures
+
+### Newly Added Expanded Scenarios (WILLOW_904-1003)
+These 100 entries were originally WILLOW_201-300 and have been renumbered:
+
+1. **Specialized Requests** (WILLOW_904-913)
+   - Washer/dryer installation
+   - Satellite dishes, security systems
+   - Smart home devices, EV chargers
+
+2. **Lost Item Support** (WILLOW_914-923)
+   - Lost pets, children, wallets
+   - Missing medications, packages
+   - Misplaced keys and access items
+
+3. **Event Planning** (WILLOW_924-933)
+   - Rooftop parties, pool events
+   - Community gatherings, yoga classes
+   - Cultural celebrations
+
+4. **Dispute Resolution** (WILLOW_934-943)
+   - Parking conflicts
+   - Noise complaints
+   - Pet disputes
+   - Neighbor mediation
+
+5. **Seasonal Support** (WILLOW_944-953)
+   - Holiday decorations
+   - Weather-related issues
+   - Seasonal maintenance
+   - Climate control concerns
+
+6. **Personalized Service** (WILLOW_954-963)
+   - Repeat issue tracking
+   - Long-term tenant recognition
+   - Life change accommodations
+   - Historical context awareness
+
+7. **Community Building** (WILLOW_964-973)
+   - Local resources
+   - Resident groups
+   - Volunteer opportunities
+   - Shared interests
+
+8. **Emotional Support** (WILLOW_974-983)
+   - Life transitions
+   - Medical needs
+   - Mental health considerations
+   - Crisis support
+
+9. **Technology Support** (WILLOW_984-993)
+   - Internet/connectivity issues
+   - Smart home integration
+   - Work-from-home needs
+   - Modern living challenges
+
+10. **Cultural Sensitivity** (WILLOW_994-1003)
+    - Religious accommodations
+    - Cultural cooking respect
+    - Traditional practices
+    - Inclusive community support
+
+## Key Features Across All Entries
+
+### Response Characteristics
+- **Tiered Responses**: Tier 1 (initial support) → Tier 2 (follow-up/reinforcement)
+- **Emotional Tracking**: Arousal levels (1-10) and capacity levels (1-10)
+- **Techniques Used**: 
+  - Trauma-informed support
+  - Crisis containment
+  - Practical solutions
+  - Community building
+  - Cultural sensitivity
+
+### Quality Metrics
+- **Containment Quality**: Ranges from "adequate" to "excellent"
+- **Personalization**: Tracked for entries using tenant history
+- **Cultural Sensitivity**: Marked for culturally-aware responses
+- **Community Building**: Indicated for responses that foster connections
+
+## Training Applications
+This corpus is designed to train Willow to:
+1. Respond empathetically to tenant concerns
+2. Provide practical solutions without overpromising
+3. Maintain appropriate boundaries and legal compliance
+4. Build community and foster positive relationships
+5. Respect cultural diversity and individual needs
+6. Handle both routine and crisis situations effectively
+
+## Version History
+- Initial corpus: 903 entries
+- Final update: Added 100 expanded scenarios (renumbered as WILLOW_904-1003)
+- Total entries: 1,003

@@ -101,3 +101,30 @@ python verify_corpus.py willow_corpus_final_fixed.jsonl
 2. **Continuous Improvement**: Add more routine scenarios as needed
 3. **Quality Monitoring**: Track real-world performance metrics
 4. **Expansion**: Consider adding multilingual support entries
+
+# WILLOW Corpus Numbering Fix Summary
+
+## Issue Fixed
+The corpus had duplicate IDs from WILLOW_201-300 due to the expanded scenarios being appended after entries that already used those numbers.
+
+## Solution Applied
+- Renumbered all 903 entries sequentially from WILLOW_001 to WILLOW_903
+- Ensured no duplicate IDs exist in the corpus
+- Maintained all original entry content and structure
+
+## Final Corpus Statistics
+- **Total Entries**: 903
+- **ID Range**: WILLOW_001 to WILLOW_903
+- **File**: `willow_corpus_complete_final.jsonl`
+
+## Entry Distribution
+The corpus now contains:
+1. Original trauma-informed entries (various scenarios)
+2. Simple tenant responses (routine issues)
+3. Expanded scenarios with increased complexity
+4. All entries properly numbered in sequence
+
+## Verification
+- Checked for duplicate IDs: None found
+- Verified sequential numbering: Complete
+- Confirmed all entries preserved: 903 total

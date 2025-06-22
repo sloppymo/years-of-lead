@@ -1,183 +1,122 @@
 # WILLOW AI Training Dataset Expansion Summary
 
 ## Overview
-Created 100 additional training scenarios (WILLOW_1154-1223) across 10 key expansion categories to enhance Willow's effectiveness in managing tenant concerns and automating property management tasks. These scenarios demonstrate advanced capabilities in crisis management, proactive support, and community building.
+Successfully expanded the WILLOW AI training dataset following the comprehensive expansion roadmap. The corpus now contains **843 unique entries** demonstrating trauma-informed, promise-free communication across diverse scenarios.
 
-## Expansion Categories
+## New Additions
 
-### 1. **Multi-Issue Crisis Management** (10 scenarios: WILLOW_1154-1163)
-Complex scenarios where tenants face multiple overlapping crises requiring sophisticated triage and coordinated responses.
+### 1. Boundary-Centered Crises (50 entries: WILLOW_1301-1350)
+- **Focus**: Safety threats, de-escalation, dignity preservation
+- **Scenarios**: Threats to staff, eviction resistance, hoarding, weapons, property damage, self-harm, animal hoarding, domestic violence, substance use, and more
+- **Key Features**:
+  - Clear safety protocols without antagonism
+  - High-trust redirection techniques
+  - "You're not in trouble—this is about everyone's safety" framework
+  - Tier 1 containment even in escalated emergencies
 
-**Key Features:**
-- Crisis prioritization (health/safety first)
-- Resource coordination across multiple issues
-- Community mobilization for support
-- Emotional containment during compound stress
+### 2. Intersectional Vulnerabilities (50 entries: WILLOW_1351-1400)
+- **Focus**: Multiple overlapping barriers and systemic failures
+- **Scenarios**: Undocumented + disability, trans elders, Indigenous family separation, refugee trauma, sex worker parents, chronic illness + poverty, and more
+- **Key Features**:
+  - Layered awareness of identity-related stress
+  - Alternative pathways when traditional systems fail
+  - "Your situation is valid even when systems don't make room for it" approach
+  - Cultural and linguistic competence
 
-**Example Scenarios:**
-- Heat failure + job loss
-- Medical equipment damage from flooding
-- Pregnancy + pest infestation
-- Disability + depression
-- Domestic violence + housing insecurity
+## Quality Improvements
 
-### 2. **Preventive Maintenance & Proactive Communication** (10 scenarios: WILLOW_1164-1173)
-Willow initiating contact to prevent issues before they arise.
+### Enhanced Process Metrics
+All new entries include:
+- `conversation_id`: Unique identifier for tracking
+- `resolution_status`: Current state of the issue
+- `escalation_path`: Next steps if needed
+- `tier_escalated`: Boolean for crisis overrides
+- `skip_tier_2`: Reason when bypassing normal progression
 
-**Key Features:**
-- Seasonal preparation reminders
-- Early intervention for detected issues
-- Educational outreach
-- Community-building through shared preparation
+### Consistent Patterns
+- **Tier Progression**: All entries start with Tier 1 (containment) before any action
+- **Arousal Reduction**: Realistic curves showing gradual de-escalation
+- **Capacity Building**: Shows how co-regulation increases tenant capacity
+- **Promise-Free Language**: No fixed timelines or personal guarantees
 
-**Example Scenarios:**
-- Winter weatherization reminders
-- Filter change notifications
-- Early lease renewal incentives
-- Storm preparation coordination
-- Utility usage anomaly alerts
+### Symbolic Language Variety
+Balanced across entries:
+- `none`: Direct, clinical approach
+- `minimal`: Light metaphors for connection
+- `traditional`: Cultural or generational references
+- `nature`: Environmental metaphors for grounding
 
-### 3. **Automated Workflows & Smart Building Integration** (10 scenarios: WILLOW_1174-1183)
-Leveraging technology for predictive maintenance, automated scheduling, and intelligent resource management.
+## Technical Specifications
 
-**Key Features:**
-- Predictive analytics for maintenance
-- Automated scheduling optimization
-- Smart home integration
-- Pattern recognition for intervention
+### Entry Structure
+```json
+{
+  "id": "WILLOW_XXX",
+  "scenario": "descriptive_name",
+  "category": "category_type",
+  "complexity_level": "low|medium|high|critical",
+  "initial_state": {
+    "arousal": 0.0-10.0,
+    "capacity": 0.0-10.0,
+    "issue_type": "specific_type"
+  },
+  "messages": [...],
+  "process_metrics": {
+    "tier_progression": [...],
+    "arousal_curve": [...],
+    "capacity_curve": [...],
+    "containment_quality": "adequate|good|excellent",
+    "personalization_used": boolean,
+    "cultural_sensitivity": boolean,
+    "community_building": boolean,
+    "conversation_id": "unique_id",
+    "resolution_status": "status",
+    "escalation_path": "next_steps"
+  }
+}
+```
 
-**Example Scenarios:**
-- Auto-diagnosis of appliance issues
-- Smart thermostat optimization
-- Noise pattern detection and reporting
-- Water leak auto-response
-- Community matching algorithms
+### Categories Covered
+- `boundary_crisis`: Safety threats requiring immediate intervention
+- `intersectional_vulnerability`: Multiple overlapping systemic barriers
+- Plus existing categories from original corpus
 
-### 4. **Long-Term Tenant Relationship Building** (10 scenarios: WILLOW_1184-1193)
-Deep, personalized support acknowledging tenant history and life journey.
+## Key Phrases and Techniques
 
-**Key Features:**
-- Historical context awareness
-- Life transition support
-- Milestone recognition
-- Community legacy building
+### Universal Safety Frame
+- "You're not in trouble—this is about everyone's safety"
+- "Your [emotion/need] is valid"
+- "Let's [collaborative action]"
 
-**Example Scenarios:**
-- 10-year residency celebration
-- Health journey support
-- Family growth accommodation
-- Retirement transitions
-- Pet loss memorials
+### Trauma-Informed Responses
+- Validation before action
+- Choice and control emphasis
+- Strength-based language
+- Non-judgmental approach
 
-### 5. **Mental Health & Wellness Support** (10 scenarios: WILLOW_1194-1203)
-Comprehensive mental health accommodations and wellness program integration.
+### Promise-Free Patterns
+- "Working toward" instead of "will"
+- "Options include" instead of "I'll make sure"
+- Process transparency without guarantees
+- Contingency acknowledgment
 
-**Key Features:**
-- Stigma-free mental health support
-- Environmental modifications for wellness
-- Privacy-preserving accommodations
-- Trauma-informed responses
+## Deployment Readiness
 
-**Example Scenarios:**
-- Anxiety workspace modifications
-- Depression cleaning support
-- Social anxiety accommodations
-- Eating disorder privacy needs
-- Trauma anniversary support
+The expanded corpus is ready for:
+1. **ML Training**: Consistent format for model ingestion
+2. **Quality Assurance**: Clear metrics for evaluation
+3. **Continuous Improvement**: Tagged for easy filtering and analysis
+4. **Real-World Application**: Covers diverse, complex scenarios
 
-### 6. **Financial Hardship & Resource Connection** (10 scenarios: WILLOW_1204-1213)
-Sophisticated financial crisis intervention and resource mobilization.
+## Files Created
+- `willow_expansion_boundary_crises.jsonl`: 50 boundary crisis scenarios
+- `willow_expansion_intersectional.jsonl`: 50 intersectional vulnerability scenarios
+- `willow_corpus_complete_final.jsonl`: Complete corpus with 843 entries
 
-**Key Features:**
-- Immediate stabilization strategies
-- Multi-resource coordination
-- Dignity preservation
-- Community-based solutions
-
-**Example Scenarios:**
-- Sudden unemployment support
-- Medical bankruptcy navigation
-- Student loan crisis management
-- Disability benefit delays
-- Gig economy income smoothing
-
-### 7. **Sustainability & Green Living Support** (10 scenarios: WILLOW_1214-1223)
-Environmental initiatives and eco-anxiety management.
-
-**Key Features:**
-- Practical sustainability enablement
-- Cost-conscious green solutions
-- Community environmental action
-- Eco-anxiety channeling
-
-**Example Scenarios:**
-- Composting program enrollment
-- Energy reduction planning
-- Zero-waste transitions
-- Urban gardening support
-- Climate action participation
-
-## Technical Innovations
-
-### Advanced Techniques Introduced:
-1. **Crisis Triage Protocol** - Prioritizing multiple simultaneous issues
-2. **Predictive Intervention** - Using data patterns to prevent problems
-3. **Community Mobilization** - Leveraging neighbor resources for support
-4. **Lifecycle Support** - Adapting to tenant's changing life circumstances
-5. **Trauma-Informed Environmental Modification** - Physical space changes for mental health
-6. **Financial Dignity Preservation** - Supporting without stigmatizing
-7. **Eco-Psychology Integration** - Addressing climate anxiety through action
-
-### Arousal/Capacity Management Patterns:
-- **Crisis Scenarios**: Higher initial arousal (6.0-8.8), requiring stronger interventions
-- **Preventive Scenarios**: Lower arousal (2.5-4.5), maintaining calm states
-- **Wellness Scenarios**: Moderate arousal (3.5-6.5), focusing on sustained support
-- **Financial Scenarios**: High stress (5.2-7.2), requiring immediate stabilization
-
-## Key Insights
-
-### 1. **Proactive vs. Reactive Balance**
-The expansion demonstrates Willow's evolution from purely reactive support to proactive intervention, preventing crises before they escalate.
-
-### 2. **Community as Resource**
-Many scenarios leverage other tenants as resources, building resilient communities where neighbors support each other with Willow as facilitator.
-
-### 3. **Holistic Life Support**
-Willow addresses not just housing issues but life transitions, mental health, financial stability, and environmental concerns - recognizing housing as fundamental to overall wellbeing.
-
-### 4. **Technology as Enabler**
-Smart building integration allows for predictive maintenance, pattern recognition, and automated support that prevents issues and reduces tenant stress.
-
-### 5. **Dignity-Centered Approach**
-All scenarios maintain tenant dignity, especially crucial in financial hardship, mental health, and life transition situations.
-
-## Implementation Recommendations
-
-### 1. **Tiered Complexity Training**
-Train on scenarios in order of complexity:
-- Start with preventive/proactive scenarios
-- Progress to single-issue crisis management
-- Advance to multi-issue complex situations
-
-### 2. **Technique Mastery Progression**
-1. Basic containment and validation
-2. Resource connection and coordination
-3. Community mobilization
-4. Predictive intervention
-5. Long-term relationship management
-
-### 3. **Ethical Considerations**
-- Privacy protection in mental health scenarios
-- Avoiding promises in financial situations
-- Cultural sensitivity in community building
-- Consent in automated interventions
-
-### 4. **Success Metrics**
-- Crisis prevention rate
-- Community connection index
-- Tenant retention correlation
-- Wellbeing improvement tracking
-- Resource utilization efficiency
-
-## Conclusion
-These 100 expansion scenarios transform Willow from a reactive support system to a proactive, predictive, and deeply caring property management AI that addresses the full spectrum of tenant needs while building resilient communities.
+## Next Steps
+Consider expanding:
+- Legal documentation scenarios
+- Emergency response coordination
+- Community building initiatives
+- Preventive maintenance communication
+- Long-term relationship building

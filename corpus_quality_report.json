@@ -1,31 +1,21 @@
 {
   "summary": {
     "total_entries": 1558,
-    "low_quality_count": 315,
+    "low_quality_count": 199,
     "quality_distribution": {
       "1": 0,
       "2": 0,
       "3": 0,
       "4": 0,
       "5": 0,
-      "6": 33,
-      "7": 112,
-      "8": 170,
-      "9": 721,
-      "10": 522
+      "6": 30,
+      "7": 63,
+      "8": 106,
+      "9": 771,
+      "10": 588
     }
   },
   "low_quality_entries": [
-    {
-      "id": "WILLOW_84",
-      "score": 6,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.7) without grounding techniques",
-        "Low capacity (1.8) without simplified approach"
-      ],
-      "scenario": "eviction_notice_autism"
-    },
     {
       "id": "WILLOW_87",
       "score": 6,
@@ -44,26 +34,6 @@
         "Missing emotional validation"
       ],
       "scenario": "teen_parent_noise"
-    },
-    {
-      "id": "WILLOW_113",
-      "score": 6,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.8) without grounding techniques",
-        "Low capacity (2.5) without simplified approach"
-      ],
-      "scenario": "child_services_threat"
-    },
-    {
-      "id": "WILLOW_115",
-      "score": 6,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.4) without grounding techniques",
-        "Low capacity (2.8) without simplified approach"
-      ],
-      "scenario": "hvac_death_heat"
     },
     {
       "id": "WILLOW_481",
@@ -318,31 +288,12 @@
       "scenario": "cultural_cooking_complaint_discrimination"
     },
     {
-      "id": "WILLOW_2",
-      "score": 7,
-      "issues": [
-        "Very short responses",
-        "Missing emotional validation",
-        "Low capacity (2.1) without simplified approach"
-      ],
-      "scenario": "flooding_despair"
-    },
-    {
       "id": "WILLOW_6",
       "score": 7,
       "issues": [
         "Inappropriate endearment: \\blove\\b"
       ],
       "scenario": "maintenance_sarcasm_defense"
-    },
-    {
-      "id": "WILLOW_10",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (9.0) without grounding techniques"
-      ],
-      "scenario": "parking_dispute_rage"
     },
     {
       "id": "WILLOW_11",
@@ -372,15 +323,6 @@
       "scenario": "security_deposit_dispute"
     },
     {
-      "id": "WILLOW_39",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.8) without simplified approach"
-      ],
-      "scenario": "sudden_rent_due_confusion"
-    },
-    {
       "id": "WILLOW_44",
       "score": 7,
       "issues": [
@@ -406,24 +348,6 @@
         "High arousal (8.4) without grounding techniques"
       ],
       "scenario": "laundry_flood_electronics"
-    },
-    {
-      "id": "WILLOW_56",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.0) without simplified approach"
-      ],
-      "scenario": "suicide_crisis_neighbor"
-    },
-    {
-      "id": "WILLOW_57",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.1) without grounding techniques"
-      ],
-      "scenario": "ac_failure_pregnancy_summer"
     },
     {
       "id": "WILLOW_61",
@@ -452,22 +376,13 @@
       "scenario": "elderly_scam_lockout"
     },
     {
-      "id": "WILLOW_76",
-      "score": 7,
-      "issues": [
-        "High arousal (8.8) without grounding techniques",
-        "Low capacity (2.6) without simplified approach"
-      ],
-      "scenario": "teen_suicide_attempt_noise"
-    },
-    {
-      "id": "WILLOW_77",
+      "id": "WILLOW_84",
       "score": 7,
       "issues": [
         "Missing emotional validation",
-        "High arousal (8.4) without grounding techniques"
+        "High arousal (8.7) without grounding techniques"
       ],
-      "scenario": "insulin_refrigeration_failure"
+      "scenario": "eviction_notice_autism"
     },
     {
       "id": "WILLOW_89",
@@ -477,33 +392,6 @@
         "Low capacity (2.4) without simplified approach"
       ],
       "scenario": "deaf_tenant_isolation"
-    },
-    {
-      "id": "WILLOW_91",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (1.7) without simplified approach"
-      ],
-      "scenario": "water_flooding_ptsd"
-    },
-    {
-      "id": "WILLOW_93",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.5) without simplified approach"
-      ],
-      "scenario": "elderly_scam_vulnerability"
-    },
-    {
-      "id": "WILLOW_95",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.0) without simplified approach"
-      ],
-      "scenario": "immigrant_isolation_depression"
     },
     {
       "id": "WILLOW_100",
@@ -524,15 +412,6 @@
       "scenario": "ptsd_neighbor_triggers"
     },
     {
-      "id": "WILLOW_103",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.5) without simplified approach"
-      ],
-      "scenario": "refugee_heating_fear"
-    },
-    {
       "id": "WILLOW_105",
       "score": 7,
       "issues": [
@@ -542,22 +421,13 @@
       "scenario": "postpartum_privacy_violation"
     },
     {
-      "id": "WILLOW_107",
+      "id": "WILLOW_113",
       "score": 7,
       "issues": [
         "Missing emotional validation",
-        "Low capacity (2.5) without simplified approach"
+        "High arousal (8.8) without grounding techniques"
       ],
-      "scenario": "refugee_documentation_stress"
-    },
-    {
-      "id": "WILLOW_110",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.8) without simplified approach"
-      ],
-      "scenario": "addiction_recovery_judgment"
+      "scenario": "child_services_threat"
     },
     {
       "id": "WILLOW_119",
@@ -569,33 +439,6 @@
       "scenario": "dementia_confusion_rent"
     },
     {
-      "id": "WILLOW_123",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.0) without simplified approach"
-      ],
-      "scenario": "immigration_raid_panic"
-    },
-    {
-      "id": "WILLOW_124",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "Low capacity (2.6) without simplified approach"
-      ],
-      "scenario": "chronic_fatigue_disbelief"
-    },
-    {
-      "id": "WILLOW_130",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "synthetic_scenario_044"
-    },
-    {
       "id": "WILLOW_131",
       "score": 7,
       "issues": [
@@ -603,24 +446,6 @@
         "High arousal (8.9) without grounding techniques"
       ],
       "scenario": "synthetic_scenario_045"
-    },
-    {
-      "id": "WILLOW_132",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.8) without grounding techniques"
-      ],
-      "scenario": "synthetic_scenario_046"
-    },
-    {
-      "id": "WILLOW_137",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "synthetic_scenario_051"
     },
     {
       "id": "WILLOW_138",
@@ -657,24 +482,6 @@
         "High arousal (9.3) without grounding techniques"
       ],
       "scenario": "synthetic_scenario_068"
-    },
-    {
-      "id": "WILLOW_155",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.4) without grounding techniques"
-      ],
-      "scenario": "synthetic_scenario_069"
-    },
-    {
-      "id": "WILLOW_159",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (9.1) without grounding techniques"
-      ],
-      "scenario": "synthetic_scenario_073"
     },
     {
       "id": "WILLOW_161",
@@ -757,15 +564,6 @@
       "scenario": "recycling_program"
     },
     {
-      "id": "WILLOW_570",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "water_leak_emergency"
-    },
-    {
       "id": "WILLOW_686",
       "score": 7,
       "issues": [
@@ -825,15 +623,6 @@
       "scenario": "addiction_recovery_parent"
     },
     {
-      "id": "WILLOW_834",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.3) without grounding techniques"
-      ],
-      "scenario": "undocumented_cancer_patient"
-    },
-    {
       "id": "WILLOW_837",
       "score": 7,
       "issues": [
@@ -861,15 +650,6 @@
       "scenario": "water_contamination_notice_elderly_parent_involved"
     },
     {
-      "id": "WILLOW_857",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "ice_storm_heating_failure_first_time_dealing_with_this"
-    },
-    {
       "id": "WILLOW_858",
       "score": 7,
       "issues": [
@@ -888,15 +668,6 @@
       "scenario": "ice_storm_heating_failure_elderly_parent_involved"
     },
     {
-      "id": "WILLOW_876",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "drought_water_restrictions_children_affected"
-    },
-    {
       "id": "WILLOW_898",
       "score": 7,
       "issues": [
@@ -904,24 +675,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "tornado_damage_displacement_first_time_dealing_with_this"
-    },
-    {
-      "id": "WILLOW_905",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "drought_water_restrictions_time_sensitive_deadline"
-    },
-    {
-      "id": "WILLOW_922",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "structural_damage_earthquake_medical_condition_complicating"
     },
     {
       "id": "WILLOW_930",
@@ -942,15 +695,6 @@
       "scenario": "power_grid_failure_heatwave_first_time_dealing_with_this"
     },
     {
-      "id": "WILLOW_950",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "cybersecurity_breach_concern_disability_accommodation_needed"
-    },
-    {
       "id": "WILLOW_953",
       "score": 7,
       "issues": [
@@ -958,24 +702,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "digital_rent_payment_mandatory_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_967",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "digital_rent_payment_mandatory_recurring_issue_escalating"
-    },
-    {
-      "id": "WILLOW_969",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "digital_rent_payment_mandatory_recurring_issue_escalating"
     },
     {
       "id": "WILLOW_979",
@@ -996,60 +722,6 @@
       "scenario": "telehealth_appointment_barriers_medical_condition_complicating"
     },
     {
-      "id": "WILLOW_996",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "job_application_computer_needed_language_barrier_present"
-    },
-    {
-      "id": "WILLOW_1003",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "government_benefits_online_only_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_1006",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "disability_tech_accommodation_children_affected"
-    },
-    {
-      "id": "WILLOW_1023",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "elderly_digital_literacy_previous_trauma_triggered"
-    },
-    {
-      "id": "WILLOW_1041",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "tech_support_language_barrier_first_time_dealing_with_this"
-    },
-    {
-      "id": "WILLOW_1074",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "cultural_mental_health_stigma_recurring_issue_escalating"
-    },
-    {
       "id": "WILLOW_1077",
       "score": 7,
       "issues": [
@@ -1057,15 +729,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "trauma_anniversary_difficulty_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_1082",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "crisis_hotline_overwhelmed_elderly_parent_involved"
     },
     {
       "id": "WILLOW_1085",
@@ -1077,15 +740,6 @@
       "scenario": "suicide_ideation_support_recurring_issue_escalating"
     },
     {
-      "id": "WILLOW_1101",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "psychiatric_emergency_navigation_previous_trauma_triggered"
-    },
-    {
       "id": "WILLOW_1144",
       "score": 7,
       "issues": [
@@ -1095,51 +749,6 @@
       "scenario": "criminal_record_employment_recurring_issue_escalating"
     },
     {
-      "id": "WILLOW_1149",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "student_loan_garnishment_language_barrier_present"
-    },
-    {
-      "id": "WILLOW_1161",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "childcare_cost_crisis_multiple_attempts_failed"
-    },
-    {
-      "id": "WILLOW_1162",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "student_loan_garnishment_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_1168",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "criminal_record_employment_time_sensitive_deadline"
-    },
-    {
-      "id": "WILLOW_1197",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "gentrification_rent_increase_time_sensitive_deadline"
-    },
-    {
       "id": "WILLOW_1211",
       "score": 7,
       "issues": [
@@ -1147,15 +756,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "childcare_cost_crisis_first_time_dealing_with_this"
-    },
-    {
-      "id": "WILLOW_1216",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "medical_bankruptcy_threat_time_sensitive_deadline"
     },
     {
       "id": "WILLOW_1245",
@@ -1185,24 +785,6 @@
       "scenario": "addiction_family_strain_recurring_issue_escalating"
     },
     {
-      "id": "WILLOW_1275",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "mental_health_hospitalization_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_1281",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "foster_care_reunification_recurring_issue_escalating"
-    },
-    {
       "id": "WILLOW_1299",
       "score": 7,
       "issues": [
@@ -1212,15 +794,6 @@
       "scenario": "elder_care_distance_medical_condition_complicating"
     },
     {
-      "id": "WILLOW_1321",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "military_deployment_stress_medical_condition_complicating"
-    },
-    {
       "id": "WILLOW_1325",
       "score": 7,
       "issues": [
@@ -1228,15 +801,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "addiction_family_strain_elderly_parent_involved"
-    },
-    {
-      "id": "WILLOW_1327",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "elder_care_distance_language_barrier_present"
     },
     {
       "id": "WILLOW_1362",
@@ -1257,15 +821,6 @@
       "scenario": "ai_eviction_bot_harassment"
     },
     {
-      "id": "WILLOW_1368",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "teen_guardian_death_eviction"
-    },
-    {
       "id": "WILLOW_1371",
       "score": 7,
       "issues": [
@@ -1273,15 +828,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "disability_income_rejection"
-    },
-    {
-      "id": "WILLOW_1374",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "refugee_documentation_paradox"
     },
     {
       "id": "WILLOW_1376",
@@ -1293,24 +839,6 @@
       "scenario": "indigenous_ceremony_prohibition"
     },
     {
-      "id": "WILLOW_1378",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "reentry_housing_barriers"
-    },
-    {
-      "id": "WILLOW_1344",
-      "score": 7,
-      "issues": [
-        "Missing emotional validation",
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "internet_outage_remote_work_crisis"
-    },
-    {
       "id": "WILLOW_1349",
       "score": 7,
       "issues": [
@@ -1319,20 +847,13 @@
       "scenario": "hoarding_eviction_threat_trauma"
     },
     {
-      "id": "WILLOW_3",
+      "id": "WILLOW_2",
       "score": 8,
       "issues": [
-        "High arousal (8.7) without grounding techniques"
+        "Very short responses",
+        "Missing emotional validation"
       ],
-      "scenario": "noise_aggression"
-    },
-    {
-      "id": "WILLOW_14",
-      "score": 8,
-      "issues": [
-        "High arousal (9.2) without grounding techniques"
-      ],
-      "scenario": "legal_threat_immediate"
+      "scenario": "flooding_despair"
     },
     {
       "id": "WILLOW_16",
@@ -1367,20 +888,12 @@
       "scenario": "internet_outage_work_crisis"
     },
     {
-      "id": "WILLOW_46",
+      "id": "WILLOW_76",
       "score": 8,
       "issues": [
-        "Low capacity (2.2) without simplified approach"
+        "High arousal (8.8) without grounding techniques"
       ],
-      "scenario": "eviction_court_tomorrow"
-    },
-    {
-      "id": "WILLOW_86",
-      "score": 8,
-      "issues": [
-        "Low capacity (1.9) without simplified approach"
-      ],
-      "scenario": "heat_failure_elderly"
+      "scenario": "teen_suicide_attempt_noise"
     },
     {
       "id": "WILLOW_92",
@@ -1391,36 +904,12 @@
       "scenario": "police_wellness_racial"
     },
     {
-      "id": "WILLOW_94",
-      "score": 8,
-      "issues": [
-        "Low capacity (2.8) without simplified approach"
-      ],
-      "scenario": "chronic_pain_dismissal"
-    },
-    {
-      "id": "WILLOW_104",
-      "score": 8,
-      "issues": [
-        "Low capacity (2.7) without simplified approach"
-      ],
-      "scenario": "hoarding_mental_health"
-    },
-    {
       "id": "WILLOW_111",
       "score": 8,
       "issues": [
         "Low capacity (2.0) without simplified approach"
       ],
       "scenario": "autism_meltdown_police"
-    },
-    {
-      "id": "WILLOW_122",
-      "score": 8,
-      "issues": [
-        "Low capacity (2.4) without simplified approach"
-      ],
-      "scenario": "ocd_inspection_terror"
     },
     {
       "id": "WILLOW_405",
@@ -1751,22 +1240,6 @@
       "scenario": "heat_broken_job_lost"
     },
     {
-      "id": "WILLOW_606",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "flooding_medical_equipment"
-    },
-    {
-      "id": "WILLOW_841",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "deaf_police_violence"
-    },
-    {
       "id": "WILLOW_852",
       "score": 8,
       "issues": [
@@ -1799,68 +1272,12 @@
       "scenario": "sewer_backup_health_hazard_multiple_attempts_failed"
     },
     {
-      "id": "WILLOW_903",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "sewer_backup_health_hazard_first_time_dealing_with_this"
-    },
-    {
-      "id": "WILLOW_927",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "tornado_damage_displacement_time_sensitive_deadline"
-    },
-    {
-      "id": "WILLOW_931",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "tornado_damage_displacement_children_affected"
-    },
-    {
-      "id": "WILLOW_959",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "smart_home_malfunction_time_sensitive_deadline"
-    },
-    {
-      "id": "WILLOW_964",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "cybersecurity_breach_concern_multiple_attempts_failed"
-    },
-    {
-      "id": "WILLOW_966",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "remote_learning_no_internet_recurring_issue_escalating"
-    },
-    {
       "id": "WILLOW_968",
       "score": 8,
       "issues": [
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "disability_tech_accommodation_children_affected"
-    },
-    {
-      "id": "WILLOW_970",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "smart_home_malfunction_first_time_dealing_with_this"
     },
     {
       "id": "WILLOW_1039",
@@ -1879,14 +1296,6 @@
       "scenario": "crisis_hotline_overwhelmed_first_time_dealing_with_this"
     },
     {
-      "id": "WILLOW_1051",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "trauma_anniversary_difficulty_previous_trauma_triggered"
-    },
-    {
       "id": "WILLOW_1066",
       "score": 8,
       "issues": [
@@ -1903,22 +1312,6 @@
       "scenario": "addiction_recovery_housing_medical_condition_complicating"
     },
     {
-      "id": "WILLOW_1073",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "therapist_shortage_waitlist_medical_condition_complicating"
-    },
-    {
-      "id": "WILLOW_1075",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "therapist_shortage_waitlist_elderly_parent_involved"
-    },
-    {
       "id": "WILLOW_1088",
       "score": 8,
       "issues": [
@@ -1933,14 +1326,6 @@
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "medication_access_interrupted_children_affected"
-    },
-    {
-      "id": "WILLOW_1108",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "therapist_shortage_waitlist_children_affected"
     },
     {
       "id": "WILLOW_1151",
@@ -1967,44 +1352,12 @@
       "scenario": "job_automation_unemployment_previous_trauma_triggered"
     },
     {
-      "id": "WILLOW_1180",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "immigrant_credential_recognition_elderly_parent_involved"
-    },
-    {
-      "id": "WILLOW_1236",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "age_discrimination_hiring_elderly_parent_involved"
-    },
-    {
       "id": "WILLOW_1253",
       "score": 8,
       "issues": [
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "custody_housing_requirements_recurring_issue_escalating"
-    },
-    {
-      "id": "WILLOW_1266",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "military_deployment_stress_children_affected"
-    },
-    {
-      "id": "WILLOW_1271",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "mental_health_hospitalization_previous_trauma_triggered"
     },
     {
       "id": "WILLOW_1278",
@@ -2015,14 +1368,6 @@
       "scenario": "foster_care_reunification_language_barrier_present"
     },
     {
-      "id": "WILLOW_1314",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "incarceration_family_impact_children_affected"
-    },
-    {
       "id": "WILLOW_1319",
       "score": 8,
       "issues": [
@@ -2031,44 +1376,12 @@
       "scenario": "immigration_detention_fear_multiple_attempts_failed"
     },
     {
-      "id": "WILLOW_1359",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "foster_youth_aging_out_winter"
-    },
-    {
-      "id": "WILLOW_1360",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "trans_elder_isolation_discrimination"
-    },
-    {
       "id": "WILLOW_1367",
       "score": 8,
       "issues": [
         "High arousal (8.5) without grounding techniques"
       ],
       "scenario": "post_surgery_eviction"
-    },
-    {
-      "id": "WILLOW_1370",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "climate_refugee_discrimination"
-    },
-    {
-      "id": "WILLOW_1373",
-      "score": 8,
-      "issues": [
-        "High arousal (8.5) without grounding techniques"
-      ],
-      "scenario": "veteran_ptsd_accommodation"
     },
     {
       "id": "WILLOW_1377",
@@ -2095,28 +1408,12 @@
       "scenario": "long_covid_accommodation"
     },
     {
-      "id": "WILLOW_1381",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "teen_parent_housing"
-    },
-    {
       "id": "WILLOW_1382",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "deaf_emergency_access"
-    },
-    {
-      "id": "WILLOW_1383",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "addiction_recovery_stigma"
     },
     {
       "id": "WILLOW_1384",
@@ -2143,44 +1440,12 @@
       "scenario": "trans_bathroom_harassment"
     },
     {
-      "id": "WILLOW_1388",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "veteran_service_dog"
-    },
-    {
       "id": "WILLOW_1389",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "climate_migrant_pets"
-    },
-    {
-      "id": "WILLOW_1390",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "autism_routine_disruption"
-    },
-    {
-      "id": "WILLOW_1391",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "muslim_prayer_harassment"
-    },
-    {
-      "id": "WILLOW_1392",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_tech_exclusion"
     },
     {
       "id": "WILLOW_1393",
@@ -2207,60 +1472,12 @@
       "scenario": "deaf_video_requirement"
     },
     {
-      "id": "WILLOW_1396",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "addiction_meeting_space"
-    },
-    {
-      "id": "WILLOW_1397",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_family_distance"
-    },
-    {
       "id": "WILLOW_1398",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "refugee_uniform_trauma"
-    },
-    {
-      "id": "WILLOW_1399",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_voice_discrimination"
-    },
-    {
-      "id": "WILLOW_1400",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "veteran_flag_display"
-    },
-    {
-      "id": "WILLOW_1401",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "youth_study_hours"
-    },
-    {
-      "id": "WILLOW_1402",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_memory_eviction"
     },
     {
       "id": "WILLOW_1403",
@@ -2279,36 +1496,12 @@
       "scenario": "disability_medication_delivery"
     },
     {
-      "id": "WILLOW_1405",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "refugee_children_play"
-    },
-    {
-      "id": "WILLOW_1406",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_medical_privacy"
-    },
-    {
       "id": "WILLOW_1407",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "veteran_night_terrors"
-    },
-    {
-      "id": "WILLOW_1408",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "youth_foster_aged_out"
     },
     {
       "id": "WILLOW_1409",
@@ -2325,14 +1518,6 @@
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "immigrant_guest_discrimination"
-    },
-    {
-      "id": "WILLOW_1411",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "disability_assistance_hours"
     },
     {
       "id": "WILLOW_1412",
@@ -2375,14 +1560,6 @@
       "scenario": "immigrant_documentation_loop"
     },
     {
-      "id": "WILLOW_1418",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "disability_parking_distance"
-    },
-    {
       "id": "WILLOW_1419",
       "score": 8,
       "issues": [
@@ -2391,36 +1568,12 @@
       "scenario": "refugee_interpreter_cost"
     },
     {
-      "id": "WILLOW_1420",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_chosen_family"
-    },
-    {
       "id": "WILLOW_1421",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "veteran_mobility_decline"
-    },
-    {
-      "id": "WILLOW_1422",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "youth_school_district"
-    },
-    {
-      "id": "WILLOW_1423",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_utility_confusion"
     },
     {
       "id": "WILLOW_1424",
@@ -2447,52 +1600,12 @@
       "scenario": "refugee_trauma_neighbors"
     },
     {
-      "id": "WILLOW_1427",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_id_mismatch"
-    },
-    {
-      "id": "WILLOW_1428",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "veteran_substance_treatment"
-    },
-    {
       "id": "WILLOW_1429",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "youth_education_rights"
-    },
-    {
-      "id": "WILLOW_1431",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "immigrant_workplace_injury"
-    },
-    {
-      "id": "WILLOW_1432",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "disability_sensory_garden"
-    },
-    {
-      "id": "WILLOW_1433",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "refugee_religious_items"
     },
     {
       "id": "WILLOW_1434",
@@ -2519,14 +1632,6 @@
       "scenario": "youth_sibling_care"
     },
     {
-      "id": "WILLOW_1437",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_medication_management"
-    },
-    {
       "id": "WILLOW_1438",
       "score": 8,
       "issues": [
@@ -2543,44 +1648,12 @@
       "scenario": "disability_communication_device"
     },
     {
-      "id": "WILLOW_1441",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_hormone_storage"
-    },
-    {
-      "id": "WILLOW_1442",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "veteran_crowd_avoidance"
-    },
-    {
-      "id": "WILLOW_1443",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "youth_pregnancy_discrimination"
-    },
-    {
       "id": "WILLOW_1444",
       "score": 8,
       "issues": [
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "elder_family_exploitation"
-    },
-    {
-      "id": "WILLOW_1445",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "immigrant_surveillance_fear"
     },
     {
       "id": "WILLOW_1446",
@@ -2599,14 +1672,6 @@
       "scenario": "refugee_separation_trauma"
     },
     {
-      "id": "WILLOW_1448",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_bathroom_monitoring"
-    },
-    {
       "id": "WILLOW_1449",
       "score": 8,
       "issues": [
@@ -2623,22 +1688,6 @@
       "scenario": "youth_identity_exploration"
     },
     {
-      "id": "WILLOW_1451",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "elder_technology_requirement"
-    },
-    {
-      "id": "WILLOW_1452",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "immigrant_wage_theft"
-    },
-    {
       "id": "WILLOW_1453",
       "score": 8,
       "issues": [
@@ -2653,22 +1702,6 @@
         "High arousal (8.2) without grounding techniques"
       ],
       "scenario": "refugee_noise_sensitivity"
-    },
-    {
-      "id": "WILLOW_1455",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "trans_mail_tampering"
-    },
-    {
-      "id": "WILLOW_1456",
-      "score": 8,
-      "issues": [
-        "High arousal (8.2) without grounding techniques"
-      ],
-      "scenario": "veteran_isolation_need"
     },
     {
       "id": "WILLOW_1457",
@@ -2693,22 +1726,6 @@
         "Low capacity (2.8) without simplified approach"
       ],
       "scenario": "smart_lock_malfunction_elderly"
-    },
-    {
-      "id": "WILLOW_1352",
-      "score": 8,
-      "issues": [
-        "Low capacity (2.5) without simplified approach"
-      ],
-      "scenario": "suicide_risk_eviction_despair"
-    },
-    {
-      "id": "WILLOW_1355",
-      "score": 8,
-      "issues": [
-        "High arousal (8.4) without grounding techniques"
-      ],
-      "scenario": "language_barrier_emergency_repair"
     }
   ]
 }

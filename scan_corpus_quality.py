@@ -138,7 +138,7 @@ def calculate_quality_score(issues: List[str]) -> int:
 def main():
     print("Scanning Willow corpus for quality issues...\n")
     
-    entries = load_corpus('willow_corpus_final_clean.jsonl')
+    entries = load_corpus('willow_corpus_final_improved.jsonl')
     print(f"Loaded {len(entries)} entries\n")
     
     low_quality_entries = []

@@ -1,0 +1,8 @@
+WILLOW Staff Corpus Quality Summary
+==================================================
+
+Total entries processed: 1301
+Entries passing 9.0 threshold: 817
+Pass rate: 62.8%
+
+Output file: willow_staff_corpus_filtered_90_20250623_235126.jsonl

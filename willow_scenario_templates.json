@@ -1,0 +1,183 @@
+{
+  "scenarios": {
+    "housing_discrimination": {
+      "categories": ["discrimination"],
+      "complexity": ["high", "critical"],
+      "issue_types": ["safety_threat", "multiple_barriers"],
+      "tier1_techniques": [
+        "identity_affirmation",
+        "discrimination_timing_reveal",
+        "transformation_invisibility_naming"
+      ],
+      "tier2_techniques": [
+        "community_resource_mapping",
+        "coded_discrimination_decoding",
+        "fair_housing_enforcement"
+      ],
+      "arousal_range": [7.5, 8.5],
+      "capacity_range": [3.5, 4.0],
+      "resolution_statuses": ["protecting", "defending"],
+      "sample_tenant_issues": [
+        "rejected for race/ethnicity",
+        "LGBTQ+ discrimination",
+        "family status discrimination",
+        "disability discrimination",
+        "source of income discrimination"
+      ]
+    },
+    "medical_crisis_eviction": {
+      "categories": ["eviction", "health_safety"],
+      "complexity": ["critical"],
+      "issue_types": ["financial_instability", "multiple_barriers"],
+      "tier1_techniques": [
+        "medical_injustice_witnessing",
+        "system_abandonment_naming",
+        "bureaucratic_harm_naming"
+      ],
+      "tier2_techniques": [
+        "medical_legal_support",
+        "multi_pathway_support",
+        "benefits_legal_intersection"
+      ],
+      "arousal_range": [8.0, 9.0],
+      "capacity_range": [3.0, 3.5],
+      "resolution_statuses": ["defending", "stabilizing"],
+      "sample_tenant_issues": [
+        "cancer treatment bankruptcy",
+        "disability income loss",
+        "surgery recovery eviction",
+        "chronic illness job loss",
+        "mental health crisis"
+      ]
+    },
+    "family_separation": {
+      "categories": ["legal_notice", "intersectional_vulnerability"],
+      "complexity": ["critical"],
+      "issue_types": ["multiple_barriers", "emotional_overload"],
+      "tier1_techniques": [
+        "separation_grief_holding",
+        "paradox_witnessing",
+        "generational_burden_witnessing"
+      ],
+      "tier2_techniques": [
+        "family_preservation_support",
+        "immigration_crisis_resources",
+        "multi_pathway_support"
+      ],
+      "arousal_range": [8.5, 9.0],
+      "capacity_range": [3.0, 3.5],
+      "resolution_statuses": ["protecting", "supporting"],
+      "sample_tenant_issues": [
+        "ICE detention",
+        "CPS involvement",
+        "custody battles",
+        "family member incarceration",
+        "forced separation"
+      ]
+    },
+    "maintenance_retaliation": {
+      "categories": ["maintenance_crisis"],
+      "complexity": ["high"],
+      "issue_types": ["safety_threat"],
+      "tier1_techniques": [
+        "dignity_validation",
+        "dual_danger_recognition",
+        "bureaucratic_harm_naming"
+      ],
+      "tier2_techniques": [
+        "evidence_building",
+        "tenant_union_support",
+        "rights_reinforcement"
+      ],
+      "arousal_range": [7.0, 8.0],
+      "capacity_range": [3.8, 4.5],
+      "resolution_statuses": ["planning", "defending"],
+      "sample_tenant_issues": [
+        "repairs denied after complaint",
+        "harassment for reporting",
+        "utilities shut off",
+        "lock changes threatened",
+        "maintenance sabotage"
+      ]
+    },
+    "climate_displacement": {
+      "categories": ["complex_grievance", "maintenance_crisis"],
+      "complexity": ["critical"],
+      "issue_types": ["multiple_barriers"],
+      "tier1_techniques": [
+        "disaster_timeline_validation",
+        "displacement_pattern_naming",
+        "exile_acknowledgment"
+      ],
+      "tier2_techniques": [
+        "disaster_resource_bridging",
+        "collective_resistance_building",
+        "multi_pathway_support"
+      ],
+      "arousal_range": [7.5, 8.5],
+      "capacity_range": [3.3, 4.0],
+      "resolution_statuses": ["stabilizing", "organizing"],
+      "sample_tenant_issues": [
+        "flood damage eviction",
+        "fire displacement",
+        "hurricane recovery",
+        "earthquake damage",
+        "climate gentrification"
+      ]
+    }
+  },
+  "tier1_response_patterns": {
+    "acknowledgment": [
+      "Your {experience} reveals {systemic_issue}.",
+      "This {situation} creates {impact} that cuts deep.",
+      "{metaphor} while {reality}."
+    ],
+    "validation": [
+      "The {emotion} you feel makes complete sense given {context}.",
+      "Your {action/feeling} in face of {obstacle} shows {strength}.",
+      "Living with {burden} while {additional_pressure} exhausts even the strongest."
+    ],
+    "witnessing": [
+      "I see how {system} has failed you in {specific_way}.",
+      "{time_marker} of {struggle} while {external_pressure}.",
+      "The cruelty of {situation} meeting {vulnerability}."
+    ]
+  },
+  "tier2_response_patterns": {
+    "resource_connection": [
+      "I can help connect you with {specific_org} that {specific_help}.",
+      "Let's explore {option1} while also {option2}.",
+      "Many {service_type} offer {specific_support} for {situation}."
+    ],
+    "rights_assertion": [
+      "Your {right} is protected under {law/policy}.",
+      "{action} may qualify as {legal_category} which {protection}.",
+      "Document {evidence} as this could demonstrate {violation}."
+    ],
+    "pathway_building": [
+      "{immediate_step} while we work on {longer_term}.",
+      "Some {programs/orgs} specifically help with {exact_situation}.",
+      "Let's approach this from multiple angles: {list_options}."
+    ]
+  },
+  "safe_language_templates": {
+    "timing": [
+      "typically within {timeframe}",
+      "often takes {duration}",
+      "as soon as possible",
+      "working to expedite"
+    ],
+    "possibility": [
+      "may qualify for",
+      "could be eligible",
+      "often available",
+      "potentially able to access"
+    ],
+    "action": [
+      "I can help coordinate",
+      "Let me help connect",
+      "I can assist in finding",
+      "We can work together to"
+    ]
+  }
+}

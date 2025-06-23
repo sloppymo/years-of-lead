@@ -1,0 +1,23 @@
+{
+  "total_scenarios": 24,
+  "categories_covered": [
+    "discrimination_claims",
+    "implied_warranties",
+    "privacy_violations",
+    "retaliation_claims",
+    "contractual_modifications",
+    "medical_legal_boundaries",
+    "financial_commitments",
+    "third_party_liability"
+  ],
+  "protection_elements": {
+    "no_admission_of_wrongdoing": "Never admit fault or liability",
+    "proper_documentation": "Document everything properly",
+    "appropriate_escalation": "Escalate to proper authority",
+    "policy_based_response": "Reference policies and procedures",
+    "privacy_protection": "Never disclose private information",
+    "no_guarantees": "Avoid making specific promises",
+    "process_focus": "Focus on process not outcomes",
+    "boundary_maintenance": "Maintain professional boundaries"
+  }
+}

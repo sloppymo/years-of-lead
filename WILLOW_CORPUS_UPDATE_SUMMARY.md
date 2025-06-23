@@ -5,8 +5,9 @@
 ### Corpus Addition: Routine Housing Batch
 - **Added**: 100 entries from `willow_routine_housing_batch_100.jsonl`
 - **Entry IDs**: WILLOW_1559 - WILLOW_1658
-- **Previous Total**: 953 entries
-- **New Total**: 1,053 entries
+- **Target File**: `willow_corpus_final_clean.jsonl`
+- **Previous Total**: 1,343 entries
+- **New Total**: 1,443 entries
 
 ### Routine Housing Batch Characteristics
 The routine housing batch focuses on common, everyday maintenance and housing issues with lower emotional intensity:
@@ -36,8 +37,8 @@ The routine housing batch focuses on common, everyday maintenance and housing is
    - Focus on tenant education and rights clarification
 
 ### Master Corpus File
-- **File**: `willow_corpus_complete_final.jsonl`
-- **Total Entries**: 1,053
+- **File**: `willow_corpus_final_clean.jsonl`
+- **Total Entries**: 1,443
 - **Entry Range**: WILLOW_1 - WILLOW_1658 (with some gaps in numbering)
 
 ### Notes

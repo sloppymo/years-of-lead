@@ -1,0 +1,3170 @@
+[
+  {
+    "id": "WILLOW_2400",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2401",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2402",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2403",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2404",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2405",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2406",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2407",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2408",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2409",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2410",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2411",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2412",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2413",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2414",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2415",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2416",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2417",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2418",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2419",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2420",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2421",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2422",
+    "category": "natural_disaster_earthquake",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2423",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2424",
+    "category": "earthquake_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2425",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2426",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2427",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2428",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2429",
+    "category": "flood_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2430",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2431",
+    "category": "flood_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2432",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2433",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2434",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2435",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2436",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2437",
+    "category": "flood_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2438",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2439",
+    "category": "flood_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2440",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2441",
+    "category": "flood_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2442",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2443",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2444",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2445",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2446",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2447",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2448",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2449",
+    "category": "natural_disaster_flood",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2450",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2451",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2452",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2453",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2454",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2455",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2456",
+    "category": "fire_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2457",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2458",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2459",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2460",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2461",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2462",
+    "category": "fire_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2463",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2464",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2465",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2466",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2467",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2468",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2469",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2470",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2471",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2472",
+    "category": "fire_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2473",
+    "category": "natural_disaster_fire",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2474",
+    "category": "fire_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2475",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2476",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2477",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2478",
+    "category": "heart_attack_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2479",
+    "category": "heart_attack_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2480",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2481",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2482",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2483",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2484",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2485",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2486",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2487",
+    "category": "heart_attack_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2488",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2489",
+    "category": "heart_attack_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2490",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2491",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2492",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2493",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2494",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2495",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2496",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2497",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2498",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2499",
+    "category": "medical_emergency_heart_attack",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2500",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2501",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2502",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2503",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2504",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2505",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2506",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2507",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2508",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2509",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2510",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2511",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2512",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2513",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2514",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2515",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2516",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2517",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2518",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2519",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2520",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2521",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2522",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2523",
+    "category": "security_threat_break_in",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2524",
+    "category": "break_in_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2525",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2526",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2527",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2528",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2529",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2530",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2531",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2532",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2533",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2534",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2535",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2536",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2537",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2538",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2539",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2540",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2541",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2542",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2543",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2544",
+    "category": "power_outage_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2545",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2546",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2547",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2548",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2549",
+    "category": "utility_failure_power_outage",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2550",
+    "category": "stroke_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2551",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2552",
+    "category": "stroke_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2553",
+    "category": "stroke_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2554",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2555",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2556",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2557",
+    "category": "stroke_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2558",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2559",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2560",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2561",
+    "category": "utility_failure_stroke",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2562",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2563",
+    "category": "gas_leak_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2564",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2565",
+    "category": "gas_leak_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2566",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2567",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2568",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2569",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2570",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2571",
+    "category": "gas_leak_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2572",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2573",
+    "category": "utility_failure_gas_leak",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2574",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2575",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2576",
+    "category": "domestic_violence_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2577",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2578",
+    "category": "domestic_violence_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2579",
+    "category": "domestic_violence_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2580",
+    "category": "domestic_violence_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2581",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2582",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2583",
+    "category": "domestic_violence_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2584",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2585",
+    "category": "utility_failure_domestic_violence",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2586",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2587",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2588",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2589",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2590",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2591",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2592",
+    "category": "fall_injury_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_STAFF_2593",
+    "category": "fall_injury_response_training",
+    "user_type": "staff",
+    "score": 9.6,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 8.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2594",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2595",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2596",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  },
+  {
+    "id": "WILLOW_2597",
+    "category": "utility_failure_fall_injury",
+    "user_type": "tenant",
+    "score": 9.8,
+    "breakdown": {
+      "dialogue_quality": 10.0,
+      "tier_progression": 10.0,
+      "legal_safety": 9.0,
+      "emergency_response": 10.0,
+      "trauma_informed": 10.0,
+      "scenario_realism": 10.0,
+      "completeness": 10.0
+    },
+    "notes": []
+  }
+]

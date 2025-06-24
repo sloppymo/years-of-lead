@@ -375,17 +375,23 @@ class ExpansionEntryRater:
 def main():
     """Rate all expansion entries"""
     
-    # Find expansion file
-    import glob
-    expansion_files = glob.glob("willow_expansion_phase1_*.jsonl")
-    if not expansion_files:
-        print("No expansion files found!")
-        return
+    import sys
     
-    # Use the main expansion file (not enhanced)
-    target_file = "willow_expansion_phase1_20250624_003259.jsonl"
-    if target_file not in expansion_files:
-        target_file = sorted(expansion_files)[0]
+    # Check if filename provided as argument
+    if len(sys.argv) > 1:
+        target_file = sys.argv[1]
+    else:
+        # Find expansion file
+        import glob
+        expansion_files = glob.glob("willow_expansion_phase1_*.jsonl")
+        if not expansion_files:
+            print("No expansion files found!")
+            return
+        
+        # Use the main expansion file (not enhanced)
+        target_file = "willow_expansion_phase1_20250624_003259.jsonl"
+        if target_file not in expansion_files:
+            target_file = sorted(expansion_files)[0]
     
     print(f"Rating entries from: {target_file}")
     print("=" * 80)

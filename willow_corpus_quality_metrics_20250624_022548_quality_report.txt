@@ -1,0 +1,71 @@
+
+Quality Metrics Analysis Complete
+=================================
+Total Entries: 1053
+Errors: 0
+
+Quality Distribution:
+- excellent: 61 (5.8%)
+- good: 414 (39.3%)
+- acceptable: 361 (34.3%)
+- needs_improvement: 184 (17.5%)
+- poor: 33 (3.1%)
+
+Average Scores by Dimension:
+- action_clarity: 6.4/10
+- cultural_sensitivity: 7.27/10
+- empathy: 8.01/10
+- legal_safety: 10.0/10
+- trauma_informed: 5.14/10
+- urgency_appropriateness: 7.65/10
+
+Quality Flags:
+- has_promises: 0 (0.0%)
+- low_empathy: 83 (7.9%)
+- unclear_actions: 350 (33.2%)
+- legal_risk: 0 (0.0%)
+- urgency_mismatch: 18 (1.7%)
+
+Output: willow_corpus_quality_metrics_20250624_022548.jsonl
+
+Examples by Quality Tier:
+==================================================
+
+EXCELLENT Examples:
+------------------------------
+
+ID: WILLOW_1
+Overall Score: 9.05
+Scores: {'empathy': 10, 'action_clarity': 10, 'legal_safety': 10, 'urgency_appropriateness': 8, 'cultural_sensitivity': 7.5, 'trauma_informed': 6.0}
+Tenant: My heat broke 3 days ago and my babies are sick!! You people don't care!!...
+
+ID: WILLOW_9
+Overall Score: 9.05
+Scores: {'empathy': 10, 'action_clarity': 9.75, 'legal_safety': 10, 'urgency_appropriateness': 6, 'cultural_sensitivity': 7.0, 'trauma_informed': 10}
+Tenant: No AC for 3 days. I'm 78 years old. This heat is making me sick....
+
+GOOD Examples:
+------------------------------
+
+ID: WILLOW_2
+Overall Score: 8.61
+Scores: {'empathy': 8.0, 'action_clarity': 9.0, 'legal_safety': 10, 'urgency_appropriateness': 8, 'cultural_sensitivity': 7.0, 'trauma_informed': 8.1}
+Tenant: water everywhere. done....
+
+ID: WILLOW_4
+Overall Score: 8.82
+Scores: {'empathy': 10, 'action_clarity': 10, 'legal_safety': 10, 'urgency_appropriateness': 7, 'cultural_sensitivity': 7.0, 'trauma_informed': 5.7}
+Tenant: MOLD EVERYWHERE mi hijo can't breathe!! Hospital yesterday!!...
+
+NEEDS_IMPROVEMENT Examples:
+------------------------------
+
+ID: WILLOW_191
+Overall Score: 6.16
+Scores: {'empathy': 6.0, 'action_clarity': 0.0, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.5, 'trauma_informed': 3.6}
+Tenant: Can I put plants on shared balcony?...
+
+ID: WILLOW_192
+Overall Score: 6.73
+Scores: {'empathy': 4.0, 'action_clarity': 6.75, 'legal_safety': 10, 'urgency_appropriateness': 8, 'cultural_sensitivity': 7.0, 'trauma_informed': 1.8}
+Tenant: Where do packages get left?...

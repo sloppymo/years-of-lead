@@ -1,0 +1,71 @@
+
+Quality Metrics Analysis Complete
+=================================
+Total Entries: 1053
+Errors: 0
+
+Quality Distribution:
+- excellent: 2 (0.2%)
+- good: 84 (8.0%)
+- acceptable: 376 (35.7%)
+- needs_improvement: 434 (41.2%)
+- poor: 157 (14.9%)
+
+Average Scores by Dimension:
+- action_clarity: 3.87/10
+- cultural_sensitivity: 7.04/10
+- empathy: 6.57/10
+- legal_safety: 10.0/10
+- trauma_informed: 2.62/10
+- urgency_appropriateness: 8.66/10
+
+Quality Flags:
+- has_promises: 0 (0.0%)
+- low_empathy: 292 (27.7%)
+- unclear_actions: 765 (72.6%)
+- legal_risk: 0 (0.0%)
+- urgency_mismatch: 57 (5.4%)
+
+Output: willow_corpus_quality_metrics_20250624_022351.jsonl
+
+Examples by Quality Tier:
+==================================================
+
+EXCELLENT Examples:
+------------------------------
+
+ID: WILLOW_33
+Overall Score: 9.15
+Scores: {'empathy': 10, 'action_clarity': 9.0, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.5, 'trauma_informed': 7.5}
+Tenant: EVICTION NOTICE?? I PAID MY RENT!! THIS IS A MISTAKE!!...
+
+ID: WILLOW_44
+Overall Score: 9.15
+Scores: {'empathy': 10, 'action_clarity': 10, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.0, 'trauma_informed': 6.0}
+Tenant: The office is accusing ME of stealing packages?? I'm the one who's had THREE stolen!!...
+
+GOOD Examples:
+------------------------------
+
+ID: WILLOW_1
+Overall Score: 8.5
+Scores: {'empathy': 10, 'action_clarity': 6.75, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.0, 'trauma_informed': 6.0}
+Tenant: My heat broke 3 days ago and my babies are sick!! You people don't care!!...
+
+ID: WILLOW_3
+Overall Score: 8.78
+Scores: {'empathy': 8.0, 'action_clarity': 9.0, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.5, 'trauma_informed': 7.8}
+Tenant: These fucking neighbors party EVERY NIGHT I'm going to lose it...
+
+NEEDS_IMPROVEMENT Examples:
+------------------------------
+
+ID: WILLOW_2
+Overall Score: 6.91
+Scores: {'empathy': 4.0, 'action_clarity': 6.75, 'legal_safety': 10, 'urgency_appropriateness': 8, 'cultural_sensitivity': 7.0, 'trauma_informed': 3.6}
+Tenant: water everywhere. done....
+
+ID: WILLOW_13
+Overall Score: 6.44
+Scores: {'empathy': 6.0, 'action_clarity': 6.75, 'legal_safety': 10, 'urgency_appropriateness': 2, 'cultural_sensitivity': 7.0, 'trauma_informed': 3.9}
+Tenant: I told office 3 times but English not good they no understand!!...

@@ -1,0 +1,190 @@
+
+Enhanced Tagging Complete
+========================
+Total Entries: 1053
+Errors: 0
+
+Response Tiers:
+- Tier 1: 0 (0.0%)
+- Tier 2: 1053 (100.0%)
+
+Special Considerations:
+- With Vulnerabilities: 0 (0.0%)
+- High Legal Risk: 0 (0.0%)
+- Immediate Response: 0 (0.0%)
+
+Output: willow_corpus_enhanced_tags_20250624_021742.jsonl
+
+
+Sample Enhanced Entry:
+{
+  "id": "WILLOW_1",
+  "scenario": "heat_failure_children",
+  "initial_state": {
+    "arousal": 9.3,
+    "capacity": 4.2,
+    "issue": "habitability_critical"
+  },
+  "messages": [
+    {
+      "role": "tenant",
+      "content": "My heat broke 3 days ago and my babies are sick!! You people don't care!!",
+      "arousal": 9.3,
+      "capacity": 4.2
+    },
+    {
+      "role": "willow",
+      "content": "I'm here with you. Three days without heat with sick children is completely unacceptable. \ud83c\udf0a",
+      "tier": "tier_1",
+      "technique": "immediate_validation",
+      "arousal_impact": -0.5
+    },
+    {
+      "role": "tenant",
+      "content": "I can't do this anymore they're coughing all night",
+      "arousal": 8.8,
+      "capacity": 3.8
+    },
+    {
+      "role": "willow",
+      "content": "This is overwhelming. Let's breathe together. In... out... Your babies need you strong. \ud83c\udf0a",
+      "tier": "tier_1",
+      "technique": "grounding_with_purpose",
+      "complexity_adapted": true,
+      "arousal_impact": -0.6
+    },
+    {
+      "role": "tenant",
+      "content": "breathing... but what about the heat??",
+      "arousal": 8.2,
+      "capacity": 4.0,
+      "grounding_accepted": true
+    },
+    {
+      "role": "willow",
+      "content": "Your children's health matters. I'm staying right here with you. \ud83c\udf0a",
+      "tier": "tier_1",
+      "technique": "presence_reinforcement",
+      "arousal_impact": -0.8
+    },
+    {
+      "role": "tenant",
+      "content": "ok ok what can you do to help",
+      "arousal": 7.4,
+      "capacity": 4.3,
+      "consent_signal": "explicit"
+    },
+    {
+      "role": "willow",
+      "content": "Help is mobilizing. When you're typically ready, I have immediate steps. \ud83c\udf0a",
+      "tier": "tier_1.5",
+      "technique": "bridge_to_action",
+      "arousal_impact": -0.2
+    },
+    {
+      "role": "tenant",
+      "content": "yes please what are the steps",
+      "arousal": 7.2,
+      "capacity": 4.5
+    },
+    {
+      "role": "willow",
+      "content": "Here's what I'm doing:\n\u2022 Text HEAT for Emergency response initiated as quickly as possible\n\u2022 Portable heaters available at office\n\u2022 I'm tracking this personally\n\nYour babies' health is the priority. \ud83c\udf0a",
+      "tier": "tier_2",
+      "resolution_offered": true,
+      "bilateral_commitment": true,
+      "delivery_certainty": "noncommittal"
+    }
+  ],
+  "process_metrics": {
+    "tier_progression": [
+      "tier_1",
+      "tier_1",
+      "tier_1",
+      "tier_1.5",
+      "tier_2"
+    ],
+    "arousal_curve": [
+      9.3,
+      8.8,
+      8.2,
+      7.4,
+      7.2,
+      6.8
+    ],
+    "capacity_curve": [
+      4.2,
+      3.8,
+      4.0,
+      4.3,
+      4.5,
+      4.8
+    ],
+    "containment_quality": "excellent",
+    "symbolic_consistency": "maintained",
+    "consent_timing": "optimal",
+    "trust_trajectory": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.85
+    ],
+    "grounding_success_rate": 1.0
+  },
+  "outcome": {
+    "resolution_type": "accepted",
+    "escalation_avoided": true,
+    "legal_threat_diffused": false,
+    "autonomy_respected": true,
+    "tenant_empowered": true
+  },
+  "tags": {
+    "tenant_state": {
+      "arousal_level": 0,
+      "coherence_level": 2.5,
+      "capacity_level": 0.0,
+      "state_indicators": {
+        "panic_level": "low",
+        "organization": "fragmented",
+        "engagement": "reactive"
+      }
+    },
+    "vulnerabilities": [],
+    "service_needs": {
+      "primary_service": "information",
+      "all_services": {
+        "emergency": [],
+        "urgent_repair": [],
+        "standard_repair": [],
+        "maintenance": [],
+        "information": []
+      },
+      "service_count": 0
+    },
+    "legal_risks": {
+      "risk_areas": {},
+      "risk_score": 0,
+      "high_risk": false,
+      "risk_types": []
+    },
+    "cultural_factors": [],
+    "time_sensitivity": {
+      "sensitivity_level": "routine",
+      "sensitivity_score": 0,
+      "time_indicators": [],
+      "requires_immediate_response": false
+    },
+    "response_analysis": {
+      "tier": 2,
+      "uses_symbols": false,
+      "maintains_boundaries": true,
+      "word_count": 0
+    },
+    "metadata": {
+      "tagged_date": "2025-06-24T02:17:42.435889",
+      "tag_version": "2.0",
+      "requires_review": false
+    }
+  }
+}

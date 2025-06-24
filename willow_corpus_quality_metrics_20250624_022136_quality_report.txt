@@ -1,0 +1,51 @@
+
+Quality Metrics Analysis Complete
+=================================
+Total Entries: 1053
+Errors: 0
+
+Quality Distribution:
+- excellent: 0 (0.0%)
+- good: 0 (0.0%)
+- acceptable: 5 (0.5%)
+- needs_improvement: 102 (9.7%)
+- poor: 946 (89.8%)
+
+Average Scores by Dimension:
+- action_clarity: 0.84/10
+- cultural_sensitivity: 7.09/10
+- empathy: 1.38/10
+- legal_safety: 10.0/10
+- trauma_informed: 1.3/10
+- urgency_appropriateness: 9.3/10
+
+Quality Flags:
+- has_promises: 0 (0.0%)
+- low_empathy: 979 (93.0%)
+- unclear_actions: 1033 (98.1%)
+- legal_risk: 0 (0.0%)
+- urgency_mismatch: 58 (5.5%)
+
+Output: willow_corpus_quality_metrics_20250624_022136.jsonl
+
+Examples by Quality Tier:
+==================================================
+
+EXCELLENT Examples:
+------------------------------
+
+GOOD Examples:
+------------------------------
+
+NEEDS_IMPROVEMENT Examples:
+------------------------------
+
+ID: WILLOW_5
+Overall Score: 6.03
+Scores: {'empathy': 3.5, 'action_clarity': 2.25, 'legal_safety': 10, 'urgency_appropriateness': 10, 'cultural_sensitivity': 7.0, 'trauma_informed': 1.8}
+Tenant: I know I'm late again. You probably want me out....
+
+ID: WILLOW_7
+Overall Score: 6.11
+Scores: {'empathy': 6.0, 'action_clarity': 0.0, 'legal_safety': 10, 'urgency_appropriateness': 9, 'cultural_sensitivity': 7.0, 'trauma_informed': 3.6}
+Tenant: ROACHES EVERYWHERE cant cook cant sleep cant live like this!!!...

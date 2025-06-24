@@ -4,20 +4,22 @@
 
 **Date**: 2025-06-24  
 **Issue**: Corpus contained dangerous promises about external service ETAs  
-**Resolution**: ALL concrete time promises for services we don't control have been removed
+**Resolution**: Comprehensive removal of concrete time promises for services we don't control
 
 ## Comprehensive Cleanup Results
 
 ### Total Impact
-- **Files Scanned**: 79 JSONL files
-- **Dangerous Promises Found**: 231 instances
-- **Files Modified**: 3 expansion files
-- **Final Safe Corpus**: 1,388 unique entries
+- **Files Scanned**: 79+ JSONL files  
+- **Dangerous Promises Found**: 235+ instances
+- **Files Modified**: Multiple corpus files
+- **Largest Corpus Processed**: 2,375 entries
 
-### Files That Had Dangerous Promises
-1. `willow_expansion_excellence_20250624_005925.jsonl` - 98 promises removed
-2. `willow_expansion_final_excellence_20250624_010121.jsonl` - 98 promises removed  
-3. `willow_expansion_phase1_20250624_003259.jsonl` - 35 promises removed
+### Key Files Processed
+1. `willow_corpus_complete_final_20250624_000624.jsonl` - 2,375 entries (2 promises removed)
+2. `willow_corpus_complete_final.jsonl` - 1,053 entries (2 promises removed)
+3. `willow_expansion_excellence_20250624_005925.jsonl` - 98 promises removed
+4. `willow_expansion_final_excellence_20250624_010121.jsonl` - 98 promises removed  
+5. `willow_expansion_phase1_20250624_003259.jsonl` - 35 promises removed
 
 ## What Was Fixed
 
@@ -41,27 +43,24 @@
 - "on their way" / "as quickly as possible"
 - Focus on actions taken, not arrival times
 
-### ✅ KEPT - Internal Service Promises Only
-- "Building security arriving in 30 seconds"
-- "Our emergency team will be there in 2 minutes"
-- "Building staff arriving in 90 seconds"
-- Services we directly control and can guarantee
+### ⚠️ NOTE: Internal Service Promises
+Some entries still contain ETAs for internal services (e.g., "Maintenance supervisor en route with master override (ETA 10-15 minutes)"). While these are for services we control, consider whether even these should be more general to avoid any liability.
 
-## Final Safe Corpus
+## Final Safe Corpus Files
 
-**File**: `willow_corpus_final_safe_consolidated_20250624_013329.jsonl`  
-**Entries**: 1,388 unique, legally safe entries  
-**Status**: Ready for production use
+Multiple safe versions created:
+- `willow_corpus_complete_final_20250624_000624_final_safe_20250624_014339.jsonl` (2,375 entries)
+- `willow_corpus_complete_final_final_safe_20250624_014339.jsonl` (1,053 entries)
+- Various expansion files with "_safe_" in filename
 
 ## Legal Protection Achieved
 
 This comprehensive update ensures:
-1. **Zero liability** for external service response times
+1. **Reduced liability** for external service response times
 2. **No false expectations** about arrival times we can't control
 3. **Focus on actions** we ARE taking (notifying, dispatching, coordinating)
-4. **Only promise times** for our own staff/services
-5. **Legal protection** from claims about delayed external services
-6. **Maintained empathy** while being legally responsible
+4. **Legal protection** from claims about delayed external services
+5. **Maintained empathy** while being legally responsible
 
 ## Key Principle
 
@@ -72,12 +71,10 @@ This comprehensive update ensures:
 - Elevator rescue services
 - Specialized medical teams
 
-**ONLY promise times for services we control:**
-- Building security
-- Building staff
-- Our emergency response teams
-- Our maintenance teams
-- Our first aid teams
+**BE CAREFUL even with internal services:**
+- Consider using ranges instead of specific times
+- Use "shortly" or "as soon as possible"
+- Only give specific times when absolutely certain
 
 ## Implementation Going Forward
 
@@ -85,12 +82,13 @@ All future corpus entries must follow this principle. When dealing with emergenc
 1. Focus on what actions we're taking
 2. Avoid specific arrival times for external services
 3. Use phrases like "on their way" or "have been notified"
-4. Only give ETAs for our own staff/services
+4. Be cautious even with internal service ETAs
 5. Maintain urgency without creating liability
 
-## Verification Complete
+## Verification Status
 
-✅ All 79 JSONL files in the corpus have been scanned  
-✅ All 231 dangerous promises have been removed  
-✅ Final consolidated corpus is legally safe  
-✅ No liability exposure from external service promises
+✅ Multiple corpus files processed and cleaned  
+✅ 235+ dangerous promises removed  
+✅ External service ETAs eliminated  
+⚠️ Some internal service ETAs remain (consider reviewing)  
+✅ Corpus significantly safer from liability perspective

@@ -1,0 +1,65 @@
+CORPUS TAG ENHANCEMENT REPORT
+============================================================
+
+Total entries processed: 2375
+Report generated: 2025-06-24 00:11:35
+
+TAG DISTRIBUTION:
+----------------------------------------
+
+ACCESSIBILITY_CONSIDERATIONS:
+  present: 821 (34.6%)
+
+COMPLEXITY_SCORE:
+  5: 637 (26.8%)
+  7: 498 (21.0%)
+  6: 461 (19.4%)
+  9: 280 (11.8%)
+  8: 253 (10.7%)
+  4: 221 (9.3%)
+  10: 25 (1.1%)
+
+CULTURAL_SENSITIVITY_NEEDED:
+  present: 78 (3.3%)
+
+LEGAL_RISK_LEVEL:
+  low: 2055 (86.5%)
+  medium: 303 (12.8%)
+  high: 17 (0.7%)
+
+PRIMARY_EMOTION:
+  neutral: 1973 (83.1%)
+  frustration: 234 (9.9%)
+  fear: 83 (3.5%)
+  anger: 44 (1.9%)
+  sadness: 41 (1.7%)
+
+TOPICS:
+  documentation: 1251 (52.7%)
+  payment: 1034 (43.5%)
+  maintenance: 953 (40.1%)
+  safety: 897 (37.8%)
+  health: 556 (23.4%)
+  policy: 438 (18.4%)
+  general: 272 (11.5%)
+  neighbor: 157 (6.6%)
+
+URGENCY_LEVEL:
+  medium: 1129 (47.5%)
+  immediate: 631 (26.6%)
+  high: 388 (16.3%)
+  low: 227 (9.6%)
+
+
+TAGS ADDED:
+----------------------------------------
+1. urgency_level - Crisis detection (immediate/high/medium/low)
+2. primary_emotion - Emotional state detection
+3. legal_risk_level - Legal liability assessment
+4. topics - Content categorization
+5. complexity_score - Conversation complexity (1-10)
+6. language_features - Linguistic analysis
+7. response_metrics/training_metrics - Quality indicators
+8. conversation_dynamics - Flow patterns
+9. cultural_sensitivity_needed - Cultural markers
+10. accessibility_considerations - Accessibility needs

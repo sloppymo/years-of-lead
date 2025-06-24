@@ -1,0 +1,28 @@
+
+Deep Trauma-Informed Enhancement Complete
+=========================================
+Total Entries: 668
+Enhanced: 668 (100.0%)
+Errors: 139
+
+Trauma Sensitivity Distribution:
+- High Sensitivity: 0 (0.0%)
+- Moderate Sensitivity: 66 (9.9%)
+- Low Sensitivity: 602 (90.1%)
+
+All 5 Trauma-Informed Principles Implemented:
+1. Safety (Physical & Emotional)
+2. Trustworthiness & Transparency
+3. Peer Support
+4. Collaboration & Mutuality
+5. Empowerment, Voice & Choice
+
+Output: willow_corpus_trauma_enhanced_20250624_023712.jsonl
+
+
+Implementation Details:
+- Tier 1 focuses on: Safety, Trustworthiness, Collaboration
+- Tier 2 focuses on: Empowerment, Peer Support, Trustworthiness
+- High distress triggers immediate safety responses
+- Powerlessness triggers empowerment focus
+- Isolation triggers peer support connections

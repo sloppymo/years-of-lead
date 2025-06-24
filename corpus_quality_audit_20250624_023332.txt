@@ -1,0 +1,38 @@
+WILLOW Corpus Quality Audit Report
+============================================================
+
+Summary Statistics:
+- Total Entries: 1053
+- Already Excellent (9.0+): 61 (5.8%)
+- Salvageable: 843 (80.1%)
+- Removed: 0 (0.0%)
+- Errors: 149
+
+Enhancement Categories:
+- cultural_enhancement: 843 entries
+- deep_trauma_integration: 715 entries
+- major_action_enhancement: 430 entries
+- minor_empathy_enhancement: 335 entries
+- major_empathy_enhancement: 231 entries
+- basic_trauma_enhancement: 120 entries
+- moderate_action_enhancement: 70 entries
+
+
+Output Files:
+- Excellent entries: willow_corpus_excellent_20250624_023332.jsonl
+- Salvageable entries: willow_corpus_salvageable_20250624_023332.jsonl
+
+
+Removed Entries (first 20):
+----------------------------------------
+
+
+Enhancement Recommendations:
+1. Major Empathy Enhancement: Add deeper emotional validation
+2. Major Action Enhancement: Add specific numbered steps with ETAs
+3. Deep Trauma Integration: Implement all 5 principles systematically
+4. Cultural Enhancement: Add communication style variants
+
+
+Expected Final Corpus Size: 904
+Expected Average Quality: 9.2+

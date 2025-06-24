@@ -1,0 +1,61 @@
+WILLOW Corpus 9.0+ Quality Achievement Report
+============================================================
+
+SUMMARY
+------------------------------
+Total Entries Processed: 729
+Entries Meeting 9.0+ Standard: 0 (0.0%)
+Final Corpus Size: 0
+Overall Average Quality: 7.61/10
+
+QUALITY DISTRIBUTION
+------------------------------
+Exceptional (9.5+ for exceptional, 9.0+, 8.0+, 7.0+, <7.0): 0 (0.0%)
+Excellent (9.5+ for exceptional, 9.0+, 8.0+, 7.0+, <7.0): 0 (0.0%)
+Good (9.5+ for exceptional, 9.0+, 8.0+, 7.0+, <7.0): 120 (16.5%)
+Acceptable (9.5+ for exceptional, 9.0+, 8.0+, 7.0+, <7.0): 557 (76.4%)
+Below_Standard (9.5+ for exceptional, 9.0+, 8.0+, 7.0+, <7.0): 52 (7.1%)
+
+DIMENSION AVERAGES
+------------------------------
+action_clarity: 9.25/10
+cultural_sensitivity: 7.43/10
+empathy: 7.27/10
+legal_safety: 5.99/10
+trauma_informed: 8.68/10
+urgency_appropriateness: 8.0/10
+
+TOP 5 ENTRIES
+------------------------------
+
+1. ID: WILLOW_1599
+   Score: 8.7
+   Dimensions: {'empathy': 9.5, 'action_clarity': 10, 'legal_safety': 7.0, 'urgency_appropriateness': 8.0, 'cultural_sensitivity': 8.5, 'trauma_informed': 10}
+
+2. ID: WILLOW_1582
+   Score: 8.55
+   Dimensions: {'empathy': 9.5, 'action_clarity': 10, 'legal_safety': 7.0, 'urgency_appropriateness': 8.0, 'cultural_sensitivity': 8.0, 'trauma_informed': 9.0}
+
+3. ID: WILLOW_301
+   Score: 8.53
+   Dimensions: {'empathy': 9.0, 'action_clarity': 10, 'legal_safety': 7.5, 'urgency_appropriateness': 8.0, 'cultural_sensitivity': 7.5, 'trauma_informed': 9.0}
+
+4. ID: WILLOW_1630
+   Score: 8.45
+   Dimensions: {'empathy': 8.0, 'action_clarity': 10, 'legal_safety': 8.0, 'urgency_appropriateness': 8.0, 'cultural_sensitivity': 7.5, 'trauma_informed': 9.0}
+
+5. ID: WILLOW_707
+   Score: 8.43
+   Dimensions: {'empathy': 9.0, 'action_clarity': 10, 'legal_safety': 6.5, 'urgency_appropriateness': 8.0, 'cultural_sensitivity': 9.0, 'trauma_informed': 9.0}
+
+
+RECOMMENDATIONS
+------------------------------
+⚠️ Additional enhancement needed
+- Enhance empathy (current: 7.27)
+- Enhance legal_safety (current: 5.99)
+- Enhance cultural_sensitivity (current: 7.43)
+
+
+Output File: willow_corpus_9plus_final_20250624_024054.jsonl
+Report Generated: 2025-06-24T02:40:54.591258
